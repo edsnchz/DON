@@ -1,3 +1,7 @@
+<script type="text/javascript">
+    var loginBack = "<?php echo $loginBack ?>";
+</script>
+
 <!-- Masthead -->
 <div class="container-fluid">
     <div class="row">
@@ -10,25 +14,24 @@
 <div class="container-fluid margin_top_small bg-light">
     <div class="row">
         <div class="col-sm-4 mx-auto">
-            <input type="text" class="form-control searchStyle" id="" placeholder="Buscar (Anuncios, Modelos, etc...)">
+            <input type="text" class="form-control searchStyle" id="inpTextBuscar" placeholder="Término de búsqueda (Opcional)">
         </div>
         <div class="col-sm-3 mx-auto">
             <select class="form-control searchStyle" id="inpCategorias">
-                <option value="N/A">Todas las categorías</option>
+                <option value="NaN">Todas las categorías</option>
             </select>
         </div>
         <div class="col-sm-2 mx-auto">
-            <select class="form-control searchStyle" id="inpDepartamentos">
-                <option value="N/A">Todos los departamentos</option>
+            <select class="form-control searchStyleBlack" id="inpDepartamentos">
+                <option value="NaN">Todos los departamentos</option>
             </select>
         </div>
         <div class="col-sm-2 mx-auto">
-            <select class="form-control searchStyle" id="inpCiudades">
-                <option value="N/A">Todas las ciudades</option>
+            <select class="form-control searchStyleBlack" id="inpCiudades">
             </select>
         </div>
         <div class="col-sm-1">
-            <button class="btn btn-outline-secondary borderRadius0px height35px fontSize12px textUppercase fontWeight600" type="button">Buscar</button>
+            <button id="btnBuscar" class="btn btn-outline-secondary borderRadius0px height35px fontSize12px textUppercase fontWeight600" type="button">Navegar</button>
         </div>
     </div>
 </div>

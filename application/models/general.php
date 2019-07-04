@@ -183,12 +183,57 @@ class general extends CI_Model {
 	}
 	
 
-    public function db_get_anunciosVistaCuadricula($idCategoria, $idCiudad, $idEtiqueta) {
+    public function db_get_anunciosVistaCuadricula($idCategoria, $idDepartamento, $idCiudad, $idEtiqueta) {
         $this->db->trans_start();
+
+        $querySelect = "SELECT id, `titulo`, `descripcion`, `id_tipo`, (SELECT i.url FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id LIMIT 1) imagen  FROM anuncios a ";
+
+        if($idEtiqueta <> "NaN"){
+            if($idDepartamento <> "NaN"){
+                if($idCiudad <> "NaN"){
+                    $query = "WHERE `id_ciudad`=? AND `id_categoria`=? 
+                    AND id IN (SELECT e.`id_anuncio` FROM etiquetas_anuncios e WHERE e.`id_etiqueta`=?) ORDER BY a.fecha_creacion DESC";
+                    $params = array($idCiudad, $idCategoria, $idEtiqueta);
+                }else{
+                    $query = "WHERE id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) AND `id_categoria`=?  AND id IN (SELECT e.`id_anuncio` FROM etiquetas_anuncios e WHERE e.`id_etiqueta`=?) ORDER BY a.fecha_creacion DESC";
+                    $params = array($idDepartamento, $idCategoria, $idEtiqueta);
+                }
+            }else{
+                $query = "WHERE `id_categoria`=? AND id IN (SELECT e.`id_anuncio` FROM etiquetas_anuncios e WHERE e.`id_etiqueta`=?) ORDER BY a.fecha_creacion DESC";
+                $params = array($idCategoria, $idEtiqueta);
+            }
+        }else{
+            if($idCategoria <> "NaN"){
+                if($idDepartamento <> "NaN"){
+                    if($idCiudad <> "NaN"){
+                        $query = "WHERE `id_ciudad`=? AND `id_categoria`=? ORDER BY a.fecha_creacion DESC";
+                        $params = array($idCiudad, $idCategoria);
+                    }else{
+                        $query = "WHERE id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) AND `id_categoria`=? ORDER BY a.fecha_creacion DESC";
+                        $params = array($idDepartamento, $idCategoria);
+                    }
+                }else{
+                    $query = "WHERE `id_categoria`=? ORDER BY a.fecha_creacion DESC";
+                    $params = array($idCategoria);
+                }
+            }else{
+                if($idDepartamento <> "NaN"){
+                    if($idCiudad <> "NaN"){
+                        $query = "WHERE `id_ciudad`=? ORDER BY a.fecha_creacion DESC";
+                        $params = array($idCiudad);
+                    }else{
+                        $query = "WHERE id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) ORDER BY a.fecha_creacion DESC";
+                        $params = array($idDepartamento);
+                    }
+                }else{
+                    $query = "ORDER BY a.fecha_creacion DESC";
+                    $params = array();
+                }
+            }
+            
+        }
         
-		$resultAnuncios = $this->db->query('SELECT id, `titulo`, `descripcion`, `id_tipo`, (SELECT i.url FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id LIMIT 1) imagen  FROM anuncios a
-        WHERE `id_ciudad`=? AND `id_categoria`=? 
-        AND id IN (SELECT e.`id_anuncio` FROM etiquetas_anuncios e WHERE e.`id_etiqueta`=?) ORDER BY a.fecha_creacion DESC', array($idCiudad, $idCategoria, $idEtiqueta));
+		$resultAnuncios = $this->db->query($querySelect.$query, $params);
 		$anuncios = $resultAnuncios->result_array();
         $resultAnuncios->free_result();
 

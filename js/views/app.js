@@ -1,5 +1,10 @@
 $(function () {
 
+    AjaxLoadEtiquetas();
+
+    if (loginBack == false) {
+        localStorage.setItem('userLogin', false);
+    }
 
     // GET CITY CURRENT
     $.ajax({
@@ -47,12 +52,13 @@ $(function () {
     });
 
     function AjaxLoadCiudades(id) {
-        $("#inpCiudades").html("");
+        $("#inpCiudades").html("<option value='NaN'>Todas las ciudades</option>");
         $.ajax({
             url: 'index.php/c_general/getCiudadesByDepartamento',
             type: 'POST',
             dataType: "json",
             data: { idDepartamento: id },
+            async: false,
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
@@ -132,8 +138,14 @@ $(function () {
 
     $(".hCategoria").click(function () {
         // ENVIAR PARAMETROS
-
-        $(location).attr('href', urlProyect() + 'c_app/vstListaAnuncios');
+        idCategoria = $(this).data("id");
+        categoria = $(this).text();
+        idEtiqueta = "NaN";
+        etiqueta = "NaN";
+        idDepartamento = $("#inpDepartamentos").val();
+        idCiudad = $("#inpCiudades").val();
+        text = "NaN";
+        redirectAnuncios(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text);
     });
 
     $('body').on('click', '.liEtiqueta', function () {
@@ -142,10 +154,26 @@ $(function () {
         categoria = $(this).parent().parent().children(':first-child').text();
         idEtiqueta = $(this).data("id");
         etiqueta = $(this).text();
-        $(location).attr('href', urlProyect() + 'c_app/vstListaAnuncios?categ=' + categoria + '_' + idCategoria + '&etiq=' + etiqueta + '_' + idEtiqueta);
+        idDepartamento = $("#inpDepartamentos").val();
+        idCiudad = $("#inpCiudades").val();
+        text = "NaN";
+        redirectAnuncios(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text);
     });
 
-    AjaxLoadEtiquetas();
+    $("#btnBuscar").click(function () {
+        // ENVIAR PARAMETROS
+        idCategoria = $("#inpCategorias").val();
+        categoria = $("#inpCategorias option:selected").text();
+        idEtiqueta = "NaN";
+        etiqueta = "NaN";
+        idDepartamento = $("#inpDepartamentos").val();
+        idCiudad = $("#inpCiudades").val();
+        text = $("#inpTextBuscar").val();
+        redirectAnuncios(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text);
+    });
 
+    function redirectAnuncios(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text) {
+        $(location).attr('href', urlProyect() + 'c_app/vstListaAnuncios?categ=' + categoria + '_' + idCategoria + '&etiq=' + etiqueta + '_' + idEtiqueta + '&state=' + idDepartamento + '&city=' + idCiudad + '&text=' + text);
+    }
 
 });

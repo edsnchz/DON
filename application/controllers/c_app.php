@@ -12,7 +12,8 @@ class c_app extends CI_Controller {
 	public function index()	{
 		$this->layout->setTitle("DON - INICIO");
 		$this->layout->js(Array(base_url()."js/views/app.js"));
-		$this->layout->view("app");			
+		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
+		$this->layout->view("app", $data);	
 	}
 
 	public function vstLogin(){
@@ -43,6 +44,9 @@ class c_app extends CI_Controller {
 		));
 		$dataParams["categ"] = $_GET["categ"];
 		$dataParams["etiq"] = $_GET["etiq"];
+		$dataParams["state"] = $_GET["state"];
+		$dataParams["city"] = $_GET["city"];
+		$dataParams["text"] = $_GET["text"];
 		$this->layout->view("listaAnuncios", $dataParams);			
 	}
 
@@ -94,10 +98,10 @@ class c_app extends CI_Controller {
     	// $configU['max_height'] = "2000";
 		$this->load->library('upload', $configU);   
 		
-		// CONFIG LIBRARY WATHERMARKS
+		// CONFIG LIBRARY WATERMARKS
 		$configW['image_library'] = 'gd2';
 		$configW['wm_type'] = 'overlay';
-		$configW['wm_overlay_path'] = 'images/logo-WM.png';
+		$configW['wm_overlay_path'] = 'images/watermark.png';
 		$configW['wm_opacity'] = '50';
 		$configW['wm_vrt_alignment'] = 'middle';
 		$configW['wm_hor_alignment'] = 'center';

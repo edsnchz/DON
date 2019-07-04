@@ -16,6 +16,10 @@ toastr.options = {
     "hideMethod": "fadeOut"
 }
 
+if (localStorage.getItem("userLogin") == null) {
+    localStorage.setItem('userLogin', false);
+}
+
 if (localStorage.getItem("userLogin") === "true") {
     menuLogin();
 } else {
@@ -139,3 +143,5 @@ var reemplazarAcentos = function (cadena) {
     var res = cadena.replace(expr, function (e) { return chars[e] });
     return res;
 }
+
+

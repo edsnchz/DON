@@ -14,6 +14,7 @@ if (!function_exists('load_styles'))
             <link href="'.base_url().'assets/semantic/semantic.min.css" rel="stylesheet">
             <link href="'.base_url().'assets/owl/owl.carousel.min.css" rel="stylesheet">
             <link href="'.base_url().'assets/owl/owl.theme.default.min.css" rel="stylesheet">
+            <link href="'.base_url().'assets/animaciones/magic.min.css" rel="stylesheet">
             <link href="'.base_url().'css/app.css" rel="stylesheet">';
     }   
 

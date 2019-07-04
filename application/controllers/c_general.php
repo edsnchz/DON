@@ -67,7 +67,7 @@ class c_general extends CI_Controller {
     }
 
     public function getAnunciosVistaCuadricula(){		
-      $data = $this->general->db_get_anunciosVistaCuadricula($_POST["idCategoria"], $_POST["idCiudad"], $_POST["idEtiqueta"]);
+      $data = $this->general->db_get_anunciosVistaCuadricula($_POST["idCategoria"], $_POST["idDepartamento"], $_POST["idCiudad"], $_POST["idEtiqueta"]);
       echo json_encode($data);	
     }
 
