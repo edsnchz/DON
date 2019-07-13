@@ -10,7 +10,7 @@ class c_app extends CI_Controller {
 	}
 	
 	public function index()	{
-		$this->layout->setTitle("DON - INICIO");
+		$this->layout->setTitle("Anuncios eróticos en Colombia - doneróticos.com");
 		$this->layout->js(Array(base_url()."js/views/app.js"));
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("app", $data);	
@@ -21,7 +21,7 @@ class c_app extends CI_Controller {
 	}
 
 	public function vstUsuario(){
-		$this->layout->setTitle("DON - PAGINA DE USUARIO");
+		$this->layout->setTitle("Panel de Usuario - doneróticos.com");
 		$this->layout->js(Array(
 			base_url()."js/views/usuario.js",
 			base_url()."js/uploadImages.js",
@@ -48,6 +48,18 @@ class c_app extends CI_Controller {
 		$dataParams["city"] = $_GET["city"];
 		$dataParams["text"] = $_GET["text"];
 		$this->layout->view("listaAnuncios", $dataParams);			
+	}
+
+	public function vstDetalleAnuncio(){
+		$this->layout->setTitle("DON - ANUNCIO");
+		$this->layout->js(Array(
+			base_url()."js/views/detalleAnuncio.js",
+		));
+		// AUDITORIA 
+		$this->general->db_aud_anuncios($_GET["idAnuncio"], "VISTA");
+
+		$dataParams["id"] = $_GET["idAnuncio"];
+		$this->layout->view("detalleAnuncio", $dataParams);			
 	}
 
 	public function login(){		

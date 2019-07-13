@@ -1,5 +1,7 @@
 $(function () {
 
+    var arrayEtiquetas = [[], [], [], [], [], []];
+
     AjaxLoadEtiquetas();
 
     if (loginBack == false) {
@@ -68,8 +70,6 @@ $(function () {
             }
         });
     }
-
-    var arrayEtiquetas = [[], [], [], [], [], []];
 
     function prepareDataEtiquetas(i, push, padre) {
         arrayEtiquetas[i].padre = padre;
@@ -144,7 +144,7 @@ $(function () {
         etiqueta = "NaN";
         idDepartamento = $("#inpDepartamentos").val();
         idCiudad = $("#inpCiudades").val();
-        text = "NaN";
+        text = ($("#inpTextBuscar").val() == "") ? "NaN" : $("#inpTextBuscar").val();
         redirectAnuncios(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text);
     });
 
@@ -156,7 +156,7 @@ $(function () {
         etiqueta = $(this).text();
         idDepartamento = $("#inpDepartamentos").val();
         idCiudad = $("#inpCiudades").val();
-        text = "NaN";
+        text = ($("#inpTextBuscar").val() == "") ? "NaN" : $("#inpTextBuscar").val();
         redirectAnuncios(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text);
     });
 
@@ -168,7 +168,7 @@ $(function () {
         etiqueta = "NaN";
         idDepartamento = $("#inpDepartamentos").val();
         idCiudad = $("#inpCiudades").val();
-        text = $("#inpTextBuscar").val();
+        text = ($("#inpTextBuscar").val() == "") ? "NaN" : $("#inpTextBuscar").val();
         redirectAnuncios(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text);
     });
 

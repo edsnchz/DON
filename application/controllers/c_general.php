@@ -66,10 +66,22 @@ class c_general extends CI_Controller {
       echo json_encode($data);	
     }
 
-    public function getAnunciosVistaCuadricula(){		
-      $data = $this->general->db_get_anunciosVistaCuadricula($_POST["idCategoria"], $_POST["idDepartamento"], $_POST["idCiudad"], $_POST["idEtiqueta"]);
+    public function getAnuncios(){		
+      $data = $this->general->db_get_anuncios($_POST["idCategoria"], $_POST["idDepartamento"], $_POST["idCiudad"], $_POST["idEtiqueta"], $_POST["text"]);
       echo json_encode($data);	
     }
 
+    public function getAnuncioById(){		
+      $data = $this->general->db_get_anuncioById($_POST["id"]);
+      echo json_encode($data);	
+    }
+
+    public function getVistasAuditoriaByAnuncio(){		
+      $data = $this->general->db_get_vistasAuditoriaByAnuncio($_POST["id"]);
+      echo json_encode($data);	
+    }
     
+
+
+
 }

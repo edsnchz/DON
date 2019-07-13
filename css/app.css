@@ -184,7 +184,11 @@ footer.footer {
 }
 
 .padding7px{
-  padding: 7px;
+  padding: 7px !important;
+}
+
+.padding4px{
+  padding: 4px !important;
 }
 
 .padding10px{
@@ -199,12 +203,28 @@ footer.footer {
   padding: 18px !important;
 }
 
+.padding13px{
+  padding: 13px !important;
+}
+
 .padding0 {
   padding: 0% !important;
 }
 
 .paddinginferior0{
   padding-bottom: 0% !important;
+}
+
+.paddingSuperior10px{
+  padding-top: 10px;
+}
+
+.paddingSuperior15px{
+  padding-top: 15px;
+}
+
+.paddingSuperior3px{
+  padding-top: 3px;
 }
 
 .margin0auto {
@@ -339,6 +359,19 @@ color: #bebebe
   border: solid 1px #C501FE ;
 }
 
+.borderBottomSolid1pxGray {
+  border-bottom: 1px solid gray;
+}
+
+.borderRightSolid1pxGray {
+  border-right: 1px solid gray;
+}
+
+.borderLaterales3pxPink {
+  border-left: solid 3px #C501FE !important;
+  border-right: solid 3px #C501FE !important;
+}
+
 .width100porciento {
   width: 100% !important;
 }
@@ -365,6 +398,10 @@ color: #bebebe
 
 .fontSize12px {
   font-size: 12px !important;
+}
+
+.fontSize18px {
+  font-size: 18px !important;
 }
 
 .width33porciento{
@@ -450,6 +487,10 @@ color: #bebebe
   background: #e6e6e6;
 }
 
+.backgroudWhite{
+  background: white !important;
+}
+
 .cardAnuncio{
   border: solid 1px #bebebe;
   border-radius: 0px;
@@ -457,7 +498,7 @@ color: #bebebe
 
 .cardAnuncio:hover{
   border: solid 1px #C501FE;
-  }
+}
 
 .sombra {
   -webkit-box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.19);
@@ -741,6 +782,74 @@ input[type="checkbox"].checkStyle:checked:after{
   border-radius: 0;
 }
 
+.btnCategoriaItemAnuncio{
+  font-size: 11px;
+  padding: 2px 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.btnCountImagesAnuncio{
+  font-size: 11px;
+  padding: 2px 10px;
+  position: absolute;
+  top: 130px;
+  right: 0;
+  border: none;
+  border-radius: 0;
+  background: white;
+  opacity: 0.8;
+  color: black;
+  font-style: italic;
+  /* cursor: none; */
+}
+
+.btnCityAnuncio{
+  font-size: 11px;
+  padding: 2px 10px;
+  position: absolute;
+  top: 130px;
+  left: 0;
+  border: none;
+  border-radius: 0;
+  background: white;
+  opacity: 0.8;
+  color: black;
+  font-style: italic;
+}
+
+.btnCountImagesAnuncioList{
+  font-size: 11px;
+  padding: 2px 10px;
+  position: absolute;
+  top: 110px;
+  right: 0;
+  border: none;
+  border-radius: 0;
+  background: white;
+  opacity: 0.8;
+  color: black;
+  font-style: italic;
+  /* cursor: none; */
+}
+
+.btnCityAnuncioList{
+  font-size: 11px;
+  padding: 2px 10px;
+  position: absolute;
+  top: 110px;
+  left: 0;
+  border: none;
+  border-radius: 0;
+  background: white;
+  opacity: 0.8;
+  color: black;
+  font-style: italic;
+}
+
 .divCTACarousel{
   width: 250px;
   position: absolute;
@@ -754,10 +863,11 @@ input[type="checkbox"].checkStyle:checked:after{
   right: 30px;
   opacity: 0;
   background: #ce93d8;
+  cursor: pointer;
 }
 
 .divCTACarousel.move {
-  top: 150px;
+  top: 115px;
   opacity: 1;
 }
 
@@ -784,5 +894,91 @@ input[type="checkbox"].checkStyle:checked:after{
 .liEnlacesCategorias{
   cursor: pointer;
   padding: 3px 0px;
-  font-size: 14px;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #444;
+}
+
+.liEnlacesCategorias:hover{
+  color: black;
+}
+
+.carousel-item {
+  backface-visibility: visible;
+}
+
+.testCol1{
+  height: 100px;
+  background: #2196f3;
+}
+
+.testCol2{
+  height: 100px;
+  background: rebeccapurple;
+}
+
+.testCol3{
+  height: 100px;
+  background: orangered;
+}
+
+.margin_superior3_laterales0{
+  margin: 3px 0px;
+}
+
+#btnsStyleGrid{
+  margin-top: -51px;
+}
+
+#btnsStyleGrid button{
+  padding: 2px 7px !important;
+}
+
+#btnsStyleGrid button.inactivo{
+  background: white;
+  color: black;
+  /*font-size: 14px;*/
+}
+
+.btn-group{
+  padding-right: 150px;
+}
+
+.whatActive{
+  background: #00A859;
+  color: white;
+}
+
+.phoneActive{
+  background: #03a9f4;
+  color: white;
+}
+
+.optionsNumberInactive{
+  color: #bdbdbd;
+  cursor: not-allowed;
+}
+
+.floatRight{
+  float: right !important;
+}
+
+hr.styleHR { 
+  border: 0; 
+  height: 1px; 
+  background-image: -webkit-linear-gradient(left, #f0f0f0, #C80FFE, #f0f0f0);
+  background-image: -moz-linear-gradient(left, #f0f0f0, #C80FFE, #f0f0f0);
+  background-image: -ms-linear-gradient(left, #f0f0f0, #C80FFE, #f0f0f0);
+  background-image: -o-linear-gradient(left, #f0f0f0, #C80FFE, #f0f0f0); 
+}
+
+.cardColumsNum2{
+  column-count: 2;
+}
+
+.btn:focus {
+  outline: none !important;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
 }

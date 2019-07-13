@@ -7,6 +7,7 @@ if (!function_exists('load_styles'))
         return '<link href="'.base_url().'assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
             <link href="'.base_url().'assets/fontawesome-free/css/all.min.css" rel="stylesheet">
             <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
             <link href="'.base_url().'assets/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
             <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet"
             type="text/css">
@@ -17,8 +18,7 @@ if (!function_exists('load_styles'))
             <link href="'.base_url().'assets/animaciones/magic.min.css" rel="stylesheet">
             <link href="'.base_url().'css/app.css" rel="stylesheet">';
     }   
-
-
+    
 }
 
 if (!function_exists('load_styles_url'))

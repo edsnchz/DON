@@ -144,4 +144,33 @@ var reemplazarAcentos = function (cadena) {
     return res;
 }
 
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 
+function getBrowserCurrent() {
+    rtn = "";
+    if ((!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0) {
+        rtn = "opera";
+    }
+    if (typeof InstallTrigger !== 'undefined') {
+        rtn = "firefox";
+    }
+    if (/constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification))) {
+        rtn = "safari";
+    }
+    if (/*@cc_on!@*/false || !!document.documentMode) {
+        rtn = "ie";
+    }
+    if (!(/*@cc_on!@*/false || !!document.documentMode) && !!window.StyleMedia) {
+        rtn = "edge";
+    }
+    if (!!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime)) {
+        rtn = "chrome";
+    }
+
+    return rtn;
+}

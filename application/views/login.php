@@ -8,7 +8,7 @@
     <meta name="description" content="PAGINA DE CONTENIDO ADULTO">
     <meta name="author" content="DON">
 
-    <title>DON - LOGIN</title>
+    <title>Inicio de Sesión - doneróticos.com</title>
 
     <?= load_styles(); ?>
     <?= load_styles_url("css/login.css"); ?>
@@ -29,14 +29,14 @@
                             <div class="col-lg-12">
                                 <form id="login-form" action="#" method="post" role="form" style="display: block;">
                                     <!-- <h2>Iniciar Sesión</h2> -->
-                                    <img class="height50px" src="<?= load_img_url('images/logo.svg'); ?>">
-                                    <div class="form-group">
+                                    <img class="height50px margin_top_small" src="<?= load_img_url('images/logo.svg'); ?>">
+                                    <div class="form-group margin_top_medium">
                                         <input type="email" name="inpCorreo" id="inpCorreo" tabindex="1"
-                                            class="form-control" placeholder="Correo">
+                                            class="form-control height35px" placeholder="Correo">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="inpPass" id="inpPass" tabindex="2"
-                                            class="form-control" placeholder="Contraseña">
+                                            class="form-control height35px" placeholder="Contraseña">
                                     </div>
                                     <div class="col-xs-6 form-group pull-left ">
                                         <input id="inpRemember" type="checkbox" class="checkStyle margin_left_small " name="inpRemember">
@@ -49,18 +49,18 @@
                                 </form>
                                 <form id="register-form" action="#" method="post" role="form" style="display: none;">
                                     <!-- <h2>Crear Usuario</h2> -->
-                                    <img class="height50px" src="<?= load_img_url('images/logo.svg'); ?>">
-                                    <div class="form-group">
+                                    <img class="height50px margin_top_small" src="<?= load_img_url('images/logo.svg'); ?>">
+                                    <div class="form-group margin_top_medium">
                                         <input type="email" name="inpCorreoRegistro" id="inpCorreoRegistro" tabindex="1"
-                                            class="form-control" placeholder="Correo">
+                                            class="form-control height35px" placeholder="Correo">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="inpPassRegistro" id="inpPassRegistro" tabindex="2"
-                                            class="form-control" placeholder="Contraseña">
+                                            class="form-control height35px" placeholder="Contraseña">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="inpPassRegistro2" id="inpPassRegistro2"
-                                            tabindex="2" class="form-control" placeholder="Confirmar Contraseña">
+                                            tabindex="2" class="form-control height35px" placeholder="Confirmar Contraseña">
                                     </div>
                                     <div class="form-group">
                                         <div class="row">

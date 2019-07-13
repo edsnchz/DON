@@ -1,11 +1,5 @@
 <script type="text/javascript">
-    var categoria = "<?php echo $categ ?>";
-    var categorias = categoria.split("_");
-    var etiqueta = "<?php echo $etiq ?>";
-    var etiquetas = etiqueta.split("_");
-    var state = "<?php echo $state ?>";
-    var city = "<?php echo $city ?>";
-    var text = "<?php echo $text ?>";
+    var idAnuncio = "<?php echo $id ?>";
 </script>
 
 <div class="container-fluid margin_top_medium">
@@ -45,44 +39,60 @@
 <div class="alert alert-success divCTACarousel colorWhite pulse borderRadius0px" role="alert">
   <h4 class="alert-heading margin_bottom_5px text-center fontSize16px">WOW!!</h4>
   <p class="margin0 fontFamilyRoboto">Quieres máxima visibilidad? Súbete al carrusel y se lo primero que vean!</p>
+  
 </div>
 
-<!-- MAPIADO -->
-<div class="container-fluid">
-    <nav aria-label="breadcrumb" style="margin-top: 10pt;">
-        <ol class="breadcrumb fontSize12px textUppercase fontWeight600 backgroudNone">
-            <li class="breadcrumb-item"><a href="#" id="eMapInicio">Inicio</a></li>
-            <li class="breadcrumb-item colorGrisClaro"><a id="eMapDepartamento">Departamento</a></li>
-            <li class="breadcrumb-item colorGrisClaro"><a id="eMapCiudad">Ciudad</a></li>
-            <li class="breadcrumb-item"><a href="#" id="eMapCategoria">Categoria</a></li>
-            <li class="breadcrumb-item active colorGrisClaro" aria-current="page" id="eMapEtiqueta"></li>
-        </ol>
-    </nav>
+<!-- DETALLE DEL ANUNCIO -->
+<div class="container margin_top_medium">
 
-    <div id="btnsStyleGrid" class="pull-right">
-        <div class="btn-group" role="group">
-            <button id="btnViewTable" type="button" class="btn btn-primary"><span class="oi oi-grid-three-up paddingSuperior3px"></span></button>    
-            <button id="btnViewList" type="button" class="btn btn-primary inactivo"><i class="fas fa-list"></i></button>
-        </div>
-    </div>
-</div>
-
-
-<div class="container container-mas-grande">
     <div class="row">
-        <div class="col-sm-3">
-            <div class="margin_top_small" id="tagCloud">
-            </div>
-            <!-- ************** -->
-            <div class="margin_top_medium">
-                <ul id="enlacesCategorias" class="paddingSuperiorInferior10px backgroundGrayDos">
-                </ul>
+        <div class="col-sm-9">
+            <h3 id="labelTitulo" class="text-center margin_top_medium"></h3>
+
+            <div id="divEtiquetas" class="text-center"></div>
+
+            <h5 id="labelDescripcion" class="fontWeight300 margin_top_small"></h5>
+
+            <hr class="styleHR">
+
+            <div>
+                <div class="card-columns cardColumsNum2" id="divImagenes"> 
+                </div>
             </div>
         </div>
-        <div class="col-sm-9" id="divCuadricula">
-                <!-- ANUNCIOS -->
+        <div class="col-sm-3">
+            
+            <div id="divCelulares"></div>
+            
+            <hr class="styleHR">
+
+            <h4 class="text-center">Condiciones</h4>
+
+            <div id="divCondiciones"></div>
+
+            <label class="text-center margin_top_small"><small>* Don Eroticos no realiza ninguna transacion con el cliente solo es un metodo de conocer</small></label>
+
+            <div>
+                <button type="button" class="btn btn-outline-success width100porciento margin_top_small"><i class="fas fa-paper-plane"></i> Mensaje Privado</button>
+
+                <button type="button" class="btn btn-danger width100porciento margin_top_small"><i class="fas fa-exclamation-triangle"></i> Denunciar</button>
+                
+                <hr class="styleHR">
+
+                <h4 class="text-center">Estadisticas</h4>
+
+                <div class="row">
+                    <div class="col-sm-6 borderRightSolid1pxGray text-center fontSize16px">
+                        <i class="fas fa-eye"></i> Hoy: <label id="lblVistasHoy" class="fontBold"></label>
+                    </div>
+                    <div class="col-sm-6 text-center fontSize16px">
+                        <i class="fas fa-eye"></i> Total: <label id="lblVistasTotal" class="fontBold"></label>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
-</div>
 
-<br><br>
+</div>

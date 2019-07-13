@@ -3,6 +3,7 @@
     <div class="ui top attached tabular menu fontSize12px fontFamilyPoppins colorGrisOscuro letterSpacingMinimo">
         <a class="active item" data-tab="tMisAnuncios">MIS ANUNCIOS</a>
         <a class="item" data-tab="tCrearAnuncio">CREAR ANUNCIO</a>
+        <a class="item" data-tab="tPremium">PREMIUM</a>
         <a class="item" data-tab="tMensajes">MENSAJES</a>
         <a class="item" data-tab="tOpciones">OPCIONES</a>
     </div>
@@ -21,17 +22,17 @@
             <div class="row margin_top_medium">
                 <div class="col-sm-4">
                     <select class="form-control inputStyle" id="inpCategorias">
-                        <option value="N/A">Categoría</option>
+                        <option value="N/A">Categoría *</option>
                     </select>
                 </div>
                 <div class="col-sm-4">
                     <select class="form-control inputStyle" id="inpDepartamentos">
-                        <option value="N/A">Departamento</option>
+                        <option value="N/A">Departamento *</option>
                     </select>
                 </div>
                 <div class="col-sm-4">
                     <select class="form-control inputStyle" id="inpCiudades">
-                        <option value="N/A">Ciudad</option>
+                        <option value="N/A">Ciudad *</option>
                     </select>
                 </div>
             </div>
@@ -39,12 +40,12 @@
             
             <div class="row margin_top_small">
                 <div class="col-sm-12">
-                    <input type="text" class="form-control inputStyle" name="inpTitulo" id="inpTitulo" placeholder="Titulo">
+                    <input type="text" class="form-control inputStyle" name="inpTitulo" id="inpTitulo" placeholder="Titulo *">
                 </div>
             </div>
             <div class="row margin_top_small">
                 <div class="col-sm-12">
-                    <textarea rows="5" class="form-control inputStyle" name="inpDescripcion" id="inpDescripcion" placeholder="Descripcion"></textarea>
+                    <textarea rows="5" class="form-control inputStyle" name="inpDescripcion" id="inpDescripcion" placeholder="Descripción *"></textarea>
                 </div>
             </div>
             <!-- **** -->
@@ -57,7 +58,7 @@
                         <div class="fontSize14px fontFamilyRoboto">
                         <br>
                             <p class="letterSpacingMinimo colorGrisOscuro">2. Define las tarifas y condiciones del servicio</p>
-                            <p class="colorGrisClaro">Este campo es opcional pero te recomendamos llenarlo</p>
+                            <p class="colorGrisClaro">Puedes agregar las combinaciones que creas necesarias</p>
                             
                         </div>
                     </div>
@@ -131,6 +132,9 @@
 
         <br><br>
 
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="tPremium">
+        PREMIUM
     </div>
     <div class="ui bottom attached tab segment" data-tab="tMensajes">
         MENSAJES
