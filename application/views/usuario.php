@@ -1,10 +1,9 @@
 <div class="container-fluid margin_top_small">
-<!-- fontFamilyPoppins fontSize12px textUppercase fontWeight600 colorGrisOscuro letterSpacingMinimo hoverGrisClaro-->
     <div class="ui top attached tabular menu fontSize12px fontFamilyPoppins colorGrisOscuro letterSpacingMinimo">
         <a class="active item" data-tab="tMisAnuncios">MIS ANUNCIOS</a>
         <a class="item" data-tab="tCrearAnuncio">CREAR ANUNCIO</a>
         <a class="item" data-tab="tPremium">PREMIUM</a>
-        <a class="item" data-tab="tMensajes">MENSAJES</a>
+        <a id="tabMensajes" class="item" data-tab="tMensajes">MENSAJES</a>
         <a class="item" data-tab="tOpciones">OPCIONES</a>
     </div>
     <div class="ui bottom attached active tab segment" data-tab="tMisAnuncios">
@@ -119,8 +118,8 @@
             </div>
 
             <div class="form-group centradoVertical margin_top_small">
-                <input id="inpAceptTerms" type="checkbox" name="inpAceptTerms" class="checkStyle margin_left_small">
-                <label for="inpAceptTerms" class="fontSize14px colorGrisClaro margin_left_MasSmall width100porciento">
+                <input id="inpAceptTerms" type="checkbox" name="inpAceptTerms" class=" margin_left_small">
+                <label for="inpAceptTerms" class="fontFamilyRoboto fontSize12px colorGrisClaro margin_left_10px text-justify">
                 Soy mayor de edad. Acepto la política de privacidad y condiciones de uso de doneróticos.com.
                 Declaro que soy completamente independiente, pongo este anuncio por cuenta propia,
                 ofrezco mis servicios de acompañamiento libremente y por mi propia elección.
@@ -134,10 +133,27 @@
 
     </div>
     <div class="ui bottom attached tab segment" data-tab="tPremium">
-        PREMIUM
+
+        <span id="spCreditos2" class="badge badge-pill badge-warning fontSize22px fontWeight300" title="Tus creditos actuales" style="position: absolute; right: 10px">Tienes 200 <i class="fas fa-coins"></i></span>
+        <h4 class="textCenter fontSize25px margin_top_small">Comprar creditos</h4>
+        
+        <div class="row" id="divPrecios">
+        </div>
+
     </div>
     <div class="ui bottom attached tab segment" data-tab="tMensajes">
-        MENSAJES
+
+        <div style="height: 65vh;">
+            <div class="row height100porciento">
+                <div class="col-sm-4 backgroundGray scrollVisible height100porciento">
+                    <div class="row" id="divRemitentes">
+                    </div>
+                </div>
+                <div class="col-sm-8 backgroundGray scrollVisible height100porciento" id="divMensajes">
+                </div>
+            </div>
+        </div>
+
     </div>
     <div class="ui bottom attached tab segment" data-tab="tOpciones">
         OPCIONES

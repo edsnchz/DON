@@ -7,6 +7,10 @@ $(function () {
     var numNumbers = 0;
     AjaxLoadNumbers();
     AjaxloadOptionsServices({ tipo: "class" });
+    AjaxGetUsersMensajes();
+    AjaxAlarmMensajes();
+    AjaxGetPreciosCreditos();
+    AjaxGetMisCreditos();
 
     $.ajax({
         url: '../c_general/getCategorias',
@@ -131,6 +135,29 @@ $(function () {
         });
     }
 
+    function AjaxAlarmMensajes() {
+        $.ajax({
+            url: '../c_general/getAlarmaMensajesByUser',
+            type: 'POST',
+            dataType: "json",
+            success: function (data) {
+                if (data.resultado == true) {
+                    data = data.data;
+                    if (data[0].mensajes > 0) {
+                        $("#tabMensajes").append('<span class="badge badge-pill badge-danger margin_left_5px fontFamilyRoboto fontSize11px">' + data[0].mensajes + '</span>');
+                    }
+                }
+            }
+        });
+    }
+
+    function AjaxSetUltimaVistaMensajes() {
+        $.ajax({
+            url: '../c_general/setUltimaVistaMensajes',
+            type: 'POST'
+        });
+    }
+
     function AjaxAddNumber(number) {
         $.ajax({
             url: '../c_general/addNumber',
@@ -162,6 +189,80 @@ $(function () {
                     //$("#modalEliminarNumero").modal("hide");
                 } else {
                     toastr.error(data.message);
+                }
+            }
+        });
+    }
+
+    function AjaxGetMisCreditos() {
+        $.ajax({
+            url: '../c_general/getCreditosByUser',
+            type: 'POST',
+            dataType: "json",
+            success: function (data) {
+                if (data.resultado == true) {
+                    data = data.data;
+                    $("#spCreditos2").html('Tienes ' + data[0]["cantidad"] + ' <i class="fas fa-coins"></i>');
+                } else {
+                    toastr.error("Error al cargar los creditos");
+                }
+            }
+        });
+    }
+
+    function AjaxGetPreciosCreditos() {
+        $.ajax({
+            url: '../c_general/getPreciosCreditos',
+            type: 'POST',
+            dataType: "json",
+            success: function (data) {
+                if (data.resultado == true) {
+                    $.each(data.data, function (key, value) {
+                        $("#divPrecios").append('<div class="col-12 col-sm-4 col-md-2"><div class="card"><div class="card-body centradoVerticalHorizontal" style="height: 80px"><h5 class="card-title textCenter fontSize20px">' + value.creditos + ' Creditos <i class="fas fa-coins"></i></h5></div><ul class="list-group list-group-flush"><li class="list-group-item textCenter fontSize25px paddingSuperiorInferior20px">' + formatCurrencyString(value.valor) + '</li></ul><div class="card-body backgroundPink textCenter cursorPointer hoverBackgroundPinkOscuro"><h4 class="colorWhite">Comprar</h4></div></div></div>');
+                    });
+                } else {
+                    toastr.error("Error al cargar los precios");
+                }
+            }
+        });
+    }
+
+    function AjaxGetUsersMensajes() {
+        $.ajax({
+            url: '../c_general/getUsuariosMensajes',
+            type: 'POST',
+            dataType: "json",
+            success: function (data) {
+                if (data.resultado == true) {
+                    $.each(data.data, function (key, value) {
+                        if (key == 0) {
+                            AjaxGetMensajes(value.correo);
+                            $("#divRemitentes").append('<div class="rowRemitentes col-sm-12 borderSolidGray2 paddingSuperiorInferior15px hoverLeftSolidPink cursorPointer" data-correo="' + value.correo + '"><i class="fas fa-user fontSize22px paddingLeft15px"></i><label class="paddingLeft15px">' + value.correo + '</label><button class="btn btn-light btnMarkItemAnuncio fontWeight400 btnResponderMail height100porciento fontFamilyRoboto paddingSuperiorInferior5px" data-correo="' + value.correo + '"><span class="oi oi-share"></span> <br> Enviar mail</button></div>');
+                        } else {
+                            $("#divRemitentes").append("<div class='rowRemitentes col-sm-12 borderSolidGray2 paddingSuperiorInferior15px hoverLeftSolidPink cursorPointer' data-correo='" + value.correo + "'><i class='fas fa-user fontSize22px paddingLeft15px'></i><label class='paddingLeft15px'>" + value.correo + "</label></div>");
+                        }
+                    });
+                } else {
+                    toastr.error("Error al cargar los remitentes");
+                }
+            }
+        });
+    }
+
+    function AjaxGetMensajes(correo) {
+        $("#divMensajes").html("");
+        $.ajax({
+            url: '../c_general/getMensajesByUser',
+            type: 'POST',
+            dataType: "json",
+            data: { correo: correo },
+            success: function (data) {
+                if (data.resultado == true) {
+                    $.each(data.data, function (key, value) {
+                        $("#divMensajes").append('<div class="burbujaChat fontFamilyRoboto colorGrisOscuro"><p>' + value.mensaje + '</p><div class="textRight fontFamilyRoboto fontWeight300 colorGrisMenosOscuro"><small>Recibido: ' + value.fecha + '</small></div></div>');
+                    });
+                } else {
+                    toastr.error("Error al cargar los mensajes");
                 }
             }
         });
@@ -328,6 +429,25 @@ $(function () {
 
     });
 
+    $('body').on('click', '.rowRemitentes', function () {
+        AjaxGetMensajes($(this).data("correo"));
+        $(".rowRemitentes button").remove(":contains('Enviar')");
+        $(this).append('<button class="btn btn-light btnMarkItemAnuncio fontWeight400 btnResponderMail height100porciento fontFamilyRoboto paddingSuperiorInferior5px" data-correo="' + $(this).data("correo") + '"><span class="oi oi-share"></span> <br> Enviar mail</button>');
+    });
+
+    $('body').on('click', '.btnResponderMail', function () {
+        event.preventDefault();
+        var email = $(this).data("correo");
+        var subject = 'Respuesta mensaje privado en doneróticos.com';
+        window.open('mailto:' + email + '?subject=' + subject + '&body=', '_blank');
+    });
+
+    $('body').on('click', '.ui .item', function () {
+        if ($(this).data("tab") == "tMensajes") {
+            $("#tabMensajes").html('MENSAJES');
+            AjaxSetUltimaVistaMensajes();
+        }
+    });
 
 
     sizePage();

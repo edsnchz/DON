@@ -302,7 +302,7 @@ class general extends CI_Model {
     public function db_get_anuncioById($id) {
         $this->db->trans_start();
         
-		$resultAnuncio = $this->db->query("SELECT a.*, cate.`nombre` categoria, ciu.`nombre` ciudad, dep.`nombre` departamento, DATE(a.fecha_creacion) fecha
+		$resultAnuncio = $this->db->query("SELECT a.*, cate.`nombre` categoria, ciu.`nombre` ciudad, dep.id id_departamento, dep.`nombre` departamento, DATE(a.fecha_creacion) fecha
                                     FROM anuncios a 
                                     JOIN categorias cate ON a.`id_categoria`=cate.id
                                     JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id`
@@ -345,11 +345,15 @@ class general extends CI_Model {
         }
     }
 
-    public function db_get_vistasAuditoriaByAnuncio($id) {
+    public function db_get_AuditoriaByAnuncio($id) {
         $this->db->trans_start(); 
-		$result = $this->db->query('(SELECT "HOY" nombre, COUNT(*) val FROM `acciones_anuncios` WHERE `id_anuncio`=? AND DATE(`fecha_accion`) = DATE(NOW()))
-                                UNION
-                            (SELECT "TOTAL" nombre, COUNT(*) val FROM `acciones_anuncios` WHERE `id_anuncio`=?)', array($id, $id));
+		$result = $this->db->query('SELECT "HOY" clase, COUNT(*) valor, tipo FROM acciones_anuncios
+                                    WHERE id_anuncio=? AND DATE(`fecha_accion`) = DATE(NOW())
+                                    GROUP BY tipo
+                                    UNION
+                                    SELECT "TOTAL" clase, COUNT(*) valor, tipo FROM acciones_anuncios
+                                    WHERE id_anuncio=?
+                                    GROUP BY tipo;', array($id, $id));
 		$a = $result->result_array();
         $result->free_result();
         if ($this->db->_error_number()) {
@@ -360,5 +364,195 @@ class general extends CI_Model {
         }
     }
 
-	
+    public function db_get_AuditoriaGraficoByAnuncio($id) {
+        $this->db->trans_start(); 
+
+        $dias_ES = array("Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo");
+        $dias_EN = array("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
+
+        $rtn = [];
+
+        $fechaNow = date('Y-m-d');
+
+        $fechaIni = new DateTime($fechaNow);
+        $fechaIni->sub(new DateInterval('P6D'));
+
+        $fechaFin = new DateTime($fechaNow);
+        $fechaFin->add(new DateInterval('P1D'));
+
+        $period = new DatePeriod(
+            new DateTime($fechaIni->format('Y-m-d')),
+            new DateInterval('P1D'),
+            new DateTime($fechaFin->format('Y-m-d'))
+        );
+    
+        foreach ($period as $key => $value) {
+            $dia = str_replace($dias_EN, $dias_ES, $value->format('l'));
+            $dia = substr($dia,0,3);
+            
+            $rtnTemp = array("dia" => $dia,
+                            "vistas" => "0",
+                            "cwhat" => "0",
+                            "ccall" => "0");
+
+            $result = $this->db->query('SELECT tipo, COUNT(*) valor FROM acciones_anuncios
+                                        WHERE id_anuncio=? AND DATE(`fecha_accion`) = ?
+                                        GROUP BY tipo ORDER BY tipo', array($id, $value->format('Y-m-d')));
+            $datos = $result->result_array();
+            $result->free_result();
+
+            foreach ($datos as $keyD => $dato) {
+                if($dato["tipo"] == "VISTA"){
+                    $rtnTemp["vistas"] = $dato["valor"];
+                }
+                if($dato["tipo"] == "CLICK_WHAT"){
+                    $rtnTemp["cwhat"] = $dato["valor"];
+                }
+                if($dato["tipo"] == "CLICK_CALL"){
+                    $rtnTemp["ccall"] = $dato["valor"];
+                }
+            }  
+
+            $rtn[] = $rtnTemp;
+        }
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $rtn);
+        }
+    }
+
+    public function db_send_menssage($idAnuncio, $correo, $mensaje) {
+        $this->db->trans_start(); 
+		$this->db->query('INSERT INTO `mensajes_privados` (correo, idUsuario, mensaje, `fecha_accion`) VALUES(?, (SELECT id_usuario FROM anuncios WHERE id=?), ?, NOW());', array($correo, $idAnuncio, $mensaje));
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "message" => "Mensaje enviado correctamente");
+        }
+    }
+    
+    public function db_get_UsuariosMensajesByUser($idUsuario) {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT correo FROM `mensajes_privados` WHERE idUsuario=? GROUP BY correo ORDER BY `fecha_accion` DESC', array($idUsuario));
+		$a = $result->result_array();
+        $result->free_result();
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
+    public function db_get_MensajesByUser($idUsuario, $correo) {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT mensaje, DATE_FORMAT(fecha_accion, "%d/%m/%Y %r") fecha FROM `mensajes_privados` WHERE idUsuario=? AND correo=? ORDER BY `fecha_accion` DESC', array($idUsuario, $correo));
+		$a = $result->result_array();
+        $result->free_result();
+        
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
+    public function db_get_AlarmMensajesByUser($idUsuario) {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT COUNT(*) mensajes FROM `mensajes_privados` 
+                            WHERE `fecha_accion` BETWEEN (SELECT ultimaVistaMensajes FROM usuarios WHERE id=?) AND NOW()
+                            AND `idUsuario`=?', array($idUsuario, $idUsuario));
+		$a = $result->result_array();
+        $result->free_result();
+        
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
+    public function db_set_ultimaVistaMensaje($idUsuario) {
+        $this->db->trans_start(); 
+		$this->db->query('UPDATE usuarios SET `ultimaVistaMensajes` = NOW() WHERE id=?', array($idUsuario));
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "message" => "Dato guardado satisfactoriamente");
+        }
+    }
+
+    public function db_get_conceptosDenuncias() {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT * FROM `conceptos_denuncias`');
+		$a = $result->result_array();
+        $result->free_result();
+        
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
+    public function db_add_denuncia($idAnuncio, $concepto, $text) {
+        $this->db->trans_start(); 
+		$this->db->query('INSERT INTO `denuncias_anuncios` (`idAnuncio`, `concepto`, motivo, `fecha_accion`) VALUES(?,?,?,NOW());', array($idAnuncio, $concepto, $text));
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "message" => "Denuncia gestionada satisfactoriamente");
+        }
+    }
+
+    public function db_get_preciosCreditos() {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT * FROM `precios_creditos`');
+		$a = $result->result_array();
+        $result->free_result();
+        
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
+    public function db_get_creditosByUser($idUsuario) {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT cantidad FROM `movimientos` WHERE idUsuario=?', array($idUsuario));
+		$a = $result->result_array();
+        $result->free_result();
+        
+        if(count($a) == 0){
+            $a[0]["cantidad"] = "0"; 
+        }
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
+
+    
 }

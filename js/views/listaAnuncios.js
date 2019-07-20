@@ -156,14 +156,14 @@ $(function () {
 
                         var stringCategoria = '';
                         if ($("#inpCategorias").val() == "NaN") {
-                            var stringCategoria = '<button class="btn btn-primary btnCategoriaItemAnuncio">' + value.categoria + '</button>';
+                            var stringCategoria = '<div class="btnCategoriaItemAnuncio">' + value.categoria + '</div>';
                         }
 
-                        var stringCountImgs = '<button class="btnCountImagesAnuncio">' + value.countImagenes + ' Fotos</button>';
+                        var stringCountImgs = '<div class="btnCountImagesAnuncio">' + value.countImagenes + ' Fotos</div>';
 
-                        var stringCityAnuncio = '<button class="btnCityAnuncio">' + value.ciudad + '</button>';
+                        var stringCityAnuncio = '<div class="btnCityAnuncio">' + value.ciudad + '</div>';
 
-                        $(".card-columns").append('<div class="card sombra cardAnuncio"><div style= "height: 150px" >' + stringImagenes + stringCategoria + stringTop + stringCountImgs + stringCityAnuncio + '</div> <div class="card-block"><h4 class="card-title cursorPointer padding10px margin0 paddinginferior0 selectAnuncio hoverColorPink" data-id=' + value.id + '>' + value.titulo + '</h4><div class="card-text padding10px">' + ((value.descripcion.length > 80) ? value.descripcion.substring(0, 80) + "..." : value.descripcion) + '</div>' + stringEtiquetas + '<br><br></div></div>');
+                        $(".card-columns").append('<div class="card sombra cardAnuncio"><div style= "height: 150px" >' + stringImagenes + stringCategoria + stringTop + stringCountImgs + stringCityAnuncio + '</div> <div class="card-block"><h4 class="card-title cursorPointer padding10px margin0 paddinginferior0 selectAnuncio hoverColorPink colorGrisOscuro" data-id=' + value.id + '>' + value.titulo + '</h4><div class="card-text padding10px fontFamilyRoboto colorGrisMenosOscuro">' + ((value.descripcion.length > 80) ? value.descripcion.substring(0, 80) + "..." : value.descripcion) + '</div>' + stringEtiquetas + '<br><br></div></div>');
 
                     });
                 }
@@ -216,14 +216,14 @@ $(function () {
 
                         var stringCategoria = '';
                         if ($("#inpCategorias").val() == "NaN") {
-                            var stringCategoria = '<button class="btn btn-primary btnCategoriaItemAnuncio">' + value.categoria + '</button>';
+                            var stringCategoria = '<div class="btnCategoriaItemAnuncio">' + value.categoria + '</div>';
                         }
 
-                        var stringCountImgs = '<button class="btnCountImagesAnuncioList">' + value.countImagenes + ' Fotos</button>';
+                        var stringCountImgs = '<div class="btnCountImagesAnuncioList">' + value.countImagenes + ' Fotos</div>';
 
-                        var stringCityAnuncio = '<button class="btnCityAnuncioList">' + value.ciudad + '</button>';
+                        var stringCityAnuncio = '<div class="btnCityAnuncioList">' + value.ciudad + '</div>';
 
-                        $("#divCuadricula").append('<div class="row backgroundGray sombra margin_top_medium"><div class="col-sm-12"><div class="row cardAnuncio"><div class="col-4 col-sm-3 padding0" style="height: 130px">' + stringImagenes + stringCategoria + stringTop + stringCountImgs + '</div><div class="col-8 col-sm-7 paddingSuperior15px paddingLaterales20px"><h5 class="cursorPointer selectAnuncio hoverColorPink" data-id=' + value.id + '>' + ((value.titulo.length > 110) ? value.titulo.substring(0, 110) + "..." : value.titulo) + '</h5><p>' + ((value.descripcion.length > 110) ? value.descripcion.substring(0, 110) + "..." : value.descripcion) + stringCityAnuncio + '</p></div><div class="col-sm-2 d-none d-sm-block" style="padding: 0px 5px">' + stringEtiquetas + '</div></div> </div></div>');
+                        $("#divCuadricula").append('<div class="row backgroundGray sombra margin_top_medium"><div class="col-sm-12"><div class="row cardAnuncio"><div class="col-4 col-sm-3 padding0" style="height: 130px">' + stringImagenes + stringCategoria + stringTop + stringCountImgs + '</div><div class="col-8 col-sm-7 paddingSuperior15px paddingLaterales20px"><h5 class="cursorPointer selectAnuncio hoverColorPink colorGrisOscuro" data-id=' + value.id + '>' + ((value.titulo.length > 110) ? value.titulo.substring(0, 110) + "..." : value.titulo) + '</h5><p class="fontFamilyRoboto colorGrisMenosOscuro">' + ((value.descripcion.length > 110) ? value.descripcion.substring(0, 110) + "..." : value.descripcion) + stringCityAnuncio + '</p></div><div class="col-sm-2 d-none d-sm-block" style="padding: 0px 5px">' + stringEtiquetas + '</div></div> </div></div>');
 
                     });
                 }
@@ -306,6 +306,7 @@ $(function () {
     });
 
     $('body').on('click', '.selectAnuncio', function () {
+        // ENVIAR PARAMETROS
         var id = $(this).data("id");
         $(location).attr('href', urlProyect() + 'c_app/vstDetalleAnuncio?idAnuncio=' + id);
     });

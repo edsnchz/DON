@@ -92,6 +92,9 @@ $("input[data-type='currency']").on({
     }
 });
 
+function formatCurrencyString(string) {
+    return "$" + new Intl.NumberFormat("es-ES").format(string);
+}
 
 function formatNumber(n) {
     return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -173,4 +176,13 @@ function getBrowserCurrent() {
     }
 
     return rtn;
+}
+
+function AjaxInsertAud(idAnuncio, tipo) {
+    $.ajax({
+        url: '../c_app/insertAuditoria',
+        type: 'POST',
+        dataType: "json",
+        data: { idAnuncio: idAnuncio, tipo: tipo }
+    });
 }

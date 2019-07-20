@@ -54,6 +54,10 @@ class c_app extends CI_Controller {
 		$this->layout->setTitle("DON - ANUNCIO");
 		$this->layout->js(Array(
 			base_url()."js/views/detalleAnuncio.js",
+			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+		));
+		$this->layout->css(Array(
+			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
 		));
 		// AUDITORIA 
 		$this->general->db_aud_anuncios($_GET["idAnuncio"], "VISTA");
@@ -96,9 +100,12 @@ class c_app extends CI_Controller {
 			$this->load->view('login');		
 		}else{
 			echo $data["message"];
-		}
-		
+		}	
 	}	
+
+	public function insertAuditoria(){		
+		$this->general->db_aud_anuncios($_POST["idAnuncio"], $_POST["tipo"]);	
+	}
 
 	public function loadImages(){
 		// CONFIG LIBRARY UPLOADS
@@ -130,7 +137,7 @@ class c_app extends CI_Controller {
 				print_r($image_data);
 				$configW['source_image'] = $image_data['full_path'];
 				$configW['width'] = 500;
-				//if($image_data['image_height']>=700){
+				// if($image_data['image_height']>=500){
 					$configW['height'] = ($image_data['image_height']/2);
 				//}
 				$this->image_lib->initialize($configW);

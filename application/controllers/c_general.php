@@ -76,12 +76,60 @@ class c_general extends CI_Controller {
       echo json_encode($data);	
     }
 
-    public function getVistasAuditoriaByAnuncio(){		
-      $data = $this->general->db_get_vistasAuditoriaByAnuncio($_POST["id"]);
+    public function getAuditoriaByAnuncio(){		
+      $data = $this->general->db_get_AuditoriaByAnuncio($_POST["id"]);
+      echo json_encode($data);	
+    }
+
+    public function getAuditoriaGraficoByAnuncio(){		
+      $data = $this->general->db_get_AuditoriaGraficoByAnuncio($_POST["id"]);
+      echo json_encode($data);	
+    }
+
+    public function sendPrivateMessage(){		
+      $data = $this->general->db_send_menssage($_POST["idAnuncio"], $_POST["correo"], $_POST["mensaje"]);
       echo json_encode($data);	
     }
     
+    public function getUsuariosMensajes(){		
+      $data = $this->general->db_get_UsuariosMensajesByUser($this->session->userdata('idusuario'));
+      echo json_encode($data);	
+    }
 
+    public function getMensajesByUser(){		
+      $data = $this->general->db_get_MensajesByUser($this->session->userdata('idusuario'), $_POST["correo"]);
+      echo json_encode($data);	
+    }
+
+    public function getAlarmaMensajesByUser(){		
+      $data = $this->general->db_get_AlarmMensajesByUser($this->session->userdata('idusuario'));
+      echo json_encode($data);	
+    }
+
+    public function setUltimaVistaMensajes(){		
+      $data = $this->general->db_set_ultimaVistaMensaje($this->session->userdata('idusuario'));
+      echo json_encode($data);	
+    }
+
+    public function getConceptosDenuncias(){		
+      $data = $this->general->db_get_conceptosDenuncias();
+      echo json_encode($data);	
+    }
+
+    public function addDenuncia(){		
+      $data = $this->general->db_add_denuncia($_POST["idAnuncio"], $_POST["concepto"], $_POST["texto"]);
+      echo json_encode($data);	
+    }
+
+    public function getPreciosCreditos(){		
+      $data = $this->general->db_get_preciosCreditos();
+      echo json_encode($data);	
+    }
+
+    public function getCreditosByUser(){		
+      $data = $this->general->db_get_creditosByUser($this->session->userdata('idusuario'));
+      echo json_encode($data);	
+    }
 
 
 }

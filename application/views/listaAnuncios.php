@@ -61,8 +61,8 @@
 
     <div id="btnsStyleGrid" class="pull-right">
         <div class="btn-group" role="group">
-            <button id="btnViewTable" type="button" class="btn btn-primary"><span class="oi oi-grid-three-up paddingSuperior3px"></span></button>    
-            <button id="btnViewList" type="button" class="btn btn-primary inactivo"><i class="fas fa-list"></i></button>
+            <button id="btnViewTable" type="button" class="btn btn-secondary"><span class="oi oi-grid-three-up paddingSuperior3px"></span></button>    
+            <button id="btnViewList" type="button" class="btn btn-secondary inactivo"><i class="fas fa-list"></i></button>
         </div>
     </div>
 </div>
