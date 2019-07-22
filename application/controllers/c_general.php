@@ -131,5 +131,15 @@ class c_general extends CI_Controller {
       echo json_encode($data);	
     }
 
+    public function getFotosByUser(){		
+      $data = $this->general->db_get_fotosByUser($this->session->userdata('idusuario'));
+      echo json_encode($data);	
+    }
+
+    public function setImagenesAnuncioLocal(){		
+      $data = $this->general->db_set_imagenesLocal($_POST["data"], $_POST["idAnuncio"]);
+      echo json_encode($data);	
+    }
+
 
 }

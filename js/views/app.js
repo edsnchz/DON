@@ -2,12 +2,6 @@ $(function () {
 
     var arrayEtiquetas = [[], [], [], [], [], []];
 
-    AjaxLoadEtiquetas();
-
-    if (loginBack == false) {
-        localStorage.setItem('userLogin', false);
-    }
-
     // GET CITY CURRENT
     $.ajax({
         url: "https://geoip-db.com/jsonp",
@@ -20,10 +14,9 @@ $(function () {
             $('#inpCiudades option:contains(' + location.city + ')').attr('selected', 'selected');
         },
         error: function (ex) {
-            toastr.warning("Error obtener tu ubicacion actual");
+            toastr.warning("Error obtener tu ubicacion actual <br> los bloqueadores de anuncios impiden la conexion con terceros (Desactivelos)");
         }
     });
-
 
     $.ajax({
         url: 'index.php/c_general/getCategorias',
@@ -175,5 +168,7 @@ $(function () {
     function redirectAnuncios(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text) {
         $(location).attr('href', urlProyect() + 'c_app/vstListaAnuncios?categ=' + categoria + '_' + idCategoria + '&etiq=' + etiqueta + '_' + idEtiqueta + '&state=' + idDepartamento + '&city=' + idCiudad + '&text=' + text);
     }
+
+    AjaxLoadEtiquetas();
 
 });

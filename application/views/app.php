@@ -1,6 +1,3 @@
-<script type="text/javascript">
-    var loginBack = "<?php echo $loginBack ?>";
-</script>
 
 <!-- Masthead -->
 <div class="container-fluid">
@@ -28,6 +25,7 @@
         </div>
         <div class="col-sm-2 mx-auto">
             <select class="form-control searchStyleBlack" id="inpCiudades">
+                <option value='NaN'>Todas las ciudades</option>
             </select>
         </div>
         <div class="col-sm-1">

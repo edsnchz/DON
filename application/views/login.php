@@ -38,11 +38,11 @@
                                         <input type="password" name="inpPass" id="inpPass" tabindex="2"
                                             class="form-control height35px" placeholder="Contraseña">
                                     </div>
-                                    <div class="col-xs-6 form-group pull-left ">
-                                        <input id="inpRemember" type="checkbox" class="checkStyle margin_left_small " name="inpRemember">
-                                        <label for="inpRemember" class="fontSize12px colorGrisClaro">Recordar Contraseña</label>
+                                    <div class="col-xs-6 form-group">
+                                        <input id="inpRemember" type="checkbox" class="" name="inpRemember">
+                                        <label for="inpRemember" class="fontSize12px colorGrisClaro fontFamilyRoboto">Recordar Contraseña</label>
                                     </div>
-                                    <div class="col-xs-6 form-group pull-right">
+                                    <div class="col-xs-6 form-group">
                                         <input type="button" name="btnLogin" id="btnLogin" tabindex="4"
                                             class="form-control btn btn-login" value="Ingresar">
                                     </div>

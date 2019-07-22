@@ -16,6 +16,13 @@ toastr.options = {
     "hideMethod": "fadeOut"
 }
 
+if (typeof loginBack !== "undefined") {
+    if (loginBack == false) {
+        localStorage.setItem('userLogin', false);
+    }
+}
+
+
 if (localStorage.getItem("userLogin") == null) {
     localStorage.setItem('userLogin', false);
 }

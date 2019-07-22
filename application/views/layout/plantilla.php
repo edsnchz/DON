@@ -10,6 +10,11 @@
 
     <title><?= $title ?></title>
 
+    <script type="text/javascript">
+        var loginBack = "<?php echo $loginBack ?>";
+    </script>
+
+
     <?= load_styles(); ?>
     <?= $css ?>
 

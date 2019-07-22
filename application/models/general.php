@@ -191,6 +191,19 @@ class general extends CI_Model {
         VALUES (?,?,NOW());', array($idAnuncio, $url));
 
         $this->db->trans_complete();
+    }
+    
+    public function db_set_imagenesLocal($string, $idAnuncio) {
+        $this->db->trans_start(); 
+
+        $data = (array) json_decode($string, true);
+
+        foreach ($data["imagenes"] as $key => $imagen) {
+            $this->db->query('INSERT INTO imagenes_anuncios (id_anuncio, url, `fecha_creacion`)
+                        SELECT ?, url, NOW() FROM `imagenes_anuncios` WHERE id=?', array($idAnuncio, $imagen));
+        }
+
+        $this->db->trans_complete();
 	}
 	
 
@@ -302,7 +315,10 @@ class general extends CI_Model {
     public function db_get_anuncioById($id) {
         $this->db->trans_start();
         
-		$resultAnuncio = $this->db->query("SELECT a.*, cate.`nombre` categoria, ciu.`nombre` ciudad, dep.id id_departamento, dep.`nombre` departamento, DATE(a.fecha_creacion) fecha
+		$resultAnuncio = $this->db->query("SELECT a.*, cate.`nombre` categoria, ciu.`nombre` ciudad, 
+                                dep.id id_departamento, dep.`nombre` departamento, 
+                                DATE(a.fecha_creacion) fecha, date_format(a.`fecha_creacion`, '%d/%m/%Y %r') fechaCreacionFormat,
+                                ifnull(date_format(a.`fecha_ultima_edicion`, '%d/%m/%Y %r'), 'Sin ediciones') fechaUltEdicionFormat
                                     FROM anuncios a 
                                     JOIN categorias cate ON a.`id_categoria`=cate.id
                                     JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id`
@@ -544,6 +560,24 @@ class general extends CI_Model {
         if(count($a) == 0){
             $a[0]["cantidad"] = "0"; 
         }
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
+    public function db_get_fotosByUser($idUsuario) {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT i.id, url, a.`id_usuario` FROM `imagenes_anuncios` i
+                                    JOIN anuncios a ON i.`id_anuncio`= a.`id`
+                                    WHERE id_usuario=?
+                                    GROUP BY url', array($idUsuario));
+		$a = $result->result_array();
+        $result->free_result();
 
         if ($this->db->_error_number()) {
             return array("resultado" => false, "message" => $this->db->_error_message());

@@ -73,6 +73,10 @@
         </div>
         <div class="col-sm-3">
             
+            <h5 id="lblFechaCreacion" class="colorGrisOscuro margin0 fontWeight300 fontSize12px">F. Creacion: </h5>
+
+            <h5 id="lblUltimaEdicion" class="colorGrisOscuro margin0 margin_top_small fontWeight300 fontSize12px">Ult. Edicion: </h5>
+
             <div id="divCelulares"></div>
             
             <hr class="styleHR margin_top_30px">

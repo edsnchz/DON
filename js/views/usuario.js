@@ -5,6 +5,8 @@ $(function () {
     var selectTags = [];
     var numRowsOptionServicios = [1];
     var numNumbers = 0;
+    var loadMiGaleria = false;
+    var selectMisFotos = [];
     AjaxLoadNumbers();
     AjaxloadOptionsServices({ tipo: "class" });
     AjaxGetUsersMensajes();
@@ -202,9 +204,9 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     data = data.data;
-                    $("#spCreditos2").html('Tienes ' + data[0]["cantidad"] + ' <i class="fas fa-coins"></i>');
+                    $("#spCreditos2").html('Tus créditos: ' + data[0]["cantidad"] + ' <i class="fas fa-coins"></i>');
                 } else {
-                    toastr.error("Error al cargar los creditos");
+                    toastr.error("Error al cargar los créditos");
                 }
             }
         });
@@ -218,13 +220,58 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
-                        $("#divPrecios").append('<div class="col-12 col-sm-4 col-md-2"><div class="card"><div class="card-body centradoVerticalHorizontal" style="height: 80px"><h5 class="card-title textCenter fontSize20px">' + value.creditos + ' Creditos <i class="fas fa-coins"></i></h5></div><ul class="list-group list-group-flush"><li class="list-group-item textCenter fontSize25px paddingSuperiorInferior20px">' + formatCurrencyString(value.valor) + '</li></ul><div class="card-body backgroundPink textCenter cursorPointer hoverBackgroundPinkOscuro"><h4 class="colorWhite">Comprar</h4></div></div></div>');
+                        $("#divPrecios").append('<div class="col-12 col-sm-4 col-md-2"><div class="card"><div class="card-body centradoVerticalHorizontal" style="height: 80px"><h5 class="card-title textCenter fontSize22px fontBold">' + value.creditos + '</h5><h6 class="fontFamilyRoboto">&nbsp;Créditos</h6></div><ul class="list-group list-group-flush"><li class="list-group-item textCenter fontSize18px fontFamilyRoboto paddingSuperiorInferior20px">' + formatCurrencyString(value.valor) + '</li></ul><div class="card-body backgroundPinkClaro textCenter cursorPointer hoverBackgroundPinkOscuro"><h4 class="colorWhite fontSize14px textUppercase fontWeight600">Comprar</h4></div></div></div>');
                     });
                 } else {
                     toastr.error("Error al cargar los precios");
                 }
             }
         });
+    }
+
+    function AjaxGetMisFotos() {
+        $("#divMisFotos").html("");
+        $.ajax({
+            url: '../c_general/getFotosByUser',
+            type: 'POST',
+            dataType: "json",
+            success: function (data) {
+                if (data.resultado == true) {
+                    $.each(data.data, function (key, value) {
+                        $("#divMisFotos").append('<div class="card cursorPointer cardMiFoto displayNoneToI" data-id="' + value.id + '"><img src="../../uploads/anuncios/' + value.url + '" class="card-img-top"><i class="fas fa-check-circle iconSelectMisFotos"></i></div>');
+                    });
+                } else {
+                    toastr.error("Error al cargar mis fotos");
+                }
+            }
+        });
+    }
+
+    function limpiar() {
+        selectTags = [];
+        for (var i = 1; i <= numRowsOptionServicios.length; i++) {
+            $("#rowOptionService" + (i + 1)).remove();
+        }
+        numRowsOptionServicios = [1];
+        for (var i = 0; i < numNumbers; i++) {
+            $("#inpWhat" + (i + 1)).prop("checked", false);
+            $("#inpTel" + (i + 1)).prop("checked", false);
+        }
+        loadMiGaleria = false;
+        selectMisFotos = [];
+        $("#inpCategorias").val("N/A");
+        AjaxCreateTags($("#inpCategorias").val());
+        $("#inpDepartamentos").val("N/A");
+        $("#inpCiudades").html('<option value="N/A">Ciudad *</option>');
+        $("#inpTitulo").val("");
+        $("#inpDescripcion").val("");
+        $("#inpPrecio1").val("");
+        $("#inpTiempo1").val("N/A");
+        $("#inpRelaciones1").val("N/A");
+        $("#inpAceptTerms").prop("checked", false);
+        $("#pro-image").val("");
+        $(".preview-images-zone").html("");
+        $("#btnMiGaleria").text('Mi Galeria');
     }
 
     function AjaxGetUsersMensajes() {
@@ -237,9 +284,9 @@ $(function () {
                     $.each(data.data, function (key, value) {
                         if (key == 0) {
                             AjaxGetMensajes(value.correo);
-                            $("#divRemitentes").append('<div class="rowRemitentes col-sm-12 borderSolidGray2 paddingSuperiorInferior15px hoverLeftSolidPink cursorPointer" data-correo="' + value.correo + '"><i class="fas fa-user fontSize22px paddingLeft15px"></i><label class="paddingLeft15px">' + value.correo + '</label><button class="btn btn-light btnMarkItemAnuncio fontWeight400 btnResponderMail height100porciento fontFamilyRoboto paddingSuperiorInferior5px" data-correo="' + value.correo + '"><span class="oi oi-share"></span> <br> Enviar mail</button></div>');
+                            $("#divRemitentes").append('<div class="rowRemitentes col-sm-12 borderSolidGray2 paddingSuperiorInferior15px hoverLeftSolidPink cursorPointer fontFamilyRoboto" data-correo="' + value.correo + '"><i class="fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro"></i><label class="paddingLeft15px">' + value.correo + '</label><button class="btn btn-light btnMarkItemAnuncio fontWeight400 btnResponderMail height100porciento fontFamilyRoboto paddingSuperiorInferior5px" data-correo="' + value.correo + '"><span class="oi oi-share"></span> <br> Enviar mail</button></div>');
                         } else {
-                            $("#divRemitentes").append("<div class='rowRemitentes col-sm-12 borderSolidGray2 paddingSuperiorInferior15px hoverLeftSolidPink cursorPointer' data-correo='" + value.correo + "'><i class='fas fa-user fontSize22px paddingLeft15px'></i><label class='paddingLeft15px'>" + value.correo + "</label></div>");
+                            $("#divRemitentes").append("<div class='rowRemitentes col-sm-12 borderSolidGray2 paddingSuperiorInferior15px hoverLeftSolidPink cursorPointer fontFamilyRoboto' data-correo='" + value.correo + "'><i class='fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro'></i><label class='paddingLeft15px'>" + value.correo + "</label></div>");
                         }
                     });
                 } else {
@@ -288,10 +335,27 @@ $(function () {
             dataType: "json",
             success: function (data) {
                 if (data.resultado == true) {
+                    limpiar();
                     toastr.success(data.mensaje);
                 } else {
                     toastr.error(data.mensaje);
                 }
+            }
+        });
+    }
+
+    function loadImagenesGaleria(id) {
+        var stringData = JSON.stringify({
+            imagenes: selectMisFotos
+        });
+
+        $.ajax({
+            url: '../c_general/setImagenesAnuncioLocal',
+            type: 'POST',
+            dataType: "json",
+            async: false,
+            data: { data: stringData, idAnuncio: id },
+            success: function (data) {
             }
         });
     }
@@ -369,14 +433,62 @@ $(function () {
 
     $("#btnGuardar").click(function () {
 
+        if ($("#inpCategorias").val() == "N/A") {
+            toastr.warning("Debe escojer una categoria");
+            return false;
+        }
+
+        if ($("#inpDepartamentos").val() == "N/A") {
+            toastr.warning("Debe escojer un departamento");
+            return false;
+        }
+
+        if ($("#inpCiudades").val() == "N/A") {
+            toastr.warning("Debe escojer una ciudad");
+            return false;
+        }
+
+        if ($("#inpTitulo").val().length < 50) {
+            toastr.warning("Ingrese un titulo entre 50 y 200 caracteres");
+            return false;
+        }
+
+        if ($("#inpTitulo").val().length > 200) {
+            toastr.warning("el titulo no puede superar los 200 caracteres");
+            return false;
+        }
+
+        if ($("#inpDescripcion").val().length < 400) {
+            toastr.warning("Ingrese una descripcion con minimo 400 caracteres");
+            return false;
+        }
+
+        if (!$("#inpAceptTerms").is(':checked')) {
+            toastr.info("Debe aceptar los terminos y condiciones");
+            return false;
+        }
+
+        var okOptionsServicios = true;
         var selectRowsOptions = [];
         $.each(numRowsOptionServicios, function (index, i) {
+            if ($("#inpPrecio" + i).val() == "" && $("#inpTiempo" + i).val() == "N/A" &&
+                $("#inpRelaciones" + i).val() == "N/A" && numRowsOptionServicios.length == 1) {
+                return false;
+            }
+            if ($("#inpPrecio" + i).val() == "" || $("#inpTiempo" + i).val() == "N/A" ||
+                $("#inpRelaciones" + i).val() == "N/A") {
+                toastr.warning("Debe digitar todos los datos en las condiciones");
+                okOptionsServicios = false;
+                return false;
+            }
             selectRowsOptions.push({
                 "precio": $("#inpPrecio" + i).val(),
                 "tiempo": $("#inpTiempo" + i).val(),
                 "relaciones": $("#inpRelaciones" + i).val()
             });
         });
+
+        if (!okOptionsServicios) { return false; }
 
         var selectNumber = [];
         for (var i = 1; i <= numNumbers; i++) {
@@ -419,6 +531,9 @@ $(function () {
             data: { data: stringData },
             success: function (data) {
                 if (data.resultado == true) {
+                    if (loadMiGaleria) {
+                        loadImagenesGaleria(data.id);
+                    }
                     loadImagenes(data.id);
                     toastr.success(data.message);
                 } else {
@@ -449,6 +564,32 @@ $(function () {
         }
     });
 
+    $('#modalMiGaleria').on('show.bs.modal', function (e) {
+        if (!loadMiGaleria) {
+            AjaxGetMisFotos();
+        }
+    });
+
+    $('body').on('click', '.cardMiFoto', function () {
+        $(this).toggleClass("filterBlur1pxToimg");
+        $(this).toggleClass("displayNoneToI");
+        var index = selectMisFotos.indexOf($(this).data('id'));
+        if (index > -1) {
+            selectMisFotos.splice(index, 1);
+        } else {
+            selectMisFotos.push($(this).data('id'));
+        }
+    });
+
+    $('#btnSelectMiGaleria').click(function () {
+        loadMiGaleria = true;
+        if (selectMisFotos.length == 0) {
+            $("#btnMiGaleria").text('Mi Galeria');
+        } else {
+            $("#btnMiGaleria").html('Mi Galeria <span class="badge badge-pill fontFamilyRoboto backgroudWhite colorBlue">' + selectMisFotos.length + ' Fotos Selecc.</span>');
+        }
+
+    });
 
     sizePage();
 

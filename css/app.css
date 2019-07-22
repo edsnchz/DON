@@ -359,6 +359,10 @@ footer.footer {
   background: #C501FE;
 }
 
+.backgroundPinkClaro {
+  background: #ce93d8;
+}
+
 .backgroudNone{
   background: none;
 }
@@ -595,6 +599,10 @@ color: #bebebe
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.borderRadius5pt {
+  border-radius: 5pt;
 }
 
 .borderRadius10pt {
@@ -889,9 +897,9 @@ input[type="checkbox"].checkStyle:checked:after{
   left: 0;
   border: none;
   border-radius: 0;
-  background: white;
-  opacity: 0.8;
-  color: black;
+  background: black;
+  opacity: 0.7;
+  color: white;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
 }
@@ -1087,6 +1095,14 @@ hr.styleHR {
   column-count: 2;
 }
 
+.cardColumsNum4{
+  column-count: 4;
+}
+
+.cardColumsNum5{
+  column-count: 5;
+}
+
 .btn:focus {
   outline: none !important;
   /* border: none !important; */
@@ -1118,4 +1134,20 @@ hr.styleHR {
 
 .scrollVisible::-webkit-scrollbar {
 	width: 5px;
+}
+
+.iconSelectMisFotos{
+  position: absolute;
+  top: 35%;
+  left: 40%;
+  font-size: 30px;
+  color: white;
+}
+
+.filterBlur1pxToimg img{
+  filter: blur(2px);
+}
+
+.displayNoneToI i{
+  display: none;
 }

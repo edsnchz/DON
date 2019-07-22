@@ -30,7 +30,8 @@ class c_app extends CI_Controller {
 		$this->layout->css(Array(
 			base_url()."css/uploadImages.css",
 		));
-		$this->layout->view("usuario");			
+		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
+		$this->layout->view("usuario", $data);			
 	}
 
 	public function vstListaAnuncios(){
@@ -42,6 +43,7 @@ class c_app extends CI_Controller {
 		$this->layout->css(Array(
 			base_url()."css/gridAnuncios.css",
 		));
+		$dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
 		$dataParams["categ"] = $_GET["categ"];
 		$dataParams["etiq"] = $_GET["etiq"];
 		$dataParams["state"] = $_GET["state"];
@@ -62,6 +64,7 @@ class c_app extends CI_Controller {
 		// AUDITORIA 
 		$this->general->db_aud_anuncios($_GET["idAnuncio"], "VISTA");
 
+		$dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
 		$dataParams["id"] = $_GET["idAnuncio"];
 		$this->layout->view("detalleAnuncio", $dataParams);			
 	}
@@ -134,7 +137,7 @@ class c_app extends CI_Controller {
 				
 				// CREA LA MARCA DE AGUA
 				$image_data = $this->upload->data();
-				print_r($image_data);
+				//print_r($image_data);
 				$configW['source_image'] = $image_data['full_path'];
 				$configW['width'] = 500;
 				// if($image_data['image_height']>=500){

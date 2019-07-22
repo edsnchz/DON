@@ -1,8 +1,9 @@
+
 <div class="container-fluid margin_top_small">
     <div class="ui top attached tabular menu fontSize12px fontFamilyPoppins colorGrisOscuro letterSpacingMinimo">
         <a class="active item" data-tab="tMisAnuncios">MIS ANUNCIOS</a>
         <a class="item" data-tab="tCrearAnuncio">CREAR ANUNCIO</a>
-        <a class="item" data-tab="tPremium">PREMIUM</a>
+        <a class="item" data-tab="tPremium">CRÉDITOS</a>
         <a id="tabMensajes" class="item" data-tab="tMensajes">MENSAJES</a>
         <a class="item" data-tab="tOpciones">OPCIONES</a>
     </div>
@@ -106,9 +107,10 @@
                 <div class="col-sm-12">
 
                     <div class="containerUpload">
-                        <fieldset class="form-group ">
-                            <a href="javascript:void(0)" onclick="$('#pro-image').click()" class="hoverGrisClaro textDecorationNone fontFamilyRoboto">Examinar imágenes</a>
+                        <fieldset class="form-group">
+                            <a href="javascript:void(0)" onclick="$('#pro-image').click()" class="hoverGrisClaro textDecorationNone fontFamilyRoboto">Subir imágenes</a>
                             <input type="file" id="pro-image" name="pro-image[]" style="display: none;" class="form-control" multiple>
+                            <button class="btn btn-primary floatRight" id="btnMiGaleria" data-toggle="modal" data-target="#modalMiGaleria">Mi Galeria</button>
                         </fieldset>
                         <div class="preview-images-zone">
                         </div>
@@ -134,10 +136,18 @@
     </div>
     <div class="ui bottom attached tab segment" data-tab="tPremium">
 
-        <span id="spCreditos2" class="badge badge-pill badge-warning fontSize22px fontWeight300" title="Tus creditos actuales" style="position: absolute; right: 10px">Tienes 200 <i class="fas fa-coins"></i></span>
-        <h4 class="textCenter fontSize25px margin_top_small">Comprar creditos</h4>
-        
-        <div class="row" id="divPrecios">
+        <span id="spCreditos2" class="badge badge-pill borderRadius5pt badge-warning fontSize16px fontWeight400 padding7px fontFamilyRoboto" title="Tus créditos actuales" style="position: absolute; right: 10px"></span>
+        <h4 class="textCenter fontSize20px margin_top_small colorGrisOscuro">Comprar créditos</h4>
+        <p class="textCenter fontFamilyRoboto colorGrisClaro fontSize14px colorGrisOscuro">
+            Valores netos a pagar. Ningún método de pago genera comisiones adicionales.
+            <br>
+            Tus créditos estarán disponibles inmediatamente una vez aprobada y verificada la transacción por el sistema.
+        </p>
+        <div class="row margin_top_medium" id="divPrecios">
+    
+        </div>
+        <div class="col-xl-12 mx-auto padding0 textCenter margin_top_30px">
+            <img class="img-responsive" src="<?= load_img_url('images/payu.jpg'); ?>" style="width: 30%; height: auto">
         </div>
 
     </div>
@@ -203,6 +213,30 @@
       </div>
       <div class="modal-footer">
         <button id="btnEliminarNumero" type="button" class="btn btn-danger borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo" data-dismiss="modal">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ********************************* -->
+
+<div class="modal fade" id="modalMiGaleria" tabindex="-1" role="dialog" aria-labelledby="modalMiGaleria" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content borderRadius0px">
+      <div class="modal-header">
+        <h5 class="modal-title textCenter fontSize14px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto">Mis fotos</h5>
+        <button type="button" class="close outlineNone" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div>
+                <div class="card-columns margin_top_30px cardColumsNum5" id="divMisFotos"> 
+                </div>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnSelectMiGaleria" type="button" class="btn btn-primary borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo" data-dismiss="modal">Seleccionar</button>
       </div>
     </div>
   </div>
