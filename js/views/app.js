@@ -14,7 +14,7 @@ $(function () {
             $('#inpCiudades option:contains(' + location.city + ')').attr('selected', 'selected');
         },
         error: function (ex) {
-            toastr.warning("Error obtener tu ubicacion actual <br> los bloqueadores de anuncios impiden la conexion con terceros (Desactivelos)");
+            toastr.warning("Error al obtener tu ubicación actual. <br> Si usas bloqueadores de anuncios estos pueden estar impidiendo la conexión. (Desactivalos)");
         }
     });
 
@@ -170,5 +170,6 @@ $(function () {
     }
 
     AjaxLoadEtiquetas();
+
 
 });

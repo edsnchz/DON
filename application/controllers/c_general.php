@@ -66,6 +66,11 @@ class c_general extends CI_Controller {
       echo json_encode($data);	
     }
 
+    public function editAnuncio(){		
+      $data = $this->general->db_edit_anuncio($_POST["data"], $this->session->userdata('idusuario'));
+      echo json_encode($data);	
+    }
+
     public function getAnuncios(){		
       $data = $this->general->db_get_anuncios($_POST["idCategoria"], $_POST["idDepartamento"], $_POST["idCiudad"], $_POST["idEtiqueta"], $_POST["text"]);
       echo json_encode($data);	
@@ -138,6 +143,11 @@ class c_general extends CI_Controller {
 
     public function setImagenesAnuncioLocal(){		
       $data = $this->general->db_set_imagenesLocal($_POST["data"], $_POST["idAnuncio"]);
+      echo json_encode($data);	
+    }
+
+    public function getAnunciosByUser(){		
+      $data = $this->general->db_get_anunciosByUser($this->session->userdata('idusuario'));
       echo json_encode($data);	
     }
 

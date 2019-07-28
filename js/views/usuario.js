@@ -1,18 +1,30 @@
 $(function () {
 
-    $('.menu .item').tab();
+    //$('.menu .item').tab();
+
 
     var selectTags = [];
+    var selectTagsEditar = [];
     var numRowsOptionServicios = [1];
+    var numRowsOptionServiciosEditar = [];
+    var numNumerosEditar = [];
     var numNumbers = 0;
     var loadMiGaleria = false;
     var selectMisFotos = [];
+    var dataFormFotos = new FormData();
+    var keyFotosForm = [];
+    var loadMiGaleriaEditar = false;
+    var selectMisFotosEditar = [];
+    var dataFormFotosEditar = new FormData();
+    var keyFotosFormEditar = [];
     AjaxLoadNumbers();
     AjaxloadOptionsServices({ tipo: "class" });
     AjaxGetUsersMensajes();
     AjaxAlarmMensajes();
     AjaxGetPreciosCreditos();
     AjaxGetMisCreditos();
+    AjaxLoadMisAnuncios();
+
 
     $.ajax({
         url: '../c_general/getCategorias',
@@ -82,12 +94,36 @@ $(function () {
         });
     }
 
+    function AjaxCreateTagsEditar(id) {
+        $("#tagCloudEditar").html("");
+        $.ajax({
+            url: '../c_general/getEtiquetasByCategoria',
+            type: 'POST',
+            dataType: "json",
+            data: { idCategoria: id },
+            async: false,
+            success: function (data) {
+                if (data.resultado == true) {
+                    $.each(data.data, function (index, value) {
+                        $("#tagCloudEditar").append('<span class="badge badge-pill etiquetas cursorPointer itemTagEditar fontFamilyRoboto" data-id="' + value.id + '">' + value.nombre + '</span>');
+                    });
+                }
+            }
+        });
+    }
+
     function AjaxloadOptionsServices(obj) {
 
         var selector = { tiempo: ".inpTiempo", relaciones: ".inpRelaciones" };
+
         if (obj.tipo == "id") {
             selector.tiempo = "#inpTiempo" + obj.id;
             selector.relaciones = "#inpRelaciones" + obj.id;
+        }
+
+        if (obj.accion == "editar") {
+            selector.tiempo = "#inpTiempoEditar" + obj.id;
+            selector.relaciones = "#inpRelacionesEditar" + obj.id;
         }
 
         $.ajax({
@@ -153,6 +189,69 @@ $(function () {
         });
     }
 
+    function loadDataAnuncio(id) {
+        $.ajax({
+            url: '../c_general/getAnuncioById',
+            type: 'POST',
+            dataType: "json",
+            data: { id: id },
+            success: function (data) {
+                if (data.resultado == true) {
+                    data = data.data;
+                    $("#inpIdAnuncioEditar").val(data[0].id);
+                    $("#inpTituloEditar").val(data[0].titulo);
+                    $("#inpDescripcionEditar").text(data[0].descripcion);
+                    selectTagsEditar = [];
+                    AjaxCreateTagsEditar(data[0].id_categoria);
+                    $.each(data.etiquetas, function (index, value) {
+                        var element = $("#tagCloudEditar").find(".itemTagEditar[data-id='" + value.id + "']");
+                        $(element).css('background-color', "#C501FE");
+                        $(element).data('select', 1);
+                        selectTagsEditar.push($(element).data('id'));
+                    });
+                    numRowsOptionServiciosEditar = [];
+                    $("#divCondicionesEditar").html("");
+                    $.each(data.condiciones, function (index, value) {
+                        numRowsOptionServiciosEditar.push(value.id);
+                        $("#divCondicionesEditar").append('<div id="rowOptionServiceEditar' + value.id + '" class="row margin_top_medium"><div class="col-sm-3"><input type="text" id="inpPrecioEditar' + value.id + '" class="form-control inputStyle inpPrecioEditar" placeholder="Valor" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"></div><div class="col-sm-4"><select id="inpTiempoEditar' + value.id + '" class="form-control inputStyle inpTiempoEditar"><option value="N/A">Tiempo</option></select></div><div class="col-sm-4"><select id="inpRelacionesEditar' + value.id + '" class="form-control inputStyle inpRelacionesEditar"><option value="N/A">Relaciones</option></select></div><div class="col-sm-1 centradoVertical"><button type="button" class="borderNone backgroudNone colorRed outlineNone btnEliminarRowCondicionEditar" data-id="' + value.id + '"><i class="far fa-2x fa-minus-square"></i></button></div></div>');
+                        AjaxloadOptionsServices({ tipo: "id", id: value.id, accion: "editar" });
+
+                        $("#inpPrecioEditar" + value.id).val(value.precio);
+                        $("#inpTiempoEditar" + value.id).val(value.id_tiempo);
+                        $("#inpRelacionesEditar" + value.id).val(value.id_relaciones);
+                    });
+
+                    numNumerosEditar = [];
+                    $("#divTelefonosEditar").html("");
+                    $.each(data.celulares, function (index, value) {
+                        numNumerosEditar.push(value.id);
+
+                        renderCelularesEditar(value.id, value.celular);
+
+                        if (value.opcion_1_wp == "1") {
+                            $("#inpWhat" + value.id).prop('checked', true);
+                        }
+                        if (value.opcion_2_call == "1") {
+                            $("#inpTel" + value.id).prop('checked', true);
+                        }
+
+                    });
+
+                    $(".preview-images-zone-editar").html("");
+                    $.each(data.imagenes, function (index, value) {
+                        var output = $(".preview-images-zone-editar");
+                        var html = '<div class="preview-image-editar preview-img-actual preview-show-' + value.id + '" data-id="' + value.id + '">' +
+                            '<div class="image-eliminar" data-num="' + value.id + '">x</div>' +
+                            '<div class="image-zone displayNoneToI"><img src="../../uploads/anuncios/' + value.url + '"><i class="fas fa-times iconDeleteMisFotos"></i></div>' +
+                            '</div>';
+                        output.append(html);
+                    });
+
+                }
+            }
+        });
+    }
+
     function AjaxSetUltimaVistaMensajes() {
         $.ajax({
             url: '../c_general/setUltimaVistaMensajes',
@@ -192,6 +291,34 @@ $(function () {
                 } else {
                     toastr.error(data.message);
                 }
+            }
+        });
+    }
+
+    function AjaxLoadMisAnuncios() {
+        $("#divMisAnuncios").html("");
+        $.ajax({
+            url: '../c_general/getAnunciosByUser',
+            type: 'POST',
+            dataType: "json",
+            success: function (data) {
+                if (data.resultado == true) {
+                    $.each(data.data, function (index, value) {
+                        var stringTop = '';
+                        if (value.id_tipo != 1) {
+                            var stringTop = '<button class="btn btn-success btnMarkItemAnuncio">TOP</button>';
+                        }
+
+                        var stringCategoria = '<div class="btnCategoriaItemAnuncio">' + value.categoria + '</div>';
+
+                        var stringCityAnuncio = '<div class="btnCityAnuncioListR">' + value.ciudad + '</div>';
+
+                        var stringUltEdicion = '<div class="btnUltEdicionMiAnuncio">' + value.fechaUltEdicionFormat + '</div>';
+
+                        $("#divMisAnuncios").append('<div class="col-sm-12 col-md-6"><div class="container backgroundGray sombra margin_top_medium"><div class="row"><div class="col-4 col-sm-3 padding0"><div class="backgroundGrayDos"><img src="../../uploads/anuncios/' + value.url + '" class="imgItemCarousel" style="height: 143px"></div>' + stringTop + stringCategoria + stringCityAnuncio + '</div><div class="col-8 col-sm-6 paddingSuperior15px"><h5 class="colorGrisOscuro">' + ((value.titulo.length > 50) ? value.titulo.substring(0, 50) + "..." : value.titulo) + '</h5><p class="fontFamilyRoboto colorGrisMenosOscuro">' + ((value.descripcion.length > 50) ? value.descripcion.substring(0, 50) + "..." : value.descripcion) + '</p>' + stringUltEdicion + '</div><div class="col-12 col-sm-3" style="padding: 0px 5px"><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEditarAnuncio" data-id="' + value.id + '" title="Editar Anuncio"><i class="far fa-edit"></i></button><button class="btn backgroundGrayDosbtn" data-id="' + value.id + '" title="Eliminar Anuncio"><i class="far fa-trash-alt"></i></button></div><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEstadisticas" data-id="' + value.id + '" title="Estadísticas" data-toggle="modal" data-target="#modalEstadisticas"><i class="far fa-chart-bar"></i></button><button class="btn backgroundGrayDosbtn" data-id="' + value.id + '" title="Programar Subidas"><i class="far fa-clock"></i></button></div><button class="btn backgroundPinkClaro hoverBackgroundPinkOscuro hoverColorWhite width100porciento margin_top_small colorWhite fontSize12px borderRadius0px" data-id="' + value.id + '">Promocionar</button></div></div></div></div>');
+                    });
+                }
+
             }
         });
     }
@@ -247,6 +374,24 @@ $(function () {
         });
     }
 
+    function AjaxGetMisFotosEditar() {
+        $("#divMisFotosEditar").html("");
+        $.ajax({
+            url: '../c_general/getFotosByUser',
+            type: 'POST',
+            dataType: "json",
+            success: function (data) {
+                if (data.resultado == true) {
+                    $.each(data.data, function (key, value) {
+                        $("#divMisFotosEditar").append('<div class="card cursorPointer cardMiFotoEditar displayNoneToI" data-id="' + value.id + '"><img src="../../uploads/anuncios/' + value.url + '" class="card-img-top"><i class="fas fa-check-circle iconSelectMisFotos"></i></div>');
+                    });
+                } else {
+                    toastr.error("Error al cargar mis fotos");
+                }
+            }
+        });
+    }
+
     function limpiar() {
         selectTags = [];
         for (var i = 1; i <= numRowsOptionServicios.length; i++) {
@@ -259,6 +404,14 @@ $(function () {
         }
         loadMiGaleria = false;
         selectMisFotos = [];
+        dataFormFotos = new FormData();
+        numImagenesInput = 0;
+        keyFotosForm = [];
+        loadMiGaleriaEditar = false;
+        selectMisFotosEditar = [];
+        dataFormFotosEditar = new FormData();
+        numImagenesInputEditar = 0;
+        keyFotosFormEditar = [];
         $("#inpCategorias").val("N/A");
         AjaxCreateTags($("#inpCategorias").val());
         $("#inpDepartamentos").val("N/A");
@@ -270,8 +423,12 @@ $(function () {
         $("#inpRelaciones1").val("N/A");
         $("#inpAceptTerms").prop("checked", false);
         $("#pro-image").val("");
+        $("#pro-imageEditar").val("");
         $(".preview-images-zone").html("");
+        $(".preview-images-zone-editar").html("");
         $("#btnMiGaleria").text('Mi Galeria');
+        $("#btnMiGaleriaEditar").text('Mi Galeria');
+        AjaxLoadMisAnuncios();
     }
 
     function AjaxGetUsersMensajes() {
@@ -315,13 +472,12 @@ $(function () {
         });
     }
 
-    function loadImagenes(id) {
-        var data = new FormData();
-        jQuery.each(jQuery('#pro-image')[0].files, function (i, file) {
-            data.append('file-' + i, file);
-        });
+    function loadImagenes(id, tipo) {
 
-        data.append('numFiles', $('#pro-image')[0].files.length);
+        let key = (tipo == "editar") ? keyFotosFormEditar : keyFotosForm;
+        let data = (tipo == "editar") ? dataFormFotosEditar : dataFormFotos;
+
+        data.append('numFiles', JSON.stringify(key));
         data.append('idAnuncio', id);
 
         jQuery.ajax({
@@ -344,9 +500,12 @@ $(function () {
         });
     }
 
-    function loadImagenesGaleria(id) {
+    function loadImagenesGaleria(id, tipo) {
+
+        let data = (tipo == "editar") ? selectMisFotosEditar : selectMisFotos;
+
         var stringData = JSON.stringify({
-            imagenes: selectMisFotos
+            imagenes: data
         });
 
         $.ajax({
@@ -368,8 +527,16 @@ $(function () {
         $("#divTelefonos").append('<div class="col-sm-3"><div class="card backgroundGrayDos colorWhite cursorPointer" style="height: 169px"><div class="card-body textCenter"><h6 class="card-subtitle mb-2 text-muted textCenter"></h6><p class="card-text"><div class="form-group"><img class="height80px" src="../../images/phone_plus.svg"></div></p><a href="#" class="card-link hoverGrisClaro fontFamilyRoboto" data-toggle="modal" data-target="#modalNumber">Agregar número</a></div></div></div>');
     }
 
+    function renderCelularesEditar(id, number) {
+        $("#divTelefonosEditar").append('<div class="col-sm-3"><div class="card"><div class="card-body textCenter"><h6 id="lblNumero' + id + '" class="card-subtitle mb-2 text-muted textCenter fontWeight600 colorGrisOscuroTels">' + number + '</h6><p class="card-text"><div class="form-group pull-left centradoVertical"><input id="inpWhatEditar' + id + '" type="checkbox" name="inpWhat' + id + '" class="checkStyle margin_left_small" data-id="' + id + '"><label for="inpWhatEditar' + id + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">WhatsApp</label></div><br><div class="form-group pull-left centradoVertical margin_top_small"><input id="inpTelEditar' + id + '" type="checkbox" name="inpTel' + id + '" class="checkStyle margin_left_small"  data-id="' + id + '"><label for="inpTelEditar' + id + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">Llamadas</label></div></p></div></div></div>');
+    }
+
     function addRowOptionsServicios(num) {
         $("#divRowsOptionsServicios").append('<div id="rowOptionService' + num + '" class="row margin_top_small rowOptionService"><div class="col-sm-3"><input type="text" class="form-control inputStyle" id="inpPrecio' + num + '" name="inpPrecio' + num + '" placeholder="Valor" data-type="currency" pattern="^\\$\\d{1,3}(,\\d{3})"></div><div class="col-sm-4"><select id="inpTiempo' + num + '" class="form-control inputStyle"><option value="N/A">Tiempo</option></select></div><div class="col-sm-4"><select id="inpRelaciones' + num + '" class="form-control inputStyle"><option value="N/A">Relaciones</option></select></div><div class="col-sm-1 centradoVertical"><button type="button" class="borderNone backgroudNone colorRed btnDeleteRowOptionService hoverGrisClaro outlineNone" data-id="' + num + '"><i class="far fa-2x fa-minus-square"></i></button></div></div>');
+    }
+
+    function addRowOptionsServiciosEditar(num) {
+        $("#divCondicionesEditar").append('<div id="rowOptionServiceEditar' + num + '" class="row margin_top_medium"><div class="col-sm-3"><input type="text" id="inpPrecioEditar' + num + '" class="form-control inputStyle inpPrecioEditar" placeholder="Valor" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"></div><div class="col-sm-4"><select id="inpTiempoEditar' + num + '" class="form-control inputStyle inpTiempoEditar"><option value="N/A">Tiempo</option></select></div><div class="col-sm-4"><select id="inpRelacionesEditar' + num + '" class="form-control inputStyle inpRelacionesEditar"><option value="N/A">Relaciones</option></select></div><div class="col-sm-1 centradoVertical"><button type="button" class="borderNone backgroudNone colorRed outlineNone btnEliminarRowCondicionEditar" data-id="' + num + '"><i class="far fa-2x fa-minus-square"></i></button></div></div>');
     }
 
     $("#inpCategorias").change(function () {
@@ -400,6 +567,25 @@ $(function () {
         }
     });
 
+    $('body').on('click', '.itemTagEditar', function () {
+        if ($(this).data('select') == 1) {
+            $(this).css('background-color', "#999");
+            $(this).data('select', 0);
+            var index = selectTagsEditar.indexOf($(this).data('id'));
+            if (index > -1) {
+                selectTagsEditar.splice(index, 1);
+            }
+        } else {
+            if (selectTagsEditar.length >= 6) {
+                toastr.info("Solo puede seleccionar 6 etiquetas");
+                return false;
+            }
+            $(this).css('background-color', "#C501FE");
+            $(this).data('select', 1);
+            selectTagsEditar.push($(this).data('id'));
+        }
+    });
+
     $("#btnGuardarNumero").click(function () {
         AjaxAddNumber($("#inpNumber").val());
     });
@@ -416,6 +602,14 @@ $(function () {
         }
     });
 
+    $('body').on('click', '.btnEliminarRowCondicionEditar', function () {
+        $("#rowOptionServiceEditar" + $(this).data("id")).remove();
+        var index = numRowsOptionServiciosEditar.indexOf($(this).data("id"));
+        if (index > -1) {
+            numRowsOptionServiciosEditar.splice(index, 1);
+        }
+    });
+
     $('body').on('keyup', 'input[data-type="currency"]', function () {
         formatCurrency($(this));
     });
@@ -427,29 +621,35 @@ $(function () {
     $("#btnAddRowOptionService").click(function () {
         numRowsOptionServicios.push(numRowsOptionServicios.length + 1);
         addRowOptionsServicios(numRowsOptionServicios.length);
-        AjaxloadOptionsServices({ tipo: "id", id: numRowsOptionServicios.length });
+        AjaxloadOptionsServices({ tipo: "id", id: numRowsOptionServicios.length, accion: "crear" });
+    });
+
+    $("#btnAddRowOptionServiceEditar").click(function () {
+        numRowsOptionServiciosEditar.push(numRowsOptionServiciosEditar.length + 1);
+        addRowOptionsServiciosEditar(numRowsOptionServiciosEditar.length);
+        AjaxloadOptionsServices({ tipo: "id", id: numRowsOptionServiciosEditar.length, accion: "editar" });
     });
 
 
     $("#btnGuardar").click(function () {
 
         if ($("#inpCategorias").val() == "N/A") {
-            toastr.warning("Debe escojer una categoria");
+            toastr.warning("Debe escoger una categoría");
             return false;
         }
 
         if ($("#inpDepartamentos").val() == "N/A") {
-            toastr.warning("Debe escojer un departamento");
+            toastr.warning("Debe escoger un departamento");
             return false;
         }
 
         if ($("#inpCiudades").val() == "N/A") {
-            toastr.warning("Debe escojer una ciudad");
+            toastr.warning("Debe escoger una ciudad");
             return false;
         }
 
-        if ($("#inpTitulo").val().length < 50) {
-            toastr.warning("Ingrese un titulo entre 50 y 200 caracteres");
+        if ($("#inpTitulo").val().length < 40) {
+            toastr.warning("Ingrese un titulo entre 40 y 200 caracteres");
             return false;
         }
 
@@ -458,13 +658,13 @@ $(function () {
             return false;
         }
 
-        if ($("#inpDescripcion").val().length < 400) {
-            toastr.warning("Ingrese una descripcion con minimo 400 caracteres");
+        if ($("#inpDescripcion").val().length < 200) {
+            toastr.warning("Ingrese una descripcion con mínimo 200 caracteres");
             return false;
         }
 
         if (!$("#inpAceptTerms").is(':checked')) {
-            toastr.info("Debe aceptar los terminos y condiciones");
+            toastr.info("Debe aceptar los términos y condiciones");
             return false;
         }
 
@@ -544,6 +744,100 @@ $(function () {
 
     });
 
+    $("#btnAceptarEdicion").click(function () {
+
+        if ($("#inpTituloEditar").val().length < 40) {
+            toastr.warning("Ingrese un titulo entre 40 y 200 caracteres");
+            return false;
+        }
+
+        if ($("#inpTituloEditar").val().length > 200) {
+            toastr.warning("el titulo no puede superar los 200 caracteres");
+            return false;
+        }
+
+        if ($("#inpDescripcionEditar").val().length < 200) {
+            toastr.warning("Ingrese una descripcion con mínimo 200 caracteres");
+            return false;
+        }
+
+        let okOptionsServicios = true;
+        let selectRowsOptions = [];
+        $.each(numRowsOptionServiciosEditar, function (index, i) {
+            if ($("#inpPrecioEditar" + i).val() == "" || $("#inpTiempoEditar" + i).val() == "N/A" ||
+                $("#inpRelacionesEditar" + i).val() == "N/A") {
+                toastr.warning("Debe digitar todos los datos en las condiciones");
+                okOptionsServicios = false;
+                return false;
+            }
+            selectRowsOptions.push({
+                "precio": $("#inpPrecioEditar" + i).val(),
+                "tiempo": $("#inpTiempoEditar" + i).val(),
+                "relaciones": $("#inpRelacionesEditar" + i).val()
+            });
+        });
+
+        if (!okOptionsServicios) { return false; }
+
+        let selectNumber = [];
+        $.each(numNumerosEditar, function (index, i) {
+            var OptionW = 0;
+            var OptionC = 0;
+            var idNum;
+            if ($('#inpWhatEditar' + i).prop('checked')) {
+                OptionW = 1;
+            }
+            if ($('#inpTelEditar' + i).prop('checked')) {
+                OptionC = 1;
+            }
+
+            if (OptionW == 1 || OptionC == 1) {
+                selectNumber.push({
+                    "idNum": i,
+                    "optionW": OptionW,
+                    "optionC": OptionC
+                });
+            }
+        });
+
+        selectImagenesEliminar = [];
+        var elements = $(".preview-images-zone-editar div.filterBlur1pxToimg2");
+
+        $.each(elements, function (index, value) {
+            selectImagenesEliminar.push($(value).data('id'));
+        });
+
+        var stringData = JSON.stringify({
+            titulo: $("#inpTituloEditar").val(),
+            descripcion: $("#inpDescripcionEditar").val(),
+            etiquetas: selectTagsEditar,
+            condiciones: selectRowsOptions,
+            telefonos: selectNumber,
+            imgEliminar: selectImagenesEliminar,
+            id: $("#inpIdAnuncioEditar").val()
+        });
+
+        $.ajax({
+            url: '../c_general/editAnuncio',
+            type: 'POST',
+            dataType: "json",
+            data: { data: stringData },
+            success: function (data) {
+                if (data.resultado == true) {
+                    if (loadMiGaleriaEditar) {
+                        loadImagenesGaleria($("#inpIdAnuncioEditar").val(), "editar");
+                    }
+                    loadImagenes($("#inpIdAnuncioEditar").val(), "editar");
+                    toastr.success(data.message);
+                    $("#modalEditarAnuncio").modal("hide");
+                } else {
+                    toastr.error(data.message);
+                }
+            }
+        });
+
+    });
+
     $('body').on('click', '.rowRemitentes', function () {
         AjaxGetMensajes($(this).data("correo"));
         $(".rowRemitentes button").remove(":contains('Enviar')");
@@ -557,32 +851,46 @@ $(function () {
         window.open('mailto:' + email + '?subject=' + subject + '&body=', '_blank');
     });
 
-    $('body').on('click', '.ui .item', function () {
-        if ($(this).data("tab") == "tMensajes") {
-            $("#tabMensajes").html('MENSAJES');
-            AjaxSetUltimaVistaMensajes();
-        }
+    $("#tabMensajes").click(function () {
+        $(this).html('MENSAJES');
+        AjaxSetUltimaVistaMensajes();
     });
 
     $('#modalMiGaleria').on('show.bs.modal', function (e) {
         if (!loadMiGaleria) {
             AjaxGetMisFotos();
+        } else {
+            if (selectMisFotos.length > 0) {
+                $(".cardMiFoto").removeClass("filterBlur1pxToimg");
+                $(".cardMiFoto").addClass("displayNoneToI");
+                $.each(selectMisFotos, function (index, value) {
+                    $("#divMisFotos").find(".cardMiFoto[data-id='" + value + "']").addClass("filterBlur1pxToimg");
+                    $("#divMisFotos").find(".cardMiFoto[data-id='" + value + "']").removeClass("displayNoneToI");
+                });
+            }
         }
     });
 
     $('body').on('click', '.cardMiFoto', function () {
         $(this).toggleClass("filterBlur1pxToimg");
         $(this).toggleClass("displayNoneToI");
-        var index = selectMisFotos.indexOf($(this).data('id'));
-        if (index > -1) {
-            selectMisFotos.splice(index, 1);
-        } else {
-            selectMisFotos.push($(this).data('id'));
-        }
+    });
+
+    $('body').on('click', '.btnEditarAnuncio', function () {
+        loadDataAnuncio($(this).data("id"));
+        $("#modalEditarAnuncio").modal("show");
     });
 
     $('#btnSelectMiGaleria').click(function () {
         loadMiGaleria = true;
+
+        selectMisFotos = [];
+        var elements = $("#divMisFotos div.filterBlur1pxToimg");
+
+        $.each(elements, function (index, value) {
+            selectMisFotos.push($(value).data('id'));
+        });
+
         if (selectMisFotos.length == 0) {
             $("#btnMiGaleria").text('Mi Galeria');
         } else {
@@ -590,6 +898,159 @@ $(function () {
         }
 
     });
+
+    /* -------------------------------- */
+
+    $('body').on('click', '.cardMiFotoEditar', function () {
+        $(this).toggleClass("filterBlur1pxToimg");
+        $(this).toggleClass("displayNoneToI");
+    });
+
+    $('#btnSelectMiGaleriaEditar').click(function () {
+        loadMiGaleriaEditar = true;
+
+        selectMisFotosEditar = [];
+        var elements = $("#divMisFotosEditar div.filterBlur1pxToimg");
+
+        $.each(elements, function (index, value) {
+            selectMisFotosEditar.push($(value).data('id'));
+        });
+
+        if (selectMisFotosEditar.length == 0) {
+            $("#btnMiGaleriaEditar").text('Mi Galeria');
+        } else {
+            $("#btnMiGaleriaEditar").html('Mi Galeria <span class="badge badge-pill fontFamilyRoboto backgroudWhite colorBlue">' + selectMisFotosEditar.length + ' Fotos Selecc.</span>');
+        }
+
+        $("#modalMiGaleriaEditar").modal("hide");
+        $("#modalEditarAnuncio").modal("show");
+    });
+
+    $('#btnMiGaleriaEditar').click(function () {
+        if (!loadMiGaleriaEditar) {
+            AjaxGetMisFotosEditar();
+        } else {
+            if (selectMisFotosEditar.length > 0) {
+                $(".cardMiFotoEditar").removeClass("filterBlur1pxToimg");
+                $(".cardMiFotoEditar").addClass("displayNoneToI");
+                $.each(selectMisFotosEditar, function (index, value) {
+                    $("#divMisFotosEditar").find(".cardMiFotoEditar[data-id='" + value + "']").addClass("filterBlur1pxToimg");
+                    $("#divMisFotosEditar").find(".cardMiFotoEditar[data-id='" + value + "']").removeClass("displayNoneToI");
+                });
+            }
+        }
+        $("#modalEditarAnuncio").modal("hide");
+        $("#modalMiGaleriaEditar").modal("show");
+    });
+
+
+
+
+
+
+
+    // PROCESO UPLOADS IMAGENES 
+
+    $('body').on('click', '.image-cancel', function () {
+        let num = $(this).data('num');
+        $(".preview-image.preview-show-" + num).remove();
+        dataFormFotos.delete('file-' + num);
+        let index = keyFotosForm.indexOf(num);
+        if (index > -1) {
+            keyFotosForm.splice(index, 1);
+        }
+    });
+
+    document.getElementById('pro-image').addEventListener('change', readImage, false);
+    $(".preview-images-zone").sortable();
+
+    var numImagenesInput = 0;
+    function readImage() {
+        // $(".preview-images-zone").html("");
+        if (window.File && window.FileList && window.FileReader) {
+            var files = event.target.files;
+            output = $(".preview-images-zone");
+
+            for (let i = 0; i < files.length; i++) {
+                var file = files[i];
+                if (!file.type.match('image')) continue;
+
+                dataFormFotos.append('file-' + numImagenesInput, file);
+                keyFotosForm.push(numImagenesInput);
+
+                var output = $(".preview-images-zone");
+                var html = '<div class="preview-image preview-show-' + numImagenesInput + '">' +
+                    '<div class="image-cancel fontFamilyPoppins" data-num="' + numImagenesInput + '"></div>' +
+                    '<div class="image-zone"><img id="pro-img-' + numImagenesInput + '" src="' + URL.createObjectURL(file) + '"></div>' +
+                    '</div>';
+                output.append(html);
+
+                numImagenesInput++;
+            }
+            //  $("#pro-image").val('');
+        } else {
+            console.log('Browser not support');
+        }
+
+    }
+
+
+
+    // PROCESO UPLOADS IMAGENES EDITAR
+
+    $('body').on('click', '.image-eliminar', function () {
+        let num = $(this).data('num');
+        $(".preview-image-editar.preview-img-actual.preview-show-" + num).toggleClass("filterBlur1pxToimg2");
+        $(".preview-image-editar.preview-img-actual.preview-show-" + num + " .image-zone").toggleClass("displayNoneToI");
+    });
+
+    $('body').on('click', '.image-cancel-editar', function () {
+        let num = $(this).data('num');
+        $(".preview-image-editar.preview-show-" + num).remove();
+        dataFormFotosEditar.delete('file-' + num);
+        let index = keyFotosFormEditar.indexOf(num);
+        if (index > -1) {
+            keyFotosFormEditar.splice(index, 1);
+        }
+    });
+
+    document.getElementById('pro-imageEditar').addEventListener('change', readImageEditar, false);
+    $(".preview-images-zone-editar").sortable();
+
+    var numImagenesInputEditar = 0;
+    function readImageEditar() {
+        // $(".preview-images-zone").html("");
+        if (window.File && window.FileList && window.FileReader) {
+            var files = event.target.files;
+            output = $(".preview-images-zone-editar");
+
+            for (let i = 0; i < files.length; i++) {
+                var file = files[i];
+                if (!file.type.match('image')) continue;
+
+                dataFormFotosEditar.append('file-' + numImagenesInputEditar, file);
+                keyFotosFormEditar.push(numImagenesInputEditar);
+
+                var output = $(".preview-images-zone-editar");
+                var html = '<div class="preview-image-editar preview-show-' + numImagenesInputEditar + '">' +
+                    '<div class="image-cancel-editar" data-num="' + numImagenesInputEditar + '">x</div>' +
+                    '<div class="image-zone"><img id="pro-imgEditar-' + numImagenesInputEditar + '" src="' + URL.createObjectURL(file) + '"></div>' +
+                    '</div>';
+                output.append(html);
+
+                numImagenesInputEditar++;
+            }
+            //  $("#pro-image").val('');
+        } else {
+            console.log('Browser not support');
+        }
+
+    }
+
+
+
+
+
 
     sizePage();
 

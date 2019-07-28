@@ -183,6 +183,40 @@ class general extends CI_Model {
             return array("resultado" => true, "message" => "Anuncio publicado correctamente", "id" => $idAnuncio);
         }
     }
+
+    public function db_edit_anuncio($string, $idUsuario) {
+        $this->db->trans_start(); 
+
+        $data = (array) json_decode($string, true);
+
+        $this->db->query('UPDATE `anuncios` SET titulo=?, `descripcion`=?, `fecha_ultima_edicion`=NOW() WHERE id=?;', array($data["titulo"], $data["descripcion"], $data["id"]));
+
+        $this->db->query('DELETE FROM `etiquetas_anuncios` WHERE id_anuncio=?;', array($data["id"]));
+        foreach ($data["etiquetas"] as $key => $etiqueta) {
+            $this->db->query('INSERT INTO `etiquetas_anuncios`(`id_anuncio`,`id_etiqueta`,`fecha_creacion`) VALUES (?,?,NOW());', array($data["id"], $etiqueta));    
+        }
+
+        $this->db->query('DELETE FROM `condiciones_anuncios` WHERE id_anuncio=?;', array($data["id"]));
+        foreach ($data["condiciones"] as $key => $condicion) {
+            $this->db->query('INSERT INTO `condiciones_anuncios`(`id_anuncio`, `precio`, `id_tiempo`, `id_relaciones`, `fecha_creacion`) VALUES (?,?,?,?,NOW());', array($data["id"], $condicion["precio"], $condicion["tiempo"], $condicion["relaciones"]));    
+        }
+        
+        foreach ($data["telefonos"] as $key => $telefono) {
+            $this->db->query('UPDATE `celulares_anuncios` SET `opcion_1_wp`=?, `opcion_2_call`=? WHERE id=?;', array($telefono["optionW"], $telefono["optionC"], $telefono["idNum"]));    
+        }
+
+        foreach ($data["imgEliminar"] as $key => $imagen) {
+            $this->db->query('DELETE FROM `imagenes_anuncios` WHERE id=?;', array($imagen));    
+        }
+        
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "message" => "Anuncio editado correctamente");
+        }
+    }
     
     public function db_set_imagenes($idAnuncio, $url) {
         $this->db->trans_start(); 
@@ -272,6 +306,9 @@ class general extends CI_Model {
             $resultImagenes = $this->db->query('SELECT url FROM `imagenes_anuncios` WHERE `id_anuncio`=?', array($anuncio["id"]));
             $imagenes = $resultImagenes->result_array();
             $resultImagenes->free_result();
+            if(count($imagenes)==0){
+                $imagenes[0]["url"] = "default_img.svg";
+            }
             $anuncio['imagenes'] = $imagenes;
             // *************************************
             $resultCelulares = $this->db->query('SELECT celu.`celular` FROM `celulares_anuncios` celua
@@ -342,13 +379,13 @@ class general extends CI_Model {
         $resultCondiciones->free_result();
         $anuncio['condiciones'] = $condiciones;
         
-        $resultEtiquetas = $this->db->query('SELECT eti.`nombre` FROM etiquetas_anuncios e
+        $resultEtiquetas = $this->db->query('SELECT eti.id, eti.`nombre` FROM etiquetas_anuncios e
                             JOIN etiquetas eti ON e.`id_etiqueta`=eti.`id` WHERE e.`id_anuncio`=?', array($id));
         $etiquetas = $resultEtiquetas->result_array();
         $resultEtiquetas->free_result();
         $anuncio['etiquetas'] = $etiquetas;
         
-        $resultImagenes = $this->db->query('SELECT url FROM `imagenes_anuncios` WHERE `id_anuncio`=?', array($id));
+        $resultImagenes = $this->db->query('SELECT id, url FROM `imagenes_anuncios` WHERE `id_anuncio`=?', array($id));
         $imagenes = $resultImagenes->result_array();
         $resultImagenes->free_result();
         $anuncio['imagenes'] = $imagenes;
@@ -587,6 +624,29 @@ class general extends CI_Model {
         }
     }
 
+    public function db_get_anunciosByUser($idUsuario) {
+        $this->db->trans_start();
 
+		$resultAnuncios = $this->db->query("SELECT a.id, `titulo`, `descripcion`, `id_tipo`,  ciu.nombre ciudad, a.`fecha_creacion`,
+        cate.nombre categoria, IFNULL(DATE_FORMAT(a.`fecha_ultima_edicion`, '%d/%m/%Y %r'), 'Sin ediciones') fechaUltEdicionFormat, 
+            IFNULL((SELECT url FROM imagenes_anuncios i WHERE i.id_anuncio=a.id LIMIT 1), 'default_img.svg') url
+            FROM anuncios a 
+            JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id`  
+            JOIN categorias cate ON a.`id_categoria`=cate.`id` 
+            WHERE a.`id_usuario`=? ORDER BY `fecha_creacion` DESC", array($idUsuario));
+		$anuncios = $resultAnuncios->result_array();
+        $resultAnuncios->free_result();
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $anuncios);
+        }
+    }
     
+
+
+
+
 }

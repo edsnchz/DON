@@ -259,6 +259,7 @@ $(function () {
         $("#eMapCiudad").text($("#inpCiudades option:selected").text());
         $("#eMapEtiqueta").addClass("displayNone");
 
+        $(".liEnlacesCategorias").removeClass("colorPink");
         $('.liEnlacesCategorias').each(function (i, obj) {
             var text = $(obj).text();
             var inicio = (text.indexOf("en") + 2);
@@ -293,6 +294,8 @@ $(function () {
     });
 
     $('body').on('click', '.liEnlacesCategorias', function () {
+        $(".liEnlacesCategorias").removeClass("colorPink");
+        $(this).addClass("colorPink");
         $("#inpCategorias").val($(this).data("categoria"));
         $("#inpDepartamentos").val($(this).data("state"));
         createAnuncios($(this).data("categoria"), $(this).data("state"), "NaN", "NaN", ($("#inpTextBuscar").val() == "") ? "NaN" : $("#inpTextBuscar").val(), tipoGridView);

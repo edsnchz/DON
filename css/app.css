@@ -22,7 +22,12 @@ h4,
 h5,
 h6 {
   font-family: 'Poppins', sans-serif !important;
-  /* font-weight: 700; */
+  font-size: 14px !important;
+  font-weight: bold;
+}
+
+p {
+  font-size: 13px !important;
 }
 
 header.masthead {
@@ -368,7 +373,7 @@ footer.footer {
 }
 
 .colorPink {
-  color: #C501FE;
+  color: #C501FE !important;
 }
 
 .colorGrisClaro {
@@ -562,6 +567,14 @@ color: #bebebe
 
 .backgroundGrayDos {
   background: #f1f1f1 !important;
+}
+
+.backgroundGrayDosbtn {
+  background: #f1f1f1 !important;
+}
+
+.backgroundGrayDosbtn:hover {
+  background: #e6e6e6 !important;
 }
 
 .backgroundGrayOscuro {
@@ -969,6 +982,38 @@ input[type="checkbox"].checkStyle:checked:after{
   font-weight: 400;
 }
 
+.btnCityAnuncioListR{
+  font-size: 11px;
+  padding: 0px 10px;
+  position: absolute;
+  top: 120px;
+  right: 0;
+  border: none;
+  border-radius: 0;
+  background: #e9e9e9;
+  opacity: 0.8;
+  color: black;
+  font-style: italic;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+.btnUltEdicionMiAnuncio{
+  font-size: 11px;
+  padding: 0px 10px;
+  position: absolute;
+  top: 120px;
+  left: 0;
+  border: none;
+  border-radius: 0;
+  background: #e9e9e9;
+  opacity: 0.8;
+  color: black;
+  font-style: italic;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
 .divCTACarousel{
   width: 250px;
   position: absolute;
@@ -1112,7 +1157,7 @@ hr.styleHR {
 
 .burbujaChat{
   width: 50%;
-  background: hsla(291, 47%, 71%, 0.5);
+  background: #00db6e34;
   border-radius: 15px;
   padding: 10px;
   margin-left: 15px;
@@ -1144,8 +1189,20 @@ hr.styleHR {
   color: white;
 }
 
+.iconDeleteMisFotos{
+  position: absolute;
+  top: 35%;
+  left: 40%;
+  font-size: 30px;
+  color: red;
+}
+
 .filterBlur1pxToimg img{
-  filter: blur(2px);
+  filter: blur(2px) brightness(50%); 
+}
+
+.filterBlur1pxToimg2 img{
+  filter: blur(2px) brightness(150%); 
 }
 
 .displayNoneToI i{

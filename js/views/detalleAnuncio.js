@@ -244,8 +244,8 @@ $(function () {
                     // SET DATOS GENERALES
                     $("#labelTitulo").text(data[0].titulo);
                     $("#labelDescripcion").text(data[0].descripcion);
-                    $("#lblFechaCreacion").text("F. Creacion: " + data[0].fechaCreacionFormat);
-                    $("#lblUltimaEdicion").text("Ult. Edicion: " + data[0].fechaUltEdicionFormat);
+                    $("#lblFechaCreacion").text("Fecha creación: " + data[0].fechaCreacionFormat);
+                    $("#lblUltimaEdicion").text("Última Edición: " + data[0].fechaUltEdicionFormat);
                     $("#inpCategorias").val(data[0].id_categoria);
                     $('#inpDepartamentos').val(data[0].id_departamento);
                     AjaxLoadCiudades($('#inpDepartamentos').val());

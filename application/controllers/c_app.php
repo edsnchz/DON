@@ -24,7 +24,6 @@ class c_app extends CI_Controller {
 		$this->layout->setTitle("Panel de Usuario - doneróticos.com");
 		$this->layout->js(Array(
 			base_url()."js/views/usuario.js",
-			base_url()."js/uploadImages.js",
 			"https://code.jquery.com/ui/1.12.1/jquery-ui.js"
 		));
 		$this->layout->css(Array(
@@ -131,7 +130,9 @@ class c_app extends CI_Controller {
 
 		$this->load->library('image_lib', $configW);
 		
-		for($i = 0; $i < $_POST['numFiles']; $i++){
+		$numFiles = json_decode($_POST['numFiles']);
+
+		foreach ($numFiles as $clave => $i){
 			// GUARDO LA IMAGEN
 			if($this->upload->do_upload('file-'.$i)){
 				

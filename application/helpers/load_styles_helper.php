@@ -9,13 +9,9 @@ if (!function_exists('load_styles'))
             <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css">
             <link href="'.base_url().'assets/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
-            <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet"
-            type="text/css">
             <link href="'.base_url().'assets/toastr/toastr.css" rel="stylesheet" type="text/css">
-            <link href="'.base_url().'assets/semantic/semantic.min.css" rel="stylesheet">
             <link href="'.base_url().'assets/owl/owl.carousel.min.css" rel="stylesheet">
             <link href="'.base_url().'assets/owl/owl.theme.default.min.css" rel="stylesheet">
-            <link href="'.base_url().'assets/animaciones/magic.min.css" rel="stylesheet">
             <link href="'.base_url().'css/app.css" rel="stylesheet">';
     }   
     
