@@ -5,7 +5,8 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Anuncios eróticos profesionales gratis en toda Colombia">
+    <meta name="description" content="Anuncios clasificados eróticos gratis en toda Colombia">
+    <meta name="keywords" content="prepagos,putas,escort,anuncios,clasificados,erótico,masajistas,transexuales,travestis,gay,gigolo">
     <meta name="author" content="DON">
 
     <title><?= $title ?></title>
@@ -80,15 +81,10 @@
                         <li class="list-inline-item">&sdot;</li>
                         <li class="list-inline-item">
                             <a href="#" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600
-                        colorGrisOscuro hoverGrisClaro">Informar errores</a>
-                        </li>
-                        <li class="list-inline-item">&sdot;</li>
-                        <li class="list-inline-item">
-                            <a href="#" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600
                         colorGrisOscuro hoverGrisClaro">Contacto</a>
                         </li>
                     </ul>
-                    <p class="text-muted small mb-2 mb-lg-0">&copy; doneróticos.com es una página de contenido +18. Todos los anunciantes han reconocido ser mayores de 18 años</p>
+                    <p class="text-muted small mb-2 mb-lg-0 fontFamilyRoboto">&copy; "doneróticos.com" es una página de contenido +18. Todos los anunciantes han reconocido ser mayores de 18 años</p>
                 </div>
             </div>
         </div>

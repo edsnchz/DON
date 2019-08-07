@@ -22,14 +22,14 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-4 col-md-offset-4">
                 <div class="panel panel-login">
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
                                 <form id="login-form" action="#" method="post" role="form" style="display: block;">
                                     <!-- <h2>Iniciar Sesión</h2> -->
-                                    <img class="height50px margin_top_small" src="<?= load_img_url('images/logo.svg'); ?>">
+                                    <img class="height50px margin_top_small cursorPointer" src="<?= load_img_url('images/logo.svg'); ?>">
                                     <div class="form-group margin_top_medium">
                                         <input type="email" name="inpCorreo" id="inpCorreo" tabindex="1"
                                             class="form-control height35px" placeholder="Correo">
@@ -38,11 +38,16 @@
                                         <input type="password" name="inpPass" id="inpPass" tabindex="2"
                                             class="form-control height35px" placeholder="Contraseña">
                                     </div>
-                                    <div class="col-xs-6 form-group">
+                                    <div class="form-check padding0">
+				                        <label>
+						                    <input type="checkbox" name="check"> <span class="label-text colorGrisClaro cursorPointer">Recordar</span>
+					                    </label>
+				                    </div>
+                                    <!-- <div class="col-xs-6 form-group">
                                         <input id="inpRemember" type="checkbox" class="" name="inpRemember">
                                         <label for="inpRemember" class="fontSize12px colorGrisClaro fontFamilyRoboto">Recordar Contraseña</label>
-                                    </div>
-                                    <div class="col-xs-6 form-group">
+                                    </div> -->
+                                    <div class="col-sm-6 col-sm-offset-3 margin_top_small">
                                         <input type="button" name="btnLogin" id="btnLogin" tabindex="4"
                                             class="form-control btn btn-login" value="Ingresar">
                                     </div>
@@ -62,19 +67,15 @@
                                         <input type="password" name="inpPassRegistro2" id="inpPassRegistro2"
                                             tabindex="2" class="form-control height35px" placeholder="Confirmar Contraseña">
                                     </div>
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-sm-6 col-sm-offset-3">
-                                                <input type="button" name="btnRegistro" id="btnRegistro" tabindex="4"
-                                                    class="form-control btn btn-register" value="Enviar">
-                                            </div>
-                                        </div>
-                                    </div>
+                                        <div class="col-sm-6 col-sm-offset-3 margin_top_small">
+                                            <input type="button" name="btnRegistro" id="btnRegistro" tabindex="4"
+                                                class="form-control btn btn-register" value="Enviar">
+                                         </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <div class="panel-heading">
+                    <div class="panel-heading margin_top_small">
                         <div class="row">
                             <div class="col-xs-6 tabs">
                                 <a href="#" class="active" id="login-form-link">

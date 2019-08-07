@@ -250,42 +250,42 @@ class general extends CI_Model {
         if($idEtiqueta <> "NaN"){
             if($idDepartamento <> "NaN"){
                 if($idCiudad <> "NaN"){
-                    $query = "WHERE `id_ciudad`=? AND `id_categoria`=? 
+                    $query = "WHERE a.estado=1 AND `id_ciudad`=? AND `id_categoria`=? 
                     AND a.id IN (SELECT e.`id_anuncio` FROM etiquetas_anuncios e WHERE e.`id_etiqueta`=?) ORDER BY a.fecha_creacion DESC";
                     $params = array($idCiudad, $idCategoria, $idEtiqueta);
                 }else{
-                    $query = "WHERE id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) AND `id_categoria`=?  AND id IN (SELECT e.`id_anuncio` FROM etiquetas_anuncios e WHERE e.`id_etiqueta`=?) ORDER BY a.fecha_creacion DESC";
+                    $query = "WHERE a.estado=1 AND id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) AND `id_categoria`=?  AND id IN (SELECT e.`id_anuncio` FROM etiquetas_anuncios e WHERE e.`id_etiqueta`=?) ORDER BY a.fecha_creacion DESC";
                     $params = array($idDepartamento, $idCategoria, $idEtiqueta);
                 }
             }else{
-                $query = "WHERE `id_categoria`=? AND a.id IN (SELECT e.`id_anuncio` FROM etiquetas_anuncios e WHERE e.`id_etiqueta`=?) ORDER BY a.fecha_creacion DESC";
+                $query = "WHERE a.estado=1 AND `id_categoria`=? AND a.id IN (SELECT e.`id_anuncio` FROM etiquetas_anuncios e WHERE e.`id_etiqueta`=?) ORDER BY a.fecha_creacion DESC";
                 $params = array($idCategoria, $idEtiqueta);
             }
         }else{
             if($idCategoria <> "NaN"){
                 if($idDepartamento <> "NaN"){
                     if($idCiudad <> "NaN"){
-                        $query = "WHERE `id_ciudad`=? AND `id_categoria`=? ORDER BY a.fecha_creacion DESC";
+                        $query = "WHERE a.estado=1 AND `id_ciudad`=? AND `id_categoria`=? ORDER BY a.fecha_creacion DESC";
                         $params = array($idCiudad, $idCategoria);
                     }else{
-                        $query = "WHERE id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) AND `id_categoria`=? ORDER BY a.fecha_creacion DESC";
+                        $query = "WHERE a.estado=1 AND id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) AND `id_categoria`=? ORDER BY a.fecha_creacion DESC";
                         $params = array($idDepartamento, $idCategoria);
                     }
                 }else{
-                    $query = "WHERE `id_categoria`=? ORDER BY a.fecha_creacion DESC";
+                    $query = "WHERE a.estado=1 AND `id_categoria`=? ORDER BY a.fecha_creacion DESC";
                     $params = array($idCategoria);
                 }
             }else{
                 if($idDepartamento <> "NaN"){
                     if($idCiudad <> "NaN"){
-                        $query = "WHERE `id_ciudad`=? ORDER BY a.fecha_creacion DESC";
+                        $query = "WHERE a.estado=1 AND `id_ciudad`=? ORDER BY a.fecha_creacion DESC";
                         $params = array($idCiudad);
                     }else{
-                        $query = "WHERE id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) ORDER BY a.fecha_creacion DESC";
+                        $query = "WHERE a.estado=1 AND id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) ORDER BY a.fecha_creacion DESC";
                         $params = array($idDepartamento);
                     }
                 }else{
-                    $query = "ORDER BY a.fecha_creacion DESC";
+                    $query = "WHERE a.estado=1 ORDER BY a.fecha_creacion DESC";
                     $params = array();
                 }
             }
@@ -354,8 +354,8 @@ class general extends CI_Model {
         
 		$resultAnuncio = $this->db->query("SELECT a.*, cate.`nombre` categoria, ciu.`nombre` ciudad, 
                                 dep.id id_departamento, dep.`nombre` departamento, 
-                                DATE(a.fecha_creacion) fecha, date_format(a.`fecha_creacion`, '%d/%m/%Y %r') fechaCreacionFormat,
-                                ifnull(date_format(a.`fecha_ultima_edicion`, '%d/%m/%Y %r'), 'Sin ediciones') fechaUltEdicionFormat
+                                DATE(a.fecha_creacion) fecha, date_format(a.`fecha_creacion`, '%d/%m/%Y - %H:%i') fechaCreacionFormat,
+                                ifnull(date_format(a.`fecha_ultima_edicion`, '%d/%m/%Y - %H:%i'), 'Sin ediciones') fechaUltEdicionFormat
                                     FROM anuncios a 
                                     JOIN categorias cate ON a.`id_categoria`=cate.id
                                     JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id`
@@ -477,6 +477,77 @@ class general extends CI_Model {
         }
     }
 
+    public function db_get_AuditoriaGraficoByAnuncioAndFecha($id, $fecha1, $fecha2) {
+        $this->db->trans_start(); 
+
+        $rtn = [];
+
+        $fechaIni = new DateTime($fecha1);
+        $fechaFin = new DateTime($fecha2);
+        $fechaFin->add(new DateInterval('P1D'));
+
+        $period = new DatePeriod(
+            new DateTime($fechaIni->format('Y-m-d')),
+            new DateInterval('P1D'),
+            new DateTime($fechaFin->format('Y-m-d'))
+        );
+    
+        foreach ($period as $key => $value) {
+            
+            $rtnTemp = array("dia" => $value->format('d'),
+                            "vistas" => "0",
+                            "cwhat" => "0",
+                            "ccall" => "0");
+
+            $result = $this->db->query('SELECT tipo, COUNT(*) valor FROM acciones_anuncios
+                                        WHERE id_anuncio=? AND DATE(`fecha_accion`) = ?
+                                        GROUP BY tipo ORDER BY tipo', array($id, $value->format('Y-m-d')));
+            $datos = $result->result_array();
+            $result->free_result();
+
+            foreach ($datos as $keyD => $dato) {
+                if($dato["tipo"] == "VISTA"){
+                    $rtnTemp["vistas"] = $dato["valor"];
+                }
+                if($dato["tipo"] == "CLICK_WHAT"){
+                    $rtnTemp["cwhat"] = $dato["valor"];
+                }
+                if($dato["tipo"] == "CLICK_CALL"){
+                    $rtnTemp["ccall"] = $dato["valor"];
+                }
+            }  
+
+            $rtn[] = $rtnTemp;
+        }
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $rtn);
+        }
+    }
+
+    public function db_get_AuditoriaGraficoTipoVistaByAnuncioAndFecha($id, $fecha1, $fecha2) {
+        $this->db->trans_start(); 
+
+        $result = $this->db->query('SELECT "VISTA_PC" tipo, COUNT(*) valor FROM acciones_anuncios
+                                WHERE id_anuncio=? AND DATE(`fecha_accion`) BETWEEN ? AND ? AND tipo="VISTA_PC"
+                                UNION
+                                SELECT "VISTA_MOVIL" tipo, COUNT(*) valor FROM acciones_anuncios
+                                WHERE id_anuncio=? AND DATE(`fecha_accion`) BETWEEN ? AND ? AND tipo="VISTA_MOVIL"', 
+                                array($id, $fecha1, $fecha2, $id, $fecha1, $fecha2));
+        $a = $result->result_array();
+        $result->free_result();
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
     public function db_send_menssage($idAnuncio, $correo, $mensaje) {
         $this->db->trans_start(); 
 		$this->db->query('INSERT INTO `mensajes_privados` (correo, idUsuario, mensaje, `fecha_accion`) VALUES(?, (SELECT id_usuario FROM anuncios WHERE id=?), ?, NOW());', array($correo, $idAnuncio, $mensaje));
@@ -568,7 +639,7 @@ class general extends CI_Model {
             return array("resultado" => false, "message" => $this->db->_error_message());
         } else {
             $this->db->trans_complete();
-            return array("resultado" => true, "message" => "Denuncia gestionada satisfactoriamente");
+            return array("resultado" => true, "message" => "Denuncia enviada satisfactoriamente");
         }
     }
 
@@ -628,12 +699,12 @@ class general extends CI_Model {
         $this->db->trans_start();
 
 		$resultAnuncios = $this->db->query("SELECT a.id, `titulo`, `descripcion`, `id_tipo`,  ciu.nombre ciudad, a.`fecha_creacion`,
-        cate.nombre categoria, IFNULL(DATE_FORMAT(a.`fecha_ultima_edicion`, '%d/%m/%Y %r'), 'Sin ediciones') fechaUltEdicionFormat, 
+        cate.nombre categoria, IFNULL(DATE_FORMAT(a.`fecha_ultima_edicion`, '%d/%m/%Y - %H:%i'), 'Sin ediciones') fechaUltEdicionFormat, 
             IFNULL((SELECT url FROM imagenes_anuncios i WHERE i.id_anuncio=a.id LIMIT 1), 'default_img.svg') url
             FROM anuncios a 
             JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id`  
             JOIN categorias cate ON a.`id_categoria`=cate.`id` 
-            WHERE a.`id_usuario`=? ORDER BY `fecha_creacion` DESC", array($idUsuario));
+            WHERE a.`id_usuario`=? AND a.estado=1 ORDER BY `fecha_creacion` DESC", array($idUsuario));
 		$anuncios = $resultAnuncios->result_array();
         $resultAnuncios->free_result();
 
@@ -645,8 +716,32 @@ class general extends CI_Model {
         }
     }
     
+    public function db_delete_anuncio($idAnuncio) {
+        $this->db->trans_start(); 
+		$this->db->query('UPDATE anuncios SET estado=0 WHERE id=?', array($idAnuncio));
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "message" => "Anuncio eliminado satisfactoriamente");
+        }
+    }
 
+    public function db_get_FechasAnuncioById($id) {
+        $this->db->trans_start();
 
+        $result = $this->db->query("SELECT DATE_FORMAT(`fecha_creacion`, '%d/%m/%Y - %H:%i') fechaCreacionFormat,
+                IFNULL(DATE_FORMAT(`fecha_ultima_edicion`, '%d/%m/%Y - %H:%i'), 'Sin ediciones') fechaUltEdicionFormat
+                FROM anuncios WHERE id=?", array($id));
+		$a = $result->result_array();
+        $result->free_result();
 
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
 
 }

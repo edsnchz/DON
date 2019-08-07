@@ -1,20 +1,20 @@
 
 <div class="container-fluid margin_top_small">
-    <ul class="nav nav-tabs fontSize12px fontFamilyPoppins colorGrisOscuro letterSpacingMinimo" role="tablist">
+    <ul class="nav nav-tabs fontSize12px fontFamilyPoppins letterSpacingMinimo" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#tMisAnuncios" role="tab" aria-controls="tMisAnuncios" aria-selected="true">MIS ANUNCIOS</a>
+            <a class="nav-link colorGrisClaro fontWeight600 active" id="tabMisAnuncios" data-toggle="tab" href="#tMisAnuncios" role="tab" aria-controls="tMisAnuncios" aria-selected="true">MIS ANUNCIOS</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#tCrearAnuncio" role="tab" aria-controls="tCrearAnuncio" aria-selected="false">CREAR ANUNCIO</a>
+            <a class="nav-link colorGrisClaro fontWeight600" data-toggle="tab" href="#tCrearAnuncio" role="tab" aria-controls="tCrearAnuncio" aria-selected="false">CREAR ANUNCIO</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#tPremium" role="tab" aria-controls="tPremium" aria-selected="false">CRÉDITOS</a>
+            <a class="nav-link colorGrisClaro fontWeight600" data-toggle="tab" href="#tPremium" role="tab" aria-controls="tPremium" aria-selected="false">CRÉDITOS</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="tabMensajes" data-toggle="tab" href="#tMensajes" role="tab" aria-controls="tMensajes" aria-selected="false">MENSAJES</a>
+            <a class="nav-link colorGrisClaro fontWeight600" id="tabMensajes" data-toggle="tab" href="#tMensajes" role="tab" aria-controls="tMensajes" aria-selected="false">MENSAJES</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#tOpciones" role="tab" aria-controls="tOpciones" aria-selected="false">OPCIONES</a>
+            <a class="nav-link colorGrisClaro fontWeight600" data-toggle="tab" href="#tOpciones" role="tab" aria-controls="tOpciones" aria-selected="false">OPCIONES</a>
         </li>
     </ul>
     <div class="tab-content">
@@ -27,10 +27,10 @@
         <div class="tab-pane fade" id="tCrearAnuncio" role="tabpanel">
 
             <div class="centerMargin backgroundGray sombra margin_top_medium" style="width: 800px; padding: 20px">
-                <div class="fontSize14px fontFamilyRoboto">
+                <div class="fontFamilyRoboto">
                     <p class="letterSpacingMinimo  
-                        colorGrisOscuro">1. Rellena los datos de tu anuncio</p>
-                        <p class="colorGrisClaro">Según la categoría tendrás la opción de elegir hasta 6 etiquetas</p>
+                        colorGrisOscuro fontSize14px margin_bottom_5px">1. Rellena los datos de tu anuncio</p>
+                        <p class="colorGrisClaro fontSize14px">Según la categoría tendrás la opción de elegir hasta 6 etiquetas</p>
                         
                 </div>
                 <div class="row margin_top_medium">
@@ -69,15 +69,16 @@
                 <div id="divRowsOptionsServicios">
                     <div class="row margin_top_small">
                         <div class="col-sm-11">
-                            <div class="fontSize14px fontFamilyRoboto">
+                            <div class="fontFamilyRoboto">
                             <br>
-                                <p class="letterSpacingMinimo colorGrisOscuro">2. Define las tarifas y condiciones del servicio</p>
-                                <p class="colorGrisClaro">Puedes agregar las combinaciones que creas necesarias</p>
+                                <p class="letterSpacingMinimo colorGrisOscuro fontSize14px margin_bottom_5px">
+                                    2. Define las tarifas y condiciones del servicio</p>
+                                <p class="colorGrisClaro margin_bottom_0px fontSize14px">Puedes agregar las combinaciones que creas necesarias</p>
                                 
                             </div>
                         </div>
                         <div class="col-sm-1 centradoVertical">
-                            <button type="button" id="btnAddRowOptionService" class="borderNone backgroudNone colorBlue hoverGrisClaro outlineNone"><i class="far fa-2x fa-plus-square"></i></button>
+                            <button type="button" id="btnAddRowOptionService" class="borderNone backgroudNone colorBlue hoverGrisClaro outlineNone"><i class="far fa-plus-square fontSize25px"></i></button>
                         </div>
                     </div>
                     <!-- ***** -->
@@ -96,25 +97,24 @@
                             </select>
                         </div>
                         <div class="col-sm-1 centradoVertical">
-                            <button type="button" class="borderNone backgroudNone colorGrisMasClaro btnDeleteRowOptionService outlineNone" disabled><i class="far fa-2x fa-minus-square"></i></button>
+                            <button type="button" class="borderNone backgroudNone colorGrisMasClaro btnDeleteRowOptionService outlineNone" disabled><i class="far fa-minus-square fontSize25px"></i></button>
                         </div>
                     </div>
                 </div>
                 <!-- **** -->
-                <div class="fontSize14px fontFamilyRoboto">
-                <br><br>
+                <div class="fontFamilyRoboto margin_top_30px">
                 <p class="letterSpacingMinimo
-                        colorGrisOscuro">3. Escoge número y forma de contacto para este anuncio</p>
-                        <p class="colorGrisClaro">También recibirás mensajes privados en tu bandeja de entrada</p>
+                        colorGrisOscuro fontSize14px margin_bottom_5px">3. Escoge número y forma de contacto para este anuncio</p>
+                        <p class="colorGrisClaro fontSize14px">También recibirás mensajes privados en tu bandeja de entrada</p>
                 </div>
                 <div id="divTelefonos" class="row margin_top_medium">
                     <!-- CARDS -->
                 </div>
                 <br><br>
-                <div class="fontSize14px fontFamilyRoboto">
+                <div class="fontFamilyRoboto">
                     <p class="letterSpacingMinimo  
-                        colorGrisOscuro">4. Sube tus fotos</p>
-                        <p class="colorGrisClaro">No utilices fotos de otras personas, o tu anuncio será borrado.</p>
+                        colorGrisOscuro fontSize14px margin_bottom_5px">4. Agrega tus fotos</p>
+                        <p class="colorGrisClaro fontSize14px">En "Mi Galería" encontrarás todas las fotos que hayas subido antes.</p>
                         
                 </div>
                 <div class="row margin_top_medium">
@@ -122,9 +122,9 @@
 
                         <div class="containerUpload">
                             <fieldset class="form-group">
-                                <a href="javascript:void(0)" onclick="$('#pro-image').click()" class="hoverGrisClaro textDecorationNone fontFamilyRoboto">Subir imágenes</a>
+                                <a href="javascript:void(0)" onclick="$('#pro-image').click()" class="hoverGrisClaro textDecorationNone fontFamilyRoboto fontSize14px">Subir imágenes</a>
                                 <input type="file" id="pro-image" name="pro-image[]" style="display: none;" class="form-control" multiple>
-                                <button class="btn btn-primary floatRight" id="btnMiGaleria" data-toggle="modal" data-target="#modalMiGaleria">Mi Galeria</button>
+                                <button class="btn btn-primary floatRight fontFamilyRoboto fontSize14px" id="btnMiGaleria" data-toggle="modal" data-target="#modalMiGaleria">Mi Galeria</button>
                             </fieldset>
                             <div class="preview-images-zone">
                             </div>
@@ -133,16 +133,22 @@
                     </div>
                 </div>
 
-                <div class="form-group centradoVertical margin_top_small">
+                <div class="centradoVertical margin_top_small ">
+				    <label class="text-justify">
+					    <input id="inpAceptTerms" type="checkbox" name="inpAceptTerms" class="checkboxSimple"> <span class="label-text fontFamilyRoboto fontSize13px colorGrisClaro">
+                            Soy mayor de edad. Acepto la política de privacidad y condiciones de uso de &copy; "doneróticos.com".
+                    Declaro que soy completamente independiente, pongo este anuncio por cuenta propia,
+                    ofrezco mis servicios de acompañamiento libremente y por mi propia elección.</span>
+					</label>
+				 </div>
+                <!-- <div class="form-group centradoVertical margin_top_small">
                     <input id="inpAceptTerms" type="checkbox" name="inpAceptTerms" class=" margin_left_small">
                     <label for="inpAceptTerms" class="fontFamilyRoboto fontSize12px colorGrisClaro margin_left_10px text-justify">
-                    Soy mayor de edad. Acepto la política de privacidad y condiciones de uso de doneróticos.com.
-                    Declaro que soy completamente independiente, pongo este anuncio por cuenta propia,
-                    ofrezco mis servicios de acompañamiento libremente y por mi propia elección.
+                   
                     </label>
-                </div>
+                </div> -->
 
-                <button id="btnGuardar" type="button" class="btn btn-primary borderNone borderRadius0px outlineNone margin_top_small backgroundPink hoverBackgroundPinkOscuro">Publicar anuncio</button>
+                <button id="btnGuardar" type="button" class="btn btn-primary borderNone borderRadius0px outlineNone margin_top_small backgroundPink hoverBackgroundPinkOscuro textUppercase fontSize12px fontWeight600 padding10px">Publicar anuncio</button>
             </div>
 
             <br><br>
@@ -150,15 +156,14 @@
         </div>
         <div class="tab-pane fade" id="tPremium" role="tabpanel">
 
-            <span id="spCreditos2" class="badge badge-pill borderRadius5pt badge-warning fontSize16px fontWeight400 padding7px fontFamilyRoboto" title="Tus créditos actuales" style="position: absolute; right: 10px"></span>
-            <h4 class="textCenter fontSize20px margin_top_small colorGrisOscuro">Comprar créditos</h4>
+            <span id="spCreditos2" class="badge badge-pill borderRadius5pt badge-warning fontSize14px fontWeight500 padding7px fontFamilyRoboto" title="Tus créditos actuales" style="position: absolute; right: 50px"></span>
+            <h4 class="textCenter textUppercase margin_top_medium colorGrisOscuro">Comprar créditos</h4>
             <p class="textCenter fontFamilyRoboto colorGrisClaro fontSize14px colorGrisOscuro">
                 Valores netos a pagar. Ningún método de pago genera comisiones adicionales.
                 <br>
                 Tus créditos estarán disponibles inmediatamente una vez aprobada y verificada la transacción por el sistema.
             </p>
             <div class="row margin_top_medium" id="divPrecios">
-        
             </div>
             <div class="col-xl-12 mx-auto padding0 textCenter margin_top_30px">
                 <img class="img-responsive" src="<?= load_img_url('images/payu.jpg'); ?>" style="width: 30%; height: auto">
@@ -196,12 +201,19 @@
       </div>
       <div class="modal-body">
             <input type="number" class="form-control inputStyle textCenter letterSpacingMinimo" id="inpNumber" name="inpNumber" placeholder="Ingresa aquí tu nuevo número">
-            <div class="form-group pull-left centradoVertical margin_top_small">
+            <div class="centradoVertical margin_top_small ">
+				    <label class="textCenter">
+					    <input id="inpAceptTermsNum" type="checkbox" name="inpAceptTermsNum" class="checkboxSimple"> <span class="label-text fontFamilyRoboto fontSize13px colorGrisClaro">
+                        Acepto recibir mensajes SMS</span>
+					</label>
+				 </div>
+            
+            <!-- <div class="form-group pull-left centradoVertical margin_top_small">
                 <input id="inpAceptTermsNum" type="checkbox" name="inpAceptTermsNum" class="checkStyle margin_left_small">
                 <label for="inpAceptTermsNum" class="fontSize14px colorGrisClaro fontWeight600 margin_left_MasSmall height6px">
-                    Acepto recibir mensajes SMS
+                    
                 </label>
-            </div>
+            </div> -->
       </div>
       <div class="modal-footer">
         <button id="btnGuardarNumero" type="button" class="btn btn-primary borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo" data-dismiss="modal">Validar</button>
@@ -316,7 +328,7 @@
                     </div>
                 </div>
                 <div class="col-sm-1 centradoVertical">
-                    <button type="button" id="btnAddRowOptionServiceEditar" class="borderNone backgroudNone colorBlue hoverGrisClaro outlineNone"><i class="far fa-2x fa-plus-square"></i></button>
+                    <button type="button" id="btnAddRowOptionServiceEditar" class="borderNone backgroudNone colorBlue hoverGrisClaro outlineNone"><i class="far fa-plus-square fontSize25px"></i></button>
                 </div>
             </div>
             <div id="divCondicionesEditar">
@@ -330,9 +342,9 @@
 
                     <div class="containerUpload">
                         <fieldset class="form-group">
-                            <a href="javascript:void(0)" onclick="$('#pro-imageEditar').click()" class="hoverGrisClaro textDecorationNone fontFamilyRoboto">Subir imágenes</a>
+                            <a href="javascript:void(0)" onclick="$('#pro-imageEditar').click()" class="hoverGrisClaro textDecorationNone fontFamilyRoboto fontSize14px">Subir imágenes</a>
                             <input type="file" id="pro-imageEditar" name="pro-imageEditar[]" style="display: none;" class="form-control" multiple>
-                            <button class="btn btn-primary floatRight" id="btnMiGaleriaEditar">Mi Galeria</button>
+                            <button class="btn btn-primary floatRight fontFamilyRoboto fontSize14px" id="btnMiGaleriaEditar">Mi Galería</button>
                         </fieldset>
                         <div class="preview-images-zone-editar">
                         </div>
@@ -346,4 +358,182 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- ********************************* -->
+
+<div class="modal" id="modalEliminarAnuncio" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content borderRadius0px">
+      <div class="modal-header">
+        <h5 class="modal-title textCenter fontSize14px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto">Seguro?</h5>
+        <button type="button" class="close outlineNone" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <input type="hidden" id="inpIdEliminarAnuncio">
+            <h5 class="textCenter fontSize14px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto">Desea eliminar este anuncio?</h5>
+      </div>
+      <div class="modal-footer">
+        <button id="btnAceptarEliminarAnuncio" type="button" class="btn btn-danger borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ********************************* -->
+
+<div class="modal" id="modalEstadisticas" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content borderRadius0px">
+      <div class="modal-header">
+        <h5 id="ldlTitleEstadisticas" class="modal-title textCenter fontSize16px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto width100porciento">Estadisticas del anuncio</h5>
+        <button type="button" class="close outlineNone" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <input type="hidden" id="inpIdAnuncioEstadisticas">
+
+            <div class=row>
+                <div class="col-sm-4">
+                    <h4 class="margin0 colorGrisOscuro fontSize20px textCenter"> Estadísticas Generales </h4>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Fecha Inicial</span>
+                        </div>
+                        <input type="date" class="form-control" id="inpFecha1Estadistica">
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Fecha Final</span>
+                        </div>
+                        <input type="date" class="form-control" id="inpFecha2Estadistica">
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-primary btn-sm width100porciento" id="inpCargarEstadistica">Cargar</button>
+                </div>
+            </div>
+
+            <!-- ********************************** -->
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row margin_laterales_0px">
+                        <div class="container-fluid">
+                            <div class="row margin_top_small">
+                                <div class="col-sm-5 text-center paddingRight0px">
+                                    <h4 class="margin0 colorGrisOscuro"> Detalle </h4>
+                                </div>
+                                <div class="col-sm-3 textRight fontFamilyRoboto colorGrisMenosOscuro">
+                                    <h4 class="margin0"> Hoy </h4>
+                                </div>
+                                <div class="col-sm-4 textLeft fontFamilyRoboto colorGrisMenosOscuro">
+                                    <h4 class="margin0"> Total </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="row margin_top_small">
+                                <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto fontSize14px colorGrisMenosOscuro">
+                                    <label class="margin_bottom_0px centradoVertical">Visitas al anuncio</label>
+                                </div>
+                                <div class="col-sm-3 borderRightSolid3pxPink fontSize14px" title="Visitas de este anuncio el dia de hoy">
+                                <label id="lblVistasHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
+                                </div>
+                                <div class="col-sm-4 textLeft fontSize14px paddingRight0px" title="Visitas totales de este anuncio">
+                                <label id="lblVistasTotal" class="fontBold margin_bottom_0px centradoVertical">-</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="row margin_top_masSmall">
+                                <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto fontSize14px colorGrisMenosOscuro">
+                                    <label class="margin_bottom_0px centradoVertical">Clics WhatsApp</label>
+                                </div>
+                                <div class="col-sm-3 borderRightSolid3pxGreen fontSize14px" title="Clicks en los whatsApp de este anuncio el dia de hoy">
+                                <label id="lblWhatsAppHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
+                                </div>
+                                <div class="col-sm-4 textLeft fontSize14px paddingRight0px" title="Clicks totales en los whatsApp de este anuncio">
+                                    <label id="lblWhatsAppTotal" class="fontBold margin_bottom_0px centradoVertical">-</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="row margin_top_masSmall">
+                                <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto fontSize14px colorGrisMenosOscuro">
+                                    <label class="margin_bottom_0px centradoVertical">Clics en Llamar</label>
+                                </div>
+                                <div class="col-sm-3 borderRightSolid3pxBlue fontSize14px" title="Clicks en los teléfonos de este anuncio el dia de hoy">
+                                <label id="lblCallsHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
+                                </div>
+                                <div class="col-sm-4 textLeft fontSize14px paddingRight0px" title="Clicks totales en los teléfonos de este anuncio">
+                                    <label id="lblCallsTotal" class="fontBold margin_bottom_0px centradoVertical">-</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <canvas id="myChartPieDiv" width="400" height="160"></canvas>
+                </div>
+                <div class="col-sm-4 testCol2">
+                    
+                </div>
+            </div>
+
+            <div class="row margin_top_medium">
+                <div class="col-sm-4">
+                    <canvas id="myChartVistas" width="400" height="200"></canvas>
+                </div>
+                <div class="col-sm-4">
+                    <canvas id="myChartWhat" width="400" height="200"></canvas>
+                </div>
+                <div class="col-sm-4">
+                    <canvas id="myChartCall" width="400" height="200"></canvas>
+                </div>
+            </div>
+
+            <div class="pull-right">
+                <label class="fontSize13px margin0 margin_top_medium" id="lblEstadisticaCreacion">Creacion: - </label>   
+                <br> 
+                <label class="fontSize13px margin0" id="lblEstadisticaUltimaEdicion">Ultima Edicion: - </label>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="formPagos">
+    <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
+        <input name="merchantId"    type="hidden"  value="508029" >
+        <input name="accountId"     type="hidden"  value="512326" >
+        <input name="description"   type="hidden"  value="Test PAYU"  >
+        <input name="referenceCode" type="hidden"  value="TestPayUS" >
+        <input name="amount"        type="hidden"  value="3"   >
+        <input name="tax"           type="hidden"  value="0"  >
+        <input name="taxReturnBase" type="hidden"  value="0" >
+        <input name="currency"      type="hidden"  value="USD" >
+        <input name="signature"     type="hidden"  value="9f0238620255797dabb816b995d8eae7">
+        <input name="test"          type="hidden"  value="1" >
+       <!-- <input name="buyerFullName"    type="hidden"  value="JUAN CORZO" >-->
+        <input name="buyerEmail"    type="hidden"  value="test@test.com" >
+        <!--<input name="telephone"    type="hidden"  value="3212589632" >-->
+        <!--<input name="responseUrl"    type="hidden"  value="#" >
+        <input name="confirmationUrl"    type="hidden"  value="#" >-->
+        <input name="Submit" id="btnAceptarPago" type="submit"  value="Enviar" >
+      </form>
 </div>

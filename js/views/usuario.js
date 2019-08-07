@@ -1,8 +1,5 @@
 $(function () {
 
-    //$('.menu .item').tab();
-
-
     var selectTags = [];
     var selectTagsEditar = [];
     var numRowsOptionServicios = [1];
@@ -17,6 +14,7 @@ $(function () {
     var selectMisFotosEditar = [];
     var dataFormFotosEditar = new FormData();
     var keyFotosFormEditar = [];
+    var myChartV, myChartW, myChartC, myChartPie;
     AjaxLoadNumbers();
     AjaxloadOptionsServices({ tipo: "class" });
     AjaxGetUsersMensajes();
@@ -25,6 +23,8 @@ $(function () {
     AjaxGetMisCreditos();
     AjaxLoadMisAnuncios();
 
+    $("#inpFecha1Estadistica").val(SubDateNow(15));
+    $("#inpFecha2Estadistica").val(dateNow());
 
     $.ajax({
         url: '../c_general/getCategorias',
@@ -213,7 +213,7 @@ $(function () {
                     $("#divCondicionesEditar").html("");
                     $.each(data.condiciones, function (index, value) {
                         numRowsOptionServiciosEditar.push(value.id);
-                        $("#divCondicionesEditar").append('<div id="rowOptionServiceEditar' + value.id + '" class="row margin_top_medium"><div class="col-sm-3"><input type="text" id="inpPrecioEditar' + value.id + '" class="form-control inputStyle inpPrecioEditar" placeholder="Valor" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"></div><div class="col-sm-4"><select id="inpTiempoEditar' + value.id + '" class="form-control inputStyle inpTiempoEditar"><option value="N/A">Tiempo</option></select></div><div class="col-sm-4"><select id="inpRelacionesEditar' + value.id + '" class="form-control inputStyle inpRelacionesEditar"><option value="N/A">Relaciones</option></select></div><div class="col-sm-1 centradoVertical"><button type="button" class="borderNone backgroudNone colorRed outlineNone btnEliminarRowCondicionEditar" data-id="' + value.id + '"><i class="far fa-2x fa-minus-square"></i></button></div></div>');
+                        $("#divCondicionesEditar").append('<div id="rowOptionServiceEditar' + value.id + '" class="row margin_top_medium"><div class="col-sm-3"><input type="text" id="inpPrecioEditar' + value.id + '" class="form-control inputStyle inpPrecioEditar" placeholder="Valor" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"></div><div class="col-sm-4"><select id="inpTiempoEditar' + value.id + '" class="form-control inputStyle inpTiempoEditar"><option value="N/A">Tiempo</option></select></div><div class="col-sm-4"><select id="inpRelacionesEditar' + value.id + '" class="form-control inputStyle inpRelacionesEditar"><option value="N/A">Relaciones</option></select></div><div class="col-sm-1 centradoVertical"><button type="button" class="borderNone backgroudNone colorRed outlineNone btnEliminarRowCondicionEditar" data-id="' + value.id + '"><i class="far fa-minus-square fontSize25px"></i></button></div></div>');
                         AjaxloadOptionsServices({ tipo: "id", id: value.id, accion: "editar" });
 
                         $("#inpPrecioEditar" + value.id).val(value.precio);
@@ -229,10 +229,10 @@ $(function () {
                         renderCelularesEditar(value.id, value.celular);
 
                         if (value.opcion_1_wp == "1") {
-                            $("#inpWhat" + value.id).prop('checked', true);
+                            $("#inpWhatEditar" + value.id).prop('checked', true);
                         }
                         if (value.opcion_2_call == "1") {
-                            $("#inpTel" + value.id).prop('checked', true);
+                            $("#inpTelEditar" + value.id).prop('checked', true);
                         }
 
                     });
@@ -241,8 +241,8 @@ $(function () {
                     $.each(data.imagenes, function (index, value) {
                         var output = $(".preview-images-zone-editar");
                         var html = '<div class="preview-image-editar preview-img-actual preview-show-' + value.id + '" data-id="' + value.id + '">' +
-                            '<div class="image-eliminar" data-num="' + value.id + '">x</div>' +
-                            '<div class="image-zone displayNoneToI"><img src="../../uploads/anuncios/' + value.url + '"><i class="fas fa-times iconDeleteMisFotos"></i></div>' +
+                            '<div class="image-eliminar" data-num="' + value.id + '"><i class="fas fa-times"></i></div>' +
+                            '<div class="image-zone displayNoneToI"><img src="../../uploads/anuncios/' + value.url + '"><i class="fas fa-times-circle iconDeleteMisFotos"></i></div>' +
                             '</div>';
                         output.append(html);
                     });
@@ -309,13 +309,15 @@ $(function () {
                             var stringTop = '<button class="btn btn-success btnMarkItemAnuncio">TOP</button>';
                         }
 
-                        var stringCategoria = '<div class="btnCategoriaItemAnuncio">' + value.categoria + '</div>';
+                        var stringCategoria = '<div class="btnCategoriaItemAnuncioListR">' + value.categoria + '</div>';
 
                         var stringCityAnuncio = '<div class="btnCityAnuncioListR">' + value.ciudad + '</div>';
 
-                        var stringUltEdicion = '<div class="btnUltEdicionMiAnuncio">' + value.fechaUltEdicionFormat + '</div>';
+                        var stringUltEdicion = '<div class="btnUltEdicionMiAnuncio">Actualizado: ' + value.fechaUltEdicionFormat + '</div>';
 
-                        $("#divMisAnuncios").append('<div class="col-sm-12 col-md-6"><div class="container backgroundGray sombra margin_top_medium"><div class="row"><div class="col-4 col-sm-3 padding0"><div class="backgroundGrayDos"><img src="../../uploads/anuncios/' + value.url + '" class="imgItemCarousel" style="height: 143px"></div>' + stringTop + stringCategoria + stringCityAnuncio + '</div><div class="col-8 col-sm-6 paddingSuperior15px"><h5 class="colorGrisOscuro">' + ((value.titulo.length > 50) ? value.titulo.substring(0, 50) + "..." : value.titulo) + '</h5><p class="fontFamilyRoboto colorGrisMenosOscuro">' + ((value.descripcion.length > 50) ? value.descripcion.substring(0, 50) + "..." : value.descripcion) + '</p>' + stringUltEdicion + '</div><div class="col-12 col-sm-3" style="padding: 0px 5px"><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEditarAnuncio" data-id="' + value.id + '" title="Editar Anuncio"><i class="far fa-edit"></i></button><button class="btn backgroundGrayDosbtn" data-id="' + value.id + '" title="Eliminar Anuncio"><i class="far fa-trash-alt"></i></button></div><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEstadisticas" data-id="' + value.id + '" title="Estadísticas" data-toggle="modal" data-target="#modalEstadisticas"><i class="far fa-chart-bar"></i></button><button class="btn backgroundGrayDosbtn" data-id="' + value.id + '" title="Programar Subidas"><i class="far fa-clock"></i></button></div><button class="btn backgroundPinkClaro hoverBackgroundPinkOscuro hoverColorWhite width100porciento margin_top_small colorWhite fontSize12px borderRadius0px" data-id="' + value.id + '">Promocionar</button></div></div></div></div>');
+                        var stringNumero = '<div class="btnNumeroMiAnuncio">ID: ' + value.id + '</div>';
+
+                        $("#divMisAnuncios").append('<div class="col-sm-12 col-md-6"><div class="container backgroundGray sombra margin_top_medium"><div class="row"><div class="col-4 col-sm-3 padding0"><div class="backgroundGrayDos"><img src="../../uploads/anuncios/' + value.url + '" class="imgItemCarousel" style="height: 143px"></div>' + stringTop + stringNumero + '</div><div class="col-8 col-sm-6 paddingSuperior10px"><h5 class="colorGrisOscuro fontFamilyRoboto fontWeight900 margin_bottom_5px">' + ((value.titulo.length > 50) ? value.titulo.substring(0, 50) + "..." : value.titulo) + '</h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 50) ? value.descripcion.substring(0, 50) + "..." : value.descripcion) + '</p>' + stringCategoria + stringCityAnuncio + stringUltEdicion + '</div><div class="col-12 col-sm-3" style="padding: 0px 5px"><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEditarAnuncio" data-id="' + value.id + '" title="Editar Anuncio"><i class="far fa-edit"></i></button><button class="btn backgroundGrayDosbtn btnEliminarAnuncio" data-id="' + value.id + '" title="Eliminar Anuncio"><i class="far fa-trash-alt"></i></button></div><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEstadisticas" data-id="' + value.id + '" title="Estadísticas"><i class="far fa-chart-bar"></i></button><button class="btn backgroundGrayDosbtn" data-id="' + value.id + '" title="Programar Subidas"><i class="far fa-clock"></i></button></div><button class="btn fontFamilyRoboto backgroundPinkClaro hoverBackgroundPinkOscuro hoverColorWhite width100porciento margin_top_7px colorWhite fontSize13px borderRadius0px fontWeight600" data-id="' + value.id + '">Promocionar</button></div></div></div></div>');
                     });
                 }
 
@@ -347,10 +349,29 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
-                        $("#divPrecios").append('<div class="col-12 col-sm-4 col-md-2"><div class="card"><div class="card-body centradoVerticalHorizontal" style="height: 80px"><h5 class="card-title textCenter fontSize22px fontBold">' + value.creditos + '</h5><h6 class="fontFamilyRoboto">&nbsp;Créditos</h6></div><ul class="list-group list-group-flush"><li class="list-group-item textCenter fontSize18px fontFamilyRoboto paddingSuperiorInferior20px">' + formatCurrencyString(value.valor) + '</li></ul><div class="card-body backgroundPinkClaro textCenter cursorPointer hoverBackgroundPinkOscuro"><h4 class="colorWhite fontSize14px textUppercase fontWeight600">Comprar</h4></div></div></div>');
+                        $("#divPrecios").append('<div class="col-12 col-sm-4 col-md-2"><div class="card"><div class="card-body centradoHorizontal" style="height: 80px"><h5 class="textCenter fontSize22px margin_bottom_0px">' + value.creditos + '</h5><h6 class="fontFamilyRoboto margin_bottom_0px colorGrisOscuro margin_top_8px">&nbsp;Créditos</h6><label class="textCenter positionAbsolute Top45px fontFamilyRoboto fontSize13px colorGrisMenosOscuro">' + value.beneficio + '</label></div><ul class="list-group list-group-flush"><li class="list-group-item textCenter fontSize18px fontFamilyRoboto paddingSuperiorInferior20px">' + formatCurrencyString(value.valor) + '</li></ul><div class="card-body backgroundPinkClaro textCenter cursorPointer hoverBackgroundPinkOscuro"><h4 class="colorWhite fontSize14px textUppercase fontWeight600 margin_bottom_0px btnComprarCreditos" data-id="' + value.id + '">Comprar</h4></div></div></div>');
                     });
                 } else {
                     toastr.error("Error al cargar los precios");
+                }
+            }
+        });
+    }
+
+    function AjaxEliminarAnuncio(id) {
+        $.ajax({
+            url: '../c_general/deleteAnuncio',
+            type: 'POST',
+            dataType: "json",
+            data: { idAnuncio: id },
+            success: function (data) {
+                if (data.resultado == true) {
+                    toastr.success(data.message);
+                    $("#inpIdEliminarAnuncio").val("");
+                    $("#modalEliminarAnuncio").modal("hide");
+                    AjaxLoadMisAnuncios();
+                } else {
+                    toastr.error("Error al eliminar el anuncio");
                 }
             }
         });
@@ -463,7 +484,7 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
-                        $("#divMensajes").append('<div class="burbujaChat fontFamilyRoboto colorGrisOscuro"><p>' + value.mensaje + '</p><div class="textRight fontFamilyRoboto fontWeight300 colorGrisMenosOscuro"><small>Recibido: ' + value.fecha + '</small></div></div>');
+                        $("#divMensajes").append('<div class="burbujaChat fontFamilyRoboto colorGrisOscuro"><p>' + value.mensaje + '</p><div class="textRight fontFamilyRoboto fontWeight300 colorGrisClaro"><small>Recibido: ' + value.fecha + '</small></div></div>');
                     });
                 } else {
                     toastr.error("Error al cargar los mensajes");
@@ -520,11 +541,11 @@ $(function () {
     }
 
     function renderCelulares(i, id, number) {
-        $("#divTelefonos").append('<div class="col-sm-3"><div class="card"><div class="card-body textCenter"><h6 id="lblNumero' + id + '" class="card-subtitle mb-2 text-muted textCenter fontWeight600 colorGrisOscuroTels">' + number + '</h6><p class="card-text"><div class="form-group pull-left centradoVertical"><input id="inpWhat' + i + '" type="checkbox" name="inpWhat' + i + '" class="checkStyle margin_left_small" data-id="' + id + '"><label for="inpWhat' + i + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">WhatsApp</label></div><br><div class="form-group pull-left centradoVertical margin_top_small"><input id="inpTel' + i + '" type="checkbox" name="inpTel' + i + '" class="checkStyle margin_left_small"  data-id="' + id + '"><label for="inpTel' + i + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">Llamadas</label></div></p><br><br><br><a id="btnEliminar' + i + '" href="#" class="card-link margin0 colorRed hoverGrisClaro fontFamilyRoboto" data-id="' + id + '" onclick="eliminarNumero(this)" data-toggle="modal" data-target="#modalEliminarNumero">Eliminar</a></div></div></div>');
+        $("#divTelefonos").append('<div class="col-sm-3"><div class="card"><div class="card-body textCenter"><h6 id="lblNumero' + id + '" class="card-subtitle mb-2 text-muted textCenter fontWeight600 colorGrisOscuroTels">' + number + '</h6><p class="card-text"><div class="form-group pull-left centradoVertical"><input id="inpWhat' + i + '" type="checkbox" name="inpWhat' + i + '" class="checkStyle margin_left_small" data-id="' + id + '"><label for="inpWhat' + i + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">WhatsApp</label></div><br><div class="form-group pull-left centradoVertical margin_top_small"><input id="inpTel' + i + '" type="checkbox" name="inpTel' + i + '" class="checkStyle margin_left_small"  data-id="' + id + '"><label for="inpTel' + i + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">Llamadas</label></div></p><br><br><a id="btnEliminar' + i + '" href="#" class="card-link margin0 colorRed hoverGrisClaro fontFamilyRoboto fontSize14px" data-id="' + id + '" onclick="eliminarNumero(this)" data-toggle="modal" data-target="#modalEliminarNumero">Eliminar</a></div></div></div>');
     }
 
     function renderCelularesVacias() {
-        $("#divTelefonos").append('<div class="col-sm-3"><div class="card backgroundGrayDos colorWhite cursorPointer" style="height: 169px"><div class="card-body textCenter"><h6 class="card-subtitle mb-2 text-muted textCenter"></h6><p class="card-text"><div class="form-group"><img class="height80px" src="../../images/phone_plus.svg"></div></p><a href="#" class="card-link hoverGrisClaro fontFamilyRoboto" data-toggle="modal" data-target="#modalNumber">Agregar número</a></div></div></div>');
+        $("#divTelefonos").append('<div class="col-sm-3"><div class="card backgroundGrayDos colorWhite cursorPointer" style="height: 180px"><div class="card-body textCenter"><h6 class="card-subtitle mb-2 text-muted textCenter"></h6><p class="card-text"><div class="form-group"><img class="height80px" src="../../images/phone_plus.svg"></div></p><a href="#" class="card-link hoverGrisClaro fontFamilyRoboto fontSize14px" data-toggle="modal" data-target="#modalNumber">Agregar número</a></div></div></div>');
     }
 
     function renderCelularesEditar(id, number) {
@@ -532,11 +553,11 @@ $(function () {
     }
 
     function addRowOptionsServicios(num) {
-        $("#divRowsOptionsServicios").append('<div id="rowOptionService' + num + '" class="row margin_top_small rowOptionService"><div class="col-sm-3"><input type="text" class="form-control inputStyle" id="inpPrecio' + num + '" name="inpPrecio' + num + '" placeholder="Valor" data-type="currency" pattern="^\\$\\d{1,3}(,\\d{3})"></div><div class="col-sm-4"><select id="inpTiempo' + num + '" class="form-control inputStyle"><option value="N/A">Tiempo</option></select></div><div class="col-sm-4"><select id="inpRelaciones' + num + '" class="form-control inputStyle"><option value="N/A">Relaciones</option></select></div><div class="col-sm-1 centradoVertical"><button type="button" class="borderNone backgroudNone colorRed btnDeleteRowOptionService hoverGrisClaro outlineNone" data-id="' + num + '"><i class="far fa-2x fa-minus-square"></i></button></div></div>');
+        $("#divRowsOptionsServicios").append('<div id="rowOptionService' + num + '" class="row margin_top_small rowOptionService"><div class="col-sm-3"><input type="text" class="form-control inputStyle" id="inpPrecio' + num + '" name="inpPrecio' + num + '" placeholder="Valor" data-type="currency" pattern="^\\$\\d{1,3}(,\\d{3})"></div><div class="col-sm-4"><select id="inpTiempo' + num + '" class="form-control inputStyle"><option value="N/A">Tiempo</option></select></div><div class="col-sm-4"><select id="inpRelaciones' + num + '" class="form-control inputStyle"><option value="N/A">Relaciones</option></select></div><div class="col-sm-1 centradoVertical"><button type="button" class="borderNone backgroudNone colorRed btnDeleteRowOptionService hoverGrisClaro outlineNone" data-id="' + num + '"><i class="far fa-minus-square fontSize25px"></i></button></div></div>');
     }
 
     function addRowOptionsServiciosEditar(num) {
-        $("#divCondicionesEditar").append('<div id="rowOptionServiceEditar' + num + '" class="row margin_top_medium"><div class="col-sm-3"><input type="text" id="inpPrecioEditar' + num + '" class="form-control inputStyle inpPrecioEditar" placeholder="Valor" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"></div><div class="col-sm-4"><select id="inpTiempoEditar' + num + '" class="form-control inputStyle inpTiempoEditar"><option value="N/A">Tiempo</option></select></div><div class="col-sm-4"><select id="inpRelacionesEditar' + num + '" class="form-control inputStyle inpRelacionesEditar"><option value="N/A">Relaciones</option></select></div><div class="col-sm-1 centradoVertical"><button type="button" class="borderNone backgroudNone colorRed outlineNone btnEliminarRowCondicionEditar" data-id="' + num + '"><i class="far fa-2x fa-minus-square"></i></button></div></div>');
+        $("#divCondicionesEditar").append('<div id="rowOptionServiceEditar' + num + '" class="row margin_top_medium"><div class="col-sm-3"><input type="text" id="inpPrecioEditar' + num + '" class="form-control inputStyle inpPrecioEditar" placeholder="Valor" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"></div><div class="col-sm-4"><select id="inpTiempoEditar' + num + '" class="form-control inputStyle inpTiempoEditar"><option value="N/A">Tiempo</option></select></div><div class="col-sm-4"><select id="inpRelacionesEditar' + num + '" class="form-control inputStyle inpRelacionesEditar"><option value="N/A">Relaciones</option></select></div><div class="col-sm-1 centradoVertical"><button type="button" class="borderNone backgroudNone colorRed outlineNone btnEliminarRowCondicionEditar" data-id="' + num + '"><i class="far fa-minus-square fontSize25px"></i></button></div></div>');
     }
 
     $("#inpCategorias").change(function () {
@@ -732,10 +753,16 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     if (loadMiGaleria) {
-                        loadImagenesGaleria(data.id);
+                        loadImagenesGaleria(data.id, "guardar");
+                        console.log("CARGO GALERIA")
                     }
-                    loadImagenes(data.id);
+                    if (keyFotosForm.length > 0) {
+                        loadImagenes(data.id, "guardar");
+                    } else {
+                        limpiar();
+                    }
                     toastr.success(data.message);
+                    $("#tabMisAnuncios").click();
                 } else {
                     toastr.error(data.message);
                 }
@@ -827,7 +854,11 @@ $(function () {
                     if (loadMiGaleriaEditar) {
                         loadImagenesGaleria($("#inpIdAnuncioEditar").val(), "editar");
                     }
-                    loadImagenes($("#inpIdAnuncioEditar").val(), "editar");
+                    if (keyFotosFormEditar.length > 0) {
+                        loadImagenes($("#inpIdAnuncioEditar").val(), "editar");
+                    } else {
+                        limpiar();
+                    }
                     toastr.success(data.message);
                     $("#modalEditarAnuncio").modal("hide");
                 } else {
@@ -944,6 +975,265 @@ $(function () {
     });
 
 
+    $('body').on('click', '.btnEliminarAnuncio', function () {
+        $("#inpIdEliminarAnuncio").val($(this).data("id"));
+        $("#modalEliminarAnuncio").modal("show");
+    });
+
+    $("#btnAceptarEliminarAnuncio").click(function () {
+        AjaxEliminarAnuncio($("#inpIdEliminarAnuncio").val());
+    });
+
+    $('body').on('click', '.btnEstadisticas', function () {
+        $("#inpIdAnuncioEstadisticas").val($(this).data("id"));
+        $("#ldlTitleEstadisticas").text("Estadisticas del anuncio " + $(this).data("id"));
+        AjaxDatosGraficosGenerales($(this).data("id"), $("#inpFecha1Estadistica").val(), $("#inpFecha2Estadistica").val());
+        AjaxDatosGraficosPie($(this).data("id"), $("#inpFecha1Estadistica").val(), $("#inpFecha2Estadistica").val());
+        AjaxDatosGeneralesEstadistica($(this).data("id"));
+        AjaxDatosFechasByAnuncio($(this).data("id"));
+        $("#modalEstadisticas").modal("show");
+    });
+
+    $("#inpCargarEstadistica").click(function () {
+        AjaxDatosGraficosGenerales($("#inpIdAnuncioEstadisticas").val(), $("#inpFecha1Estadistica").val(), $("#inpFecha2Estadistica").val());
+        AjaxDatosGraficosPie($("#inpIdAnuncioEstadisticas").val(), $("#inpFecha1Estadistica").val(), $("#inpFecha2Estadistica").val());
+        AjaxDatosGeneralesEstadistica($("#inpIdAnuncioEstadisticas").val());
+    });
+
+    function createObjChart(title, colors, data) {
+        var obj = {
+            label: title,
+            data: data,
+            backgroundColor: colors.background,
+            borderColor: colors.border,
+            borderWidth: 1
+        };
+        return obj;
+    }
+
+    function AjaxDatosFechasByAnuncio(id) {
+        $("#lblEstadisticaCreacion").text("Creacion: - ");
+        $("#lblEstadisticaUltimaEdicion").text("Ultima edicion: - ");
+        $.ajax({
+            url: '../c_general/getFechasAnuncioById',
+            type: 'POST',
+            dataType: "json",
+            data: { idAnuncio: id },
+            success: function (data) {
+                if (data.resultado == true) {
+                    data = data.data[0];
+                    $("#lblEstadisticaCreacion").html("Creacion: <b>" + data.fechaCreacionFormat + "</b>");
+                    $("#lblEstadisticaUltimaEdicion").html("Ultima edicion: <b>" + data.fechaUltEdicionFormat + "</b>");
+                }
+            }
+        });
+    }
+
+    function AjaxDatosGeneralesEstadistica(id) {
+        $.ajax({
+            url: '../c_general/getAuditoriaByAnuncio',
+            type: 'POST',
+            dataType: "json",
+            data: { id: id },
+            success: function (data) {
+                if (data.resultado == true) {
+                    data = data.data;
+                    $.each(data, function (key, value) {
+                        switch (value.clase) {
+                            case "HOY":
+                                switch (value.tipo) {
+                                    case "VISTA":
+                                        $("#lblVistasHoy").text(value.valor);
+                                        break;
+                                    case "CLICK_WHAT":
+                                        $("#lblWhatsAppHoy").text(value.valor);
+                                        break;
+                                    case "CLICK_CALL":
+                                        $("#lblCallsHoy").text(value.valor);
+                                        break;
+                                }
+                                break;
+                            case "TOTAL":
+                                switch (value.tipo) {
+                                    case "VISTA":
+                                        $("#lblVistasTotal").text(value.valor);
+                                        break;
+                                    case "CLICK_WHAT":
+                                        $("#lblWhatsAppTotal").text(value.valor);
+                                        break;
+                                    case "CLICK_CALL":
+                                        $("#lblCallsTotal").text(value.valor);
+                                        break;
+                                }
+                                break;
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    function AjaxDatosGraficosGenerales(id, fecha1, fecha2) {
+        if (typeof myChartV !== "undefined") {
+            myChartV.destroy();
+            myChartW.destroy();
+            myChartC.destroy();
+        }
+        $.ajax({
+            url: '../c_general/getAuditoriaGraficoByAnuncioAndFecha',
+            type: 'POST',
+            dataType: "json",
+            data: { id: id, fecha1: fecha1, fecha2: fecha2 },
+            success: function (data) {
+                if (data.resultado == true) {
+                    data = data.data;
+                    var dias = [];
+                    var objVistas = [];
+                    var objWhat = [];
+                    var objCall = [];
+                    $.each(data, function (key, value) {
+                        dias.push(value.dia);
+                        objVistas.push(value.vistas);
+                        objWhat.push(value.cwhat);
+                        objCall.push(value.ccall);
+                    });
+
+                    var objsV = [createObjChart("Visitas", { "border": 'rgba(197, 1, 254, 1)', "background": 'rgba(197, 1, 254, 0.2)' }, objVistas)];
+
+                    var objsW = [createObjChart("WhatsApp", { "border": 'rgba(0, 219, 109, 1)', "background": 'rgba(0, 219, 109, 0.4)' }, objWhat)];
+
+                    var objsC = [createObjChart("Llamadas", { "border": 'rgba(3, 169, 244, 1)', "background": 'rgba(3, 169, 244, 0.4)' }, objCall)];
+
+                    createChartV(dias, objsV);
+                    createChartW(dias, objsW);
+                    createChartC(dias, objsC);
+                }
+            }
+        });
+    }
+
+    function AjaxDatosGraficosPie(id, fecha1, fecha2) {
+        if (typeof myChartPie !== "undefined") {
+            myChartPie.destroy();
+        }
+        $.ajax({
+            url: '../c_general/getAuditoriaGraficoTipoVistaByAnuncioAndFecha',
+            type: 'POST',
+            dataType: "json",
+            data: { id: id, fecha1: fecha1, fecha2: fecha2 },
+            success: function (data) {
+                if (data.resultado == true) {
+                    data = data.data;
+                    createChartPie([data[0].valor, data[1].valor]);
+                }
+            }
+        });
+    }
+
+    function createChartPie(data) {
+        var ctx = document.getElementById('myChartPieDiv').getContext('2d');
+        myChartPie = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        'rgb(255, 159, 64)',
+                        'rgb(54, 162, 235)',
+                    ],
+                    label: 'Dataset 1'
+                }],
+                labels: [
+                    'Vistas PC',
+                    'Vistas Movil',
+                ]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    }
+
+    function createChartV(dias, data) {
+        var ctx = document.getElementById("myChartVistas").getContext('2d');
+        myChartV = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dias,
+                datasets: data
+            },
+            options: {
+                legend: {
+                    display: true,
+                    labels: {
+                        fontSize: 15,
+                        boxWidth: 20
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
+    function createChartW(dias, data) {
+        var ctx = document.getElementById("myChartWhat").getContext('2d');
+        myChartW = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dias,
+                datasets: data
+            },
+            options: {
+                legend: {
+                    display: true,
+                    labels: {
+                        fontSize: 15,
+                        boxWidth: 20
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
+    function createChartC(dias, data) {
+        var ctx = document.getElementById("myChartCall").getContext('2d');
+        myChartC = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: dias,
+                datasets: data
+            },
+            options: {
+                legend: {
+                    display: true,
+                    labels: {
+                        fontSize: 15,
+                        boxWidth: 20
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
 
 
 
@@ -980,7 +1270,7 @@ $(function () {
 
                 var output = $(".preview-images-zone");
                 var html = '<div class="preview-image preview-show-' + numImagenesInput + '">' +
-                    '<div class="image-cancel fontFamilyPoppins" data-num="' + numImagenesInput + '"></div>' +
+                    '<div class="image-cancel" data-num="' + numImagenesInput + '"><i class="fas fa-times"></i></div>' +
                     '<div class="image-zone"><img id="pro-img-' + numImagenesInput + '" src="' + URL.createObjectURL(file) + '"></div>' +
                     '</div>';
                 output.append(html);
@@ -1033,7 +1323,7 @@ $(function () {
 
                 var output = $(".preview-images-zone-editar");
                 var html = '<div class="preview-image-editar preview-show-' + numImagenesInputEditar + '">' +
-                    '<div class="image-cancel-editar" data-num="' + numImagenesInputEditar + '">x</div>' +
+                    '<div class="image-cancel-editar" data-num="' + numImagenesInputEditar + '"><i class="fas fa-times"></i></div>' +
                     '<div class="image-zone"><img id="pro-imgEditar-' + numImagenesInputEditar + '" src="' + URL.createObjectURL(file) + '"></div>' +
                     '</div>';
                 output.append(html);
@@ -1048,7 +1338,13 @@ $(function () {
     }
 
 
+    /* *** ************** */
 
+    $('body').on('click', '.btnComprarCreditos', function () {
+        event.preventDefault();
+        //let id = $(this).data("id");
+        $("#btnAceptarPago").click();
+    });
 
 
 

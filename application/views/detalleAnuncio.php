@@ -48,7 +48,7 @@
             <li class="breadcrumb-item"><a href="#" id="eMapInicio">Inicio</a></li>
             <li class="breadcrumb-item colorGrisClaro"><a id="eMapDepartamento">Departamento</a></li>
             <li class="breadcrumb-item colorGrisClaro"><a id="eMapCiudad">Ciudad</a></li>
-            <li class="breadcrumb-item"><a href="#" id="eMapCategoria">Categoria</a></li>
+            <li class="breadcrumb-item"><a href="#" id="eMapCategoria">Categoría</a></li>
         </ol>
     </nav>
 </div>
@@ -58,7 +58,7 @@
 
     <div class="row">
         <div class="col-sm-9">
-            <h3 id="labelTitulo" class="text-center margin_top_medium colorGrisOscuro fontSize16px"></h3>
+            <h3 id="labelTitulo" class="text-center margin_top_medium colorGrisOscuro fontSize16px fontFamilyRoboto"></h3>
 
             <div id="divEtiquetas" class="text-center"></div>
 
@@ -79,35 +79,35 @@
 
             <div id="divCelulares"></div>
             
-            <hr class="styleHR margin_top_30px">
+            <!-- <hr class="styleHR margin_top_30px"> -->
 
-            <h4 class="text-center colorGrisOscuro">Tarifas y Condiciones</h4>
+            <h4 class="text-center colorGrisOscuro margin_top_medium textUppercase fontSize12px">Tarifas y Condiciones</h4>
 
             <div id="divCondiciones"></div>
 
-            <label class="text-center margin_top_small fontFamilyRoboto colorGrisMenosOscuro"><small>"doneróticos.com" no participa en ninguna negociación entre cliente y anunciante.</small></label>
+            <label class="text-center margin_top_small fontFamilyRoboto fontSize12px colorGrisMenosOscuro">&copy; "doneróticos.com" no participa en ninguna negociación entre cliente y anunciante.</label>
 
             <div>
-                <button id="btnMensajePrivado" type="button" class="btn btn-outline-success width75porciento margin_top_small margin_right_small borderRadius0px" data-toggle="modal" data-target="#modalMensaje"><i class="fas fa-paper-plane"></i> Mensaje Privado</button>
+                <button id="btnMensajePrivado" type="button" class="btn btn-outline-success width75porciento margin_top_small margin_right_small borderRadius0px fontSize14px fontFamilyRoboto" data-toggle="modal" data-target="#modalMensaje"><i class="fas fa-paper-plane"></i> Mensaje Privado</button>
 
-                <button id="btnDenunciar" type="button" title="Reportar Anuncio" class="btn btn-danger width20porciento margin_top_small borderRadius0px pull-right" data-toggle="modal" data-target="#modalDenunciar"><i class="fas fa-exclamation-triangle"></i></button>
+                <button id="btnDenunciar" type="button" title="Reportar Anuncio" class="btn btn-danger width20porciento margin_top_small borderRadius0px pull-right fontSize14px" data-toggle="modal" data-target="#modalDenunciar"><i class="fas fa-exclamation-triangle"></i></button>
                 
                 <hr class="styleHR margin_top_30px">
 
                 <div class="row margin_top_30px borderBottomSolid1pxGray margin_laterales_0px">
                 <div class="col-sm-5 text-center paddingRight0px">
-                        <h4 class="margin0 colorGrisOscuro"> Estadísticas </h4>
+                        <h4 class="margin0 colorGrisOscuro textUppercase fontSize12px"> Estadísticas </h4>
                     </div>
-                    <div class="col-sm-3 textRight fontFamilyRoboto colorGrisMenosOscuro">
+                    <div class="col-sm-3 textRight fontFamilyRoboto colorGrisMenosOscuro fontSize14px">
                         <small class="margin0"> Hoy </small>
                     </div>
-                    <div class="col-sm-4 textLeft fontFamilyRoboto colorGrisMenosOscuro">
+                    <div class="col-sm-4 textLeft fontFamilyRoboto colorGrisMenosOscuro fontSize14px">
                         <small class="margin0"> Total </small>
                     </div>
                 </div>
                 <div class="row margin_top_small">
-                    <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto colorGrisMenosOscuro">
-                        <small>Visitas al anuncio</small>
+                    <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto fontSize12px colorGrisMenosOscuro">
+                        <label class="margin_bottom_0px centradoVertical">Visitas al anuncio</label>
                     </div>
                     <div class="col-sm-3 borderRightSolid3pxPink fontSize12px" title="Visitas de este anuncio el dia de hoy">
                     <label id="lblVistasHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
@@ -117,8 +117,8 @@
                     </div>
                 </div>
                 <div class="row margin_top_masSmall">
-                    <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto colorGrisMenosOscuro">
-                        <small>Clics WhatsApp</small>
+                    <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto fontSize12px colorGrisMenosOscuro">
+                        <label class="margin_bottom_0px centradoVertical">Clics WhatsApp</label>
                     </div>
                     <div class="col-sm-3 borderRightSolid3pxGreen fontSize12px" title="Clicks en los whatsApp de este anuncio el dia de hoy">
                     <label id="lblWhatsAppHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
@@ -128,8 +128,8 @@
                     </div>
                 </div>
                 <div class="row margin_top_masSmall">
-                    <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto colorGrisMenosOscuro">
-                        <small>Clics en Llamar</small>
+                    <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto fontSize12px colorGrisMenosOscuro">
+                        <label class="margin_bottom_0px centradoVertical">Clics en Llamar</label>
                     </div>
                     <div class="col-sm-3 borderRightSolid3pxBlue fontSize12px" title="Clicks en los teléfonos de este anuncio el dia de hoy">
                     <label id="lblCallsHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
@@ -147,7 +147,7 @@
             
             <canvas id="myChart" width="400" height="300"></canvas>
 
-            <label class="text-center margin_top_small fontFamilyRoboto colorGrisMenosOscuro"><small>Puedes ver las estadísticas completas de tus anuncios en el panel de usuario.</small></label>
+            <label class="text-center margin_top_small fontFamilyRoboto fontSize12px colorGrisMenosOscuro">Puedes ver las estadísticas completas de tus anuncios en el panel de usuario.</label>
 
         </div>
     </div>
@@ -172,11 +172,11 @@
         </button>
       </div>
       <div class="modal-body">
-            <div class="form-group">
+            <div class="form-group fontFamilyRoboto fontSize14px colorGrisOscuro">
                 <label for="inpCorreoMensajePrivado">Tu correo:</label>
                 <input type="email" class="form-control inputStyle" id="inpCorreoMensajePrivado">
             </div>
-            <div class="form-group">
+            <div class="form-group fontFamilyRoboto fontSize14px colorGrisOscuro">
                 <label for="inpTextMensajePrivado">Mensaje:</label>
                 <textarea class="form-control inputStyle" id="inpTextMensajePrivado" rows="3"></textarea>
             </div>
@@ -200,12 +200,12 @@
         </button>
       </div>
       <div class="modal-body">
-            <div class="form-group">
+            <div class="form-group fontFamilyRoboto fontSize14px colorGrisOscuro">
                 <label>Motivo:</label>
                 <div id="divMotivosDenuncia">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group fontFamilyRoboto fontSize14px colorGrisOscuro">
                 <label for="inpTextDenunciar">Mensaje:</label>
                 <textarea class="form-control inputStyle" id="inpTextDenunciar" rows="3"></textarea>
             </div>

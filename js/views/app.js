@@ -57,7 +57,7 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
-                        $("#inpCiudades").append("<option value=" + value.id + ">" + value.nombre + "</option>");
+                        $("#inpCiudades").append('<option value=' + value.id + '>' + value.nombre + '</option>');
                     });
                 }
             }

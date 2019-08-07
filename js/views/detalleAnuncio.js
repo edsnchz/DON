@@ -2,6 +2,12 @@ $(function () {
 
     AjaxGetConceptosDenuncias();
 
+    if (isMobileAndTablet()) {
+        AjaxInsertAud(idAnuncio, "VISTA_MOVIL");
+    } else {
+        AjaxInsertAud(idAnuncio, "VISTA_PC");
+    }
+
     $('.carousel-tops').owlCarousel({
         items: 15,
         loop: true,
@@ -80,7 +86,7 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
-                        $("#divMotivosDenuncia").append('<div class="input-group paddingSuperiorInferior5px"><div class="input-group-prepend outlineNone"><div class="input-group-text"><input type="radio" name="inpRConceptoDenuncia" data-id="' + value.id + '"></div></div><input type="text" class="form-control outlineNone" readonly value="' + value.nombre + '"></div>');
+                        $("#divMotivosDenuncia").append('<div class="input-group paddingSuperiorInferior5px"><div class="input-group-prepend outlineNone"><div class="input-group-text"><input type="radio" name="inpRConceptoDenuncia" data-id="' + value.id + '"></div></div><input type="text" class="form-control outlineNone fontFamilyRoboto fontSize14px" readonly value="' + value.nombre + '"></div>');
                     });
                 }
             }
@@ -276,11 +282,11 @@ $(function () {
                         } else {
                             spanCall = '<span class="btnCalls input-group-text optionsNumberInactive"><i class="fas fa-phone"></i></span>';
                         }
-                        $("#divCelulares").append('<div class="input-group margin_top_medium"><input type="number" class="btn-link colorGrisOscuro form-control text-center fontSize18px fontBold backgroudWhite inptsCelulares cursorPointer" title="Buscar anuncios con este numero" readonly value="' + value.celular + '"><div class="input-group-append">' + spanWhat + spanCall + '</div></div>');
+                        $("#divCelulares").append('<div class="input-group margin_top_medium"><input type="number" class="btn-link colorGrisOscuro form-control text-center fontSize17px fontBold backgroudWhite inptsCelulares cursorPointer" title="Buscar anuncios con este numero" readonly value="' + value.celular + '"><div class="input-group-append">' + spanWhat + spanCall + '</div></div>');
                     });
                     // SET CONDICIONES
                     $.each(data["condiciones"], function (index, value) {
-                        $("#divCondiciones").append('<div class="row margin_top_small backgroundGrayDos margin_laterales_0px"><div class="col-sm-5 centradoVerticalHorizontal" style="border: 1px solid gray;"><div class="margin0 text-center fontFamilyRoboto colorGrisOscuro">' + value.precio + '</div></div><div class="col-sm-7 text-center"><div class="row"><div class="col-sm-12 text-center fontSize12px fontFamilyRoboto colorGrisOscuro borderBottomSolid1pxGray">' + value.tiempo + '</div><div class="col-sm-12 text-center fontSize12px fontFamilyRoboto colorGrisOscuro">' + value.relaciones + '</div></div></div></div>');
+                        $("#divCondiciones").append('<div class="row margin_top_medium backgroundGrayDos margin_laterales_0px"><div class="col-sm-5 centradoVerticalHorizontal" style="border: 1px solid gray;"><div class="margin0 text-center fontFamilyRoboto fontSize14px colorGrisOscuro">' + value.precio + '</div></div><div class="col-sm-7 text-center"><div class="row"><div class="col-sm-12 text-center fontSize12px fontFamilyRoboto colorGrisOscuro borderBottomSolid1pxGray">' + value.tiempo + '</div><div class="col-sm-12 text-center fontSize12px fontFamilyRoboto colorGrisOscuro">' + value.relaciones + '</div></div></div></div>');
                     });
 
                 }

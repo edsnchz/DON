@@ -91,6 +91,16 @@ class c_general extends CI_Controller {
       echo json_encode($data);	
     }
 
+    public function getAuditoriaGraficoByAnuncioAndFecha(){		
+      $data = $this->general->db_get_AuditoriaGraficoByAnuncioAndFecha($_POST["id"], $_POST["fecha1"], $_POST["fecha2"]);
+      echo json_encode($data);	
+    }
+
+    public function getAuditoriaGraficoTipoVistaByAnuncioAndFecha(){		
+      $data = $this->general->db_get_AuditoriaGraficoTipoVistaByAnuncioAndFecha($_POST["id"], $_POST["fecha1"], $_POST["fecha2"]);
+      echo json_encode($data);	
+    }
+
     public function sendPrivateMessage(){		
       $data = $this->general->db_send_menssage($_POST["idAnuncio"], $_POST["correo"], $_POST["mensaje"]);
       echo json_encode($data);	
@@ -148,6 +158,16 @@ class c_general extends CI_Controller {
 
     public function getAnunciosByUser(){		
       $data = $this->general->db_get_anunciosByUser($this->session->userdata('idusuario'));
+      echo json_encode($data);	
+    }
+
+    public function deleteAnuncio(){		
+      $data = $this->general->db_delete_anuncio($_POST["idAnuncio"]);
+      echo json_encode($data);	
+    }
+
+    public function getFechasAnuncioById(){		
+      $data = $this->general->db_get_FechasAnuncioById($_POST["idAnuncio"]);
       echo json_encode($data);	
     }
 

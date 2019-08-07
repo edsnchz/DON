@@ -24,10 +24,12 @@ class c_app extends CI_Controller {
 		$this->layout->setTitle("Panel de Usuario - doneróticos.com");
 		$this->layout->js(Array(
 			base_url()."js/views/usuario.js",
-			"https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+			"https://code.jquery.com/ui/1.12.1/jquery-ui.js",
+			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
 		));
 		$this->layout->css(Array(
 			base_url()."css/uploadImages.css",
+			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
 		));
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
 		$this->layout->view("usuario", $data);			

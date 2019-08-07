@@ -28,7 +28,7 @@
             </select>
         </div>
         <div class="col-sm-1">
-            <button id="btnBuscar" class="btn btn-outline-secondary borderRadius0px height35px fontSize12px textUppercase fontWeight600" type="button">Navegar</button>
+            <button id="btnBuscar" class="btn btn-secondary borderRadius0px height35px fontSize12px textUppercase fontWeight600" type="button">Navegar</button>
         </div>
     </div>
 </div>
@@ -61,8 +61,8 @@
 
     <div id="btnsStyleGrid" class="pull-right">
         <div class="btn-group" role="group">
-            <button id="btnViewTable" type="button" class="btn btn-secondary"><span class="oi oi-grid-three-up paddingSuperior3px"></span></button>    
-            <button id="btnViewList" type="button" class="btn btn-secondary inactivo"><i class="fas fa-list"></i></button>
+            <button id="btnViewTable" type="button" class="btn "><span class="oi oi-grid-three-up"></span></button>    
+            <button id="btnViewList" type="button" class="btn  inactivo"><span class="oi oi-list-rich fontSize18px margin0"></span></button>
         </div>
     </div>
 </div>
