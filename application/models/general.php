@@ -744,4 +744,64 @@ class general extends CI_Model {
         }
     }
 
+    public function db_get_paramsPayments() {
+        $this->db->trans_start();
+
+        $result = $this->db->query("SELECT * FROM `params_payment`");
+		$a = $result->result_array();
+        $result->free_result();
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
+    public function db_get_dataCreditosById($id) {
+        $this->db->trans_start();
+
+        $result = $this->db->query("SELECT * FROM `precios_creditos` WHERE id=?", array($id));
+		$a = $result->result_array();
+        $result->free_result();
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
+    public function db_get_NextInvoice() {
+        $this->db->trans_start();
+
+        $result = $this->db->query("SELECT MAX(invoice)+1 newInvoice FROM `historico_movimientos`");
+		$a = $result->result_array()[0]["newInvoice"];
+        $result->free_result();
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+/*
+    public function db_insert_historicoMovimiento($referenceCode, $signature, $valor, $idCredito, $idUsuario) {
+        $this->db->trans_start();
+
+        $this->db->query("INSERT INTO `historico_movimientos`(`referenceCode`,`signature`,`valor`,`idCredito`,`fecha_accion`,`idUsuario`) VALUES (?,?,?,?,now(),?);", array($referenceCode, $signature, $valor, $idCredito, $idUsuario));
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false);
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true);
+        }
+    }
+*/
+
+
 }

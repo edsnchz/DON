@@ -5,6 +5,7 @@ class c_app extends CI_Controller {
 		parent::__construct();	
 		$this->load->model('app');	
 		$this->load->model('general');	
+		$this->load->model('utiles');	
 		$this->load->helper(array('load_styles', 'load_scripts', 'load_assets', 'url'));		
 		$this->load->library(array('form_validation', 'session', 'encrypt', 'Layout'));
 	}
@@ -25,12 +26,14 @@ class c_app extends CI_Controller {
 		$this->layout->js(Array(
 			base_url()."js/views/usuario.js",
 			"https://code.jquery.com/ui/1.12.1/jquery-ui.js",
-			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
+			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js",
+			"https://checkout.epayco.co/checkout.js"
 		));
 		$this->layout->css(Array(
 			base_url()."css/uploadImages.css",
 			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
 		));
+		$data["apiKey"] = $this->general->db_get_paramsPayments()["data"][0]["apiKey"];
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
 		$this->layout->view("usuario", $data);			
 	}

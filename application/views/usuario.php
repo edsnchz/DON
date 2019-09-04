@@ -1,3 +1,6 @@
+<script type="text/javascript">
+    var apiKey = "<?php echo $apiKey ?>";
+</script>
 
 <div class="container-fluid margin_top_small">
     <ul class="nav nav-tabs fontSize12px fontFamilyPoppins letterSpacingMinimo" role="tablist">
@@ -398,29 +401,29 @@
 
             <div class=row>
                 <div class="col-sm-4">
-                    <h4 class="margin0 colorGrisOscuro fontSize20px textCenter"> Estadísticas Generales </h4>
+                    <h4 class="margin0 colorGrisOscuro fontSize12px textCenter textUppercase"> Estadísticas Generales </h4>
                 </div>
 
                 <div class="col-sm-3">
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Fecha Inicial</span>
+                            <span class="input-group-text fontFamilyRoboto">Fecha Inicial</span>
                         </div>
-                        <input type="date" class="form-control" id="inpFecha1Estadistica">
+                        <input type="date" class="form-control fontFamilyRoboto" id="inpFecha1Estadistica">
                     </div>
                 </div>
 
                 <div class="col-sm-3">
                     <div class="input-group input-group-sm mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Fecha Final</span>
+                            <span class="input-group-text fontFamilyRoboto">Fecha Final</span>
                         </div>
-                        <input type="date" class="form-control" id="inpFecha2Estadistica">
+                        <input type="date" class="form-control fontFamilyRoboto" id="inpFecha2Estadistica">
                     </div>
                 </div>
 
                 <div class="col-sm-2">
-                    <button type="button" class="btn btn-primary btn-sm width100porciento" id="inpCargarEstadistica">Cargar</button>
+                    <button type="button" class="btn btn-primary btn-sm textUppercase fontSize12px" id="inpCargarEstadistica">Cargar</button>
                 </div>
             </div>
 
@@ -503,10 +506,10 @@
                 </div>
             </div>
 
-            <div class="pull-right">
-                <label class="fontSize13px margin0 margin_top_medium" id="lblEstadisticaCreacion">Creacion: - </label>   
+            <div class="pull-left">
+                <label class="fontSize13px margin0 margin_top_medium fontFamilyRoboto" id="lblEstadisticaCreacion">Fecha de creación: - </label>   
                 <br> 
-                <label class="fontSize13px margin0" id="lblEstadisticaUltimaEdicion">Ultima Edicion: - </label>
+                <label class="fontSize13px margin0 fontFamilyRoboto" id="lblEstadisticaUltimaEdicion">Última Edición: - </label>
             </div>
       </div>
       <div class="modal-footer">
@@ -514,26 +517,4 @@
       </div>
     </div>
   </div>
-</div>
-
-
-<div id="formPagos">
-    <form method="post" action="https://sandbox.checkout.payulatam.com/ppp-web-gateway-payu/">
-        <input name="merchantId"    type="hidden"  value="508029" >
-        <input name="accountId"     type="hidden"  value="512326" >
-        <input name="description"   type="hidden"  value="Test PAYU"  >
-        <input name="referenceCode" type="hidden"  value="TestPayUS" >
-        <input name="amount"        type="hidden"  value="3"   >
-        <input name="tax"           type="hidden"  value="0"  >
-        <input name="taxReturnBase" type="hidden"  value="0" >
-        <input name="currency"      type="hidden"  value="USD" >
-        <input name="signature"     type="hidden"  value="9f0238620255797dabb816b995d8eae7">
-        <input name="test"          type="hidden"  value="1" >
-       <!-- <input name="buyerFullName"    type="hidden"  value="JUAN CORZO" >-->
-        <input name="buyerEmail"    type="hidden"  value="test@test.com" >
-        <!--<input name="telephone"    type="hidden"  value="3212589632" >-->
-        <!--<input name="responseUrl"    type="hidden"  value="#" >
-        <input name="confirmationUrl"    type="hidden"  value="#" >-->
-        <input name="Submit" id="btnAceptarPago" type="submit"  value="Enviar" >
-      </form>
 </div>

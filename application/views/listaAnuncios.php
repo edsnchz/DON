@@ -14,18 +14,28 @@
             <input type="text" class="form-control searchStyle" id="inpTextBuscar" placeholder="Término de búsqueda (Opcional)">
         </div>
         <div class="col-sm-3 mx-auto">
-            <select class="form-control searchStyleBlack" id="inpCategorias">
+            <select class="form-control searchStyle" id="inpCategorias">
                 <option value="NaN">Todas las categorías</option>
             </select>
         </div>
         <div class="col-sm-2 mx-auto">
-            <select class="form-control searchStyleBlack" id="inpDepartamentos">
-                <option value="NaN">Todos los departamentos</option>
-            </select>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-map-marker colorPink fontSize20px"></i></div>
+                </div>
+                <select class="form-control searchStyle" id="inpDepartamentos">
+                    <option value="NaN">Todos los departamentos</option>
+                </select>
+            </div>
         </div>
         <div class="col-sm-2 mx-auto">
-            <select class="form-control searchStyleBlack" id="inpCiudades">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fa fa-map-marker colorPink fontSize20px"></i></div>
+                </div>
+                <select class="form-control searchStyle" id="inpCiudades">
             </select>
+            </div>
         </div>
         <div class="col-sm-1">
             <button id="btnBuscar" class="btn btn-secondary borderRadius0px height35px fontSize12px textUppercase fontWeight600" type="button">Navegar</button>

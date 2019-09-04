@@ -3,7 +3,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xl-12 mx-auto padding0 IndexHeader">
-            <img class="img-responsive filterHeader" src="<?= load_img_url('images/bg-header.jpg'); ?>" style="width: 100%; height: auto">
+            <img class=" filterHeader" src="<?= load_img_url('images/bg-header.jpg'); ?>" style="width: 100%; height: auto">
             <div class="overlayTextHeader fontFamilyRoboto">
                 <h1>Anuncios clasificados eróticos en Colombia</h1>
                 <p class="colorGrisClaro">En &copy; <strong>"doneróticos.com"</strong> encontrarás las mejores <strong>prepagos y masajistas eróticas</strong> de tu ciudad, ademas de una gran variedad en servicios sexuales profesionales.
@@ -27,9 +27,9 @@
         <div class="col-sm-2 mx-auto">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-map-marker"></i></div>
+                    <div class="input-group-text"><i class="fa fa-map-marker colorPink fontSize20px"></i></div>
                 </div>
-                <select class="form-control searchStyleBlack" id="inpDepartamentos">
+                <select class="form-control searchStyle" id="inpDepartamentos">
                     <option value="NaN">Todos los departamentos</option>
                 </select>
             </div> 
@@ -37,9 +37,9 @@
         <div class="col-sm-2 mx-auto">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <div class="input-group-text"><i class="fa fa-map-marker"></i></div>
+                    <div class="input-group-text"><i class="fa fa-map-marker colorPink fontSize20px"></i></div>
                 </div>
-                <select class="form-control searchStyleBlack" id="inpCiudades">
+                <select class="form-control searchStyle" id="inpCiudades">
                     <option value='NaN'>Todas las ciudades</option>
                 </select>
             </div>            
@@ -100,7 +100,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12 my-auto showcase-text">
-                <!-- <h2>Fully Responsive Design</h2> -->
+                <h2 class="textUppercase">Bienvenido a doneróticos.com</h2>
                 <p class="fontSize14px fontFamilyRoboto fontWeight400">&copy; "doneróticos.com" es una pagina de anuncios eróticos gratis en Colombia.
                     Creada exclusivamente para <strong>prepagos, masajistas eróticos,</strong> y otros <strong>servicios sexuales</strong> profesionales.
                     Con nuestro panel de usuario mejorado todos pueden publicar y gestionar sus anuncios de una manera mas fácil, rápida y sencilla.

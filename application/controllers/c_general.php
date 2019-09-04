@@ -171,5 +171,14 @@ class c_general extends CI_Controller {
       echo json_encode($data);	
     }
 
+    public function getDataCreditoByID(){		
+      $data = $this->general->db_get_dataCreditosById($_POST["id"]);
+      echo json_encode($data);	
+    }
+
+    public function getNextInvoice(){		
+      $data = $this->general->db_get_NextInvoice();
+      echo json_encode($data);	
+    }
 
 }

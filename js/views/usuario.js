@@ -173,6 +173,45 @@ $(function () {
         });
     }
 
+    function AjaxGetNextInvoice() {
+        let temp;
+        $.ajax({
+            url: '../c_general/getNextInvoice',
+            type: 'POST',
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.resultado == true) {
+                    temp = data.data;
+                }
+            },
+            error: function (xr) {
+                toastr.error("Error al obtener los datos");
+            }
+        });
+        return temp;
+    }
+
+    function AjaxGetDataCreditos(id) {
+        let temp;
+        $.ajax({
+            url: '../c_general/getDataCreditoByID',
+            type: 'POST',
+            dataType: "json",
+            async: false,
+            data: { id: id },
+            success: function (data) {
+                if (data.resultado == true) {
+                    temp = data.data;
+                }
+            },
+            error: function (xr) {
+                toastr.error("Error al obtener los datos de los creditos");
+            }
+        });
+        return temp;
+    }
+
     function AjaxAlarmMensajes() {
         $.ajax({
             url: '../c_general/getAlarmaMensajesByUser',
@@ -349,7 +388,7 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
-                        $("#divPrecios").append('<div class="col-12 col-sm-4 col-md-2"><div class="card"><div class="card-body centradoHorizontal" style="height: 80px"><h5 class="textCenter fontSize22px margin_bottom_0px">' + value.creditos + '</h5><h6 class="fontFamilyRoboto margin_bottom_0px colorGrisOscuro margin_top_8px">&nbsp;Créditos</h6><label class="textCenter positionAbsolute Top45px fontFamilyRoboto fontSize13px colorGrisMenosOscuro">' + value.beneficio + '</label></div><ul class="list-group list-group-flush"><li class="list-group-item textCenter fontSize18px fontFamilyRoboto paddingSuperiorInferior20px">' + formatCurrencyString(value.valor) + '</li></ul><div class="card-body backgroundPinkClaro textCenter cursorPointer hoverBackgroundPinkOscuro"><h4 class="colorWhite fontSize14px textUppercase fontWeight600 margin_bottom_0px btnComprarCreditos" data-id="' + value.id + '">Comprar</h4></div></div></div>');
+                        $("#divPrecios").append('<div class="col-12 col-sm-4 col-md-2"><div class="card"><div class="card-body centradoHorizontal" style="height: 80px"><h5 class="textCenter fontSize22px margin_bottom_0px">' + value.creditos + '</h5><h6 class="fontFamilyRoboto margin_bottom_0px colorGrisOscuro margin_top_8px">&nbsp;Créditos</h6><label class="textCenter positionAbsolute Top45px fontFamilyRoboto fontSize13px colorGrisMenosOscuro">' + value.beneficio + '</label></div><ul class="list-group list-group-flush"><li class="list-group-item textCenter fontSize18px fontFamilyRoboto paddingSuperiorInferior20px">' + formatCurrencyString(value.valor) + '</li></ul><div class="card-body backgroundPinkClaro textCenter cursorPointer hoverBackgroundPinkOscuro btnComprarCreditos" data-id="' + value.id + '"><h4 class="colorWhite fontSize14px textUppercase fontWeight600 margin_bottom_0px">Comprar</h4></div></div></div>');
                     });
                 } else {
                     toastr.error("Error al cargar los precios");
@@ -1012,8 +1051,8 @@ $(function () {
     }
 
     function AjaxDatosFechasByAnuncio(id) {
-        $("#lblEstadisticaCreacion").text("Creacion: - ");
-        $("#lblEstadisticaUltimaEdicion").text("Ultima edicion: - ");
+        $("#lblEstadisticaCreacion").text("Fecha de creación: - ");
+        $("#lblEstadisticaUltimaEdicion").text("Última edición: - ");
         $.ajax({
             url: '../c_general/getFechasAnuncioById',
             type: 'POST',
@@ -1022,8 +1061,8 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     data = data.data[0];
-                    $("#lblEstadisticaCreacion").html("Creacion: <b>" + data.fechaCreacionFormat + "</b>");
-                    $("#lblEstadisticaUltimaEdicion").html("Ultima edicion: <b>" + data.fechaUltEdicionFormat + "</b>");
+                    $("#lblEstadisticaCreacion").html("Fecha de creación: <b>" + data.fechaCreacionFormat + "</b>");
+                    $("#lblEstadisticaUltimaEdicion").html("Última edición: <b>" + data.fechaUltEdicionFormat + "</b>");
                 }
             }
         });
@@ -1342,11 +1381,34 @@ $(function () {
 
     $('body').on('click', '.btnComprarCreditos', function () {
         event.preventDefault();
-        //let id = $(this).data("id");
-        $("#btnAceptarPago").click();
+        proccessPayment($(this).data("id"));
     });
 
+    function proccessPayment(idCredito) {
+        var dataCreditos = AjaxGetDataCreditos(idCredito);
+        var nextInvoice = AjaxGetNextInvoice();
+        var data = {
+            name: "Compra por " + dataCreditos[0]["creditos"] + " Creditos",
+            description: "Compra de creditos Don Eroticos",
+            invoice: nextInvoice,
+            currency: "cop",
+            amount: dataCreditos[0]["valor"],
+            tax_base: "0",
+            tax: "0",
+            country: "co",
+            lang: "es",
+            external: "false",
+        }
+        executePayment(data);
+    }
 
+    function executePayment(data) {
+        var handler = ePayco.checkout.configure({
+            key: apiKey,
+            test: true
+        });
+        handler.open(data);
+    }
 
     sizePage();
 
