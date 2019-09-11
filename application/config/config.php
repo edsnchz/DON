@@ -14,7 +14,10 @@
 | path to your installation.
 |
 */
+
 $config['base_url']	= 'http://192.190.42.155/';
+//$config['base_url']	= 'http://localhost/don/';
+
 
 /*
 |--------------------------------------------------------------------------

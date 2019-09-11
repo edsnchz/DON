@@ -64,6 +64,7 @@ function urlProyect() {
 
 function urlProyectShort() {
     return "/";
+    //return "/don/index.php/";
 }
 
 function generateRandomNumber() {
