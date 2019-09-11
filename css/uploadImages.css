@@ -1,0 +1,131 @@
+.preview-images-zone {
+    width: 100%;
+    border: 1px solid #ddd;
+    min-height: 150px;
+    /* display: flex; */
+    padding: 5px 5px 0px 5px;
+    position: relative;
+    overflow:auto;
+}
+.preview-images-zone > .preview-image:first-child {
+    max-width: 150px;
+    height: auto;    
+    position: relative;
+    margin-right: 5px;
+    border: solid 5px #C501FE;
+}
+.preview-images-zone > .preview-image {
+    max-width: 150px;
+    height: auto;
+    position: relative;
+    margin-right: 5px;
+    float: left;
+    margin-bottom: 5px;
+}
+.preview-images-zone > .preview-image > .image-zone {
+    width: 100%;
+    height: 100%;
+}
+.preview-images-zone > .preview-image > .image-zone > img {
+    width: 100%;
+    height: 100%;
+}
+.preview-images-zone > .preview-image > .image-cancel {
+    font-size: 25px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-weight: bold;
+    margin-right: 10px;
+    cursor: pointer;
+    display: none;
+    z-index: 100;
+    color: red;
+}
+.preview-image:hover > .image-zone {
+    cursor: move;
+    opacity: .5;
+}
+.preview-image:hover > .tools-edit-image,
+.preview-image:hover > .image-cancel {
+    display: block;
+}
+.ui-sortable-helper {
+    max-width: 150px;
+    height: auto;
+}
+
+.containerUpload {
+   /* padding-top: 50px; */
+}
+
+/* EDITAR */ 
+
+.preview-images-zone-editar {
+    width: 100%;
+    border: 1px solid #ddd;
+    min-height: 150px;
+    /* display: flex; */
+    padding: 5px 5px 0px 5px;
+    position: relative;
+    overflow:auto;
+}
+.preview-images-zone-editar > .preview-image-editar:first-child {
+    max-width: 150px;
+    height: auto;    
+    position: relative;
+    margin-right: 5px;
+    border: solid 5px #C501FE;
+}
+.preview-images-zone-editar > .preview-image-editar {
+    max-width: 150px;
+    height: auto;
+    position: relative;
+    margin-right: 5px;
+    float: left;
+    margin-bottom: 5px;
+}
+.preview-images-zone-editar > .preview-image-editar > .image-zone {
+    width: 100%;
+    height: 100%;
+}
+.preview-images-zone-editar > .preview-image-editar > .image-zone > img {
+    width: 100%;
+    height: 100%;
+}
+.preview-images-zone-editar > .preview-image-editar > .image-cancel-editar {
+    font-size: 25px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-weight: bold;
+    margin-right: 10px;
+    cursor: pointer;
+    display: none;
+    z-index: 100;
+    color: red;
+}
+.preview-images-zone-editar > .preview-image-editar > .image-eliminar {
+    font-size: 25px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-weight: bold;
+    margin-right: 10px;
+    cursor: pointer;
+    display: none;
+    z-index: 100;
+    color: red;
+}
+.preview-image-editar:hover > .image-zone {
+    cursor: move;
+    opacity: .5;
+}
+.preview-image-editar:hover > .tools-edit-image,
+.preview-image-editar:hover > .image-cancel-editar {
+    display: block;
+}
+.preview-image-editar:hover > .image-eliminar {
+    display: block;
+}
+
