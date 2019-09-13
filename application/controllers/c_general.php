@@ -8,6 +8,8 @@ class c_general extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('general');
+        $this->load->model('utiles'); 
+        $this->load->helper(array('load_styles', 'load_scripts', 'load_assets', 'url'));
         $this->load->library(array('session', 'encrypt', 'Layout'));
     }
 
@@ -182,10 +184,94 @@ class c_general extends CI_Controller {
     }
 
     public function confirmationPayment(){    
+      $dataParams = $this->general->db_get_paramsPayments();
       
+      $data["ref_payco"] = $_REQUEST["x_ref_payco"];
+      $data["idTransacion"] = $_REQUEST["x_transaction_id"];
+      $data["idCredito"] = $_REQUEST["x_extra1"];
+      $data["valor"] = $_REQUEST["x_amount_ok"];
+      $data["currencyCode"] = $_REQUEST["x_currency_code"];
+      $data["fechaTransaction"] = $_REQUEST["x_transaction_date"];
+      $data["codeResultado"] = $_REQUEST["x_cod_transaction_state"];
+      $data["resultado"] = $_REQUEST["x_transaction_state"];
+      $data["text_resultado"] = $_REQUEST["x_response_reason_text"];
+      $data["num_factura"] = $_REQUEST["x_id_invoice"];
+      $data["idUsuario"] = $_REQUEST["x_extra2"];
+      $data["signature"] = $_REQUEST["x_signature"];
 
+      $signature = hash('sha256', $dataParams["data"][0]["userID"] . '^' . $dataParams["data"][0]["userKey"] . '^' . $data["ref_payco"] . '^' . $data["idTransacion"] . '^' . $data["valor"] . '^' . $data["currencyCode"]);
 
-      echo $_POST["x_description"]; 
+      if ($data["signature"] == $signature) {
+
+          $rtn = $this->general->db_gestion_compras($data);
+          echo json_encode($rtn); 
+
+      }else{
+          echo json_encode(array("resultado" => false));  
+      }
+
     }
+
+    public function responsePayment(){ 
+      $response = file_get_contents('https://secure.epayco.co/validation/v1/reference/'.$_GET["ref_payco"]);
+      $response = json_decode($response);
+      $data = $response->data;
+      
+      $this->layout->setTitle("Respuesta Pago - doneróticos.com");
+      $this->layout->js(Array(base_url()."js/views/respuestaPago.js"));
+      
+      switch ((int) $data->x_cod_transaction_state) {
+        case 1:
+
+              $rtn = $this->general->db_insert_compra($data->x_ref_payco);
+              if($rtn){
+                $dataParams["msg"] = "Transaccion procesada satisfactoriamente, en breves instantes recibiras una confirmacion via correo electronico!";
+                $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
+                $this->layout->view("respuestaPago", $dataParams);
+              }
+
+            break;
+        case 2:
+
+              $dataParams["msg"] = "Transaccion rechazada :(, verifique los datos ingresados";
+              $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
+              $this->layout->view("respuestaPago", $dataParams);
+
+            break;
+        case 3:
+
+            $rtn = $this->general->db_insert_compra($data->x_ref_payco);
+            if($rtn){
+              $dataParams["msg"] = "Transaccion procesada satisfactoriamente, reliaza el pago en el menor tiempo posible para ver reflejada la compra";
+              $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
+              $this->layout->view("respuestaPago", $dataParams);
+            }
+
+            break;
+        case 4:
+
+            $dataParams["msg"] = "Transaccion fallida :(, porfavor intente nuevamente";
+            $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
+            $this->layout->view("respuestaPago", $dataParams);
+
+            break;
+        default:
+
+          $dataParams["msg"] = "Transaccion fallida :(, porfavor intente nuevamente";
+          $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
+          $this->layout->view("respuestaPago", $dataParams);
+          
+      }
+
+
+    }
+
+
+
+
+
+
+
+
 
 }

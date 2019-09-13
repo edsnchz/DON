@@ -2,37 +2,38 @@
     var idAnuncio = "<?php echo $id ?>";
 </script>
 
-<div class="container-fluid margin_top_medium">
+<div class="container-fluid margin_top_small bg-light">
     <div class="row">
-        <div class="col-sm-4 mx-auto">
+        <div class="col-md-4 col-sm-6 col-12 mx-auto margin_top_small">
             <input type="text" class="form-control searchStyle" id="inpTextBuscar" placeholder="Término de búsqueda (Opcional)">
         </div>
-        <div class="col-sm-3 mx-auto">
+        <div class="col-md-3 col-sm-6 col-12 mx-auto margin_top_small">
             <select class="form-control searchStyle" id="inpCategorias">
                 <option value="NaN">Todas las categorías</option>
             </select>
         </div>
-        <div class="col-sm-2 mx-auto">
-        <div class="input-group">
+        <div class="col-md-2 col-sm-6 col-xs-6 mx-auto margin_top_small">
+            <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fa fa-map-marker colorPink fontSize20px"></i></div>
                 </div>
                 <select class="form-control searchStyle" id="inpDepartamentos">
                     <option value="NaN">Todos los departamentos</option>
                 </select>
-            </div>
+            </div> 
         </div>
-        <div class="col-sm-2 mx-auto">
+        <div class="col-md-2 col-sm-6 col-xs-6 mx-auto margin_top_small">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fa fa-map-marker colorPink fontSize20px"></i></div>
                 </div>
                 <select class="form-control searchStyle" id="inpCiudades">
-            </select>
-            </div>
+                    <option value='NaN'>Todas las ciudades</option>
+                </select>
+            </div>            
         </div>
-        <div class="col-sm-1">
-            <button id="btnBuscar" class="btn btn-secondary borderRadius0px height35px fontSize12px textUppercase fontWeight600" type="button">Navegar</button>
+        <div class="col-md-1 col-sm-12 col-xs-12 margin_top_small">
+            <button id="btnBuscar" class="btn btn-secondary borderRadius0px height35px fontSize12px textUppercase fontWeight600 width100porciento" type="button">Buscar</button>
         </div>
     </div>
 </div>

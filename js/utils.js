@@ -54,6 +54,10 @@ $("#btnSalir").click(function () {
     logout();
 });
 
+$("#btnOpenPanelLateral").click(function () {
+    $(this).toggleClass("is-active");
+});
+
 $("#divColLogo").click(function () {
     $(location).attr('href', urlProyectShort());
 });
@@ -64,7 +68,6 @@ function urlProyect() {
 
 function urlProyectShort() {
     return "/";
-    //return "/don/index.php/";
 }
 
 function generateRandomNumber() {

@@ -1,5 +1,6 @@
 <script type="text/javascript">
     var apiKey = "<?php echo $apiKey ?>";
+    var usuXt = "<?php echo $usuXt ?>";
 </script>
 
 <div class="container-fluid margin_top_small">
@@ -164,12 +165,12 @@
             <p class="textCenter fontFamilyRoboto colorGrisClaro fontSize14px colorGrisOscuro">
                 Valores netos a pagar. Ningún método de pago genera comisiones adicionales.
                 <br>
-                Tus créditos estarán disponibles inmediatamente una vez aprobada y verificada la transacción por el sistema.
+                Tus créditos estarán disponibles una vez aprobada y verificada la transacción por el sistema.
             </p>
             <div class="row margin_top_medium" id="divPrecios">
             </div>
             <div class="col-xl-12 mx-auto padding0 textCenter margin_top_30px">
-                <img class="img-responsive" src="<?= load_img_url('images/payu.jpg'); ?>" style="width: 30%; height: auto">
+                <img class="img-responsive" src="<?= load_img_url('images/pagos.png'); ?>" style="width: 40%; height: auto">
             </div>
 
         </div>

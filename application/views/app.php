@@ -3,10 +3,10 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xl-12 mx-auto padding0 IndexHeader">
-            <img class=" filterHeader" src="<?= load_img_url('images/bg-header.jpg'); ?>" style="width: 100%; height: auto">
+            <img id="imgBanner" class="filterHeader" src="<?= load_img_url('images/bg-header.jpg'); ?>" style="width: 100%; height: 250px">
             <div class="overlayTextHeader fontFamilyRoboto">
                 <h1>Anuncios clasificados eróticos en Colombia</h1>
-                <p class="colorGrisClaro">En &copy; <strong>"doneróticos.com"</strong> encontrarás las mejores <strong>prepagos y masajistas eróticas</strong> de tu ciudad, ademas de una gran variedad en servicios sexuales profesionales.
+                <p class="colorGrisClaro d-none d-md-block">En &copy; <strong>"doneróticos.com"</strong> encontrarás las mejores <strong>prepagos y masajistas eróticas</strong> de tu ciudad, ademas de una gran variedad en servicios sexuales profesionales.
                 <strong>Transexuales, travestis, gays, gigolós,</strong> y mucho mas. Completamente sin censura.
                 </p>
             </div>
@@ -16,15 +16,15 @@
 
 <div class="container-fluid margin_top_small bg-light">
     <div class="row">
-        <div class="col-sm-4 mx-auto">
+        <div class="col-md-4 col-sm-6 col-12 mx-auto margin_top_small">
             <input type="text" class="form-control searchStyle" id="inpTextBuscar" placeholder="Término de búsqueda (Opcional)">
         </div>
-        <div class="col-sm-3 mx-auto">
+        <div class="col-md-3 col-sm-6 col-12 mx-auto margin_top_small">
             <select class="form-control searchStyle" id="inpCategorias">
                 <option value="NaN">Todas las categorías</option>
             </select>
         </div>
-        <div class="col-sm-2 mx-auto">
+        <div class="col-md-2 col-sm-6 col-xs-6 mx-auto margin_top_small">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fa fa-map-marker colorPink fontSize20px"></i></div>
@@ -34,7 +34,7 @@
                 </select>
             </div> 
         </div>
-        <div class="col-sm-2 mx-auto">
+        <div class="col-md-2 col-sm-6 col-xs-6 mx-auto margin_top_small">
             <div class="input-group">
                 <div class="input-group-prepend">
                     <div class="input-group-text"><i class="fa fa-map-marker colorPink fontSize20px"></i></div>
@@ -44,8 +44,8 @@
                 </select>
             </div>            
         </div>
-        <div class="col-sm-1">
-            <button id="btnBuscar" class="btn btn-secondary borderRadius0px height35px fontSize12px textUppercase fontWeight600" type="button">Navegar</button>
+        <div class="col-md-1 col-sm-12 col-xs-12 margin_top_small">
+            <button id="btnBuscar" class="btn btn-secondary borderRadius0px height35px fontSize12px textUppercase fontWeight600 width100porciento" type="button">Buscar</button>
         </div>
     </div>
 </div>

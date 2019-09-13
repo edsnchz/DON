@@ -26,10 +26,10 @@
     <!-- HEADER -->
     <div class="container-fluid width100porciento">
         <div class="row sombraPequeña">
-            <div class="col-sm-8 cursorPointer centradoVertical" id="divColLogo">
+            <div class="col-10 col-sm-8 cursorPointer centradoVertical" id="divColLogo">
                 <img class="height50px" src="<?= load_img_url('images/logo.svg'); ?>">
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 d-none d-sm-block">
                 <div class="row height100porciento">
                     <div class="col-sm-2 centradoVertical textCenter" id="divColSalir">
                         <a class="textDecorationNone displayNone fontSize12px letterSpacingMinimo textUppercase
@@ -48,7 +48,13 @@
                     </div>
                 </div>
             </div>
-
+            <div class="col-2 cursorPointer d-block d-sm-none">
+                <button id="btnOpenPanelLateral" class="hamburger hamburger--spin" type="button">
+                  <span class="hamburger-box">
+                    <span class="hamburger-inner"></span>
+                  </span>
+                </button>
+            </div>
         </div>
     </div>
 

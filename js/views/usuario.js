@@ -1389,7 +1389,7 @@ $(function () {
         var nextInvoice = AjaxGetNextInvoice();
         var data = {
             name: "Compra por " + dataCreditos[0]["creditos"] + " Creditos",
-            description: "Compra de creditos Don Eroticos",
+            description: "Créditos doneróticos",
             invoice: nextInvoice,
             currency: "cop",
             amount: dataCreditos[0]["valor"],
@@ -1398,6 +1398,9 @@ $(function () {
             country: "co",
             lang: "es",
             external: "false",
+            extra1: dataCreditos[0]["id"],
+            extra2: usuXt,
+            response: "http://192.190.42.155/index.php/c_general/responsePayment"
         }
         executePayment(data);
     }

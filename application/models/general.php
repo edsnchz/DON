@@ -777,8 +777,10 @@ class general extends CI_Model {
     public function db_get_NextInvoice() {
         $this->db->trans_start();
 
-        $result = $this->db->query("SELECT MAX(invoice)+1 newInvoice FROM `historico_movimientos`");
-		$a = $result->result_array()[0]["newInvoice"];
+        $this->db->query("UPDATE `params_payment` SET `lastInvoice`=`lastInvoice`+1;");
+
+        $result = $this->db->query("SELECT lastInvoice FROM `params_payment`");
+		$a = $result->result_array()[0]["lastInvoice"];
         $result->free_result();
 
         if ($this->db->_error_number()) {
@@ -788,11 +790,48 @@ class general extends CI_Model {
             return array("resultado" => true, "data" => $a);
         }
     }
-/*
-    public function db_insert_historicoMovimiento($referenceCode, $signature, $valor, $idCredito, $idUsuario) {
+
+    public function db_insert_compra($ref_payco) {
         $this->db->trans_start();
 
-        $this->db->query("INSERT INTO `historico_movimientos`(`referenceCode`,`signature`,`valor`,`idCredito`,`fecha_accion`,`idUsuario`) VALUES (?,?,?,?,now(),?);", array($referenceCode, $signature, $valor, $idCredito, $idUsuario));
+        $this->db->query("INSERT INTO `historico_movimientos` (`idExterno`) VALUES (?);", array($ref_payco));
+
+        if ($this->db->_error_number()) {
+            return false;
+        } else {
+            $this->db->trans_complete();
+            return true;
+        }
+    }
+
+    public function db_gestion_compras($data) {
+        $this->db->trans_start();
+
+        $this->db->query("INSERT INTO `auditoria_compras` (`idExterno`, `idUsuario`, `creditos_comprados`, `valor`, `fecha_transaction`, `estado`, `descripcion`) VALUES (?,?,(SELECT creditos FROM `precios_creditos` WHERE id=?),?,?,?,?)", array($data["ref_payco"], $data["idUsuario"], $data["idCredito"], $data["valor"], $data["fechaTransaction"], $data["resultado"], $data["text_resultado"]));
+
+        if((int) $data["codeResultado"] == 1 || (int) $data["codeResultado"] == 3){
+
+            $resultValid = $this->db->query("SELECT * FROM `historico_movimientos` where idExterno=? and estado=0", array($data["ref_payco"]));
+            $valid = $resultValid->result_array();
+            $resultValid->free_result();
+
+            if(count($valid)>0){
+                $this->db->query("UPDATE `historico_movimientos` SET `invoice`=?, valor=?, `idCredito`=?, `fecha_accion`=NOW(), `idUsuario`=?, `estado`=1 WHERE idExterno=? AND estado=0;", array($data["num_factura"], $data["valor"], $data["idCredito"], $data["idUsuario"], $data["ref_payco"]));
+
+                $result = $this->db->query("SELECT * FROM `movimientos` where idUsuario=?", array($data["idUsuario"]));
+                $a = $result->result_array();
+                $result->free_result();
+
+                if(count($a)>0){
+                    $this->db->query("UPDATE movimientos SET `cantidad` = `cantidad`+(SELECT creditos FROM `precios_creditos` WHERE id=?) WHERE idUsuario=?", array($data["idCredito"], $data["idUsuario"]));
+                }else{
+                    $this->db->query("INSERT INTO `movimientos`(`idUsuario`, `cantidad`) VALUES (?,(SELECT creditos FROM `precios_creditos` WHERE id=?))", array($data["idUsuario"], $data["idCredito"]));
+                }
+            }else{
+                // ***********************************
+            }
+
+        }
 
         if ($this->db->_error_number()) {
             return array("resultado" => false);
@@ -801,7 +840,9 @@ class general extends CI_Model {
             return array("resultado" => true);
         }
     }
-*/
+
+
+
 
 
 }

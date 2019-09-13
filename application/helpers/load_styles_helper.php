@@ -12,6 +12,7 @@ if (!function_exists('load_styles'))
             <link href="'.base_url().'assets/toastr/toastr.css" rel="stylesheet" type="text/css">
             <link href="'.base_url().'assets/owl/owl.carousel.min.css" rel="stylesheet">
             <link href="'.base_url().'assets/owl/owl.theme.default.min.css" rel="stylesheet">
+            <link href="'.base_url().'assets/animaciones/hamburger.css" rel="stylesheet">
             <link href="'.base_url().'css/app.css" rel="stylesheet">';
     }   
     

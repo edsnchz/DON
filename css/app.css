@@ -1,9 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap');
 
+html{
+  height: 100%;
+}
+
 body {
   font-family: 'Poppins', sans-serif !important;
   font-weight: 500;
+  height: 100%;
 }
 
 input::-webkit-outer-spin-button,
@@ -1377,7 +1382,12 @@ a.nav-link.active {
 .positionAbsolute {
   position: absolute;
 }
-
 .Top45px{
   top:45px;
+}
+
+@media (max-width: 800px){
+  #imgBanner {
+    height: 160px;
+  }
 }

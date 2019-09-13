@@ -34,6 +34,7 @@ class c_app extends CI_Controller {
 			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
 		));
 		$data["apiKey"] = $this->general->db_get_paramsPayments()["data"][0]["apiKey"];
+		$data["usuXt"] = $this->session->userdata('idusuario');
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
 		$this->layout->view("usuario", $data);			
 	}
