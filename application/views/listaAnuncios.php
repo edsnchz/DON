@@ -61,7 +61,7 @@
 <!-- MAPIADO -->
 <div class="container-fluid">
     <nav aria-label="breadcrumb" style="margin-top: 10pt;">
-        <ol class="breadcrumb fontSize12px textUppercase fontWeight600 backgroudNone">
+        <ol class="breadcrumb fontSize12px textUppercase fontWeight600 backgroudNone margin0Movil">
             <li class="breadcrumb-item"><a href="#" id="eMapInicio">Inicio</a></li>
             <li class="breadcrumb-item colorGrisClaro"><a id="eMapDepartamento">Departamento</a></li>
             <li class="breadcrumb-item colorGrisClaro"><a id="eMapCiudad">Ciudad</a></li>
@@ -70,14 +70,13 @@
         </ol>
     </nav>
 
-    <div id="btnsStyleGrid" class="pull-right">
-        <div class="btn-group" role="group">
-            <button id="btnViewTable" type="button" class="btn "><span class="oi oi-grid-three-up"></span></button>    
-            <button id="btnViewList" type="button" class="btn  inactivo"><span class="oi oi-list-rich fontSize18px margin0"></span></button>
+    <div id="btnsStyleGrid" class="pull-right d-none d-sm-block">
+        <div class="btn-group padding0 paddingRight105px" role="group">
+            <button type="button" class="btn btnViewTable"><span class="oi oi-grid-three-up"></span></button>    
+            <button type="button" class="btn btnViewList inactivo"><span class="oi oi-list-rich fontSize18px margin0"></span></button>
         </div>
     </div>
 </div>
-
 
 <div class="container container-mas-grande">
     <div class="row">
@@ -85,15 +84,28 @@
             <div class="margin_top_small" id="tagCloud">
             </div>
             <!-- ************** -->
-            <div class="margin_top_medium">
-                <ul id="enlacesCategorias" class="paddingSuperiorInferior10px backgroundGrayDos">
+            <div class="margin_top_medium d-none d-sm-block">
+                <ul class="paddingSuperiorInferior10px backgroundGrayDos enlacesCategorias">
                 </ul>
+            </div>
+            <!-- ************** -->
+            <div id="btnsStyleGridMovil" class="pull-right d-block d-sm-none margin_bottom_5px">
+                <div class="btn-group padding0" role="group">
+                    <button type="button" class="btn btnViewTable"><span class="oi oi-grid-three-up"></span></button>    
+                    <button type="button" class="btn btnViewList inactivo"><span class="oi oi-list-rich fontSize18px margin0"></span></button>
+                </div>
             </div>
         </div>
         <div class="col-sm-9" id="divCuadricula">
                 <!-- ANUNCIOS -->
         </div>
     </div>
+    <!-- ************** -->
+    <div class="margin_top_medium d-block d-sm-none">
+        <ul class="paddingSuperiorInferior10px backgroundGrayDos enlacesCategorias margin0">
+        </ul>
+    </div>
+
 </div>
 
 <br><br>

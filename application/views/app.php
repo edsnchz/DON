@@ -3,8 +3,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xl-12 mx-auto padding0 IndexHeader">
-            <img id="imgBanner" class="filterHeader" src="<?= load_img_url('images/bg-header.jpg'); ?>" style="width: 100%; height: 250px">
-            <div class="overlayTextHeader fontFamilyRoboto">
+            <img id="imgBanner" class="filterHeader centerImageLeft" src="<?= load_img_url('images/bg-header.jpg'); ?>" style="width: 100%; height: 200px">
+            <div class="overlayTextHeader fontFamilyRoboto width70porcientoMovil">
                 <h1>Anuncios clasificados eróticos en Colombia</h1>
                 <p class="colorGrisClaro d-none d-md-block">En &copy; <strong>"doneróticos.com"</strong> encontrarás las mejores <strong>prepagos y masajistas eróticas</strong> de tu ciudad, ademas de una gran variedad en servicios sexuales profesionales.
                 <strong>Transexuales, travestis, gays, gigolós,</strong> y mucho mas. Completamente sin censura.

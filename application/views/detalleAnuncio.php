@@ -55,7 +55,7 @@
 <!-- MAPIADO -->
 <div class="container-fluid">
     <nav aria-label="breadcrumb" style="margin-top: 10pt;">
-        <ol class="breadcrumb fontSize12px textUppercase fontWeight600 backgroudNone">
+        <ol class="breadcrumb fontSize12px textUppercase fontWeight600 backgroudNone margin0Movil">
             <li class="breadcrumb-item"><a href="#" id="eMapInicio">Inicio</a></li>
             <li class="breadcrumb-item colorGrisClaro"><a id="eMapDepartamento">Departamento</a></li>
             <li class="breadcrumb-item colorGrisClaro"><a id="eMapCiudad">Ciudad</a></li>
@@ -65,7 +65,7 @@
 </div>
 
 <!-- DETALLE DEL ANUNCIO -->
-<div class="container margin_top_medium">
+<div class="container margin_top_small">
 
     <div class="row">
         <div class="col-sm-9">
@@ -106,50 +106,55 @@
                 <hr class="styleHR margin_top_30px">
 
                 <div class="row margin_top_30px borderBottomSolid1pxGray margin_laterales_0px">
-                <div class="col-sm-5 text-center paddingRight0px">
+                    <div class="col-5 text-center padding0">
                         <h4 class="margin0 colorGrisOscuro textUppercase fontSize12px"> Estadísticas </h4>
                     </div>
-                    <div class="col-sm-3 textRight fontFamilyRoboto colorGrisMenosOscuro fontSize14px">
+                    <div class="col-3 textRight fontFamilyRoboto colorGrisMenosOscuro fontSize14px">
                         <small class="margin0"> Hoy </small>
                     </div>
-                    <div class="col-sm-4 textLeft fontFamilyRoboto colorGrisMenosOscuro fontSize14px">
+                    <div class="col-4 textLeft fontFamilyRoboto colorGrisMenosOscuro fontSize14px">
                         <small class="margin0"> Total </small>
                     </div>
                 </div>
-                <div class="row margin_top_small">
-                    <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto fontSize12px colorGrisMenosOscuro">
-                        <label class="margin_bottom_0px centradoVertical">Visitas al anuncio</label>
-                    </div>
-                    <div class="col-sm-3 borderRightSolid3pxPink fontSize12px" title="Visitas de este anuncio el dia de hoy">
-                    <label id="lblVistasHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
-                    </div>
-                    <div class="col-sm-4 textLeft fontSize12px paddingRight0px" title="Visitas totales de este anuncio">
-                    <label id="lblVistasTotal" class="fontBold margin_bottom_0px centradoVertical">-</label>
-                    </div>
-                </div>
-                <div class="row margin_top_masSmall">
-                    <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto fontSize12px colorGrisMenosOscuro">
-                        <label class="margin_bottom_0px centradoVertical">Clics WhatsApp</label>
-                    </div>
-                    <div class="col-sm-3 borderRightSolid3pxGreen fontSize12px" title="Clicks en los whatsApp de este anuncio el dia de hoy">
-                    <label id="lblWhatsAppHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
-                    </div>
-                    <div class="col-sm-4 textLeft fontSize12px paddingRight0px" title="Clicks totales en los whatsApp de este anuncio">
-                        <label id="lblWhatsAppTotal" class="fontBold margin_bottom_0px centradoVertical">-</label>
+                <div class="container-fluid">
+                    <div class="row margin_top_small">
+                        <div class="col-5 centradoVertical fontFamilyRoboto fontSize12px colorGrisMenosOscuro padding0">
+                            <label class="margin_bottom_0px width100porciento text-center">Visitas al anuncio</label>
+                        </div>
+                        <div class="col-3 borderRightSolid3pxPink fontSize12px" title="Visitas de este anuncio el dia de hoy">
+                        <label id="lblVistasHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
+                        </div>
+                        <div class="col-4 textLeft fontSize12px paddingRight0px" title="Visitas totales de este anuncio">
+                        <label id="lblVistasTotal" class="fontBold margin_bottom_0px centradoVertical">-</label>
+                        </div>
                     </div>
                 </div>
-                <div class="row margin_top_masSmall">
-                    <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto fontSize12px colorGrisMenosOscuro">
-                        <label class="margin_bottom_0px centradoVertical">Clics en Llamar</label>
-                    </div>
-                    <div class="col-sm-3 borderRightSolid3pxBlue fontSize12px" title="Clicks en los teléfonos de este anuncio el dia de hoy">
-                    <label id="lblCallsHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
-                    </div>
-                    <div class="col-sm-4 textLeft fontSize12px paddingRight0px" title="Clicks totales en los teléfonos de este anuncio">
-                        <label id="lblCallsTotal" class="fontBold margin_bottom_0px centradoVertical">-</label>
+                <div class="container-fluid">
+                    <div class="row margin_top_masSmall">
+                        <div class="col-5 centradoVertical fontFamilyRoboto fontSize12px colorGrisMenosOscuro padding0">
+                            <label class="margin_bottom_0px width100porciento text-center">Clics WhatsApp</label>
+                        </div>
+                        <div class="col-3 borderRightSolid3pxGreen fontSize12px" title="Clicks en los whatsApp de este anuncio el dia de hoy">
+                        <label id="lblWhatsAppHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
+                        </div>
+                        <div class="col-4 textLeft fontSize12px paddingRight0px" title="Clicks totales en los whatsApp de este anuncio">
+                            <label id="lblWhatsAppTotal" class="fontBold margin_bottom_0px centradoVertical">-</label>
+                        </div>
                     </div>
                 </div>
-
+                <div class="container-fluid">
+                    <div class="row margin_top_masSmall">
+                        <div class="col-5 centradoVertical fontFamilyRoboto fontSize12px colorGrisMenosOscuro padding0">
+                            <label class="margin_bottom_0px width100porciento text-center">Clics en Llamar</label>
+                        </div>
+                        <div class="col-3 borderRightSolid3pxBlue fontSize12px" title="Clicks en los teléfonos de este anuncio el dia de hoy">
+                        <label id="lblCallsHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
+                        </div>
+                        <div class="col-4 textLeft fontSize12px paddingRight0px" title="Clicks totales en los teléfonos de este anuncio">
+                            <label id="lblCallsTotal" class="fontBold margin_bottom_0px centradoVertical">-</label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <br>
@@ -202,8 +207,8 @@
 <!-- ********************************* -->
 
 <div class="modal fade" id="modalDenunciar" tabindex="-1" role="dialog" aria-labelledby="modalDenunciar" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content borderRadius0px width75porciento">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content borderRadius0px">
       <div class="modal-header">
         <h5 class="modal-title textCenter fontSize14px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto">Denunciar anuncio</h5>
         <button type="button" class="close outlineNone" data-dismiss="modal" aria-label="Close">

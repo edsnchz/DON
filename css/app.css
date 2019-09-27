@@ -206,8 +206,17 @@ footer.footer {
   padding-right: 20px !important;
 }
 
+.paddingLaterales35px {
+  padding-left: 35px !important;
+  padding-right: 35px !important;
+}
+
 .paddingLeft7px {
   padding-left: 7px !important;
+}
+
+.paddingLeft8px {
+  padding-left: 8px !important;
 }
 
 .paddingLeft15px {
@@ -281,6 +290,10 @@ footer.footer {
   padding-right: 0% !important;
 }
 
+.paddingRight105px {
+  padding-right: 105px !important;
+}
+
 .paddinginferior0{
   padding-bottom: 0% !important;
 }
@@ -313,6 +326,18 @@ footer.footer {
   margin-bottom: 5px !important;
 }
 
+.margin_bottom_7px {
+  margin-bottom: 7px !important;
+}
+
+.margin_bottom_10px {
+  margin-bottom: 10px !important;
+}
+
+.margin_bottom_30px {
+  margin-bottom: 30px !important;
+}
+
 .margin_bottom_0px {
   margin-bottom: 0px !important;
 }
@@ -323,6 +348,10 @@ footer.footer {
 
 .height35px {
   height: 35px !important;
+}
+
+.height38px {
+  height: 38px !important;
 }
 
 .height40px {
@@ -351,7 +380,7 @@ footer.footer {
 }
 
 .displayBlock {
-  display: block;
+  display: block !important;
 }
 
 .fontBold {
@@ -445,6 +474,10 @@ footer.footer {
   color: #C501FE !important;
 }
 
+.colorPinkClaro {
+  color: #ce93d8 !important;
+}
+
 .colorGrisClaro {
   color: #999999 !important;
 }
@@ -463,6 +496,11 @@ color: #bebebe
 
 .borderNone {
   border: none;
+}
+
+.bordeslateralesnone{
+  border-right: none;
+  border-left: none;
 }
 
 .borderSolid1pxPink {
@@ -506,6 +544,10 @@ color: #bebebe
   width: 75% !important;
 }
 
+.width95porciento {
+  width: 95% !important;
+}
+
 .width20porciento {
   width: 20% !important;
 }
@@ -523,7 +565,7 @@ color: #bebebe
 }
 
 .fontSizeBig {
-  font-size: 15px
+  font-size: 15px !important;
 }
 
 .fontSize14px {
@@ -576,6 +618,10 @@ color: #bebebe
 
 .margin_top_7px {
   margin-top: 7px;
+}
+
+.margin_top_6px {
+  margin-top: 6px;
 }
 
 .margin_top_8px {
@@ -667,8 +713,16 @@ color: #bebebe
   background: #bebebe !important;
 }
 
+.backgroundGrayAunMasClaro {
+  background: #E9ECEF;
+}
+
 .backgroundGrayMasClaro {
   background: #e6e6e6;
+}
+
+.borderGrayMuyFino{
+  border: 0.5px solid lightgray;
 }
 
 .backgroundGrayMasClaroHover:hover {
@@ -943,6 +997,10 @@ input[type="checkbox"].checkStyle:checked:after{
   left: calc(50%);
 }
 
+.colorRed2{
+  color: red !important;
+}
+
 .colorRed{
   color: #f44336 !important;
 }
@@ -957,7 +1015,10 @@ input[type="checkbox"].checkStyle:checked:after{
   height: 90px;
   max-width: 100%;
 }
-
+.centerImageLeft{
+  width: 100% !important; 
+  height: auto;  
+}
 .imgItemCarousel{
   width: 100% !important; 
   height: auto;  
@@ -971,6 +1032,11 @@ input[type="checkbox"].checkStyle:checked:after{
     height: 100%;
     object-fit: cover;
     object-position: center center;
+  }
+  .centerImageLeft{
+    height: 100%;
+    object-fit: cover;
+    object-position: center left;
   }
 }
 
@@ -1052,7 +1118,7 @@ input[type="checkbox"].checkStyle:checked:after{
   font-size: 11px;
   padding: 0px 10px;
   position: absolute;
-  top: 105px;
+  bottom: 5%;
   right: 0;
   border: none;
   border-radius: 0;
@@ -1069,7 +1135,7 @@ input[type="checkbox"].checkStyle:checked:after{
   font-size: 11px;
   padding: 0px 10px;
   position: absolute;
-  top: 105px;
+  bottom: 5%;
   left: 0;
   border: none;
   border-radius: 0;
@@ -1167,6 +1233,9 @@ input[type="checkbox"].checkStyle:checked:after{
   .container-mas-grande {
     max-width: 1300px;
   }
+  .height130pxDesktop{
+    height: 130px !important;
+  }
 }
 
 .liEnlacesCategorias{
@@ -1218,6 +1287,17 @@ input[type="checkbox"].checkStyle:checked:after{
 }
 
 #btnsStyleGrid button.inactivo{
+  background: white;
+  color: #999;
+  /*font-size: 14px;*/
+}
+
+#btnsStyleGridMovil button{
+  padding: 2px 7px !important;
+  color: #C80FFE;
+}
+
+#btnsStyleGridMovil button.inactivo{
   background: white;
   color: #999;
   /*font-size: 14px;*/
@@ -1275,12 +1355,13 @@ hr.styleHR {
 }
 
 .burbujaChat{
-  width: 50%;
+  width: 70%;
+  background: white;
   border-radius: 15px;
   padding: 10px;
   margin-left: 15px;
   margin-top: 15px;
-  border: solid 1px gray
+  border: solid 1px darkgray;
 }
 
 .scrollVisible{
@@ -1377,6 +1458,17 @@ hr.styleHR {
 
 a.nav-link.active {
   color: #444 !important;
+  background-color: lightgray !important;
+  border-color: #dee2e6 #dee2e6 #444444 #dee2e6 !important;
+}
+
+.nav-tabs .nav-link {
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
+.nav-link{
+  border-radius: 0px !important;
 }
 
 .positionAbsolute {
@@ -1390,4 +1482,161 @@ a.nav-link.active {
   #imgBanner {
     height: 160px;
   }
+  #divColLogo {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+  }
+  #divColLogo img{
+    width: 95% !important;
+  }
+  .features-icons{
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+  }
+  .btnCountImagesAnuncioList{
+    font-size: 13px;
+    bottom: 0%;
+    width: 100%;
+    text-align: center;
+  }
+  .btnCityAnuncioList{
+    font-size: 13px;
+    bottom: 0%;
+    left: inherit;
+    right: 0;
+  }
+  .marginBottom22pxMovil{
+    margin-bottom: 22px !important;
+  }
+  .margin0Movil{
+    margin: 0px !important;
+  }
+  .width70porcientoMovil{
+    width: 70% !important;
+  }
+  .width100porcientoMovil{
+    width: 100% !important;
+  }
+  .fontSize17pxMovil {
+    font-size: 17px !important;
+  }
+  .paddingLeft5pxMovil{
+    padding-left: 5px !important;
+  }
+  .paddingRight5pxMovil{
+    padding-right: 5px !important;
+  }
+  .displayFlexCenterMovil{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .paddingLaterales35pxMovil {
+    padding-left: 35px !important;
+    padding-right: 35px !important;
+  }
+  .displayNoneMovil {
+    display: none;
+  }
+  .displayBlockMovil {
+    display: block;
+  }
+}
+
+#btnOpenPanelLateral{
+    position: absolute;
+    right: 0px;
+    z-index: 1000;
+    border: none;
+    outline: none;
+}
+
+#divPanelLateral {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: #fff;
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+#divPanelLateral ul {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+}
+
+#divPanelLateral ul li {
+    display: block;
+    float: none;
+    width: 100%;
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+#divPanelLateral ul li:nth-child(1) a {
+    transition-delay: 0.2s;
+}
+
+#divPanelLateral ul li:nth-child(2) a {
+    transition-delay: 0.3s;
+}
+
+#divPanelLateral ul li:nth-child(3) a {
+    transition-delay: 0.4s;
+}
+
+#divPanelLateral ul li:not(:first-child) {
+    margin-left: 0;
+}
+
+#divPanelLateral ul li a {
+    padding: 10px 24px;
+    opacity: 0;
+    color: #000;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    transform: translateX(-20px);
+    transition: all 0.2s ease;
+}
+.backgroundGhostWhite{
+  background: ghostwhite;
+}
+.arrowSlideMessages{
+    position: absolute;
+    font-size: 25px;
+    color: white;
+    z-index: 1000;
+    background: gray;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    border-radius: 15pt;
+    top: 156px;
+    right: 18px;
+}
+#navOpcionesRePromocion a.nav-link.active {
+  color: white !important;
+}
+
+.backgroundYellowAnuncios{
+  background: #fff5aa !important;
+}
+
+.backgroundPinkAnuncios{
+  background: #e7bbef;
+  border: 3px solid #C501FE;
+}
+
+.backgroundWhite{
+  background: white;
+}
+
+.backgroundWhiteSmoke{
+  background: whitesmoke;
 }

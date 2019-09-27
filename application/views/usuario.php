@@ -12,7 +12,7 @@
             <a class="nav-link colorGrisClaro fontWeight600" data-toggle="tab" href="#tCrearAnuncio" role="tab" aria-controls="tCrearAnuncio" aria-selected="false">CREAR ANUNCIO</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link colorGrisClaro fontWeight600" data-toggle="tab" href="#tPremium" role="tab" aria-controls="tPremium" aria-selected="false">CRÉDITOS</a>
+            <a class="nav-link colorGrisClaro fontWeight600" id="tabMisCreditos" data-toggle="tab" href="#tPremium" role="tab" aria-controls="tPremium" aria-selected="false">CRÉDITOS</a>
         </li>
         <li class="nav-item">
             <a class="nav-link colorGrisClaro fontWeight600" id="tabMensajes" data-toggle="tab" href="#tMensajes" role="tab" aria-controls="tMensajes" aria-selected="false">MENSAJES</a>
@@ -30,7 +30,7 @@
         </div>
         <div class="tab-pane fade" id="tCrearAnuncio" role="tabpanel">
 
-            <div class="centerMargin backgroundGray sombra margin_top_medium" style="width: 800px; padding: 20px">
+            <div class="centerMargin backgroundGray sombra margin_top_medium width100porcientoMovil" style="width: 800px; padding: 20px">
                 <div class="fontFamilyRoboto">
                     <p class="letterSpacingMinimo  
                         colorGrisOscuro fontSize14px margin_bottom_5px">1. Rellena los datos de tu anuncio</p>
@@ -38,17 +38,17 @@
                         
                 </div>
                 <div class="row margin_top_medium">
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 margin_top_small">
                         <select class="form-control inputStyle" id="inpCategorias">
                             <option value="N/A">Categoría</option>
                         </select>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 margin_top_small">
                         <select class="form-control inputStyle" id="inpDepartamentos">
                             <option value="N/A">Departamento</option>
                         </select>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 margin_top_small">
                         <select class="form-control inputStyle" id="inpCiudades">
                             <option value="N/A">Ciudad</option>
                         </select>
@@ -87,21 +87,21 @@
                     </div>
                     <!-- ***** -->
                     <div class="row margin_top_medium rowOptionService">
-                        <div class="col-sm-3">
+                        <div class="col-6 col-sm-3 margin_top_small paddingRight5pxMovil">
                             <input type="text" id="inpPrecio1" class="form-control inputStyle inpPrecio" name="inpPrecio" placeholder="Valor" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$">
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-6 col-sm-4 margin_top_small paddingLeft5pxMovil">
                             <select id="inpTiempo1" class="form-control inputStyle inpTiempo">
                                 <option value="N/A">Tiempo</option>
                             </select>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-6 col-sm-4 margin_top_small paddingRight5pxMovil">
                             <select id="inpRelaciones1" class="form-control inputStyle inpRelaciones">
                                 <option value="N/A">Relaciones</option>
                             </select>
                         </div>
-                        <div class="col-sm-1 centradoVertical">
-                            <button type="button" class="borderNone backgroudNone colorGrisMasClaro btnDeleteRowOptionService outlineNone" disabled><i class="far fa-minus-square fontSize25px"></i></button>
+                        <div class="col-6 col-sm-1 centradoVertical margin_top_small paddingLeft5pxMovil">
+                            <button type="button" class="borderNone backgroudNone colorGrisMasClaro btnDeleteRowOptionService outlineNone width100porciento displayFlexCenterMovil" disabled><span class="d-block d-sm-none fontSize13px margin_right_small">Eliminar:</span><i class="far fa-minus-square fontSize25px"></i></button>
                         </div>
                     </div>
                 </div>
@@ -160,29 +160,37 @@
         </div>
         <div class="tab-pane fade" id="tPremium" role="tabpanel">
 
-            <span id="spCreditos2" class="badge badge-pill borderRadius5pt badge-warning fontSize14px fontWeight500 padding7px fontFamilyRoboto" title="Tus créditos actuales" style="position: absolute; right: 50px"></span>
+            <span class="spCreditos2 d-none d-sm-block badge badge-pill borderRadius0px badge-warning fontSize14px fontWeight500 padding7px fontFamilyRoboto" title="Tus créditos actuales" style="position: absolute; right: 50px"></span>
+
+            <h4 class="spCreditos2 d-block d-sm-none textCenter margin_top_medium badge-warning width100porciento padding7px fontSize14px fontWeight500 fontFamilyRoboto">Tus creditos: -</h4>            
+
             <h4 class="textCenter textUppercase margin_top_medium colorGrisOscuro">Comprar créditos</h4>
             <p class="textCenter fontFamilyRoboto colorGrisClaro fontSize14px colorGrisOscuro">
                 Valores netos a pagar. Ningún método de pago genera comisiones adicionales.
                 <br>
                 Tus créditos estarán disponibles una vez aprobada y verificada la transacción por el sistema.
             </p>
-            <div class="row margin_top_medium" id="divPrecios">
+            <div class="row margin_top_small paddingLaterales35pxMovil" id="divPrecios">
             </div>
             <div class="col-xl-12 mx-auto padding0 textCenter margin_top_30px">
-                <img class="img-responsive" src="<?= load_img_url('images/pagos.png'); ?>" style="width: 40%; height: auto">
+                <img class="img-responsive width100porcientoMovil" src="<?= load_img_url('images/pagos.png'); ?>" style="width: 40%; height: auto">
             </div>
 
         </div>
         <div class="tab-pane fade" id="tMensajes" role="tabpanel">
 
             <div style="height: 65vh;">
-                <div class="row height100porciento">
-                    <div class="col-sm-4 backgroundGray scrollVisible height100porciento">
+
+                <span id="btnArrowMensajes" class="arrowSlideMessages sombraPequeña displayNone">
+                    <i class="fas fa-arrow-left"></i>
+                </span>
+
+                <div class="row height100porciento backgroundGray">
+                    <div id="divColRemitentes" class="col-sm-4 backgroundGray scrollVisible height100porciento">
                         <div class="row" id="divRemitentes">
                         </div>
                     </div>
-                    <div class="col-sm-8 backgroundGray scrollVisible height100porciento" id="divMensajes">
+                    <div id="divMensajes" class="col-sm-8 backgroundGray scrollVisible height100porciento displayNoneMovil paddingSuperiorInferior10px">
                     </div>
                 </div>
             </div>
@@ -514,6 +522,213 @@
             </div>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-default borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ********************************* -->
+
+<div class="modal" id="modalRelojito" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content borderRadius0px">
+      <div class="modal-header">
+        <h5 class="modal-title textCenter fontSize14px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto">Subidas individuales</h5>
+        <button type="button" class="close outlineNone" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <input type="hidden" id="inpIdAnuncioRelojito">
+
+            <div class="width100porciento textCenter centradoHorizontal">
+                <h4 class="spCreditosModals textCenter margin_bottom_7px badge-warning width50porciento width100porcientoMovil padding7px fontSize14px fontWeight500 fontFamilyRoboto">Tus creditos: -</h4>
+            </div>
+
+            <h4 id="divAlertMaximoRelojito" class="text-center fontFamilyRoboto padding10px width100porciento btn-danger colorWhite margin_bottom_10px displayNone margin_top_small">
+                Ya programaste 5 subidas para este anuncio.
+            </h4>
+            
+            <p class="textCenter fontFamilyRoboto fontSize14px colorGrisClaro">Por tan solo 1 crédito ($100) tu anuncio subirá a primera posición y rotará en el top de anuncios por 20 minutos. Puedes programar simultaneamente hasta 5 subidas individuales por anuncio.</p>
+                        
+            <p class="textCenter fontSize14px fontFamilyRoboto">Escoge una hora de incio</p>
+
+            <p id="lblTipoDiaRelojito" class="textCenter fontSize14px margin_bottom_5px fontFamilyRoboto"></p>
+
+            <div class="row">
+                <div class="col-sm-6 margin_top_small">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text fontFamilyRoboto fontSize14px borderRadius0px" id="basic-addon3">Desde:</span>
+                        </div>
+                        <input type="time" id="inpHoraInicioRelojito" name="inpHoraInicioRelojito" class="form-control inputStyle fontSize14px backgroudWhite textCenter borderRadius0px" aria-describedby="basic-addon3">
+                    </div>
+                </div>
+                <div class="col-sm-6 margin_top_small">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text fontFamilyRoboto fontSize14px borderRadius0px" id="basic-addon3">Hasta:</span>
+                        </div>
+                        <input type="time" id="inpHoraFinRelojito" name="inpHoraFinRelojito" class="form-control fontFamilyRoboto fontSize14px textCenter borderRadius0px"  aria-describedby="basic-addon3" disabled>
+                    </div>
+                </div>
+            </div>
+          
+            <div id="divPillsRelojitosActivos" class="textCenter">
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button id="btnAceptarRelojito" type="button" class="btn btn-primary borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo">Aceptar</button>
+        <button type="button" class="btn btn-default borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ********************************* -->
+
+<div class="modal" id="modalPromociones" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content borderRadius0px">
+      <div class="modal-header">
+        <h5 class="modal-title textCenter fontSize14px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto">Promociona tu anuncio</h5>
+        <button type="button" class="close outlineNone" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <input type="hidden" id="inpIdAnuncioPromocion">
+
+            <div class="width100porciento textCenter centradoHorizontal">
+                <h4 class="spCreditosModals textCenter margin_bottom_10px badge-warning width50porciento width100porcientoMovil padding7px fontSize14px fontWeight500 fontFamilyRoboto">Tus creditos: -</h4>
+            </div>
+
+            <nav>
+              <div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active fontSize13px textUppercase fontWeight600 colorGrisClaro" id="navPromoRE" data-toggle="tab" href="#dNavPromoRE" role="tab" aria-controls="dNavPromoRE" aria-selected="true">Paquetes TOP</a>
+                <a class="nav-item nav-link fontSize13px textUppercase fontWeight600 colorGrisClaro" id="navPromoDes" data-toggle="tab" href="#dNavPromoDes" role="tab" aria-controls="dNavPromoDes" aria-selected="false">Destacar Anuncio</a>
+              </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane show active padding10px" id="dNavPromoRE" role="tabpanel" aria-labelledby="navPromoRE">
+                <!--  ********************* -->
+                
+                <p class="textCenter fontFamilyRoboto fontSize14px colorGrisClaro">Tu anuncio subirá a primera posición y rotara en el top de anuncios durante la cantidad de días y horas escogidas por día.</p>
+
+                <ul id="navOpcionesRePromocion" class="nav nav-pills nav-justified mb-3 paddingLaterales35px" role="tablist">
+                  <li class="nav-item">
+                    <a class="navPromoREDias btn btn-outline-success borderRadius0px width100porciento active paddingSuperiorInferior5px fontSize13px textUppercase fontWeight600" id="nav7Dias" data-toggle="pill" href="#dNav7Dias" role="tab" aria-controls="dNav7Dias" aria-selected="true" data-load="false" data-dias="7">7 Días</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="navPromoREDias btn btn-outline-success bordeslateralesnone borderRadius0px width100porciento paddingSuperiorInferior5px fontSize13px textUppercase fontWeight600" id="nav15Dias" data-toggle="pill" href="#dNav15Dias" role="tab" aria-controls="dNav15Dias" aria-selected="false" data-load="false" data-dias="15">15 Días</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="navPromoREDias btn btn-outline-success borderRadius0px width100porciento paddingSuperiorInferior5px fontSize13px textUppercase fontWeight600" id="nav30Dias" data-toggle="pill" href="#dNav30Dias" role="tab" aria-controls="dNav30Dias" aria-selected="false" data-load="false" data-dias="30">30 Días</a>
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane fade show active" id="dNav7Dias" role="tabpanel" aria-labelledby="nav7Dias">
+                      <div id="divContainerPaquetes7Dias" class="container">
+                      </div>
+                  </div>
+                  <div class="tab-pane fade" id="dNav15Dias" role="tabpanel" aria-labelledby="nav15Dias">
+                      <div id="divContainerPaquetes15Dias" class="container">
+                      </div>
+                  </div>
+                  <div class="tab-pane fade" id="dNav30Dias" role="tabpanel" aria-labelledby="nav30Dias">
+                      <div id="divContainerPaquetes30Dias" class="container">
+                      </div>
+                  </div>
+                </div>
+
+                <!--  ********************* -->
+              </div>
+              <div class="tab-pane" id="dNavPromoDes" role="tabpanel" aria-labelledby="navPromoDes">
+                    
+                    <div class="card margin_top_medium width100porciento sombraPequeña backgroundYellowAnuncios">
+                      <div class="card-body">
+                        <h5 class="card-title textCenter fontSize16px">Anuncio Premiun</h5>
+                        <h6 class="card-subtitle mb-2 text-muted textCenter">Pon tu anuncio a volar :)</h6>
+                        <p class="card-text textCenter">Resaltamos tu anuncio de amarillo en las listas por 30 dias, y te regalamos una promocion rapida de 20 minutos en el top.</p>
+                        <div class="centradoHorizontal">
+                            <button class="btn borderRadius10pt backgroundWhite colorGrisOscuro width50porciento fontFamilyRoboto fontSize12px fontWeight600 paddingSuperiorInferior5px sombraPequeña">150 Créditos</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card margin_top_medium width100porciento sombraPequeña backgroundPinkAnuncios">
+                      <div class="card-body">
+                        <h5 class="card-title textCenter fontSize16px">Anuncio Platino</h5>
+                        <h6 class="card-subtitle mb-2 text-muted textCenter">Lo maximo en guaracha :)</h6>
+                        <p class="card-text textCenter">Resaltamos tu anuncio de morado en las listas y te colocamos en el carousel principal por 30 dias, y te regalamos una promocion de 7 dias (8 Horas/Dia) en el top.</p>
+                        <div class="centradoHorizontal">
+                            <button class="btn borderRadius10pt backgroundWhite colorGrisOscuro width50porciento fontFamilyRoboto fontSize12px fontWeight600 paddingSuperiorInferior5px sombraPequeña">1300 Créditos</button>
+                        </div>
+                      </div>
+                    </div>
+
+              </div>
+            </div>
+            
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ********************************* -->
+
+<div class="modal" id="modalHoraPromocion" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content borderRadius0px">
+      <div class="modal-header">
+        <h5 class="modal-title textCenter fontSize14px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto">Configurar tu promocion</h5>
+        <button type="button" class="close outlineNone" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            
+            <input type="hidden" id="inpIdOpcionPromocion">
+            <input type="hidden" id="inpDiasPromocion">
+            <input type="hidden" id="inpHorasPromocion">
+
+            <input type="hidden" id="inpFecha1Promocion">
+            <input type="hidden" id="inpFecha2Promocion">
+
+            <p class="textCenter fontFamilyRoboto fontSize14px colorGrisClaro">Calcular duracion de la promocion:</p>
+                        
+            <p class="textCenter fontSize14px fontFamilyRoboto">Escoge una hora de incio</p>
+
+             <div class="row">
+                <div class="col-sm-12 margin_top_small">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text fontFamilyRoboto fontSize14px borderRadius0px" id="basic-addon3">Hora Inicio:</span>
+                        </div>
+                        <input type="time" id="inpHoraInicioPromocion" name="inpHoraInicioPromocion" class="form-control inputStyle fontSize16px backgroudWhite textCenter borderRadius0px" aria-describedby="basic-addon3">
+                    </div>
+                </div>
+            </div>
+
+            <p class="textCenter fontSize14px margin_bottom_5px fontFamilyRoboto">La promocion se efectuara entre los dias:</p>
+
+            <p id="lblFechasPromocion" class="textCenter fontSize14px margin_bottom_5px fontFamilyRoboto">-</p>
+
+            <p class="textCenter fontSize14px margin_bottom_5px fontFamilyRoboto">y entre las horas:</p>
+
+            <p id="lblHorasPromocion" class="textCenter fontSize14px margin_bottom_5px fontFamilyRoboto">-</p>
+
+           
+
+      </div>
+      <div class="modal-footer">
+        <button id="btnAceptarPromocion" type="button" class="btn btn-primary borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo">Aceptar</button>
         <button type="button" class="btn btn-default borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo" data-dismiss="modal">Cerrar</button>
       </div>
     </div>

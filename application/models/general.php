@@ -244,7 +244,7 @@ class general extends CI_Model {
     public function db_get_anuncios($idCategoria, $idDepartamento, $idCiudad, $idEtiqueta, $text) {
         $this->db->trans_start();
 
-        $querySelect = "SELECT a.id, `titulo`, `descripcion`, `id_tipo`,  ciu.nombre ciudad, cate.nombre categoria, (SELECT COUNT(*) FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id) countImagenes 
+        $querySelect = "SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, cate.nombre categoria, (SELECT COUNT(*) FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id) countImagenes 
         FROM anuncios a JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id` JOIN categorias cate ON a.`id_categoria`=cate.`id`";
 
         if($idEtiqueta <> "NaN"){
@@ -643,6 +643,38 @@ class general extends CI_Model {
         }
     }
 
+    public function db_get_promocionesByTipoAndDia($idPaquete, $dias) {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT * FROM `opciones_paquetes` WHERE `idPaquete`=? AND dias =? ORDER BY horas', array($idPaquete, $dias));
+        $a = $result->result_array();
+        $result->free_result();
+        
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
+    public function db_get_promociones_relojitoActivasByAnuncio($idAnuncio) {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT TIME_FORMAT(`hora_inicial`, "%h:%i %p") hora_inicial FROM paquetes_anuncios WHERE idOpcPaq=1 AND (`fecha_final` > DATE(NOW()) OR 
+                                ( `fecha_final` = DATE(NOW()) AND `hora_final` > TIME(NOW())))
+                                AND `estado`="VIGENTE" AND idAnuncio=?', array($idAnuncio));
+        $a = $result->result_array();
+        $result->free_result();
+        
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
     public function db_get_preciosCreditos() {
         $this->db->trans_start();
 
@@ -698,7 +730,7 @@ class general extends CI_Model {
     public function db_get_anunciosByUser($idUsuario) {
         $this->db->trans_start();
 
-		$resultAnuncios = $this->db->query("SELECT a.id, `titulo`, `descripcion`, `id_tipo`,  ciu.nombre ciudad, a.`fecha_creacion`,
+		$resultAnuncios = $this->db->query("SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, a.`fecha_creacion`,
         cate.nombre categoria, IFNULL(DATE_FORMAT(a.`fecha_ultima_edicion`, '%d/%m/%Y - %H:%i'), 'Sin ediciones') fechaUltEdicionFormat, 
             IFNULL((SELECT url FROM imagenes_anuncios i WHERE i.id_anuncio=a.id LIMIT 1), 'default_img.svg') url
             FROM anuncios a 
@@ -841,7 +873,27 @@ class general extends CI_Model {
         }
     }
 
+    public function db_insert_promocion_anuncio($idAnuncio, $idOpcion, $fechaHoraI, $fechaHoraF, $idUsuario) {
+        $this->db->trans_start(); 
+        
+        $resultValid = $this->db->query('SELECT IF((`cantidad`-valor)>=0,1,0) rtn FROM (SELECT `cantidad`, (SELECT valor FROM `opciones_paquetes` WHERE id=?) valor FROM `movimientos` WHERE `idUsuario`=?) q', array($idOpcion, $idUsuario));
+        $valid = $resultValid->result_array();
+        $resultValid->free_result();
+        if($valid[0]["rtn"] == "0"){
+            return array("resultado" => false, "message" => "No tienes suficientes creditos para la compra");
+        }
 
+        $this->db->query('INSERT INTO `paquetes_anuncios`(`idAnuncio`, `idOpcPaq`, `fecha_inicial`, `fecha_final`, `hora_inicial`, `hora_final`) VALUES(?,?,date(?),date(?),time(?),time(?))', array($idAnuncio, $idOpcion, $fechaHoraI, $fechaHoraF, $fechaHoraI, $fechaHoraF));
+
+        $this->db->query('UPDATE `movimientos` SET `cantidad` = (`cantidad` - (SELECT valor FROM `opciones_paquetes` WHERE id=?)) WHERE `idUsuario`=?', array($idOpcion, $idUsuario));
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "message" => "Anuncio promocionado satisfactoriamente");
+        }
+    }
 
 
 

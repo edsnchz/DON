@@ -36,8 +36,12 @@ $(function () {
         }
     });
 
-    function createCarouselAnunciosAll(i, stringImagenes) {
-        return string = '<div id="CarouselAnunciosAll' + i + '" class="carousel slide" data-ride="carousel"><div class="carousel-inner">' + stringImagenes + '</div><a class="carousel-control-prev" href="#CarouselAnunciosAll' + i + '" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#CarouselAnunciosAll' + i + '" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a></div>';
+    function createCarouselAnunciosCuadricula(i, stringImagenes) {
+        return string = '<div id="CarouselAnunciosAll' + i + '" class="carousel slide height100porciento" data-ride="carousel"><div class="carousel-inner height100porciento">' + stringImagenes + '</div><a class="carousel-control-prev" href="#CarouselAnunciosAll' + i + '" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#CarouselAnunciosAll' + i + '" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a></div>';
+    }
+
+    function createCarouselAnunciosLista(i, stringImagenes) {
+        return string = '<div id="CarouselAnunciosAll' + i + '" class="carousel slide height100porciento height130pxDesktop" data-ride="carousel"><div class="carousel-inner height100porciento">' + stringImagenes + '</div><a class="carousel-control-prev" href="#CarouselAnunciosAll' + i + '" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#CarouselAnunciosAll' + i + '" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a></div>';
     }
 
     $.ajax({
@@ -68,7 +72,7 @@ $(function () {
             if (data.resultado == true) {
                 $.each(data.data, function (key, value) {
                     $("#inpCategorias").append("<option value=" + value.id + ">" + value.nombre + "</option>");
-                    $("#enlacesCategorias").append('<li class="liEnlacesCategorias" data-state="' + $('#inpDepartamentos').val() + '" data-categoria="' + value.id + '">' + value.nombre + ' en ' + $("#inpDepartamentos option:selected").text() + '</li>');
+                    $(".enlacesCategorias").append('<li class="liEnlacesCategorias" data-state="' + $('#inpDepartamentos').val() + '" data-categoria="' + value.id + '">' + value.nombre + ' en ' + $("#inpDepartamentos option:selected").text() + '</li>');
                 });
             }
             $("#inpCategorias").val(categorias[1]);
@@ -147,7 +151,7 @@ $(function () {
                                 stringImagenesTemp += '<div style= "height: 150px" class="carousel-item backgroundGrayDos"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel" style= "height: 150px"></div>';
                             }
                         });
-                        stringImagenes = createCarouselAnunciosAll(value.id, stringImagenesTemp);
+                        stringImagenes = createCarouselAnunciosCuadricula(value.id, stringImagenesTemp);
 
                         var stringTop = '';
                         if (value.id_tipo != 1) {
@@ -163,7 +167,7 @@ $(function () {
 
                         var stringCityAnuncio = '<div class="btnCityAnuncio">' + value.ciudad + '</div>';
 
-                        $(".card-columns").append('<div class="card sombra cardAnuncio"><div style= "height: 150px" >' + stringImagenes + stringCategoria + stringTop + stringCountImgs + stringCityAnuncio + '</div> <div class="card-block"><h4 class="card-title cursorPointer padding10px margin0 paddinginferior0 selectAnuncio hoverColorPink colorGrisOscuro fontFamilyRoboto fontWeight900" data-id=' + value.id + '>' + value.titulo + '</h4><div class="card-text padding10px fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 80) ? value.descripcion.substring(0, 80) + "..." : value.descripcion) + '</div>' + stringEtiquetas + '<br><br></div></div>');
+                        $(".card-columns").append('<div class="card sombra cardAnuncio"><div style= "height: 150px" >' + stringImagenes + stringCategoria + stringTop + stringCountImgs + stringCityAnuncio + '</div> <div class="card-block"><h4 class="card-title cursorPointer padding10px margin0 paddinginferior0 selectAnuncio hoverColorPink colorGrisOscuro fontFamilyRoboto fontWeight900" data-id=' + value.id + '>' + value.titulo + '</h4><div class="card-text padding10px fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 80) ? value.descripcion.substring(0, 80) + "..." : value.descripcion) + '</div>' + ((countEtiquetas>0)?stringEtiquetas + "<br><br>":"") + '</div></div>');
 
                     });
                 }
@@ -202,12 +206,12 @@ $(function () {
                         var stringImagenesTemp = '';
                         $.each(value.imagenes, function (indexI, imagen) {
                             if (indexI == 0) {
-                                stringImagenesTemp += '<div style= "height: 130px" class="carousel-item active backgroundGrayDos"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel" style= "height: 150px"></div>';
+                                stringImagenesTemp += '<div class="carousel-item active backgroundGrayDos height100porciento"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel height100porciento"></div>';
                             } else {
-                                stringImagenesTemp += '<div style= "height: 130px" class="carousel-item backgroundGrayDos"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel" style= "height: 150px"></div>';
+                                stringImagenesTemp += '<div class="carousel-item backgroundGrayDos height100porciento"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel height100porciento"></div>';
                             }
                         });
-                        stringImagenes = createCarouselAnunciosAll(value.id, stringImagenesTemp);
+                        stringImagenes = createCarouselAnunciosLista(value.id, stringImagenesTemp);
 
                         var stringTop = '';
                         if (value.id_tipo != 1) {
@@ -223,7 +227,9 @@ $(function () {
 
                         var stringCityAnuncio = '<div class="btnCityAnuncioList">' + value.ciudad + '</div>';
 
-                        $("#divCuadricula").append('<div class="row backgroundGray sombra margin_top_medium"><div class="col-sm-12"><div class="row cardAnuncio"><div class="col-4 col-sm-3 padding0" style="height: 130px">' + stringImagenes + stringCategoria + stringTop + stringCountImgs + '</div><div class="col-8 col-sm-7 paddingSuperior15px paddingLaterales20px"><h5 class="cursorPointer selectAnuncio hoverColorPink colorGrisOscuro fontFamilyRoboto fontWeight900" data-id=' + value.id + '>' + ((value.titulo.length > 110) ? value.titulo.substring(0, 110) + "..." : value.titulo) + '</h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 130) ? value.descripcion.substring(0, 130) + "..." : value.descripcion) + stringCityAnuncio + '</p></div><div class="col-sm-2 d-none d-sm-block" style="padding: 0px 5px">' + stringEtiquetas + '</div></div> </div></div>');
+                        var divStringEtiquetas =  ((countEtiquetas>0)?('<div class="col-sm-2 d-none d-sm-block" style="padding: 0px 5px">' + stringEtiquetas + '</div>'):"");
+
+                        $("#divCuadricula").append('<div class="row backgroundGray margin_top_medium"><div class="col-sm-12"><div class="container-fluid"><div class="row row-eq-height sombra cardAnuncio"><div class="col-4 col-sm-3 padding0">' + stringImagenes + stringCategoria + stringTop + stringCountImgs + '</div><div class="'+((countEtiquetas>0)?('col-8 col-sm-7'):('col-8 col-sm-9'))+' paddingSuperior15px paddingLaterales20px"><h5 class="cursorPointer selectAnuncio hoverColorPink colorGrisOscuro fontFamilyRoboto fontWeight900" data-id=' + value.id + '>' + ((value.titulo.length > 100) ? value.titulo.substring(0, 100) + "..." : value.titulo) + '</h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px marginBottom22pxMovil margin_bottom_30px">' + ((value.descripcion.length > 90) ? value.descripcion.substring(0, ((countEtiquetas>0)?90:200)) + "..." : value.descripcion) + stringCityAnuncio + '</p></div>'+divStringEtiquetas+'</div></div></div></div>');
 
                     });
                 }
@@ -349,17 +355,17 @@ $(function () {
 
     }
 
-    $("#btnViewTable").click(function () {
+    $(".btnViewTable").click(function () {
         tipoGridView = "table";
         $(this).removeClass("inactivo");
-        $("#btnViewList").addClass("inactivo");
+        $(".btnViewList").addClass("inactivo");
         createAnuncios(lastParams.categorias, lastParams.departamento, lastParams.ciudad, lastParams.etiqueta, lastParams.text, tipoGridView);
     });
 
-    $("#btnViewList").click(function () {
+    $(".btnViewList").click(function () {
         tipoGridView = "list";
         $(this).removeClass("inactivo");
-        $("#btnViewTable").addClass("inactivo");
+        $(".btnViewTable").addClass("inactivo");
         createAnuncios(lastParams.categorias, lastParams.departamento, lastParams.ciudad, lastParams.etiqueta, lastParams.text, tipoGridView);
     });
 

@@ -27,7 +27,8 @@ class c_app extends CI_Controller {
 			base_url()."js/views/usuario.js",
 			"https://code.jquery.com/ui/1.12.1/jquery-ui.js",
 			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js",
-			"https://checkout.epayco.co/checkout.js"
+			"https://checkout.epayco.co/checkout.js",
+			"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.js"
 		));
 		$this->layout->css(Array(
 			base_url()."css/uploadImages.css",

@@ -252,7 +252,7 @@ $(function () {
                     $("#divCondicionesEditar").html("");
                     $.each(data.condiciones, function (index, value) {
                         numRowsOptionServiciosEditar.push(value.id);
-                        $("#divCondicionesEditar").append('<div id="rowOptionServiceEditar' + value.id + '" class="row margin_top_medium"><div class="col-sm-3"><input type="text" id="inpPrecioEditar' + value.id + '" class="form-control inputStyle inpPrecioEditar" placeholder="Valor" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"></div><div class="col-sm-4"><select id="inpTiempoEditar' + value.id + '" class="form-control inputStyle inpTiempoEditar"><option value="N/A">Tiempo</option></select></div><div class="col-sm-4"><select id="inpRelacionesEditar' + value.id + '" class="form-control inputStyle inpRelacionesEditar"><option value="N/A">Relaciones</option></select></div><div class="col-sm-1 centradoVertical"><button type="button" class="borderNone backgroudNone colorRed outlineNone btnEliminarRowCondicionEditar" data-id="' + value.id + '"><i class="far fa-minus-square fontSize25px"></i></button></div></div>');
+                        $("#divCondicionesEditar").append('<div id="rowOptionServiceEditar' + value.id + '" class="row margin_top_medium"><div class="col-6 col-sm-3 margin_top_small paddingRight5pxMovil"><input type="text" id="inpPrecioEditar' + value.id + '" class="form-control inputStyle inpPrecioEditar" placeholder="Valor" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"></div><div class="col-6 col-sm-4 margin_top_small paddingLeft5pxMovil"><select id="inpTiempoEditar' + value.id + '" class="form-control inputStyle inpTiempoEditar"><option value="N/A">Tiempo</option></select></div><div class="col-6 col-sm-4 margin_top_small paddingRight5pxMovil"><select id="inpRelacionesEditar' + value.id + '" class="form-control inputStyle inpRelacionesEditar"><option value="N/A">Relaciones</option></select></div><div class="col-6 col-sm-1 centradoVertical margin_top_small paddingLeft5pxMovil"><button type="button" class="borderNone backgroudNone colorRed outlineNone btnEliminarRowCondicionEditar width100porciento displayFlexCenterMovil" data-id="' + value.id + '"><span class="d-block d-sm-none fontSize13px margin_right_small">Eliminar:</span><i class="far fa-minus-square fontSize25px"></i></button></div></div>');
                         AjaxloadOptionsServices({ tipo: "id", id: value.id, accion: "editar" });
 
                         $("#inpPrecioEditar" + value.id).val(value.precio);
@@ -356,7 +356,7 @@ $(function () {
 
                         var stringNumero = '<div class="btnNumeroMiAnuncio">ID: ' + value.id + '</div>';
 
-                        $("#divMisAnuncios").append('<div class="col-sm-12 col-md-6"><div class="container backgroundGray sombra margin_top_medium"><div class="row"><div class="col-4 col-sm-3 padding0"><div class="backgroundGrayDos"><img src="../../uploads/anuncios/' + value.url + '" class="imgItemCarousel" style="height: 143px"></div>' + stringTop + stringNumero + '</div><div class="col-8 col-sm-6 paddingSuperior10px"><h5 class="colorGrisOscuro fontFamilyRoboto fontWeight900 margin_bottom_5px">' + ((value.titulo.length > 50) ? value.titulo.substring(0, 50) + "..." : value.titulo) + '</h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 50) ? value.descripcion.substring(0, 50) + "..." : value.descripcion) + '</p>' + stringCategoria + stringCityAnuncio + stringUltEdicion + '</div><div class="col-12 col-sm-3" style="padding: 0px 5px"><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEditarAnuncio" data-id="' + value.id + '" title="Editar Anuncio"><i class="far fa-edit"></i></button><button class="btn backgroundGrayDosbtn btnEliminarAnuncio" data-id="' + value.id + '" title="Eliminar Anuncio"><i class="far fa-trash-alt"></i></button></div><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEstadisticas" data-id="' + value.id + '" title="Estadísticas"><i class="far fa-chart-bar"></i></button><button class="btn backgroundGrayDosbtn" data-id="' + value.id + '" title="Programar Subidas"><i class="far fa-clock"></i></button></div><button class="btn fontFamilyRoboto backgroundPinkClaro hoverBackgroundPinkOscuro hoverColorWhite width100porciento margin_top_7px colorWhite fontSize13px borderRadius0px fontWeight600" data-id="' + value.id + '">Promocionar</button></div></div></div></div>');
+                        $("#divMisAnuncios").append('<div class="col-sm-12 col-md-6"><div class="container backgroundGray sombra margin_top_medium"><div class="row"><div class="col-4 col-sm-3 padding0"><div class="backgroundGrayDos"><img src="../../uploads/anuncios/' + value.url + '" class="imgItemCarousel" style="height: 143px"></div>' + stringTop + stringNumero + '</div><div class="col-8 col-sm-6 paddingSuperior10px"><h5 class="colorGrisOscuro fontFamilyRoboto fontWeight900 margin_bottom_5px">' + ((value.titulo.length > 50) ? value.titulo.substring(0, 50) + "..." : value.titulo) + '</h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 50) ? value.descripcion.substring(0, 50) + "..." : value.descripcion) + '</p>' + stringCategoria + stringCityAnuncio + stringUltEdicion + '</div><div class="col-12 col-sm-3" style="padding: 0px 5px"><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEditarAnuncio" data-id="' + value.id + '" title="Editar Anuncio"><i class="far fa-edit"></i></button><button class="btn backgroundGrayDosbtn btnEliminarAnuncio colorRed2" data-id="' + value.id + '" title="Eliminar Anuncio"><i class="far fa-trash-alt"></i></button></div><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEstadisticas" data-id="' + value.id + '" title="Estadísticas"><i class="far fa-chart-bar"></i></button><button class="btn backgroundGrayDosbtn btnRelojito colorPink" data-id="' + value.id + '" title="Subidas Individuales"><i class="fas fa-history"></i></button></div><button class="btnPromocionar btn fontFamilyRoboto backgroundPinkClaro hoverBackgroundPinkOscuro hoverColorWhite width100porciento margin_top_7px colorWhite fontSize13px borderRadius0px fontWeight600" data-id="' + value.id + '">Promocionar</button></div></div></div></div>');
                     });
                 }
 
@@ -372,9 +372,78 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     data = data.data;
-                    $("#spCreditos2").html('Tus créditos: ' + data[0]["cantidad"] + ' <i class="fas fa-coins"></i>');
+                    $(".spCreditos2").html('Tus créditos: ' + data[0]["cantidad"] + ' <i class="fas fa-coins"></i>');
                 } else {
                     toastr.error("Error al cargar los créditos");
+                }
+            }
+        });
+    }
+
+    function AjaxReturnMisCreditos() {
+        let temp;
+        $.ajax({
+            url: '../c_general/getCreditosByUser',
+            type: 'POST',
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.resultado == true) {
+                    data = data.data;
+                    temp = data[0]["cantidad"];
+                } else {
+                    toastr.error("Error al cargar los créditos");
+                }
+            }
+        });
+        return temp;
+    }
+
+    function AjaxGetPromocionesByIdPaqueteAndDia(idPaquete, dia) {
+        var rtn;
+        $.ajax({
+            url: '../c_general/getPromocionesByTipoAndDia',
+            type: 'POST',
+            dataType: "json",
+            data: {idPaquete: idPaquete, dias: dia},
+            async: false,
+            success: function (data) {
+                if (data.resultado == true) {
+                    rtn = data.data;
+                } else {
+                    toastr.error("Error al cargar los paquetes");
+                }
+            }
+        });
+        return rtn;
+    }
+
+    function AjaxGetRelojitosActuales(idAnuncio) {
+        $("#divPillsRelojitosActivos").html("");
+        $.ajax({
+            url: '../c_general/getPromocionesRelojitoActivas',
+            type: 'POST',
+            dataType: "json",
+            data: {idAnuncio: idAnuncio},
+            success: function (data) {
+                if (data.resultado == true) {
+                    let datos = data.data;
+                    $.each(datos, function (key, value) {
+                        $("#divPillsRelojitosActivos").append('<span class="badge badge-success fontFamilyRoboto colorWhite fontSize14px '+((key>0)?'margin_left_10px':'')+' margin_top_6px">'+value.hora_inicial+'</span>');
+                    });
+                    if(datos.length >= 5){
+                        $("#btnAceptarRelojito").prop("disabled", true);
+                        $("#inpHoraInicioRelojito").prop("disabled", true);
+                        $("#divAlertMaximoRelojito").removeClass("displayNone");
+                        $("#divAlertMaximoRelojito").addClass("displayBlock");                        
+                    }else{
+                        $("#btnAceptarRelojito").prop("disabled", false);
+                        $("#inpHoraInicioRelojito").prop("disabled", false);
+                        $("#divAlertMaximoRelojito").removeClass("displayBlock");
+                        $("#divAlertMaximoRelojito").addClass("displayNone");
+                    }
+                } else {
+                    toastr.error("Error al cargar subidas individuales programadas");
                 }
             }
         });
@@ -388,7 +457,7 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
-                        $("#divPrecios").append('<div class="col-12 col-sm-4 col-md-2"><div class="card"><div class="card-body centradoHorizontal" style="height: 80px"><h5 class="textCenter fontSize22px margin_bottom_0px">' + value.creditos + '</h5><h6 class="fontFamilyRoboto margin_bottom_0px colorGrisOscuro margin_top_8px">&nbsp;Créditos</h6><label class="textCenter positionAbsolute Top45px fontFamilyRoboto fontSize13px colorGrisMenosOscuro">' + value.beneficio + '</label></div><ul class="list-group list-group-flush"><li class="list-group-item textCenter fontSize18px fontFamilyRoboto paddingSuperiorInferior20px">' + formatCurrencyString(value.valor) + '</li></ul><div class="card-body backgroundPinkClaro textCenter cursorPointer hoverBackgroundPinkOscuro btnComprarCreditos" data-id="' + value.id + '"><h4 class="colorWhite fontSize14px textUppercase fontWeight600 margin_bottom_0px">Comprar</h4></div></div></div>');
+                        $("#divPrecios").append('<div class="col-12 col-sm-4 col-md-2 margin_top_medium"><div class="card sombraPequeña"><div class="card-body centradoHorizontal" style="height: 80px"><h5 class="textCenter fontSize22px margin_bottom_0px">' + value.creditos + '</h5><h6 class="fontFamilyRoboto margin_bottom_0px colorGrisOscuro margin_top_8px">&nbsp;Créditos</h6><label class="textCenter positionAbsolute Top45px fontFamilyRoboto fontSize13px colorGrisMenosOscuro">' + value.beneficio + '</label></div><ul class="list-group list-group-flush"><li class="list-group-item textCenter fontSize18px fontFamilyRoboto paddingSuperiorInferior20px">' + formatCurrencyString(value.valor) + '</li></ul><div class="card-body backgroundPinkClaro textCenter cursorPointer hoverBackgroundPinkOscuro btnComprarCreditos" data-id="' + value.id + '"><h4 class="colorWhite fontSize14px textUppercase fontWeight600 margin_bottom_0px">Comprar</h4></div></div></div>');
                     });
                 } else {
                     toastr.error("Error al cargar los precios");
@@ -414,6 +483,21 @@ $(function () {
                 }
             }
         });
+    }
+
+    function AjaxInsertPromocionAnuncio(idAnuncio, idOpcion, fechaHoraI, fechaHoraF) {
+        let rtn;
+        $.ajax({
+            url: '../c_general/insertPromocionAnuncio',
+            type: 'POST',
+            dataType: "json",
+            data: { idAnuncio: idAnuncio, idOpcion: idOpcion, fechaHoraI: fechaHoraI, fechaHoraF: fechaHoraF },
+            async: false,
+            success: function (data) {
+                rtn = data;
+            }
+        });
+        return rtn;
     }
 
     function AjaxGetMisFotos() {
@@ -501,7 +585,7 @@ $(function () {
                     $.each(data.data, function (key, value) {
                         if (key == 0) {
                             AjaxGetMensajes(value.correo);
-                            $("#divRemitentes").append('<div class="rowRemitentes col-sm-12 borderSolidGray2 paddingSuperiorInferior15px hoverLeftSolidPink cursorPointer fontFamilyRoboto" data-correo="' + value.correo + '"><i class="fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro"></i><label class="paddingLeft15px">' + value.correo + '</label><button class="btn btn-light btnMarkItemAnuncio fontWeight400 btnResponderMail height100porciento fontFamilyRoboto paddingSuperiorInferior5px" data-correo="' + value.correo + '"><span class="oi oi-share"></span> <br> Enviar mail</button></div>');
+                            $("#divRemitentes").append('<div class="rowRemitentes col-sm-12 borderSolidGray2 paddingSuperiorInferior15px hoverLeftSolidPink cursorPointer fontFamilyRoboto" data-correo="' + value.correo + '"><i class="fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro"></i><label class="paddingLeft15px">' + value.correo + '</label><button class="btn btn-light btnMarkItemAnuncio fontWeight600 colorGrisOscuro btnResponderMail height100porciento fontFamilyRoboto paddingSuperiorInferior5px" data-correo="' + value.correo + '"><span class="oi oi-share"></span> <br> Enviar mail</button></div>');
                         } else {
                             $("#divRemitentes").append("<div class='rowRemitentes col-sm-12 borderSolidGray2 paddingSuperiorInferior15px hoverLeftSolidPink cursorPointer fontFamilyRoboto' data-correo='" + value.correo + "'><i class='fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro'></i><label class='paddingLeft15px'>" + value.correo + "</label></div>");
                         }
@@ -580,23 +664,23 @@ $(function () {
     }
 
     function renderCelulares(i, id, number) {
-        $("#divTelefonos").append('<div class="col-sm-3"><div class="card"><div class="card-body textCenter"><h6 id="lblNumero' + id + '" class="card-subtitle mb-2 text-muted textCenter fontWeight600 colorGrisOscuroTels">' + number + '</h6><p class="card-text"><div class="form-group pull-left centradoVertical"><input id="inpWhat' + i + '" type="checkbox" name="inpWhat' + i + '" class="checkStyle margin_left_small" data-id="' + id + '"><label for="inpWhat' + i + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">WhatsApp</label></div><br><div class="form-group pull-left centradoVertical margin_top_small"><input id="inpTel' + i + '" type="checkbox" name="inpTel' + i + '" class="checkStyle margin_left_small"  data-id="' + id + '"><label for="inpTel' + i + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">Llamadas</label></div></p><br><br><a id="btnEliminar' + i + '" href="#" class="card-link margin0 colorRed hoverGrisClaro fontFamilyRoboto fontSize14px" data-id="' + id + '" onclick="eliminarNumero(this)" data-toggle="modal" data-target="#modalEliminarNumero">Eliminar</a></div></div></div>');
+        $("#divTelefonos").append('<div class="col-sm-3 margin_top_small"><div class="card backgroundGhostWhite"><div class="card-body textCenter"><h6 id="lblNumero' + id + '" class="card-subtitle mb-2 text-muted textCenter fontWeight600 colorGrisOscuroTels fontSizeBig fontSize17pxMovil">' + number + '</h6><p class="card-text"><div class="row"><div class="col-6 col-sm-12"><div class="form-group pull-left centradoVertical"><input id="inpWhat' + i + '" type="checkbox" name="inpWhat' + i + '" class="checkStyle margin_left_small" data-id="' + id + '"><label for="inpWhat' + i + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">WhatsApp</label></div></div><div class="col-6 col-sm-12"><div class="form-group pull-left centradoVertical"><input id="inpTel' + i + '" type="checkbox" name="inpTel' + i + '" class="checkStyle margin_left_small margin0Movil"  data-id="' + id + '"><label for="inpTel' + i + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">Llamadas</label></div></div></p><br><br><a id="btnEliminar' + i + '" href="#" class="card-link margin0 colorRed hoverGrisClaro fontFamilyRoboto fontSize14px width100porciento" data-id="' + id + '" onclick="eliminarNumero(this)" data-toggle="modal" data-target="#modalEliminarNumero">Eliminar</a></div></div></div>');
     }
 
     function renderCelularesVacias() {
-        $("#divTelefonos").append('<div class="col-sm-3"><div class="card backgroundGrayDos colorWhite cursorPointer" style="height: 180px"><div class="card-body textCenter"><h6 class="card-subtitle mb-2 text-muted textCenter"></h6><p class="card-text"><div class="form-group"><img class="height80px" src="../../images/phone_plus.svg"></div></p><a href="#" class="card-link hoverGrisClaro fontFamilyRoboto fontSize14px" data-toggle="modal" data-target="#modalNumber">Agregar número</a></div></div></div>');
+        $("#divTelefonos").append('<div class="col-sm-3 margin_top_small"><div class="card backgroundGrayDos colorWhite cursorPointer" style="height: 180px"><div class="card-body textCenter"><h6 class="card-subtitle mb-2 text-muted textCenter"></h6><p class="card-text"><div class="form-group"><img class="height80px" src="../../images/phone_plus.svg"></div></p><a href="#" class="card-link hoverGrisClaro fontFamilyRoboto fontSize14px" data-toggle="modal" data-target="#modalNumber">Agregar número</a></div></div></div>');
     }
 
     function renderCelularesEditar(id, number) {
-        $("#divTelefonosEditar").append('<div class="col-sm-3"><div class="card"><div class="card-body textCenter"><h6 id="lblNumero' + id + '" class="card-subtitle mb-2 text-muted textCenter fontWeight600 colorGrisOscuroTels">' + number + '</h6><p class="card-text"><div class="form-group pull-left centradoVertical"><input id="inpWhatEditar' + id + '" type="checkbox" name="inpWhat' + id + '" class="checkStyle margin_left_small" data-id="' + id + '"><label for="inpWhatEditar' + id + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">WhatsApp</label></div><br><div class="form-group pull-left centradoVertical margin_top_small"><input id="inpTelEditar' + id + '" type="checkbox" name="inpTel' + id + '" class="checkStyle margin_left_small"  data-id="' + id + '"><label for="inpTelEditar' + id + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">Llamadas</label></div></p></div></div></div>');
+        $("#divTelefonosEditar").append('<div class="col-sm-3 margin_top_small"><div class="card backgroundGhostWhite"><div class="card-body textCenter"><h6 id="lblNumero' + id + '" class="card-subtitle mb-2 text-muted textCenter fontWeight600 colorGrisOscuroTels fontSizeBig fontSize17pxMovil">' + number + '</h6><p class="card-text"><div class="row"><div class="col-6 col-sm-12"><div class="form-group pull-left centradoVertical"><input id="inpWhatEditar' + id + '" type="checkbox" name="inpWhat' + id + '" class="checkStyle margin_left_small" data-id="' + id + '"><label for="inpWhatEditar' + id + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">WhatsApp</label></div></div><div class="col-6 col-sm-12"><div class="form-group pull-left centradoVertical"><input id="inpTelEditar' + id + '" type="checkbox" name="inpTel' + id + '" class="checkStyle margin_left_small"  data-id="' + id + '"><label for="inpTelEditar' + id + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">Llamadas</label></div></div></p></div></div></div>');
     }
 
     function addRowOptionsServicios(num) {
-        $("#divRowsOptionsServicios").append('<div id="rowOptionService' + num + '" class="row margin_top_small rowOptionService"><div class="col-sm-3"><input type="text" class="form-control inputStyle" id="inpPrecio' + num + '" name="inpPrecio' + num + '" placeholder="Valor" data-type="currency" pattern="^\\$\\d{1,3}(,\\d{3})"></div><div class="col-sm-4"><select id="inpTiempo' + num + '" class="form-control inputStyle"><option value="N/A">Tiempo</option></select></div><div class="col-sm-4"><select id="inpRelaciones' + num + '" class="form-control inputStyle"><option value="N/A">Relaciones</option></select></div><div class="col-sm-1 centradoVertical"><button type="button" class="borderNone backgroudNone colorRed btnDeleteRowOptionService hoverGrisClaro outlineNone" data-id="' + num + '"><i class="far fa-minus-square fontSize25px"></i></button></div></div>');
+        $("#divRowsOptionsServicios").append('<div id="rowOptionService' + num + '" class="row margin_top_small rowOptionService"><div class="col-6 col-sm-3 margin_top_small paddingRight5pxMovil"><input type="text" class="form-control inputStyle" id="inpPrecio' + num + '" name="inpPrecio' + num + '" placeholder="Valor" data-type="currency" pattern="^\\$\\d{1,3}(,\\d{3})"></div><div class="col-6 col-sm-4 margin_top_small paddingLeft5pxMovil"><select id="inpTiempo' + num + '" class="form-control inputStyle"><option value="N/A">Tiempo</option></select></div><div class="col-6 col-sm-4 margin_top_small paddingRight5pxMovil"><select id="inpRelaciones' + num + '" class="form-control inputStyle"><option value="N/A">Relaciones</option></select></div><div class="col-6 col-sm-1 centradoVertical margin_top_small paddingLeft5pxMovil"><button type="button" class="borderNone backgroudNone colorRed btnDeleteRowOptionService hoverGrisClaro outlineNone width100porciento displayFlexCenterMovil" data-id="' + num + '"><span class="d-block d-sm-none fontSize13px margin_right_small colorRed">Eliminar:</span><i class="far fa-minus-square fontSize25px"></i></button></div></div>');
     }
 
     function addRowOptionsServiciosEditar(num) {
-        $("#divCondicionesEditar").append('<div id="rowOptionServiceEditar' + num + '" class="row margin_top_medium"><div class="col-sm-3"><input type="text" id="inpPrecioEditar' + num + '" class="form-control inputStyle inpPrecioEditar" placeholder="Valor" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"></div><div class="col-sm-4"><select id="inpTiempoEditar' + num + '" class="form-control inputStyle inpTiempoEditar"><option value="N/A">Tiempo</option></select></div><div class="col-sm-4"><select id="inpRelacionesEditar' + num + '" class="form-control inputStyle inpRelacionesEditar"><option value="N/A">Relaciones</option></select></div><div class="col-sm-1 centradoVertical"><button type="button" class="borderNone backgroudNone colorRed outlineNone btnEliminarRowCondicionEditar" data-id="' + num + '"><i class="far fa-minus-square fontSize25px"></i></button></div></div>');
+        $("#divCondicionesEditar").append('<div id="rowOptionServiceEditar' + num + '" class="row margin_top_medium"><div class="col-6 col-sm-3 margin_top_small paddingRight5pxMovil"><input type="text" id="inpPrecioEditar' + num + '" class="form-control inputStyle inpPrecioEditar" placeholder="Valor" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"></div><div class="col-6 col-sm-4 margin_top_small paddingLeft5pxMovil"><select id="inpTiempoEditar' + num + '" class="form-control inputStyle inpTiempoEditar"><option value="N/A">Tiempo</option></select></div><div class="col-6 col-sm-4 margin_top_small paddingRight5pxMovil"><select id="inpRelacionesEditar' + num + '" class="form-control inputStyle inpRelacionesEditar"><option value="N/A">Relaciones</option></select></div><div class="col-6 col-sm-1 centradoVertical margin_top_small paddingLeft5pxMovil"><button type="button" class="borderNone backgroudNone colorRed outlineNone btnEliminarRowCondicionEditar width100porciento displayFlexCenterMovil" data-id="' + num + '"><span class="d-block d-sm-none fontSize13px margin_right_small colorRed">Eliminar:</span><i class="far fa-minus-square fontSize25px"></i></button></div></div>');
     }
 
     $("#inpCategorias").change(function () {
@@ -909,9 +993,16 @@ $(function () {
     });
 
     $('body').on('click', '.rowRemitentes', function () {
+        if(isMobileAndTablet()){
+            $("#divColRemitentes").toggle("slide", function(){
+                $("#divMensajes").toggleClass("displayNoneMovil");
+            });
+            $("#btnArrowMensajes").show("slide", { direction: "right" }, 400);    
+        }
+
         AjaxGetMensajes($(this).data("correo"));
         $(".rowRemitentes button").remove(":contains('Enviar')");
-        $(this).append('<button class="btn btn-light btnMarkItemAnuncio fontWeight400 btnResponderMail height100porciento fontFamilyRoboto paddingSuperiorInferior5px" data-correo="' + $(this).data("correo") + '"><span class="oi oi-share"></span> <br> Enviar mail</button>');
+        $(this).append('<button class="btn btn-light btnMarkItemAnuncio fontWeight600 colorGrisOscuro btnResponderMail height100porciento fontFamilyRoboto paddingSuperiorInferior5px" data-correo="' + $(this).data("correo") + '"><span class="oi oi-share"></span> <br> Enviar mail</button>');
     });
 
     $('body').on('click', '.btnResponderMail', function () {
@@ -924,6 +1015,12 @@ $(function () {
     $("#tabMensajes").click(function () {
         $(this).html('MENSAJES');
         AjaxSetUltimaVistaMensajes();
+    });
+
+    $('#btnArrowMensajes').click(function () {
+        $("#divMensajes").toggleClass("displayNoneMovil");
+        $("#divColRemitentes").toggle("slide");
+        $(this).hide("slide", { direction: "right" }, 400);
     });
 
     $('#modalMiGaleria').on('show.bs.modal', function (e) {
@@ -1021,6 +1118,259 @@ $(function () {
 
     $("#btnAceptarEliminarAnuncio").click(function () {
         AjaxEliminarAnuncio($("#inpIdEliminarAnuncio").val());
+    });
+
+    function setCreditosSpanFloat(){
+        let creditos = AjaxReturnMisCreditos();
+        if(typeof creditos === "undefined" || creditos == 0){
+            toastr.warning("Adquiere creditos para promocionar tus anuncios y llamar mas la atencion :)");
+            $(".spCreditosModals").html('Tienes 0 creditos, <b>Comprar</b> <i class="fas fa-coins"></i>');
+            $("#btnAceptarRelojito").prop("disabled", true);
+            $("#btnAceptarPromocion").prop("disabled", true);
+        }else{
+            $(".spCreditosModals").html('Tus créditos: ' + creditos + ' <i class="fas fa-coins"></i>');
+            $("#btnAceptarRelojito").prop("disabled", false);
+            $("#btnAceptarPromocion").prop("disabled", false);
+        }
+        AjaxGetMisCreditos();
+    }
+
+    $('body').on('click', '.spCreditosModals', function () {
+        $('#tabMisCreditos').tab('show');
+        $("#modalRelojito").modal("hide");
+        $("#modalPromociones").modal("hide");
+    });
+
+    $('#modalRelojito').on('hidden.bs.modal', function (e) {
+        $("#btnAceptarRelojito").prop("disabled", false);
+    });
+
+    $('#modalPromociones').on('hidden.bs.modal', function (e) {
+        $(".navPromoREDias").data("load", false);
+    });
+
+    $('#modalHoraPromocion').on('hidden.bs.modal', function (e) {
+        $("#modalPromociones").modal("show");
+    });
+
+    $('body').on('click', '.btnRelojito', function () {
+        setCreditosSpanFloat();
+        AjaxGetRelojitosActuales($(this).data("id"));
+        $("#inpIdAnuncioRelojito").val($(this).data("id"));
+        $("#modalRelojito").modal("show");
+    });
+
+    $('body').on('click', '.btnPromocionar', function () {
+        setCreditosSpanFloat();
+        $("#inpIdAnuncioPromocion").val($(this).data("id"));
+        $("#modalPromociones").modal("show");
+        $("#nav7Dias").click();
+    });
+
+    $('body').on('click', '.btnOpcionPromocion', function () {
+        $("#inpIdOpcionPromocion").val($(this).data("id"));
+        $("#inpDiasPromocion").val($(this).data("dias"));
+        $("#inpHorasPromocion").val($(this).data("horas"));
+        $("#modalHoraPromocion").modal("show");
+        $("#modalPromociones").modal("hide");
+    });
+
+    function createObjectMoment(array){
+        let time;
+        time = moment();
+        time.hour(arrayHora[0]);
+        time.minute(arrayHora[1]);
+        time.second(arrayHora[2]);
+        return time;
+    }
+
+    $("#inpHoraInicioRelojito").change(function () {
+        var hora = $(this).val();
+        arrayHora = hora.split(":");
+        arrayHora.push("00");
+
+        let time;
+        time = createObjectMoment(arrayHora);
+
+        var currentTime = moment();
+        var timeGuia = moment('12:00 AM', "HH:mm A");
+        timeGuia.add(1, "days");
+        currentTime.toString();
+        timeGuia.toString();
+
+        if(time.isBetween(currentTime, timeGuia)){
+            $("#lblTipoDiaRelojito").text("Inicia Hoy");
+        }else{
+            $("#lblTipoDiaRelojito").text("Inicia Mañana");
+        }
+
+        time.add(20, 'minutes');
+
+        $("#inpHoraFinRelojito").val(time.format("HH:mm:ss"));
+    });
+
+    $("#btnAceptarRelojito").click(function () {
+
+        if($("#inpHoraInicioRelojito").val() == ""){
+            toastr.error("Debe digitar una hora");
+            return false;
+        }
+
+        var hora = $("#inpHoraInicioRelojito").val();
+        arrayHora = hora.split(":");
+        arrayHora.push("00");
+
+        let timeI;
+        timeI = createObjectMoment(arrayHora);
+
+        let timeF;
+        timeF = createObjectMoment(arrayHora);
+        
+        var currentTime = moment();
+        var timeGuia = moment('12:00 AM', "HH:mm A");
+        var timeGuia2 = moment('11:40 PM', "HH:mm A");
+        timeGuia.add(1, "days");
+        currentTime.toString();
+        timeGuia.toString();
+        timeGuia2.toString();
+
+        if(timeI.isBetween(currentTime, timeGuia)){
+            timeF.add(20, 'minutes');
+        }else{
+            if(!timeI.isBetween(timeGuia2, timeGuia)){
+                timeI.add(1, "days");
+            }
+            timeF.add(1, "days");
+            timeF.add(20, 'minutes');
+        }
+
+        if(typeof $("#inpIdAnuncioRelojito").val() === "undefined" || $("#inpIdAnuncioRelojito").val() == ""){
+            toastr.error("Debe seleccionar un anuncio");
+            return false;
+        }
+
+        var result = AjaxInsertPromocionAnuncio($("#inpIdAnuncioRelojito").val(), 1, timeI.format("YYYY-MM-DD HH:mm:ss"), timeF.format("YYYY-MM-DD HH:mm:ss"));
+        if(result.resultado){
+            setCreditosSpanFloat();
+            AjaxGetRelojitosActuales($("#inpIdAnuncioRelojito").val());
+            toastr.success(result.message);
+        }else{
+            toastr.error(result.message);
+        }
+
+    });
+
+    $("#inpHoraInicioPromocion").change(function () {
+
+        if($("#inpDiasPromocion").val() == ""){
+            toastr.error("Parametros no definidos");
+            return false;
+        }
+
+        if($("#inpHorasPromocion").val() == ""){
+            toastr.error("Parametros no definidos");
+            return false;
+        }
+
+        var hora = $(this).val();
+        arrayHora = hora.split(":");
+        arrayHora.push("00");
+
+        let timeI;
+        timeI = createObjectMoment(arrayHora);
+
+        let timeF;
+        timeF = createObjectMoment(arrayHora);
+        
+        var currentTime = moment();
+        var timeGuia = moment('12:00 AM', "HH:mm A");
+        var timeGuia2 = moment().hours(24).minutes(1).seconds(0);
+        timeGuia2.subtract($("#inpHorasPromocion").val(), 'hours');
+        timeGuia.add(1, "days");
+        currentTime.toString();
+        timeGuia.toString();
+        timeGuia2.toString();
+
+        var horaGuia = moment().hours(arrayHora[0]).minutes(arrayHora[1]);
+        horaGuia.add($("#inpHorasPromocion").val(), 'hours');
+
+        if(timeI.isBetween(currentTime, timeGuia)){
+            timeF.add($("#inpDiasPromocion").val(), 'days');
+            timeF.hour(horaGuia.hour());
+        }else{
+           /* console.log(timeGuia2)
+            if(timeI.isBetween(timeGuia2, timeGuia)){*/
+                timeI.add(1, "days");
+           // }
+            timeF.add($("#inpDiasPromocion").val(), 'days');
+            timeF.hour(horaGuia.hour());
+            timeF.add(1, "days");
+        }
+        
+        $("#lblFechasPromocion").text(timeI.format("DD/MM/YYYY") + " - " + timeF.format("DD/MM/YYYY"));
+        $("#lblHorasPromocion").text(timeI.format("hh:mm A") + " - " + timeF.format("hh:mm A"));
+
+        $("#inpFecha1Promocion").val(timeI.format("YYYY-MM-DD HH:mm:ss"));
+        $("#inpFecha2Promocion").val(timeF.format("YYYY-MM-DD HH:mm:ss"));
+    });
+
+     $("#btnAceptarPromocion").click(function () {
+
+        if($("#inpHoraInicioPromocion").val() == ""){
+            toastr.error("Debe digitar una hora");
+            return false;
+        }
+
+        if($("#inpFecha1Promocion").val() == ""){
+            toastr.error("Fechas no calculadas");
+            return false;
+        }
+
+        if($("#inpFecha2Promocion").val() == ""){
+            toastr.error("Fechas no calculadas");
+            return false;
+        }
+
+        if(typeof $("#inpIdOpcionPromocion").val() === "undefined" || $("#inpIdOpcionPromocion").val() == ""){
+            toastr.error("Debe seleccionar un paquete");
+            return false;
+        }
+
+        if(typeof $("#inpIdAnuncioPromocion").val() === "undefined" || $("#inpIdAnuncioPromocion").val() == ""){
+            toastr.error("Debe seleccionar un anuncio");
+            return false;
+        }
+
+        var result = AjaxInsertPromocionAnuncio($("#inpIdAnuncioPromocion").val(), $("#inpIdOpcionPromocion").val(), $("#inpFecha1Promocion").val(), $("#inpFecha2Promocion").val());
+        if(result.resultado){
+            setCreditosSpanFloat();
+            $("#modalHoraPromocion").modal("hide");
+            $("#inpIdOpcionPromocion").val("");
+            $("#inpFecha1Promocion").val("");
+            $("#inpFecha2Promocion").val("");
+            $("#inpHoraInicioPromocion").val("");
+            $("#lblFechasPromocion").text("-");
+            $("#lblHorasPromocion").text("-");
+            toastr.success(result.message);
+        }else{
+            toastr.error(result.message);
+        }
+
+    });
+
+    $('body').on('click', '.navPromoREDias', function () {
+        if($(this).data("load") == false){
+            let data = AjaxGetPromocionesByIdPaqueteAndDia(2, $(this).data("dias"));    
+
+            let container = "divContainerPaquetes"+$(this).data("dias")+"Dias";
+
+            $("#"+container).html("");
+            $.each(data, function( index, value ) {
+                $("#"+container).append('<hr class="margin_top_small margin_bottom_10px"><div class="row"><div class="col-8"><label class="textCenter fontFamilyRoboto fontSize14px width100porciento margin0">'+value.horas+' Horas al día</label><p class="textCenter margin0 fontFamilyRoboto fontSize13px colorGrisClaro">'+value.descripcion+'</p></div><div class="col-4 centradoVertical"><button class="btnOpcionPromocion btn borderRadius0px backgroundPinkClaro hoverBackgroundPinkOscuro colorWhite width100porciento fontFamilyRoboto fontSize14px fontWeight600 hoverColorWhite" data-id="'+value.id+'" data-horas="'+value.horas+'" data-dias="'+value.dias+'">'+value.valor+' Créditos</button></div></div>');
+            });
+
+            $(this).data("load", true);
+        }
     });
 
     $('body').on('click', '.btnEstadisticas', function () {
@@ -1273,9 +1623,6 @@ $(function () {
             }
         });
     }
-
-
-
 
 
     // PROCESO UPLOADS IMAGENES 

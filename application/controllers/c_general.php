@@ -138,6 +138,16 @@ class c_general extends CI_Controller {
       echo json_encode($data);	
     }
 
+    public function getPromocionesByTipoAndDia(){   
+      $data = $this->general->db_get_promocionesByTipoAndDia($_POST["idPaquete"], $_POST["dias"]);
+      echo json_encode($data);  
+    }
+
+    public function getPromocionesRelojitoActivas(){   
+      $data = $this->general->db_get_promociones_relojitoActivasByAnuncio($_POST["idAnuncio"]);
+      echo json_encode($data);  
+    }
+
     public function getPreciosCreditos(){		
       $data = $this->general->db_get_preciosCreditos();
       echo json_encode($data);	
@@ -161,6 +171,11 @@ class c_general extends CI_Controller {
     public function getAnunciosByUser(){		
       $data = $this->general->db_get_anunciosByUser($this->session->userdata('idusuario'));
       echo json_encode($data);	
+    }
+
+    public function insertPromocionAnuncio(){    
+      $data = $this->general->db_insert_promocion_anuncio($_POST["idAnuncio"], $_POST["idOpcion"], $_POST["fechaHoraI"], $_POST["fechaHoraF"], $this->session->userdata('idusuario'));
+      echo json_encode($data);  
     }
 
     public function deleteAnuncio(){		

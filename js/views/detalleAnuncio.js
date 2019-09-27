@@ -286,7 +286,7 @@ $(function () {
                     });
                     // SET CONDICIONES
                     $.each(data["condiciones"], function (index, value) {
-                        $("#divCondiciones").append('<div class="row margin_top_medium backgroundGrayDos margin_laterales_0px"><div class="col-sm-5 centradoVerticalHorizontal" style="border: 1px solid gray;"><div class="margin0 text-center fontFamilyRoboto fontSize14px colorGrisOscuro">' + value.precio + '</div></div><div class="col-sm-7 text-center"><div class="row"><div class="col-sm-12 text-center fontSize12px fontFamilyRoboto colorGrisOscuro borderBottomSolid1pxGray">' + value.tiempo + '</div><div class="col-sm-12 text-center fontSize12px fontFamilyRoboto colorGrisOscuro">' + value.relaciones + '</div></div></div></div>');
+                        $("#divCondiciones").append('<div class="row margin_top_medium backgroundGrayDos margin_laterales_0px"><div class="col-5 centradoVerticalHorizontal" style="border: 1px solid gray;"><div class="margin0 text-center fontFamilyRoboto fontSize14px colorGrisOscuro">' + value.precio + '</div></div><div class="col-7 text-center"><div class="row"><div class="col-12 text-center fontSize12px fontFamilyRoboto colorGrisOscuro borderBottomSolid1pxGray">' + value.tiempo + '</div><div class="col-12 text-center fontSize12px fontFamilyRoboto colorGrisOscuro">' + value.relaciones + '</div></div></div></div>');
                     });
 
                 }
