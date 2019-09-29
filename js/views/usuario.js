@@ -372,7 +372,7 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     data = data.data;
-                    $(".spCreditos2").html('Tus créditos: ' + data[0]["cantidad"] + ' <i class="fas fa-coins"></i>');
+                    $(".spCreditos2").html('Tienes ' + data[0]["cantidad"] + ' créditos -- <i class="fas fa-donate"></i>');
                 } else {
                     toastr.error("Error al cargar los créditos");
                 }
@@ -444,6 +444,39 @@ $(function () {
                     }
                 } else {
                     toastr.error("Error al cargar subidas individuales programadas");
+                }
+            }
+        });
+    }
+
+    function AjaxGetDiffPromocionesDestacar(idAnuncio, idOpcion) {
+        $.ajax({
+            url: '../c_general/getPromocionesDiffDiasByAnuncioAndOpcion',
+            type: 'POST',
+            dataType: "json",
+            data: {idAnuncio: idAnuncio, idOpcion: idOpcion},
+            success: function (data) {
+                if (data.resultado == true) {
+                    let datos = data.data;
+                    let divPre = "countDiasPremiun";
+                    let divPla = "countDiasPlatino";
+                    if(datos.length > 0){
+                        let string = '<i class="fas fa-clock"></i> PAQUETE ACTIVO: <b>('+datos[0]["diff"]+' Dias Restantes)</b>';
+                        if(datos[0]["diff"] == 0){
+                            string = "Ultimo Dia <b>Impulsa nuevamente tu anuncio</b>";
+                        }
+                        $("#"+((idOpcion==14)?divPre:divPla)).html(string);
+                        $("#"+((idOpcion==14)?divPre:divPla)).removeClass("displayNone");
+                        $("#"+((idOpcion==14)?divPre:divPla)).addClass("displayBlock");
+
+                        $("#"+((idOpcion==14)?"tituloPremiun":"tituloPlatino")).addClass("margin_top_medium");
+                    }else{
+                        $("#"+((idOpcion==14)?divPre:divPla)).removeClass("displayNone");
+                        $("#"+((idOpcion==14)?divPre:divPla)).removeClass("displayBlock");
+                        $("#"+((idOpcion==14)?divPre:divPla)).addClass("displayNone");
+
+                        $("#"+((idOpcion==14)?"tituloPremiun":"tituloPlatino")).removeClass("margin_top_medium");
+                    }
                 }
             }
         });
@@ -1123,12 +1156,11 @@ $(function () {
     function setCreditosSpanFloat(){
         let creditos = AjaxReturnMisCreditos();
         if(typeof creditos === "undefined" || creditos == 0){
-            toastr.warning("Adquiere creditos para promocionar tus anuncios y llamar mas la atencion :)");
-            $(".spCreditosModals").html('Tienes 0 creditos, <b>Comprar</b> <i class="fas fa-coins"></i>');
+            $(".spCreditosModals").html('Click para adquirir créditos -- <i class="fas fa-donate"></i>');
             $("#btnAceptarRelojito").prop("disabled", true);
             $("#btnAceptarPromocion").prop("disabled", true);
         }else{
-            $(".spCreditosModals").html('Tus créditos: ' + creditos + ' <i class="fas fa-coins"></i>');
+            $(".spCreditosModals").html('Tienes ' + creditos + ' créditos -- <i class="fas fa-donate"></i>');
             $("#btnAceptarRelojito").prop("disabled", false);
             $("#btnAceptarPromocion").prop("disabled", false);
         }
@@ -1153,7 +1185,11 @@ $(function () {
         $("#modalPromociones").modal("show");
     });
 
+    var isPremiunPack = false;
+    var isPlatinoPack = false;
+
     $('body').on('click', '.btnRelojito', function () {
+        isPremiunPack = false;
         setCreditosSpanFloat();
         AjaxGetRelojitosActuales($(this).data("id"));
         $("#inpIdAnuncioRelojito").val($(this).data("id"));
@@ -1162,17 +1198,94 @@ $(function () {
 
     $('body').on('click', '.btnPromocionar', function () {
         setCreditosSpanFloat();
+        AjaxGetDiffPromocionesDestacar($(this).data("id"), "14");
+        AjaxGetDiffPromocionesDestacar($(this).data("id"), "15");
         $("#inpIdAnuncioPromocion").val($(this).data("id"));
         $("#modalPromociones").modal("show");
         $("#nav7Dias").click();
     });
 
     $('body').on('click', '.btnOpcionPromocion', function () {
+        isPlatinoPack = false;
         $("#inpIdOpcionPromocion").val($(this).data("id"));
         $("#inpDiasPromocion").val($(this).data("dias"));
         $("#inpHorasPromocion").val($(this).data("horas"));
         $("#modalHoraPromocion").modal("show");
         $("#modalPromociones").modal("hide");
+    });
+
+    function accionesBtnPremiun(){
+        let creditos = AjaxReturnMisCreditos();
+        if(creditos<150){
+            toastr.error("No tienes suficientes creditos para realizar la compra");
+            return false;
+        }
+        $("#modalPromociones").modal("hide");
+        setCreditosSpanFloat();
+        AjaxGetRelojitosActuales($("#inpIdAnuncioPromocion").val());
+        $("#inpIdAnuncioRelojito").val($("#inpIdAnuncioPromocion").val());
+        $("#modalRelojito").modal("show");
+        isPremiunPack = true;
+    }
+
+    $('body').on('click', '#btnPackPremiun', function () {
+        if($("#countDiasPlatino").hasClass("displayBlock")){
+            $.confirm({
+                title: 'Esta Seguro!',
+                content: 'Al comprar este paquete perdera el paquete platino activo, Desea continuar?',
+                type: 'red',
+                typeAnimated: true,
+                buttons: {
+                    confirm: {
+                        btnClass: 'btn-red', 
+                        action: function () {
+                            accionesBtnPremiun();
+                        }
+                    },
+                    cancel: function () {
+                    }
+                }
+            });
+        }else{
+            accionesBtnPremiun();
+        }
+    });
+
+    function accionesBtnPlatino(){
+        let creditos = AjaxReturnMisCreditos();
+        if(creditos<1300){
+            toastr.error("No tienes suficientes creditos para realizar la compra");
+            return false;
+        }
+        $("#modalPromociones").modal("hide");
+        $("#inpIdOpcionPromocion").val("2");
+        $("#inpDiasPromocion").val("7");
+        $("#inpHorasPromocion").val("8");
+        $("#modalHoraPromocion").modal("show");
+        isPlatinoPack = true;
+    }
+
+    $('body').on('click', '#btnPackPlatino', function () {
+        if($("#countDiasPremiun").hasClass("displayBlock")){
+            $.confirm({
+                title: 'Esta Seguro!',
+                content: 'Al comprar este paquete perdera el paquete premiun activo, Desea continuar?',
+                type: 'red',
+                typeAnimated: true,
+                buttons: {
+                    confirm: {
+                        btnClass: 'btn-red', 
+                        action: function () {
+                            accionesBtnPlatino();
+                        }
+                    },
+                    cancel: function () {
+                    }
+                }
+            });
+        }else{
+            accionesBtnPlatino();
+        }
     });
 
     function createObjectMoment(array){
@@ -1251,9 +1364,19 @@ $(function () {
 
         var result = AjaxInsertPromocionAnuncio($("#inpIdAnuncioRelojito").val(), 1, timeI.format("YYYY-MM-DD HH:mm:ss"), timeF.format("YYYY-MM-DD HH:mm:ss"));
         if(result.resultado){
+            if(isPremiunPack){
+                let timeP1 = moment();
+                let timeP2 = moment();
+                timeP2.add(30, "days");
+                var resultDes = AjaxInsertPromocionAnuncio($("#inpIdAnuncioRelojito").val(), 14, timeP1.format("YYYY-MM-DD HH:mm:ss"), timeP2.format("YYYY-MM-DD HH:mm:ss"));
+                if(!resultDes.resultado){
+                    toastr.error(resultDes.message);        
+                }
+            }
             setCreditosSpanFloat();
             AjaxGetRelojitosActuales($("#inpIdAnuncioRelojito").val());
             toastr.success(result.message);
+            isPremiunPack = false;
         }else{
             toastr.error(result.message);
         }
@@ -1343,7 +1466,18 @@ $(function () {
 
         var result = AjaxInsertPromocionAnuncio($("#inpIdAnuncioPromocion").val(), $("#inpIdOpcionPromocion").val(), $("#inpFecha1Promocion").val(), $("#inpFecha2Promocion").val());
         if(result.resultado){
+            if(isPlatinoPack){
+                let timeP1 = moment();
+                let timeP2 = moment();
+                timeP2.add(30, "days");
+                var resultDes = AjaxInsertPromocionAnuncio($("#inpIdAnuncioPromocion").val(), 15, timeP1.format("YYYY-MM-DD HH:mm:ss"), timeP2.format("YYYY-MM-DD HH:mm:ss"));
+                if(!resultDes.resultado){
+                    toastr.error(resultDes.message);        
+                }
+            }
             setCreditosSpanFloat();
+            AjaxGetDiffPromocionesDestacar($("#inpIdAnuncioPromocion").val(), "14");
+            AjaxGetDiffPromocionesDestacar($("#inpIdAnuncioPromocion").val(), "15");
             $("#modalHoraPromocion").modal("hide");
             $("#inpIdOpcionPromocion").val("");
             $("#inpFecha1Promocion").val("");
@@ -1352,6 +1486,7 @@ $(function () {
             $("#lblFechasPromocion").text("-");
             $("#lblHorasPromocion").text("-");
             toastr.success(result.message);
+            isPlatinoPack = false;
         }else{
             toastr.error(result.message);
         }

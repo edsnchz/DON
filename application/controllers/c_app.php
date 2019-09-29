@@ -28,11 +28,13 @@ class c_app extends CI_Controller {
 			"https://code.jquery.com/ui/1.12.1/jquery-ui.js",
 			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js",
 			"https://checkout.epayco.co/checkout.js",
-			"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.js"
+			"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.js",
+			"https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"
 		));
 		$this->layout->css(Array(
 			base_url()."css/uploadImages.css",
-			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
+			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css",
+			"https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"
 		));
 		$data["apiKey"] = $this->general->db_get_paramsPayments()["data"][0]["apiKey"];
 		$data["usuXt"] = $this->session->userdata('idusuario');

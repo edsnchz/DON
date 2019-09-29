@@ -48,8 +48,8 @@
 
 <!-- CALL TO ACTION CAROUSEL -->
 <div class="alert alert-success divCTACarousel colorWhite pulse borderRadius0px" role="alert">
-  <h4 class="alert-heading margin_bottom_5px text-center fontSize16px">WOW!!</h4>
-  <p class="margin0 fontFamilyRoboto">Quieres máxima visibilidad? Súbete al carrusel y se lo primero que vean!</p>
+  <h4 class="alert-heading margin_bottom_5px text-center fontSize16px">SÚBETE AL CARRUSEL</h4>
+  <p class="margin0 fontFamilyRoboto fontSize14px">Promociona tu anuncio y se lo primero que vean! <br><u>Ir al panel de usuario</u></p>
 </div>
 
 <!-- MAPIADO -->
@@ -75,7 +75,7 @@
 
             <h5 id="labelDescripcion" class=" text-justify fontSize15px fontWeight400 margin_top_small fontFamilyRoboto colorGrisOscuro"></h5>
 
-            <hr class="styleHR margin_top_30px">
+            <hr class="margin_top_30px">
 
             <div>
                 <div class="card-columns cardColumsNum2 margin_top_30px" id="divImagenes"> 

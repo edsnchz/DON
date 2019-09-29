@@ -262,6 +262,10 @@ footer.footer {
   padding: 7px !important;
 }
 
+.padding5px{
+  padding: 5px !important;
+}
+
 .padding4px{
   padding: 4px !important;
 }
@@ -774,6 +778,10 @@ color: #bebebe
   color: white;
 }
 
+.hovergreenClaro:hover {
+  background: #5dd479;
+}
+
 .hoverBackgroundPinkOscuro:hover {
   background: #b804ef;
 }
@@ -1048,6 +1056,8 @@ input[type="checkbox"].checkStyle:checked:after{
   right: 0;
   border: none;
   border-radius: 0;
+  cursor: default !important;
+  pointer-events: none;
 }
 
 .btnCategoriaItemAnuncio{
@@ -1458,8 +1468,9 @@ hr.styleHR {
 
 a.nav-link.active {
   color: #444 !important;
-  background-color: lightgray !important;
-  border-color: #dee2e6 #dee2e6 #444444 #dee2e6 !important;
+  /* background-color: #dee2e6 !important; */
+  border-color: white !important;
+  border-bottom: solid 3px #C501FE !important;
 }
 
 .nav-tabs .nav-link {

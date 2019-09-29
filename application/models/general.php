@@ -675,6 +675,23 @@ class general extends CI_Model {
         }
     }
 
+    public function db_get_promociones_diffDiasByAnuncioAndOpcion($idAnuncio, $idOpcion) {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT DATEDIFF(`fecha_final`, DATE(NOW())) diff FROM `paquetes_anuncios` 
+                        WHERE idAnuncio=? AND `idOpcPaq`=? AND estado="VIGENTE" AND 
+                        DATE(NOW()) BETWEEN `fecha_inicial` AND `fecha_final`', array($idAnuncio, $idOpcion));
+        $a = $result->result_array();
+        $result->free_result();
+        
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
     public function db_get_preciosCreditos() {
         $this->db->trans_start();
 
@@ -882,8 +899,53 @@ class general extends CI_Model {
         if($valid[0]["rtn"] == "0"){
             return array("resultado" => false, "message" => "No tienes suficientes creditos para la compra");
         }
+        
 
-        $this->db->query('INSERT INTO `paquetes_anuncios`(`idAnuncio`, `idOpcPaq`, `fecha_inicial`, `fecha_final`, `hora_inicial`, `hora_final`) VALUES(?,?,date(?),date(?),time(?),time(?))', array($idAnuncio, $idOpcion, $fechaHoraI, $fechaHoraF, $fechaHoraI, $fechaHoraF));
+        // VALIDACIONES POR TIPOS DE PAQUETES
+
+        if($idOpcion == 1){
+            $resultValid2 = $this->db->query('SELECT * FROM paquetes_anuncios WHERE idOpcPaq=1 AND (`fecha_final` > DATE(NOW()) OR ( `fecha_final` = DATE(NOW()) AND `hora_final` > TIME(NOW()))) AND `estado`="VIGENTE" AND `hora_inicial`=TIME(?) AND idAnuncio=?', array($fechaHoraI, $idAnuncio));
+            $valid2 = $resultValid2->result_array();
+            $resultValid2->free_result();
+            if(count($valid2)>0){
+                return array("resultado" => false, "message" => "Ya tienes esta hora escogida");
+            }
+        }
+
+        if($idOpcion == 14 || $idOpcion == 15){
+
+            if($idOpcion == 14){
+                $resultValid3 = $this->db->query('SELECT * FROM `paquetes_anuncios` WHERE idAnuncio=? AND `idOpcPaq`=15 AND estado="VIGENTE" AND DATE(NOW()) BETWEEN `fecha_inicial` AND `fecha_final`', array($idAnuncio));
+                $valid3 = $resultValid3->result_array();
+                $resultValid3->free_result();
+                if(count($valid3)>0){
+                    $this->db->query('DELETE FROM paquetes_anuncios where id=?', array($valid3[0]["id"]));  
+                }
+            }
+
+            if($idOpcion == 15){
+                $resultValid4 = $this->db->query('SELECT * FROM `paquetes_anuncios` WHERE idAnuncio=? AND `idOpcPaq`=14 AND estado="VIGENTE" AND DATE(NOW()) BETWEEN `fecha_inicial` AND `fecha_final`', array($idAnuncio));
+                $valid4 = $resultValid4->result_array();
+                $resultValid4->free_result();
+                if(count($valid4)>0){
+                    $this->db->query('DELETE FROM paquetes_anuncios where id=?', array($valid4[0]["id"]));  
+                }
+            }
+
+            $resultValidDes = $this->db->query('SELECT * FROM `paquetes_anuncios` WHERE idAnuncio=? AND `idOpcPaq`=? AND estado="VIGENTE" AND DATE(NOW()) BETWEEN `fecha_inicial` AND `fecha_final`', array($idAnuncio, $idOpcion));
+            $validDes = $resultValidDes->result_array();
+            $resultValidDes->free_result();
+            if(count($validDes)>0){
+                $this->db->query('UPDATE `paquetes_anuncios` SET `fecha_final` = DATE_ADD(`fecha_final`, INTERVAL 30 DAY) WHERE id=?', array($validDes[0]["id"]));
+
+                $this->db->query('UPDATE `movimientos` SET `cantidad` = (`cantidad` - (SELECT valor FROM `opciones_paquetes` WHERE id=?)) WHERE `idUsuario`=?', array($idOpcion, $idUsuario));
+
+                $this->db->trans_complete();
+                return array("resultado" => true, "message" => "Tiempo adicionado satisfactoriamente");
+            }
+        }
+
+        $this->db->query('INSERT INTO `paquetes_anuncios`(`idAnuncio`, `idOpcPaq`, `fecha_inicial`, `fecha_final`, `hora_inicial`, `hora_final`, fecha_compra) VALUES(?,?,date(?),date(?),time(?),time(?), NOW())', array($idAnuncio, $idOpcion, $fechaHoraI, $fechaHoraF, $fechaHoraI, $fechaHoraF));
 
         $this->db->query('UPDATE `movimientos` SET `cantidad` = (`cantidad` - (SELECT valor FROM `opciones_paquetes` WHERE id=?)) WHERE `idUsuario`=?', array($idOpcion, $idUsuario));
 

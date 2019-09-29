@@ -543,7 +543,7 @@
             <input type="hidden" id="inpIdAnuncioRelojito">
 
             <div class="width100porciento textCenter centradoHorizontal">
-                <h4 class="spCreditosModals textCenter margin_bottom_7px badge-warning width50porciento width100porcientoMovil padding7px fontSize14px fontWeight500 fontFamilyRoboto">Tus creditos: -</h4>
+                <h4 class="spCreditosModals cursorPointer textCenter margin_bottom_7px badge-warning width50porciento width100porcientoMovil padding7px fontSize14px fontWeight500 fontFamilyRoboto">Tus creditos: -</h4>
             </div>
 
             <h4 id="divAlertMaximoRelojito" class="text-center fontFamilyRoboto padding10px width100porciento btn-danger colorWhite margin_bottom_10px displayNone margin_top_small">
@@ -602,7 +602,7 @@
             <input type="hidden" id="inpIdAnuncioPromocion">
 
             <div class="width100porciento textCenter centradoHorizontal">
-                <h4 class="spCreditosModals textCenter margin_bottom_10px badge-warning width50porciento width100porcientoMovil padding7px fontSize14px fontWeight500 fontFamilyRoboto">Tus creditos: -</h4>
+                <h4 class="spCreditosModals cursorPointer textCenter margin_bottom_10px badge-warning width50porciento width100porcientoMovil padding7px fontSize14px fontWeight500 fontFamilyRoboto">Tus creditos: -</h4>
             </div>
 
             <nav>
@@ -619,13 +619,13 @@
 
                 <ul id="navOpcionesRePromocion" class="nav nav-pills nav-justified mb-3 paddingLaterales35px" role="tablist">
                   <li class="nav-item">
-                    <a class="navPromoREDias btn btn-outline-success borderRadius0px width100porciento active paddingSuperiorInferior5px fontSize13px textUppercase fontWeight600" id="nav7Dias" data-toggle="pill" href="#dNav7Dias" role="tab" aria-controls="dNav7Dias" aria-selected="true" data-load="false" data-dias="7">7 Días</a>
+                    <a class="navPromoREDias btn btn-outline-success hovergreenClaro borderRadius0px width100porciento active paddingSuperiorInferior5px fontSize13px textUppercase fontWeight600" id="nav7Dias" data-toggle="pill" href="#dNav7Dias" role="tab" aria-controls="dNav7Dias" aria-selected="true" data-load="false" data-dias="7">7 Días</a>
                   </li>
                   <li class="nav-item">
-                    <a class="navPromoREDias btn btn-outline-success bordeslateralesnone borderRadius0px width100porciento paddingSuperiorInferior5px fontSize13px textUppercase fontWeight600" id="nav15Dias" data-toggle="pill" href="#dNav15Dias" role="tab" aria-controls="dNav15Dias" aria-selected="false" data-load="false" data-dias="15">15 Días</a>
+                    <a class="navPromoREDias btn btn-outline-success hovergreenClaro bordeslateralesnone borderRadius0px width100porciento paddingSuperiorInferior5px fontSize13px textUppercase fontWeight600" id="nav15Dias" data-toggle="pill" href="#dNav15Dias" role="tab" aria-controls="dNav15Dias" aria-selected="false" data-load="false" data-dias="15">15 Días</a>
                   </li>
                   <li class="nav-item">
-                    <a class="navPromoREDias btn btn-outline-success borderRadius0px width100porciento paddingSuperiorInferior5px fontSize13px textUppercase fontWeight600" id="nav30Dias" data-toggle="pill" href="#dNav30Dias" role="tab" aria-controls="dNav30Dias" aria-selected="false" data-load="false" data-dias="30">30 Días</a>
+                    <a class="navPromoREDias btn btn-outline-success hovergreenClaro borderRadius0px width100porciento paddingSuperiorInferior5px fontSize13px textUppercase fontWeight600" id="nav30Dias" data-toggle="pill" href="#dNav30Dias" role="tab" aria-controls="dNav30Dias" aria-selected="false" data-load="false" data-dias="30">30 Días</a>
                   </li>
                 </ul>
                 <div class="tab-content">
@@ -647,29 +647,37 @@
               </div>
               <div class="tab-pane" id="dNavPromoDes" role="tabpanel" aria-labelledby="navPromoDes">
                     
-                    <div class="card margin_top_medium width100porciento sombraPequeña backgroundYellowAnuncios">
-                      <div class="card-body">
-                        <h5 class="card-title textCenter fontSize16px">Anuncio Premiun</h5>
-                        <h6 class="card-subtitle mb-2 text-muted textCenter">Pon tu anuncio a volar :)</h6>
-                        <p class="card-text textCenter">Resaltamos tu anuncio de amarillo en las listas por 30 dias, y te regalamos una promocion rapida de 20 minutos en el top.</p>
+                    <div class="card margin_top_medium width100porciento borderRadius0px sombraPequeña backgroundYellowAnuncios">
+                      <div class="card-body paddingSuperiorInferior15px">
+                        <button id="countDiasPremiun" class="btn btn-primary btnMarkItemAnuncio width100porciento padding5px fontSize12px displayNone"><i class="fas fa-clock"></i> PAQUETE ACTIVO: -</button>
+
+                        <h5 id="tituloPremiun" class="card-title textCenter fontSize16px textUppercase">Premium</h5>
+                        <p class="card-subtitle mb-2 text-muted textCenter fontFamilyRoboto">Resalta tu anuncio con un fondo amarillo</p>
+                        <h6 class="card-text textCenter fontFamilyRoboto colorGrisOscuro">Destaca tu anuncio en las listas por 30 días, y recibe de obsequio 20 minutos en el TOP de anuncios.</h6>
                         <div class="centradoHorizontal">
-                            <button class="btn borderRadius10pt backgroundWhite colorGrisOscuro width50porciento fontFamilyRoboto fontSize12px fontWeight600 paddingSuperiorInferior5px sombraPequeña">150 Créditos</button>
+                            <button id="btnPackPremiun" class="margin_top_small btn borderRadius0px backgroundPinkClaro colorWhite width50porciento fontFamilyRoboto fontSize14px fontWeight600 paddingSuperiorInferior5px sombraPequeña hoverColorWhite hoverBackgroundPinkOscuro">150 Créditos</button>
                         </div>
+                        <p class="margin_bottom_0px margin_top_small width100porciento textCenter"><small>Debe escojer la hora de inicio del regalo (Promocion Top)</small></p>
                       </div>
                     </div>
 
-                    <div class="card margin_top_medium width100porciento sombraPequeña backgroundPinkAnuncios">
-                      <div class="card-body">
-                        <h5 class="card-title textCenter fontSize16px">Anuncio Platino</h5>
-                        <h6 class="card-subtitle mb-2 text-muted textCenter">Lo maximo en guaracha :)</h6>
-                        <p class="card-text textCenter">Resaltamos tu anuncio de morado en las listas y te colocamos en el carousel principal por 30 dias, y te regalamos una promocion de 7 dias (8 Horas/Dia) en el top.</p>
+                    <div class="card margin_top_medium width100porciento borderRadius0px sombraPequeña backgroundPinkAnuncios">
+                      <div class="card-body paddingSuperiorInferior15px">
+                        <button id="countDiasPlatino" class="btn btn-primary btnMarkItemAnuncio width100porciento padding5px fontSize12px displayNone"><i class="fas fa-clock"></i> PAQUETE ACTIVO: -</button>
+
+                        <h5 id="tituloPlatino" class="card-title textCenter fontSize16px textUppercase">Platino + Carrusel</h5>
+                        <p class="card-subtitle mb-2 text-muted textCenter fontFamilyRoboto">Resalta tu anuncio con un fondo purpura</p>
+                        <h6 class="card-text textCenter fontFamilyRoboto colorGrisOscuro">Destaca tu anuncio en las listas y súbete al carrusel por 30 días. Recibe de obsequio un paquete TOP de 7 días/8 Horas.</h6>
                         <div class="centradoHorizontal">
-                            <button class="btn borderRadius10pt backgroundWhite colorGrisOscuro width50porciento fontFamilyRoboto fontSize12px fontWeight600 paddingSuperiorInferior5px sombraPequeña">1300 Créditos</button>
-                        </div>
+                            <button id="btnPackPlatino" class="margin_top_small btn borderRadius0px backgroundPink colorWhite width50porciento fontFamilyRoboto fontSize14px fontWeight600 paddingSuperiorInferior5px sombraPequeña hoverColorWhite hoverBackgroundPinkOscuro">1300 Créditos</button>
+                        </div>  
+                        <p class="margin_bottom_0px margin_top_small width100porciento textCenter"><small>Debe escojer el inicio del regalo (Paquete 7 dias/8 horas) </small></p>      
                       </div>
                     </div>
 
-              </div>
+                    <p class="textCenter margin_top_medium fontFamilyRoboto fontSize14px colorGrisClaro">Los anuncios destacados permanecerán en el TOP por el tiempo que determina su obsequio, luego pasarán al listado general de anuncios. Para volver a las primeras posiciones será necesario adquirir un paquete TOP adicional.</p>
+              
+                  </div>
             </div>
             
 

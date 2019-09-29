@@ -148,6 +148,11 @@ class c_general extends CI_Controller {
       echo json_encode($data);  
     }
 
+    public function getPromocionesDiffDiasByAnuncioAndOpcion(){   
+      $data = $this->general->db_get_promociones_diffDiasByAnuncioAndOpcion($_POST["idAnuncio"], $_POST["idOpcion"]);
+      echo json_encode($data);  
+    }
+
     public function getPreciosCreditos(){		
       $data = $this->general->db_get_preciosCreditos();
       echo json_encode($data);	
