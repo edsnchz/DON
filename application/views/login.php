@@ -29,7 +29,7 @@
                             <div class="col-lg-12">
                                 <form id="login-form" action="#" method="post" role="form" style="display: block;">
                                     <!-- <h2>Iniciar Sesión</h2> -->
-                                    <img class="height50px margin_top_small cursorPointer" src="<?= load_img_url('images/logo.svg'); ?>">
+                                    <img id="imgLogin" class="height50px margin_top_small cursorPointer" src="<?= load_img_url('images/logo.svg'); ?>">
                                     <div class="form-group margin_top_medium">
                                         <input type="email" name="inpCorreo" id="inpCorreo" tabindex="1"
                                             class="form-control height35px" placeholder="Correo">
@@ -40,13 +40,9 @@
                                     </div>
                                     <div class="form-check padding0">
 				                        <label>
-						                    <input type="checkbox" name="check"> <span class="label-text colorGrisClaro cursorPointer">Recordar</span>
+						                    <input type="checkbox" name="remenberCheck" id="remenberCheck"><span class="label-text colorGrisClaro cursorPointer">Recordar</span>
 					                    </label>
 				                    </div>
-                                    <!-- <div class="col-xs-6 form-group">
-                                        <input id="inpRemember" type="checkbox" class="" name="inpRemember">
-                                        <label for="inpRemember" class="fontSize12px colorGrisClaro fontFamilyRoboto">Recordar Contraseña</label>
-                                    </div> -->
                                     <div class="col-sm-6 col-sm-offset-3 margin_top_small">
                                         <input type="button" name="btnLogin" id="btnLogin" tabindex="4"
                                             class="form-control btn btn-login" value="Ingresar">
@@ -96,7 +92,7 @@
     <footer>
         <div class="container">
             <div class="col-md-10 col-md-offset-1 text-center">
-                <h6 class="fontSize12px colorWhite textUppercase fontWeight300 letterSpacingMinimo">Olvidaste tu contraseña?</a></h6>
+                <h6 class="btnOlvidarPass fontSize12px colorWhite textUppercase fontWeight300 letterSpacingMinimo cursorPointer">Olvidaste tu contraseña?</h6>
             </div>
         </div>
     </footer>

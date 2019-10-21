@@ -333,3 +333,11 @@ input[type="checkbox"]:disabled + .label-text:before{
 }
 
 /* TERMINA CLASES CHECKBOX */
+
+.swal2-popup {
+  font-size: 1.6rem !important;
+}
+
+.swal2-title{
+    font-size: 20px !important;
+}

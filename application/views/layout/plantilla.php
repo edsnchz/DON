@@ -48,7 +48,7 @@
                     </div>
                     <div class="col-sm-5 backgroundPink textCenter centradoVertical hoverBackgroundPinkOscuro height100porciento">
                         <a class="colorWhite transitionNone fontSize12px letterSpacingMinimo textUppercase fontWeight600
-                        colorGrisOscuro width100porciento hoverColorWhite textDecorationNone" href="#">
+                        colorGrisOscuro width100porciento hoverColorWhite textDecorationNone btnPublicar" href="#">
                             <i class="fas fa-plus"></i> Publica Gratis
                         </a>
                     </div>
@@ -70,23 +70,19 @@
                 <div class="col-lg-12 h-100 text-lg-center my-auto">
                     <ul class="list-inline mb-2 textCenter">
                         <li class="list-inline-item">
-                            <a href="#" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600
-                        colorGrisOscuro hoverGrisClaro">Condiciones de uso</a>
+                            <a href="#" id="aLinkCondicionesUso" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Condiciones de uso</a>
                         </li>
                         <li class="list-inline-item">&sdot;</li>
                         <li class="list-inline-item">
-                            <a href="#" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600
-                        colorGrisOscuro hoverGrisClaro">Política de pagos</a>
+                            <a href="#" id="aLinkPoliticaPagos" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Política de pagos</a>
                         </li>
                         <li class="list-inline-item">&sdot;</li>
                         <li class="list-inline-item">
-                            <a href="#" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600
-                        colorGrisOscuro hoverGrisClaro">Política de privacidad</a>
+                            <a href="#" id="aLinkPoliticaPrivacidad" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Política de privacidad</a>
                         </li>
                         <li class="list-inline-item">&sdot;</li>
                         <li class="list-inline-item">
-                            <a href="#" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600
-                        colorGrisOscuro hoverGrisClaro">Contactanos</a>
+                            <a href="#" id="aLinkContactanos" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Contactanos</a>
                         </li>
                     </ul>
                     <p class="text-muted small mb-2 mb-lg-0 fontFamilyRoboto textCenter">&copy; "doneróticos.com" es una página de contenido +18. Todos los anunciantes han reconocido ser mayores de 18 años y aceptar los terminos.</p>

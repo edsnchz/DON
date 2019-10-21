@@ -21,6 +21,10 @@ class c_app extends CI_Controller {
 		$this->load->view('login');	
 	}
 
+	public function vstPageNotFound(){
+		$this->load->view('pageNotFound');	
+	}
+
 	public function vstUsuario(){
 		$this->layout->setTitle("Panel de Usuario - doneróticos.com");
 		$this->layout->js(Array(
@@ -29,13 +33,17 @@ class c_app extends CI_Controller {
 			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js",
 			"https://checkout.epayco.co/checkout.js",
 			"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.js",
-			"https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"
+			"https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js",
+			base_url().'assets/quill-editor/quill.js',
+			base_url().'assets/quill-editor/config-quill.js',
 		));
 		$this->layout->css(Array(
 			base_url()."css/uploadImages.css",
 			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css",
-			"https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"
+			"https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css",
+			base_url().'assets/quill-editor/quill-snow.css',
 		));
+		$data["tab"] = (isset($_GET["tab"]))?$_GET["tab"]:null;
 		$data["apiKey"] = $this->general->db_get_paramsPayments()["data"][0]["apiKey"];
 		$data["usuXt"] = $this->session->userdata('idusuario');
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
@@ -46,11 +54,14 @@ class c_app extends CI_Controller {
 		$this->layout->setTitle("DON - ANUNCIOS");
 		$this->layout->js(Array(
 			base_url()."js/views/listaAnuncios.js",
-			base_url()."js/gridAnuncios.js"
+			base_url()."js/gridAnuncios.js",
+			base_url()."assets/bricklayer/bricklayer.js"
 		));
 		$this->layout->css(Array(
 			base_url()."css/gridAnuncios.css",
+			base_url()."assets/bricklayer/bricklayer.css"
 		));
+
 		$dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
 		$dataParams["categ"] = $_GET["categ"];
 		$dataParams["etiq"] = $_GET["etiq"];
@@ -67,14 +78,46 @@ class c_app extends CI_Controller {
 			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
 		));
 		$this->layout->css(Array(
-			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css"
+			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css",
+			base_url().'assets/quill-editor/quill-snow.css',
 		));
+
+		$boolean = $this->general->db_validIfExist_anuncio($_GET["idAnuncio"]);
+		if(!$boolean["result"]){
+			$this->load->view('pageNotFound');	
+			return false;
+		}
+
 		// AUDITORIA 
 		$this->general->db_aud_anuncios($_GET["idAnuncio"], "VISTA");
 
 		$dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
 		$dataParams["id"] = $_GET["idAnuncio"];
 		$this->layout->view("detalleAnuncio", $dataParams);			
+	}
+
+	public function vstCondicionesUso()	{
+		$this->layout->setTitle("Condiciones Uso - doneróticos.com");
+		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
+		$this->layout->view("condicionesUso", $data);	
+	}
+
+	public function vstPoliticaPagos()	{
+		$this->layout->setTitle("Politica Pagos - doneróticos.com");
+		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
+		$this->layout->view("politicaPagos", $data);	
+	}
+
+	public function vstPoliticaPrivacidad()	{
+		$this->layout->setTitle("Politica Privacidad - doneróticos.com");
+		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
+		$this->layout->view("politicaPrivacidad", $data);	
+	}
+
+	public function vstContactanos()	{
+		$this->layout->setTitle("Contactanos - doneróticos.com");
+		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
+		$this->layout->view("contactanos", $data);	
 	}
 
 	public function login(){		
@@ -102,6 +145,11 @@ class c_app extends CI_Controller {
 
 	public function insertUsuario(){		
 		$data = $this->app->db_insert_usuario($_POST["correo"], $_POST["pass"], $_POST["token"]);
+		echo json_encode($data);	
+	}
+
+	public function setNewPass(){		
+		$data = $this->app->db_setNewPass_usuario($_POST["correo"], $_POST["pass"]);
 		echo json_encode($data);	
 	}
 

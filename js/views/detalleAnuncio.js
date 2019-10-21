@@ -8,7 +8,8 @@ $(function () {
         AjaxInsertAud(idAnuncio, "VISTA_PC");
     }
 
-    $('.carousel-tops').owlCarousel({
+    var owl = $('.carousel-tops');
+    owl.owlCarousel({
         items: 15,
         loop: true,
         margin: 10,
@@ -30,6 +31,14 @@ $(function () {
                 items: 12,
             }
         }
+    });
+    owl.on('mousewheel', '.owl-stage', function (e) {
+        if (e.deltaY>0) {
+            owl.trigger('next.owl');
+        } else {
+            owl.trigger('prev.owl');
+        }
+        e.preventDefault();
     });
 
     $.ajax({
@@ -88,6 +97,33 @@ $(function () {
                     $.each(data.data, function (key, value) {
                         $("#divMotivosDenuncia").append('<div class="input-group paddingSuperiorInferior5px"><div class="input-group-prepend outlineNone"><div class="input-group-text"><input type="radio" name="inpRConceptoDenuncia" data-id="' + value.id + '"></div></div><input type="text" class="form-control outlineNone fontFamilyRoboto fontSize14px" readonly value="' + value.nombre + '"></div>');
                     });
+                }
+            }
+        });
+    }
+
+    function AjaxCreateDatosCarousel(idCategoria, idDepartamento){
+        for (var i=0; i<$('.item').length; i++) {
+           owl.trigger('remove.owl.carousel', [i]).trigger('refresh.owl.carousel');
+        }
+       
+        $.ajax({
+            url: '../c_general/getAnunciosCarousel',
+            type: 'POST',
+            dataType: "json",
+            data: {idCategoria: idCategoria, idDepartamento: idDepartamento},
+            success: function (data) {
+                if (data.resultado == true) {
+                    let datos = data.data;
+                    if(datos.length == 0){
+                        owl.trigger('add.owl.carousel', ['<div class="item itemCarousel backgroundGrayDos sombraPequeña padding18px"><img src="../../images/camera.svg" class="imgItemCarouselDefault"></div>', 0]).trigger('refresh.owl.carousel');
+                    }else{
+                        let count = 0;
+                        $.each(datos, function (key, value) {
+                            owl.trigger('add.owl.carousel', ['<div class="item itemCarousel backgroundGrayDos sombraPequeña cursorPointer" data-id="'+value.id+'"><img src="../../uploads/anuncios/'+value.url+'" class="imgItemCarousel sombraPequeña"></div>', count]).trigger('refresh.owl.carousel');
+                            count ++;
+                        });    
+                    }
                 }
             }
         });
@@ -249,7 +285,7 @@ $(function () {
                     data = data.data;
                     // SET DATOS GENERALES
                     $("#labelTitulo").text(data[0].titulo);
-                    $("#labelDescripcion").text(data[0].descripcion);
+                    $("#labelDescripcion").html(data[0].descripcionFormat);
                     $("#lblFechaCreacion").text("Fecha creación: " + data[0].fechaCreacionFormat);
                     $("#lblUltimaEdicion").text("Última Edición: " + data[0].fechaUltEdicionFormat);
                     $("#inpCategorias").val(data[0].id_categoria);
@@ -259,6 +295,10 @@ $(function () {
                     $("#eMapCiudad").text($("#inpCiudades option:selected").text());
                     $("#eMapDepartamento").text($("#inpDepartamentos option:selected").text());
                     $("#eMapCategoria").text(data[0].categoria);
+
+                    document.title = (data[0].titulo.substring(0, 60))+"...";
+
+                    AjaxCreateDatosCarousel(data[0].id_categoria, data[0].id_departamento);
 
                     // SET ETIQUETAS
                     $.each(data["etiquetas"], function (index, value) {
@@ -327,6 +367,12 @@ $(function () {
         redirectAnuncios("NaN", "Todas las categorías", "NaN", "NaN", "NaN", "NaN", $(this).val());
     });
 
+    $('body').on('click', '.itemCarousel', function () {
+        // ENVIAR PARAMETROS
+        var id = $(this).data("id");
+        $(location).attr('href', urlProyect() + 'c_app/vstDetalleAnuncio?idAnuncio=' + id);
+    });
+
     $("#eMapCategoria").click(function () {
         // ENVIAR PARAMETROS
         idCategoria = $("#inpCategorias").val();
@@ -372,6 +418,14 @@ $(function () {
     });
 
     $("#btnAceptarDenuncia").click(function () {
+        if(typeof $("input[name='inpRConceptoDenuncia']:checked").data("id") == "undefined"){
+            toastr.warning("Debe escojer un motivo");
+            return false;
+        }
+        if($("#inpTextDenunciar").val().length < 10){
+            toastr.warning("Ingrese minimo 10 caracteres");
+            return false;
+        }
         AjaxAddDenuncia(idAnuncio, $("input[name='inpRConceptoDenuncia']:checked").data("id"), $("#inpTextDenunciar").val());
     });
 

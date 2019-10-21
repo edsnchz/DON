@@ -1,7 +1,18 @@
 $(function () {
 
     var lastParams;
-    var tipoGridView = "table";
+
+    var tipoGridView;
+    if(localStorage.getItem("tipoGridView") == null){
+        tipoGridView = "table";
+    }else{
+        tipoGridView = localStorage.getItem("tipoGridView");
+        if(tipoGridView == "list"){
+            $(".btnViewList").removeClass("inactivo");
+            $(".btnViewTable").addClass("inactivo");
+        }
+    }
+    
 
     $("#eMapCategoria").text(categorias[0]);
     AjaxCreateTags(categorias[1]);
@@ -12,7 +23,8 @@ $(function () {
         $("#eMapEtiqueta").text(etiquetas[0]);
     }
 
-    $('.carousel-tops').owlCarousel({
+    var owl = $('.carousel-tops');
+    owl.owlCarousel({
         items: 15,
         loop: true,
         margin: 10,
@@ -34,6 +46,14 @@ $(function () {
                 items: 12,
             }
         }
+    });
+    owl.on('mousewheel', '.owl-stage', function (e) {
+        if (e.deltaY>0) {
+            owl.trigger('next.owl');
+        } else {
+            owl.trigger('prev.owl');
+        }
+        e.preventDefault();
     });
 
     function createCarouselAnunciosCuadricula(i, stringImagenes) {
@@ -60,6 +80,7 @@ $(function () {
             $('#inpCiudades').val(city);
             $("#eMapCiudad").text($("#inpCiudades option:selected").text());
             $("#eMapDepartamento").text($("#inpDepartamentos option:selected").text());
+            setTitle(categorias[0], $("#inpCiudades option:selected").text());
         }
     });
 
@@ -98,6 +119,33 @@ $(function () {
         });
     }
 
+    function AjaxCreateDatosCarousel(idCategoria, idDepartamento){
+        for (var i=0; i<$('.item').length; i++) {
+           owl.trigger('remove.owl.carousel', [i]).trigger('refresh.owl.carousel');
+        }
+       
+        $.ajax({
+            url: '../c_general/getAnunciosCarousel',
+            type: 'POST',
+            dataType: "json",
+            data: {idCategoria: idCategoria, idDepartamento: idDepartamento},
+            success: function (data) {
+                if (data.resultado == true) {
+                    let datos = data.data;
+                    if(datos.length == 0){
+                        owl.trigger('add.owl.carousel', ['<div class="item itemCarousel backgroundGrayDos sombraPequeña padding18px"><img src="../../images/camera.svg" class="imgItemCarouselDefault"></div>', 0]).trigger('refresh.owl.carousel');
+                    }else{
+                        let count = 0;
+                        $.each(datos, function (key, value) {
+                            owl.trigger('add.owl.carousel', ['<div class="item itemCarousel backgroundGrayDos sombraPequeña cursorPointer" data-id="'+value.id+'"><img src="../../uploads/anuncios/'+value.url+'" class="imgItemCarousel sombraPequeña"></div>', count]).trigger('refresh.owl.carousel');
+                            count ++;
+                        });    
+                    }
+                }
+            }
+        });
+    }
+
     function AjaxCreateTags(id) {
         $("#tagCloud").html("");
         $.ajax({
@@ -116,7 +164,7 @@ $(function () {
     }
 
     function AjaxLoadAnunciosCuadricula(idCategoria, idDepartamento, idCiudad, idEtiqueta, text) {
-        $("#divCardColumns").html("");
+        $("#divCuadricula").html("");
         $.ajax({
             url: '../c_general/getAnuncios',
             type: 'POST',
@@ -124,7 +172,7 @@ $(function () {
             data: { idCategoria: idCategoria, idDepartamento: idDepartamento, idCiudad: idCiudad, idEtiqueta: idEtiqueta, text: text },
             success: function (data) {
                 if (data.resultado == true) {
-                    $("#divCuadricula").html('<div class="card-columns" id="divCardColumns"></div>');
+                    $("#divCuadricula").html('<div class="bricklayer" id="myBricklayer"></div>');
 
                     $.each(data.data, function (index, value) {
 
@@ -154,7 +202,7 @@ $(function () {
                         stringImagenes = createCarouselAnunciosCuadricula(value.id, stringImagenesTemp);
 
                         var stringTop = '';
-                        if (value.id_tipo != 1) {
+                        if (value.isTop == 1) {
                             var stringTop = '<button class="btn btn-success btnMarkItemAnuncio">TOP</button>';
                         }
 
@@ -167,9 +215,19 @@ $(function () {
 
                         var stringCityAnuncio = '<div class="btnCityAnuncio">' + value.ciudad + '</div>';
 
-                        $(".card-columns").append('<div class="card sombra cardAnuncio"><div style= "height: 150px" >' + stringImagenes + stringCategoria + stringTop + stringCountImgs + stringCityAnuncio + '</div> <div class="card-block"><h4 class="card-title cursorPointer padding10px margin0 paddinginferior0 selectAnuncio hoverColorPink colorGrisOscuro fontFamilyRoboto fontWeight900" data-id=' + value.id + '>' + value.titulo + '</h4><div class="card-text padding10px fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 80) ? value.descripcion.substring(0, 80) + "..." : value.descripcion) + '</div>' + ((countEtiquetas>0)?stringEtiquetas + "<br><br>":"") + '</div></div>');
+                        var classPackDestacado = "";
+                        if(value.tipoDestacado == "14"){
+                            classPackDestacado = "backgroundYellowAnuncios"
+                        }else if(value.tipoDestacado == "15"){
+                            classPackDestacado = "backgroundPinkAnuncios"
+                        }
+
+                        $("#myBricklayer").append('<div class="card sombra margin5px marginSuperior13px cardAnuncio '+classPackDestacado+'"><div style= "height: 150px" >' + stringImagenes + stringCategoria + stringTop + stringCountImgs + stringCityAnuncio + '</div> <div class="card-block"><h4 class="card-title cursorPointer padding10px margin0 paddinginferior0 selectAnuncio fontWeight900" data-id=' + value.id + '><a href="' + urlProyect() + 'c_app/vstDetalleAnuncio?idAnuncio=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + value.titulo + '</a></h4><div class="card-text padding10px fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 80) ? value.descripcion.substring(0, 80) + "..." : value.descripcion) + '</div>' + ((countEtiquetas>0)?stringEtiquetas + "<br><br>":"") + '</div></div>');
 
                     });
+
+                   /* bricklayer.destroy();*/
+                    var bricklayer = new Bricklayer(document.getElementById('myBricklayer'));
                 }
 
             }
@@ -214,7 +272,7 @@ $(function () {
                         stringImagenes = createCarouselAnunciosLista(value.id, stringImagenesTemp);
 
                         var stringTop = '';
-                        if (value.id_tipo != 1) {
+                        if (value.isTop == 1) {
                             var stringTop = '<button class="btn btn-success btnMarkItemAnuncio">TOP</button>';
                         }
 
@@ -229,7 +287,14 @@ $(function () {
 
                         var divStringEtiquetas =  ((countEtiquetas>0)?('<div class="col-sm-2 d-none d-sm-block" style="padding: 0px 5px">' + stringEtiquetas + '</div>'):"");
 
-                        $("#divCuadricula").append('<div class="row backgroundGray margin_top_medium"><div class="col-sm-12"><div class="container-fluid"><div class="row row-eq-height sombra cardAnuncio"><div class="col-4 col-sm-3 padding0">' + stringImagenes + stringCategoria + stringTop + stringCountImgs + '</div><div class="'+((countEtiquetas>0)?('col-8 col-sm-7'):('col-8 col-sm-9'))+' paddingSuperior15px paddingLaterales20px"><h5 class="cursorPointer selectAnuncio hoverColorPink colorGrisOscuro fontFamilyRoboto fontWeight900" data-id=' + value.id + '>' + ((value.titulo.length > 100) ? value.titulo.substring(0, 100) + "..." : value.titulo) + '</h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px marginBottom22pxMovil margin_bottom_30px">' + ((value.descripcion.length > 90) ? value.descripcion.substring(0, ((countEtiquetas>0)?90:200)) + "..." : value.descripcion) + stringCityAnuncio + '</p></div>'+divStringEtiquetas+'</div></div></div></div>');
+                        var classPackDestacado = "";
+                        if(value.tipoDestacado == "14"){
+                            classPackDestacado = "backgroundYellowAnuncios"
+                        }else if(value.tipoDestacado == "15"){
+                            classPackDestacado = "backgroundPinkAnuncios"
+                        }
+
+                        $("#divCuadricula").append('<div class="row backgroundGray margin_top_medium"><div class="col-sm-12"><div class="container-fluid '+classPackDestacado+'"><div class="row row-eq-height sombra cardAnuncio"><div class="col-4 col-sm-3 padding0">' + stringImagenes + stringCategoria + stringTop + stringCountImgs + '</div><div class="'+((countEtiquetas>0)?('col-8 col-sm-7'):('col-8 col-sm-9'))+' paddingSuperior15px paddingLaterales20px"><h5 class="cursorPointer selectAnuncio fontWeight900" data-id=' + value.id + '><a href="' + urlProyect() + 'c_app/vstDetalleAnuncio?idAnuncio=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + ((value.titulo.length > 100) ? value.titulo.substring(0, 100) + "..." : value.titulo) + '</a></h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px marginBottom22pxMovil margin_bottom_30px">' + ((value.descripcion.length > 90) ? value.descripcion.substring(0, ((countEtiquetas>0)?90:200)) + "..." : value.descripcion) + stringCityAnuncio + '</p></div>'+divStringEtiquetas+'</div></div></div></div>');
 
                     });
                 }
@@ -299,6 +364,15 @@ $(function () {
         $("#eMapEtiqueta").text($(this).text());
     });
 
+    $('body').on('mousedown', '.itemTag', function (e) {
+        e.preventDefault();
+        if(e.which == 2){
+            openUrl($("#inpCategorias option:selected").text() + "_" + $("#inpCategorias").val(),
+            $(this).text() + "_" + $(this).data("id"), $("#inpDepartamentos").val(), $("#inpCiudades").val(), ($("#inpTextBuscar").val() == "") ? "NaN" : $("#inpTextBuscar").val());
+            return false;
+        }
+    });
+
     $('body').on('click', '.liEnlacesCategorias', function () {
         $(".liEnlacesCategorias").removeClass("liEnlacesCategoriasActivo");
         $(this).addClass("liEnlacesCategoriasActivo");
@@ -314,7 +388,15 @@ $(function () {
         $("#eMapEtiqueta").addClass("displayNone");
     });
 
+   /*  
     $('body').on('click', '.selectAnuncio', function () {
+        // ENVIAR PARAMETROS
+       var id = $(this).data("id");
+        $(location).attr('href', urlProyect() + 'c_app/vstDetalleAnuncio?idAnuncio=' + id);
+    });
+   */
+
+    $('body').on('click', '.itemCarousel', function () {
         // ENVIAR PARAMETROS
         var id = $(this).data("id");
         $(location).attr('href', urlProyect() + 'c_app/vstDetalleAnuncio?idAnuncio=' + id);
@@ -329,6 +411,8 @@ $(function () {
         } else {
             AjaxLoadAnunciosList(categorias, departamento, ciudad, etiqueta, text);
         }
+
+        AjaxCreateDatosCarousel(categorias, departamento);
 
         setTimeout(function () { $('.carousel').carousel('pause'); }, 1000);
 
@@ -347,6 +431,8 @@ $(function () {
         url.searchParams.set("text", text);
         window.history.pushState({}, 'DON - ANUNCIOS', url);
 
+        setTitle($("#inpCategorias option:selected").text(), $("#inpCiudades option:selected").text());
+
         // VERSION NAVEGADORES IE AND EDGE
         if (getBrowserCurrent() == "edge" || getBrowserCurrent() == "ie") {
             var urlIE = "vstListaAnuncios?categ=" + categ + "&etiq=" + etiq + "&state=" + state + "&city=" + city + "&text=" + text;
@@ -355,7 +441,25 @@ $(function () {
 
     }
 
+    function openUrl(categ, etiq, state, city, text) {       
+       let url = "vstListaAnuncios?categ=" + categ + "&etiq=" + etiq + "&state=" + state + "&city=" + city + "&text=" + text;
+       window.open(url, '_blank');
+    }
+
+    function setTitle(categoria, ciudad) {
+        if(categoria == "Todas las categorías"){
+            categoria = "eroticos";
+        }else{
+            categoria = "de " + categoria;
+        }
+        if(ciudad == "Todas las ciudades"){
+            ciudad = "Colombia";
+        }
+        document.title = "Anuncios " + categoria + " en " + ciudad;
+    }
+
     $(".btnViewTable").click(function () {
+        setFavTypeGrid("table");
         tipoGridView = "table";
         $(this).removeClass("inactivo");
         $(".btnViewList").addClass("inactivo");
@@ -363,6 +467,7 @@ $(function () {
     });
 
     $(".btnViewList").click(function () {
+        setFavTypeGrid("list");
         tipoGridView = "list";
         $(this).removeClass("inactivo");
         $(".btnViewTable").addClass("inactivo");
@@ -370,5 +475,11 @@ $(function () {
     });
 
     createAnuncios(categorias[1], $("#inpDepartamentos").val(), $("#inpCiudades").val(), etiquetas[1], text, tipoGridView);
+
+    function setFavTypeGrid(tipo){
+        localStorage.setItem("tipoGridView", tipo);
+    }
+
+
 
 });

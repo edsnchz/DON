@@ -31,6 +31,29 @@ class app extends CI_Model {
         }
 	}
 
+	public function db_setNewPass_usuario($correo, $pass) {
+
+		if($correo == "" || $pass == ""){
+			return array("resultado" => false, "message" => "Los datos ingresados son erroneos");
+		}
+
+		$result = $this->db->query('SELECT * FROM usuarios where correo=?', array($correo));
+		$a = $result->result_array();
+		$result->free_result();
+
+		if(count($a) == 0){
+			return array("resultado" => false, "message" => "El correo ingresado no se encuentra registrado");
+		}
+
+		$this->db->query('UPDATE `usuarios` SET pass=? WHERE correo=?', array($pass, $correo));
+		if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "message" => "Contraseña reestablecida satisfactoriamente, porfavor verifique su correo");
+        }
+	}
+
 	public function db_get_usuario($correo, $pass) {
 		$result = $this->db->query('SELECT * FROM usuarios where correo=? and pass=? and estado=1', array($correo, $pass));
 		$a = $result->result_array();

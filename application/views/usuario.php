@@ -1,4 +1,5 @@
 <script type="text/javascript">
+    var tabDefault = "<?php echo $tab ?>";
     var apiKey = "<?php echo $apiKey ?>";
     var usuXt = "<?php echo $usuXt ?>";
 </script>
@@ -9,7 +10,7 @@
             <a class="nav-link colorGrisClaro fontWeight600 active" id="tabMisAnuncios" data-toggle="tab" href="#tMisAnuncios" role="tab" aria-controls="tMisAnuncios" aria-selected="true">MIS ANUNCIOS</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link colorGrisClaro fontWeight600" data-toggle="tab" href="#tCrearAnuncio" role="tab" aria-controls="tCrearAnuncio" aria-selected="false">CREAR ANUNCIO</a>
+            <a class="nav-link colorGrisClaro fontWeight600" data-toggle="tab" id="tabCrearAnuncio" href="#tCrearAnuncio" role="tab" aria-controls="tCrearAnuncio" aria-selected="false">CREAR ANUNCIO</a>
         </li>
         <li class="nav-item">
             <a class="nav-link colorGrisClaro fontWeight600" id="tabMisCreditos" data-toggle="tab" href="#tPremium" role="tab" aria-controls="tPremium" aria-selected="false">CRÉDITOS</a>
@@ -62,8 +63,9 @@
                     </div>
                 </div>
                 <div class="row margin_top_small">
-                    <div class="col-sm-12">
-                        <textarea rows="5" class="form-control inputStyle" name="inpDescripcion" id="inpDescripcion" placeholder="Descripción"></textarea>
+                    <div class="col-sm-12 height100porciento">
+                        <div id="inpDescripcion" style="min-height: 120px"></div>
+                        <div id="counterCrear" class="counterEditorTexto"></div>
                     </div>
                 </div>
                 <!-- **** -->
@@ -327,8 +329,9 @@
                 </div>
             </div>
             <div class="row margin_top_small">
-                <div class="col-sm-12">
-                <textarea rows="5" class="form-control inputStyle" name="inpDescripcionEditar" id="inpDescripcionEditar" placeholder="Descripción"></textarea>
+                <div class="col-sm-12 height100porciento">
+                    <div id="inpDescripcionEditar" style="min-height: 120px"></div>
+                    <div id="counterEditar" class="counterEditorTexto"></div>
                 </div>
             </div>
             <div id="tagCloudEditar" class="margin_top_small"></div>

@@ -22,7 +22,6 @@ if (typeof loginBack !== "undefined") {
     }
 }
 
-
 if (localStorage.getItem("userLogin") == null) {
     localStorage.setItem('userLogin', false);
 }
@@ -33,20 +32,49 @@ if (localStorage.getItem("userLogin") === "true") {
     menuLogout();
 }
 
+if (localStorage.getItem("userLogin") !== "true") {
+    if(localStorage.getItem("userAccess") != null) {
+        let decrypted = CryptoJS.AES.decrypt(localStorage.getItem("userAccess"), "userAccess").toString(CryptoJS.enc.Utf8);
+        let res = decrypted.split("&");
+        autoLogin(res[0], res[1]);
+    }   
+}
+
 function logout() {
     $.post(urlProyect() + "c_app/logout", {}, function (data) {
         toastr.success(data.message);
         localStorage.setItem('userLogin', false);
+        localStorage.removeItem('userAccess');  
         menuLogout();
         $(location).attr('href', urlProyectShort());
+    }, "json"); //post
+}
+
+function autoLogin(correo, pass) {
+    $.post(urlProyect() + "c_app/login", {
+        correo: correo,
+        pass: pass
+    }, function (data) {
+        localStorage.setItem('userLogin', true);
+        menuLogin();
     }, "json"); //post
 }
 
 $(".btnPanel").click(function () {
     if (localStorage.getItem("userLogin") === "false") {
         $(location).attr('href', urlProyect() + 'c_app/vstLogin');
+        localStorage.setItem('urlBeforeLogin', "c_app/vstUsuario?tab=0");
     } else {
-        $(location).attr('href', urlProyect() + 'c_app/vstUsuario');
+        $(location).attr('href', urlProyect() + 'c_app/vstUsuario?tab=0');
+    }
+});
+
+$(".btnPublicar").click(function () {
+    if (localStorage.getItem("userLogin") === "false") {
+        $(location).attr('href', urlProyect() + 'c_app/vstLogin');
+        localStorage.setItem('urlBeforeLogin', "c_app/vstUsuario?tab=1");
+    } else {
+        $(location).attr('href', urlProyect() + 'c_app/vstUsuario?tab=1');
     }
 });
 
@@ -73,6 +101,22 @@ $("#btnOpenPanelLateral").click(function () {
 
 $("#divColLogo").on("click", "img", function (event) {
     $(location).attr('href', urlProyectShort());
+});
+
+$("#aLinkCondicionesUso").click(function(){
+    $(location).attr('href', urlProyect() + 'c_app/vstCondicionesUso');
+});
+
+$("#aLinkPoliticaPagos").click(function(){
+    $(location).attr('href', urlProyect() + 'c_app/vstPoliticaPagos');
+});
+
+$("#aLinkPoliticaPrivacidad").click(function(){
+    $(location).attr('href', urlProyect() + 'c_app/vstPoliticaPrivacidad');
+});
+
+$("#aLinkContactanos").click(function(){
+    $(location).attr('href', urlProyect() + 'c_app/vstContactanos');
 });
 
 function urlProyect() {

@@ -326,6 +326,10 @@ footer.footer {
   margin: 5px !important;
 }
 
+.margin7px {
+  margin: 7px !important;
+}
+
 .margin_bottom_5px {
   margin-bottom: 5px !important;
 }
@@ -369,6 +373,11 @@ footer.footer {
 .height80px {
   height: 60px !important;
 }
+
+.height120px {
+  height: 120px !important;
+}
+
 
 
 .textRight {
@@ -605,11 +614,23 @@ color: #bebebe
 }
 
 .fontSize25px {
-  font-size: 25px;
+  font-size: 25px !important;
+}
+
+.fontSize30px {
+  font-size: 30px !important;
+}
+
+.fontSize35px {
+  font-size: 35px !important;
+}
+
+.fontSize40px {
+  font-size: 40px !important;
 }
 
 .fontSizeAunMasBig {
-  font-size: 50px;
+  font-size: 50px !important;
 }
 
 .margin_top_masSmall {
@@ -743,7 +764,7 @@ color: #bebebe
 }
 
 .cardAnuncio:hover{
-  border: solid 1px #C501FE;
+  /*border: solid 1px #C501FE;*/
 }
 
 .sombra {
@@ -1060,6 +1081,16 @@ input[type="checkbox"].checkStyle:checked:after{
   pointer-events: none;
 }
 
+.btnStyleResponMensaje{
+  font-size: 11px;
+  padding: 2px 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  border-radius: 0;
+}
+
 .btnCategoriaItemAnuncio{
   font-size: 11px;
   padding: 0px 10px;
@@ -1285,6 +1316,11 @@ input[type="checkbox"].checkStyle:checked:after{
 
 .margin_superior3_laterales0{
   margin: 3px 0px;
+}
+
+.marginSuperior13px{
+  margin-top: 13px !important;
+  margin-bottom: 13px !important;
 }
 
 #btnsStyleGrid{
@@ -1522,6 +1558,9 @@ a.nav-link.active {
   .margin0Movil{
     margin: 0px !important;
   }
+  .padding0Movil{
+    padding: 0px !important;
+  }
   .width70porcientoMovil{
     width: 70% !important;
   }
@@ -1530,6 +1569,12 @@ a.nav-link.active {
   }
   .fontSize17pxMovil {
     font-size: 17px !important;
+  }
+  .fontSize20pxMovil {
+    font-size: 20px !important;
+  }
+  .fontSize35pxMovil {
+    font-size: 35px !important;
   }
   .paddingLeft5pxMovil{
     padding-left: 5px !important;
@@ -1640,8 +1685,8 @@ a.nav-link.active {
 }
 
 .backgroundPinkAnuncios{
-  background: #e7bbef;
-  border: 3px solid #C501FE;
+  background: #e7bbef !important;
+  border: 3px solid #C501FE !important;
 }
 
 .backgroundWhite{
@@ -1650,4 +1695,21 @@ a.nav-link.active {
 
 .backgroundWhiteSmoke{
   background: whitesmoke;
+}
+
+.counterEditorTexto{
+  font-size: 11px;
+  padding: 5px;
+  text-align: right;
+  border: 1px solid #D8D8D8;
+  border-top: none;
+  font-weight: 400;
+}
+
+.sombraTexto{
+  text-shadow: 2px 2px 4px rgba(169, 169, 169, 0.45);
+}
+
+.colorGreen{
+  color: #07ff07;
 }

@@ -2,7 +2,7 @@
     var idAnuncio = "<?php echo $id ?>";
 </script>
 
-<div class="container-fluid margin_top_small bg-light">
+<div class="container-fluid margin_top_small">
     <div class="row">
         <div class="col-md-4 col-sm-6 col-12 mx-auto margin_top_small">
             <input type="text" class="form-control searchStyle" id="inpTextBuscar" placeholder="Término de búsqueda (Opcional)">
@@ -40,16 +40,12 @@
 
 <!-- CAROUSEL -->
 <div id="divCarouselPadre" class="owl-carousel owl-theme carousel-tops margin_top_medium">
-    <div class="item itemCarousel backgroundGrayDos sombraPequeña padding18px">
-        <img src="<?= load_img_url('images/camera.svg'); ?>" class="imgItemCarouselDefault">
-        <!-- <img src="<?= load_img_url('uploads/anuncios/anuncio_1_usuario_717.jpg'); ?>" class="imgItemCarousel sombraPequeña"> -->
-    </div>
 </div>
 
 <!-- CALL TO ACTION CAROUSEL -->
 <div class="alert alert-success divCTACarousel colorWhite pulse borderRadius0px" role="alert">
   <h4 class="alert-heading margin_bottom_5px text-center fontSize16px">SÚBETE AL CARRUSEL</h4>
-  <p class="margin0 fontFamilyRoboto fontSize14px">Promociona tu anuncio y se lo primero que vean! <br><u>Ir al panel de usuario</u></p>
+  <p class="margin0 fontFamilyRoboto fontSize14px">Promociona tu anuncio y se lo primero que vean! <br><a href="#" class="btnPanel colorWhite hoverColorWhite"><u>Ir al panel de usuario</u></a></p>
 </div>
 
 <!-- MAPIADO -->

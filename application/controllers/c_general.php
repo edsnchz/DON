@@ -78,6 +78,11 @@ class c_general extends CI_Controller {
       echo json_encode($data);	
     }
 
+    public function getAnunciosCarousel(){    
+      $data = $this->general->db_get_anunciosCarousel($_POST["idCategoria"], $_POST["idDepartamento"]);
+      echo json_encode($data);  
+    }
+
     public function getAnuncioById(){		
       $data = $this->general->db_get_anuncioById($_POST["id"]);
       echo json_encode($data);	
@@ -239,54 +244,66 @@ class c_general extends CI_Controller {
       
       $this->layout->setTitle("Respuesta Pago - doneróticos.com");
       $this->layout->js(Array(base_url()."js/views/respuestaPago.js"));
+      $this->layout->css(Array("https://fonts.googleapis.com/css?family=Lobster&display=swap"));
       
+      if(!isset($data->x_cod_transaction_state)){
+         $this->pageResponseError();
+         return false;
+      }
+
       switch ((int) $data->x_cod_transaction_state) {
         case 1:
-
-              $rtn = $this->general->db_insert_compra($data->x_ref_payco);
-              if($rtn){
-                $dataParams["msg"] = "Transaccion procesada satisfactoriamente, en breves instantes recibiras una confirmacion via correo electronico!";
-                $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
-                $this->layout->view("respuestaPago", $dataParams);
-              }
-
-            break;
-        case 2:
-
-              $dataParams["msg"] = "Transaccion rechazada :(, verifique los datos ingresados";
-              $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
-              $this->layout->view("respuestaPago", $dataParams);
-
-            break;
-        case 3:
-
             $rtn = $this->general->db_insert_compra($data->x_ref_payco);
             if($rtn){
-              $dataParams["msg"] = "Transaccion procesada satisfactoriamente, reliaza el pago en el menor tiempo posible para ver reflejada la compra";
-              $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
-              $this->layout->view("respuestaPago", $dataParams);
+              $this->pageResponseSuccess();
             }
-
+            break;
+        case 2:
+              $this->pageResponseError();
+            break;
+        case 3:
+            $rtn = $this->general->db_insert_compra($data->x_ref_payco);
+            if($rtn){
+              $this->pageResponseSuccessEspera();
+            }
             break;
         case 4:
-
-            $dataParams["msg"] = "Transaccion fallida :(, porfavor intente nuevamente";
-            $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
-            $this->layout->view("respuestaPago", $dataParams);
-
+              $this->pageResponseError();
             break;
         default:
-
-          $dataParams["msg"] = "Transaccion fallida :(, porfavor intente nuevamente";
-          $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
-          $this->layout->view("respuestaPago", $dataParams);
-          
+              $this->pageResponseError();
       }
 
 
     }
 
 
+    private function pageResponseSuccess(){
+        $dataParams["msgTitulo"] = "Transacción procesada <br> satisfactoriamente";
+        $dataParams["msgSubTitulo"] = "En breves instantes recibirás una confirmación vía correo electrónico <br> y tus créditos se verán reflejados en unos minutos.";
+        $dataParams["icon"] = "<span class='oi oi-check classIconCheck'></span>";
+
+        $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
+        $this->layout->view("respuestaPago", $dataParams);
+    }
+
+    private function pageResponseSuccessEspera(){
+        $dataParams["msgTitulo"] = "Transacción procesada <br> satisfactoriamente";
+        $dataParams["msgSubTitulo"] = "Realiza el pago en el menor tiempo posible para ver reflejada la compra!";
+        $dataParams["icon"] = "<span class='oi oi-clock classIconCheck'></span>";
+
+        $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
+        $this->layout->view("respuestaPago", $dataParams);
+    }
+
+    private function pageResponseError(){
+        $dataParams["msgTitulo"] = "Transacción <br> fallida";
+        $dataParams["msgSubTitulo"] = "Verifique los datos ingresados e intente nuevamente";
+        $dataParams["icon"] = "<span class='oi oi-x classIconX'></span>";
+
+        $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
+        $this->layout->view("respuestaPago", $dataParams);
+    }
 
 
 

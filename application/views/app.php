@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<div class="container-fluid margin_top_small bg-light">
+<div class="container-fluid paddingSuperior10px bg-light">
     <div class="row">
         <div class="col-md-4 col-sm-6 col-12 mx-auto margin_top_small">
             <input type="text" class="form-control searchStyle" id="inpTextBuscar" placeholder="Término de búsqueda (Opcional)">

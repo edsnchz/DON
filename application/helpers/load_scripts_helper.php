@@ -10,6 +10,8 @@ if (!function_exists('load_scripts'))
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
                 <script src="'.base_url().'assets/toastr/toastr.js"></script>
                 <script src="'.base_url().'assets/owl/owl.carousel.min.js"></script>
+                <script src="'.base_url().'assets/owl/jquery.mousewheel.js"></script>
+                <script src="'.base_url().'assets/cryptojs/cryptojs.js"></script>
                 <script src="'.base_url().'js/utils.js"></script>';
     }   
 
