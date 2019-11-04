@@ -943,3 +943,24 @@
 .ql-container.ql-snow {
   border: 1px solid #ccc;
 }
+
+
+/*  CUSTOM  */
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="19px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-label.ql-active[data-value="19px"]::before {
+    content: 'Mediano';
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="23px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-label.ql-active[data-value="23px"]::before {
+    content: 'Grande';
+}
+
+.ql-editor p {
+    font-size: 17px !important;
+}
+
+#labelDescripcion p {
+    font-size: 17px !important;
+}

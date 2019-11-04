@@ -19,13 +19,16 @@
   }
 }
 
+var Size = Quill.import('attributors/style/size');
+Size.whitelist = ['19px', '23px'];
+Quill.register(Size, true);
 Quill.register('modules/counter', Counter);
 
- var toolbarOptions = {
+var toolbarOptions = {
   container: [
     ['bold', 'italic', 'underline', 'strike'],
     [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    [{ 'size': ['small', false, 'large'] }],
+    [{ 'size': [false, '19px', '23px'] }],
     [{ 'color': [] }, { 'background': [] }],
     [{ 'font': [] }],
     [{ 'align': [] }],
@@ -43,7 +46,7 @@ function crearEditorCrear(divID){
       "toolbar": toolbarOptions,
       counter: {
         container: '#counterCrear',
-        unit: ' caract. (Minino 200)'
+        unit: ' Caracteres (Mínimo 200)'
       }
     },
     placeholder: '',
@@ -57,7 +60,7 @@ function crearEditorEditar(divID){
       "toolbar": toolbarOptions,
       counter: {
         container: '#counterEditar',
-        unit: ' caract. (Minino 200)'
+        unit: ' Caracteres (Mínimo 200)'
       }
     },
     placeholder: '',

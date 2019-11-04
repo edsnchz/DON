@@ -298,7 +298,7 @@ class general extends CI_Model {
         
         // PARA TRAER TODOS LOS QUE SEAN TOP
                 
-        $querySelect = "SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, cate.nombre categoria, (SELECT COUNT(*) FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id) countImagenes, IFNULL((SELECT pq.`idOpcPaq` FROM `paquetes_anuncios` pq WHERE pq.`idOpcPaq` IN (14, 15) AND DATE(NOW()) BETWEEN pq.`fecha_inicial` AND pq.`fecha_final` AND pq.`estado`='VIGENTE' AND pq.idAnuncio=a.id), 'NO') tipoDestacado, 1 isTop FROM anuncios a JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id` JOIN categorias cate ON a.`id_categoria`=cate.`id`";
+        $querySelect = "SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, cate.nombre categoria, (SELECT COUNT(*) FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id) countImagenes, IFNULL((SELECT pq.`idOpcPaq` FROM `paquetes_anuncios` pq WHERE pq.`idOpcPaq` IN (14, 15) AND DATE(NOW()) BETWEEN pq.`fecha_inicial` AND pq.`fecha_final` AND pq.`estado`='VIGENTE' AND pq.idAnuncio=a.id LIMIT 1), 'NO') tipoDestacado, 1 isTop FROM anuncios a JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id` JOIN categorias cate ON a.`id_categoria`=cate.`id`";
 
         $queryTop = " AND a.id IN (SELECT `idAnuncio` FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND DATE(NOW()) BETWEEN `fecha_inicial` AND `fecha_final` AND TIME(NOW()) BETWEEN `hora_inicial` AND `hora_final` AND `estado`='VIGENTE')";
 
@@ -308,7 +308,7 @@ class general extends CI_Model {
 
         // PARA TRAER TODOS LOS QUE NO SEAN TOP
 
-        $querySelect = "SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, cate.nombre categoria, (SELECT COUNT(*) FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id) countImagenes, IFNULL((SELECT pq.`idOpcPaq` FROM `paquetes_anuncios` pq WHERE pq.`idOpcPaq` IN (14, 15) AND DATE(NOW()) BETWEEN pq.`fecha_inicial` AND pq.`fecha_final` AND pq.`estado`='VIGENTE' AND pq.idAnuncio=a.id), 'NO') tipoDestacado, 0 isTop FROM anuncios a JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id` JOIN categorias cate ON a.`id_categoria`=cate.`id`";
+        $querySelect = "SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, cate.nombre categoria, (SELECT COUNT(*) FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id) countImagenes, IFNULL((SELECT pq.`idOpcPaq` FROM `paquetes_anuncios` pq WHERE pq.`idOpcPaq` IN (14, 15) AND DATE(NOW()) BETWEEN pq.`fecha_inicial` AND pq.`fecha_final` AND pq.`estado`='VIGENTE' AND pq.idAnuncio=a.id LIMIT 1), 'NO') tipoDestacado, 0 isTop FROM anuncios a JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id` JOIN categorias cate ON a.`id_categoria`=cate.`id`";
 
         $queryTop = " AND a.id NOT IN (SELECT `idAnuncio` FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND DATE(NOW()) BETWEEN `fecha_inicial` AND `fecha_final` AND TIME(NOW()) BETWEEN `hora_inicial` AND `hora_final` AND `estado`='VIGENTE') ORDER BY a.fecha_creacion DESC";
 
@@ -592,15 +592,171 @@ class general extends CI_Model {
     public function db_get_AuditoriaGraficoTipoVistaByAnuncioAndFecha($id, $fecha1, $fecha2) {
         $this->db->trans_start(); 
 
-        $result = $this->db->query('SELECT "VISTA_PC" tipo, COUNT(*) valor FROM acciones_anuncios
-                                WHERE id_anuncio=? AND DATE(`fecha_accion`) BETWEEN ? AND ? AND tipo="VISTA_PC"
+        $rtn = [];
+
+        $fechaIni = new DateTime($fecha1);
+        $fechaFin = new DateTime($fecha2);
+        $fechaFin->add(new DateInterval('P1D'));
+
+        $period = new DatePeriod(
+            new DateTime($fechaIni->format('Y-m-d')),
+            new DateInterval('P1D'),
+            new DateTime($fechaFin->format('Y-m-d'))
+        );
+    
+        foreach ($period as $key => $value) {
+            
+            $rtnTemp = array("dia" => $value->format('d'),
+                            "vistas_pc" => "0",
+                            "vistas_movil" => "0");
+
+            $result = $this->db->query('SELECT "VISTA_PC" tipo, COUNT(*) valor FROM acciones_anuncios
+                                WHERE id_anuncio=? AND DATE(`fecha_accion`) = ? AND tipo="VISTA_PC"
                                 UNION
                                 SELECT "VISTA_MOVIL" tipo, COUNT(*) valor FROM acciones_anuncios
-                                WHERE id_anuncio=? AND DATE(`fecha_accion`) BETWEEN ? AND ? AND tipo="VISTA_MOVIL"', 
-                                array($id, $fecha1, $fecha2, $id, $fecha1, $fecha2));
-        $a = $result->result_array();
+                                WHERE id_anuncio=? AND DATE(`fecha_accion`) = ? AND tipo="VISTA_MOVIL"', array($id, $value->format('Y-m-d'), $id, $value->format('Y-m-d')));
+            $datos = $result->result_array();
+            $result->free_result();
+
+            foreach ($datos as $keyD => $dato) {
+                if($dato["tipo"] == "VISTA_PC"){
+                    $rtnTemp["vistas_pc"] = $dato["valor"];
+                }
+                if($dato["tipo"] == "VISTA_MOVIL"){
+                    $rtnTemp["vistas_movil"] = $dato["valor"];
+                }
+            }  
+
+            $rtn[] = $rtnTemp;
+        }
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $rtn);
+        }
+    }
+
+    public function db_get_GraficoInversionByAnuncioAndFecha($id, $fecha1, $fecha2) {
+        $this->db->trans_start(); 
+
+        $result = $this->db->query('SELECT DATE_FORMAT(p.`fecha_inicial`, "%d/%m") fecha, SUM(o.`valor`) valor FROM `paquetes_anuncios` p
+                                JOIN `opciones_paquetes` o ON p.`idOpcPaq`=o.`id`
+                                WHERE p.`fecha_inicial` BETWEEN ? AND ? AND p.`idAnuncio`=?
+                                GROUP BY p.`fecha_inicial`
+                                ORDER BY p.`fecha_inicial` ASC;', array($fecha1, $fecha2, $id));
+        $datos = $result->result_array();
         $result->free_result();
 
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $datos);
+        }
+    }
+
+    public function db_get_GraficoInversionTotalTipoByAnuncioAndFecha($id) {
+        $this->db->trans_start(); 
+
+        $result = $this->db->query('SELECT pa.nombre tipo, SUM(o.`valor`) valor FROM paquetes_anuncios p
+                                    JOIN `opciones_paquetes` o ON p.`idOpcPaq`=o.`id`
+                                    JOIN `paquetes` pa ON o.`idPaquete`=pa.id
+                                    WHERE p.`idAnuncio`=?
+                                    GROUP BY pa.nombre
+                                    ORDER BY pa.nombre DESC;', array($id));
+        $datos = $result->result_array();
+        $result->free_result();
+
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $datos);
+        }
+    }
+
+    public function db_get_AuditoriaVistasPorHoras($idAnuncio) {
+        $this->db->trans_start(); 
+
+        $rtn = [];
+
+        $fechaIni = new DateTime("2010-10-10 00:00:00");
+        $fechaFin = new DateTime("2010-10-10 24:01:00");
+
+        $period = new DatePeriod(
+            new DateTime($fechaIni->format('Y-m-d H:i:s')),
+            new DateInterval('PT2H'),
+            new DateTime($fechaFin->format('Y-m-d H:i:s'))
+        );
+
+        $lastHour = "";
+
+        foreach ($period as $key => $value) {
+            if(!$lastHour == ""){
+                $result = $this->db->query('SELECT COUNT(*) total FROM `acciones_anuncios` WHERE tipo="VISTA" AND 
+                                            TIME(`fecha_accion`) BETWEEN ? AND ? AND id_anuncio=?', array($lastHour->format('H:i'), (($value->format('H:i')=="00:00")?"23:59":$value->format('H:i')), $idAnuncio));
+                $datos = $result->result_array();
+                $result->free_result();
+
+                $arrayTemp["rango"] = $lastHour->format('ga')." / ".$value->format('ga');
+                $arrayTemp["vistas"] = $datos[0]["total"];
+
+                $rtn[] = $arrayTemp;
+            }
+
+            $lastHour = $value;
+        }
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $rtn);
+        }
+    }
+
+    public function db_get_HistoricoComprasByAnuncioAndFecha($id, $fecha1, $fecha2) {
+        $this->db->trans_start(); 
+
+        $result = $this->db->query('SELECT paq.`nombre` tipo, CONCAT(pa.`fecha_inicial`," ", pa.`hora_inicial`) inicio,
+                        CONCAT(pa.`fecha_final`," ",pa.`hora_final`) fin, pa.estado, pa.`fecha_compra`, op.`valor` FROM `paquetes_anuncios` pa
+                    JOIN `opciones_paquetes` op ON pa.`idOpcPaq`=op.`id`
+                    JOIN `paquetes` paq ON op.`idPaquete`=paq.`id`
+                    WHERE pa.`idAnuncio`=? AND pa.`fecha_compra` BETWEEN ? AND ?
+                    ORDER BY `fecha_compra` ASC', array($id, $fecha1, $fecha2));
+        $datos = $result->result_array();
+        $result->free_result();
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $datos);
+        }
+    }
+
+    public function db_get_ConsolidadoTotalPromociones($id) {
+        $this->db->trans_start(); 
+        $result = $this->db->query('SELECT pa.`nombre` tipo, COUNT(*) total FROM paquetes_anuncios p
+                                    JOIN `opciones_paquetes` o ON p.`idOpcPaq`=o.`id`
+                                    JOIN `paquetes` pa ON o.`idPaquete`=pa.id
+                                    WHERE pa.id = 2 AND p.`idAnuncio`=?
+                                    UNION
+                                    SELECT pa.`nombre` tipo, COUNT(*) total FROM paquetes_anuncios p
+                                    JOIN `opciones_paquetes` o ON p.`idOpcPaq`=o.`id`
+                                    JOIN `paquetes` pa ON o.`idPaquete`=pa.id
+                                    WHERE pa.id = 3 AND p.`idAnuncio`=?
+                                    UNION
+                                    SELECT pa.`nombre` tipo, COUNT(*) total FROM paquetes_anuncios p
+                                    JOIN `opciones_paquetes` o ON p.`idOpcPaq`=o.`id`
+                                    JOIN `paquetes` pa ON o.`idPaquete`=pa.id
+                                    WHERE pa.id = 4 AND p.`idAnuncio`=?;', array($id, $id, $id));
+        $a = $result->result_array();
+        $result->free_result();
         if ($this->db->_error_number()) {
             return array("resultado" => false, "message" => $this->db->_error_message());
         } else {
@@ -813,7 +969,7 @@ class general extends CI_Model {
             IFNULL((SELECT url FROM imagenes_anuncios i WHERE i.id_anuncio=a.id LIMIT 1), '../../images/default_img.svg') url,
             IFNULL((SELECT 1 FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND DATE(NOW()) 
                 BETWEEN `fecha_inicial` AND `fecha_final` AND TIME(NOW()) BETWEEN `hora_inicial` 
-                AND `hora_final` AND `estado`='VIGENTE' AND `idAnuncio`=a.id),0) isTop
+                AND `hora_final` AND `estado`='VIGENTE' AND `idAnuncio`=a.id LIMIT 1),0) isTop
             FROM anuncios a 
             JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id`  
             JOIN categorias cate ON a.`id_categoria`=cate.`id` 

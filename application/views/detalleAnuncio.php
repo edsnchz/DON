@@ -2,6 +2,8 @@
     var idAnuncio = "<?php echo $id ?>";
 </script>
 
+<div class="pageComplete">
+
 <div class="container-fluid margin_top_small">
     <div class="row">
         <div class="col-md-4 col-sm-6 col-12 mx-auto margin_top_small">
@@ -44,8 +46,8 @@
 
 <!-- CALL TO ACTION CAROUSEL -->
 <div class="alert alert-success divCTACarousel colorWhite pulse borderRadius0px" role="alert">
-  <h4 class="alert-heading margin_bottom_5px text-center fontSize16px">SÚBETE AL CARRUSEL</h4>
-  <p class="margin0 fontFamilyRoboto fontSize14px">Promociona tu anuncio y se lo primero que vean! <br><a href="#" class="btnPanel colorWhite hoverColorWhite"><u>Ir al panel de usuario</u></a></p>
+  <h4 class="alert-heading margin_bottom_5px text-center fontSize16px fontWeight500">SÚBETE AL CARRUSEL</h4>
+  <p class="margin0 fontFamilyRoboto fontSize14px fontWeight300">Promociona tu anuncio y se lo primero que vean! <br><a href="#" class="btnPanel colorWhite hoverColorWhite fontWeight500"><u>Ir al panel de usuario</u></a></p>
 </div>
 
 <!-- MAPIADO -->
@@ -65,9 +67,11 @@
 
     <div class="row">
         <div class="col-sm-9">
-            <h3 id="labelTitulo" class="text-center margin_top_medium colorGrisOscuro fontSize16px fontFamilyRoboto"></h3>
+            <h3 id="labelTitulo" class="text-center margin_top_medium colorGrisOscuro fontSize20px fontFamilyRoboto"></h3>
 
-            <div id="divEtiquetas" class="text-center"></div>
+            <div id="divEtiquetas" class="margin_top_small text-center"></div>
+
+            <hr>
 
             <h5 id="labelDescripcion" class=" text-justify fontSize15px fontWeight400 margin_top_small fontFamilyRoboto colorGrisOscuro"></h5>
 
@@ -227,4 +231,6 @@
       </div>
     </div>
   </div>
+</div>
+
 </div>

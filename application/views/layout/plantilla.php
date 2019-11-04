@@ -58,13 +58,12 @@
     </div>
 
 
-
     <!-- CONTENIDO -->
     <?= $content_for_layout ?>
 
 
     <!-- FOOTER -->
-    <footer class="footer bg-light height40px centradoVertical">
+    <footer class="footer bg-light height40px centradoVertical paddingTop45remMovil">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 h-100 text-lg-center my-auto">
@@ -82,7 +81,7 @@
                         </li>
                         <li class="list-inline-item">&sdot;</li>
                         <li class="list-inline-item">
-                            <a href="#" id="aLinkContactanos" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Contactanos</a>
+                            <a href="#" id="aLinkContactanos" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Contacto</a>
                         </li>
                     </ul>
                     <p class="text-muted small mb-2 mb-lg-0 fontFamilyRoboto textCenter">&copy; "doneróticos.com" es una página de contenido +18. Todos los anunciantes han reconocido ser mayores de 18 años y aceptar los terminos.</p>
@@ -94,7 +93,7 @@
     <div id="divPanelLateral">
         <ul>
             <li>
-                <a class="colorWhite transitionNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 width100porciento textDecorationNone colorPink" href="#"><i class="fas fa-plus"></i> Publica Gratis</a>
+                <a class="colorWhite transitionNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 width100porciento textDecorationNone colorPink btnPublicar" href="#"><i class="fas fa-plus"></i> Publica Gratis</a>
             </li>
             <li>
               <a class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro btnPanel" href="#">Panel de Usuario</a>
@@ -103,6 +102,16 @@
             </li>
         </ul>
     </div>
+
+    <div id="divLoading" class="containerLoader animated" style="visibility: hidden;">
+        <svg class="loaderSVG shadow-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340">
+             <circle id="circle1" cx="170" cy="170" r="95" stroke="#C501FE"/>
+             <circle id="circle2" cx="170" cy="170" r="80" stroke="#444444"/>
+             <circle id="circle3" cx="170" cy="170" r="65" stroke="#C501FE"/>
+             <circle id="circle4" cx="170" cy="170" r="50" stroke="#444444"/>
+        </svg>
+    </div>
+
 
 
     <?= load_scripts(); ?>

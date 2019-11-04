@@ -116,17 +116,26 @@ $(function () {
                 if (data.resultado == true) {
                     let datos = data.data;
                     if(datos.length == 0){
-                        owl.trigger('add.owl.carousel', ['<div class="item itemCarousel backgroundGrayDos sombraPequeña padding18px"><img src="../../images/camera.svg" class="imgItemCarouselDefault"></div>', 0]).trigger('refresh.owl.carousel');
+                        owl.trigger('add.owl.carousel', [createItemCarouselVacioPlatino(), 0]).trigger('refresh.owl.carousel');
                     }else{
                         let count = 0;
                         $.each(datos, function (key, value) {
-                            owl.trigger('add.owl.carousel', ['<div class="item itemCarousel backgroundGrayDos sombraPequeña cursorPointer" data-id="'+value.id+'"><img src="../../uploads/anuncios/'+value.url+'" class="imgItemCarousel sombraPequeña"></div>', count]).trigger('refresh.owl.carousel');
+                            let div = (value.url==null||value.url=="")?createItemCarouselVacioPlatino():createItemCarouselPlatino(value.id, value.url);
+                            owl.trigger('add.owl.carousel', [div, count]).trigger('refresh.owl.carousel');
                             count ++;
                         });    
                     }
                 }
             }
         });
+    }
+
+    function createItemCarouselPlatino(id, url){
+        return '<div class="item itemCarousel backgroundGrayDos sombraPequeña cursorPointer" data-id="'+id+'"><img src="../../uploads/anuncios/'+url+'" class="imgItemCarousel sombraPequeña"></div>';
+    }
+
+    function createItemCarouselVacioPlatino(){
+        return '<div class="item itemCarousel backgroundGrayDos sombraPequeña padding18px"><img src="../../images/camera.svg" class="imgItemCarouselDefault"></div>';
     }
 
     function AjaxAddDenuncia(idAnuncio, concepto, texto) {
@@ -345,7 +354,7 @@ $(function () {
         }, 5000);
 
         setTimeout(function () {
-            $(".divCTACarousel").addClass("displayNone");
+            $(".divCTACarousel").addClass("moveOut");
             $("#divCarouselPadre").removeClass("pulse");
         }, 15000);
     }

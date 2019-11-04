@@ -1,3 +1,4 @@
+<div class="pageComplete">
 
 <!-- Masthead -->
 <div class="container-fluid">
@@ -119,3 +120,14 @@
         </div>
     </div>
 </section>
+
+<div id="divInfoWindows" class="card shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title">Tranquilo!</h5>
+    <h6 class="card-subtitle mb-2 text-muted fontSize12px">Esta pagina no contiene publicidad</h6>
+    <p class="card-text margin0 fontSize12px">Puedes desactivar los BlockAds, y usamos cookies para mejorar la experiencia de usuario.</p>
+    <a href="#" id="btnCloseInfoWindows" class="card-link fontSize14px floatRight">Aceptar</a>
+  </div>
+</div>
+
+</div>

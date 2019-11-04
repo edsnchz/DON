@@ -2,21 +2,40 @@ $(function () {
 
     var arrayEtiquetas = [[], [], [], [], [], []];
 
-    // GET CITY CURRENT
-    $.ajax({
-        url: "https://geoip-db.com/jsonp",
-        jsonpCallback: "callback",
-        dataType: "jsonp",
-        success: function (location) {
-            console.log(location);
-            $('#inpDepartamentos option:contains(' + location.state + ')').attr('selected', 'selected');
-            AjaxLoadCiudades($('#inpDepartamentos option:contains(' + location.state + ')').val());
-            $('#inpCiudades option:contains(' + location.city + ')').attr('selected', 'selected');
-        },
-        error: function (ex) {
-            toastr.warning("Error al obtener tu ubicación actual. <br> Si usas bloqueadores de anuncios estos pueden estar impidiendo la conexión. (Desactivalos)");
-        }
-    });
+    /*
+    var optionsNavigator = {
+        enableHighAccuracy: true,
+        timeout: 1000,
+        maximumAge: 0
+    };
+
+    navigator.geolocation.getCurrentPosition(function(position){
+        let x = position.coords.latitude;
+        let y = position.coords.longitude;
+        setCurrentLocation(x,y);
+    }, function(error){
+        console.log(error);
+    }, optionsNavigator);
+    */
+    
+    setCurrentLocation("10.987041", "-74.784388");
+
+    function setCurrentLocation(lat, long){
+        $.ajax({
+            url: 'https://maps.google.com/maps/api/geocode/json?latlng='+lat+','+long+'&key='+keyMaps+'&sensor=true',
+            type: 'GET',
+            dataType: "json",
+            success: function (data) {
+                let currentUbication = data.results[6].address_components;
+                let city = currentUbication[0].short_name;
+                let state = currentUbication[1].short_name;
+
+                $('#inpDepartamentos option:contains(' + state + ')').attr('selected', 'selected');
+                AjaxLoadCiudades($('#inpDepartamentos option:contains(' + state + ')').val());
+                $('#inpCiudades option:contains(' + city + ')').attr('selected', 'selected');
+            }
+        });    
+    }
 
     $.ajax({
         url: 'index.php/c_general/getCategorias',
@@ -171,5 +190,12 @@ $(function () {
 
     AjaxLoadEtiquetas();
 
+    setTimeout(function () {
+        $("#divInfoWindows").addClass("move");
+    }, 3000);
+
+    $("#btnCloseInfoWindows").click(function(){
+        $("#divInfoWindows").addClass("moveOut");
+    });
 
 });

@@ -68,7 +68,7 @@ $(function () {
         url: '../c_general/getDepartamentos',
         type: 'POST',
         dataType: "json",
-        async: false,
+       // async: false,
         success: function (data) {
             if (data.resultado == true) {
                 $.each(data.data, function (key, value) {
@@ -77,28 +77,28 @@ $(function () {
             }
             $('#inpDepartamentos').val(state);
             AjaxLoadCiudades($('#inpDepartamentos').val());
-            $('#inpCiudades').val(city);
-            $("#eMapCiudad").text($("#inpCiudades option:selected").text());
             $("#eMapDepartamento").text($("#inpDepartamentos option:selected").text());
-            setTitle(categorias[0], $("#inpCiudades option:selected").text());
+            AjaxLoadCategorias();
         }
     });
 
-    $.ajax({
-        url: '../c_general/getCategorias',
-        type: 'POST',
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            if (data.resultado == true) {
-                $.each(data.data, function (key, value) {
-                    $("#inpCategorias").append("<option value=" + value.id + ">" + value.nombre + "</option>");
-                    $(".enlacesCategorias").append('<li class="liEnlacesCategorias" data-state="' + $('#inpDepartamentos').val() + '" data-categoria="' + value.id + '">' + value.nombre + ' en ' + $("#inpDepartamentos option:selected").text() + '</li>');
-                });
+    function AjaxLoadCategorias() {    
+        $.ajax({
+            url: '../c_general/getCategorias',
+            type: 'POST',
+            dataType: "json",
+           // async: false,
+            success: function (data) {
+                if (data.resultado == true) {
+                    $.each(data.data, function (key, value) {
+                        $("#inpCategorias").append("<option value=" + value.id + ">" + value.nombre + "</option>");
+                        $(".enlacesCategorias").append('<li class="liEnlacesCategorias" data-state="' + $('#inpDepartamentos').val() + '" data-categoria="' + value.id + '">' + value.nombre + ' en ' + $("#inpDepartamentos option:selected").text() + '</li>');
+                    });
+                }
+                $("#inpCategorias").val(categorias[1]);
             }
-            $("#inpCategorias").val(categorias[1]);
-        }
-    });
+        });
+    }
 
 
     function AjaxLoadCiudades(id) {
@@ -108,12 +108,17 @@ $(function () {
             type: 'POST',
             dataType: "json",
             data: { idDepartamento: id },
-            async: false,
+          //  async: false,
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
                         $("#inpCiudades").append("<option value=" + value.id + ">" + value.nombre + "</option>");
                     });
+                    if(id == state){
+                        $('#inpCiudades').val(city);    
+                    }
+                    $("#eMapCiudad").text($("#inpCiudades option:selected").text());
+                    setTitle(categorias[0], $("#inpCiudades option:selected").text());
                 }
             }
         });
@@ -133,17 +138,26 @@ $(function () {
                 if (data.resultado == true) {
                     let datos = data.data;
                     if(datos.length == 0){
-                        owl.trigger('add.owl.carousel', ['<div class="item itemCarousel backgroundGrayDos sombraPequeña padding18px"><img src="../../images/camera.svg" class="imgItemCarouselDefault"></div>', 0]).trigger('refresh.owl.carousel');
+                        owl.trigger('add.owl.carousel', [createItemCarouselVacioPlatino(), 0]).trigger('refresh.owl.carousel');
                     }else{
                         let count = 0;
                         $.each(datos, function (key, value) {
-                            owl.trigger('add.owl.carousel', ['<div class="item itemCarousel backgroundGrayDos sombraPequeña cursorPointer" data-id="'+value.id+'"><img src="../../uploads/anuncios/'+value.url+'" class="imgItemCarousel sombraPequeña"></div>', count]).trigger('refresh.owl.carousel');
+                            let div = (value.url==null||value.url=="")?createItemCarouselVacioPlatino():createItemCarouselPlatino(value.id, value.url);
+                            owl.trigger('add.owl.carousel', [div, count]).trigger('refresh.owl.carousel');
                             count ++;
                         });    
                     }
                 }
             }
         });
+    }
+
+    function createItemCarouselPlatino(id, url){
+        return '<div class="item itemCarousel backgroundGrayDos sombraPequeña cursorPointer" data-id="'+id+'"><img src="../../uploads/anuncios/'+url+'" class="imgItemCarousel sombraPequeña"></div>';
+    }
+
+    function createItemCarouselVacioPlatino(){
+        return '<div class="item itemCarousel backgroundGrayDos sombraPequeña padding18px"><img src="../../images/camera.svg" class="imgItemCarouselDefault"></div>';
     }
 
     function AjaxCreateTags(id) {
@@ -170,6 +184,9 @@ $(function () {
             type: 'POST',
             dataType: "json",
             data: { idCategoria: idCategoria, idDepartamento: idDepartamento, idCiudad: idCiudad, idEtiqueta: idEtiqueta, text: text },
+            beforeSend: function(data){
+                loading.show();
+            },
             success: function (data) {
                 if (data.resultado == true) {
                     $("#divCuadricula").html('<div class="bricklayer" id="myBricklayer"></div>');
@@ -230,6 +247,9 @@ $(function () {
                     var bricklayer = new Bricklayer(document.getElementById('myBricklayer'));
                 }
 
+            },
+            complete: function(data){
+                loading.hide();
             }
         });
     }
@@ -241,6 +261,9 @@ $(function () {
             type: 'POST',
             dataType: "json",
             data: { idCategoria: idCategoria, idDepartamento: idDepartamento, idCiudad: idCiudad, idEtiqueta: idEtiqueta, text: text },
+            beforeSend: function(data){
+                loading.show();
+            },
             success: function (data) {
                 if (data.resultado == true) {
 
@@ -299,6 +322,9 @@ $(function () {
                     });
                 }
 
+            },
+            complete: function(data){
+                loading.hide();
             }
         });
     }
@@ -314,7 +340,7 @@ $(function () {
         }, 5000);
 
         setTimeout(function () {
-            $(".divCTACarousel").addClass("displayNone");
+            $(".divCTACarousel").addClass("moveOut");
             $("#divCarouselPadre").removeClass("pulse");
         }, 15000);
     }
@@ -357,6 +383,8 @@ $(function () {
     });
 
     $('body').on('click', '.itemTag', function () {
+        $(".etiquetasNube").removeClass("etiquetasNubeActivo");
+        $(this).addClass("etiquetasNubeActivo");
         createAnuncios($("#inpCategorias").val(), $("#inpDepartamentos").val(), $("#inpCiudades").val(), $(this).data("id"), ($("#inpTextBuscar").val() == "") ? "NaN" : $("#inpTextBuscar").val(), tipoGridView);
         setUrl($("#inpCategorias option:selected").text() + "_" + $("#inpCategorias").val(),
             $(this).text() + "_" + $(this).data("id"), $("#inpDepartamentos").val(), $("#inpCiudades").val(), ($("#inpTextBuscar").val() == "") ? "NaN" : $("#inpTextBuscar").val());
@@ -429,14 +457,14 @@ $(function () {
         url.searchParams.set("state", state);
         url.searchParams.set("city", city);
         url.searchParams.set("text", text);
-        window.history.pushState({}, 'DON - ANUNCIOS', url);
+        window.history.pushState({}, 'Anuncios eróticos en Colombia', url);
 
         setTitle($("#inpCategorias option:selected").text(), $("#inpCiudades option:selected").text());
 
         // VERSION NAVEGADORES IE AND EDGE
         if (getBrowserCurrent() == "edge" || getBrowserCurrent() == "ie") {
             var urlIE = "vstListaAnuncios?categ=" + categ + "&etiq=" + etiq + "&state=" + state + "&city=" + city + "&text=" + text;
-            window.history.replaceState({}, 'DON - ANUNCIOS', urlIE);
+            window.history.replaceState({}, 'Anuncios eróticos en Colombia', urlIE);
         }
 
     }

@@ -16,6 +16,8 @@ toastr.options = {
     "hideMethod": "fadeOut"
 }
 
+var keyMaps = "AIzaSyAwfipAJXbF1gA58tRGDuZvM9WrqAGfilU";
+
 if (typeof loginBack !== "undefined") {
     if (loginBack == false) {
         localStorage.setItem('userLogin', false);
@@ -58,6 +60,19 @@ function autoLogin(correo, pass) {
         localStorage.setItem('userLogin', true);
         menuLogin();
     }, "json"); //post
+}
+
+var loading = {
+  show: function() {
+    $("#divLoading").css("visibility", "visible");
+    $("#divLoading").removeClass("fadeOut");
+    $("#divLoading").addClass("fadeIn");
+  },
+  hide: function() {
+    $("#divLoading").css("visibility", "hidden");
+    $("#divLoading").removeClass("fadeIn");
+    $("#divLoading").addClass("fadeOut");
+  }
 }
 
 $(".btnPanel").click(function () {

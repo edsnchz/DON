@@ -50,7 +50,7 @@
 
 </style>
 
-<div style="height: 80%">
+<div class="pageComplete">
 
 	<div class="container">
 		<div class="row">

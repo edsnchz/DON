@@ -31,6 +31,7 @@ class c_app extends CI_Controller {
 			base_url()."js/views/usuario.js",
 			"https://code.jquery.com/ui/1.12.1/jquery-ui.js",
 			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js",
+			"https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js",
 			"https://checkout.epayco.co/checkout.js",
 			"https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.js",
 			"https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js",
@@ -51,7 +52,7 @@ class c_app extends CI_Controller {
 	}
 
 	public function vstListaAnuncios(){
-		$this->layout->setTitle("DON - ANUNCIOS");
+		$this->layout->setTitle("Anuncios eróticos en Colombia");
 		$this->layout->js(Array(
 			base_url()."js/views/listaAnuncios.js",
 			base_url()."js/gridAnuncios.js",
@@ -72,7 +73,7 @@ class c_app extends CI_Controller {
 	}
 
 	public function vstDetalleAnuncio(){
-		$this->layout->setTitle("DON - ANUNCIO");
+		$this->layout->setTitle("Anuncios eróticos en Colombia");
 		$this->layout->js(Array(
 			base_url()."js/views/detalleAnuncio.js",
 			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
@@ -97,7 +98,7 @@ class c_app extends CI_Controller {
 	}
 
 	public function vstCondicionesUso()	{
-		$this->layout->setTitle("Condiciones Uso - doneróticos.com");
+		$this->layout->setTitle("Condiciones de Uso - doneróticos.com");
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("condicionesUso", $data);	
 	}
@@ -115,7 +116,7 @@ class c_app extends CI_Controller {
 	}
 
 	public function vstContactanos()	{
-		$this->layout->setTitle("Contactanos - doneróticos.com");
+		$this->layout->setTitle("Contacto - doneróticos.com");
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("contactanos", $data);	
 	}

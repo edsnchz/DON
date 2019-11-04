@@ -4,6 +4,8 @@
     var usuXt = "<?php echo $usuXt ?>";
 </script>
 
+<div class="pageComplete2">
+
 <div class="container-fluid margin_top_small">
     <ul class="nav nav-tabs fontSize12px fontFamilyPoppins letterSpacingMinimo" role="tablist">
         <li class="nav-item">
@@ -27,6 +29,7 @@
             <div class="container">  
                 <div class="row" id="divMisAnuncios">
                 </div>
+                <br><br>
             </div>
         </div>
         <div class="tab-pane fade" id="tCrearAnuncio" role="tabpanel">
@@ -65,7 +68,7 @@
                 <div class="row margin_top_small">
                     <div class="col-sm-12 height100porciento">
                         <div id="inpDescripcion" style="min-height: 120px"></div>
-                        <div id="counterCrear" class="counterEditorTexto"></div>
+                        <div id="counterCrear" class="fontFamilyRoboto counterEditorTexto"></div>
                     </div>
                 </div>
                 <!-- **** -->
@@ -130,7 +133,7 @@
                             <fieldset class="form-group">
                                 <a href="javascript:void(0)" onclick="$('#pro-image').click()" class="hoverGrisClaro textDecorationNone fontFamilyRoboto fontSize14px">Subir imágenes</a>
                                 <input type="file" id="pro-image" name="pro-image[]" style="display: none;" class="form-control" multiple>
-                                <button class="btn btn-primary floatRight fontFamilyRoboto fontSize14px" id="btnMiGaleria" data-toggle="modal" data-target="#modalMiGaleria">Mi Galeria</button>
+                                <button class="btn btn-primary floatRight fontFamilyRoboto fontSize14px borderRadius0px" id="btnMiGaleria" data-toggle="modal" data-target="#modalMiGaleria">Mi Galeria</button>
                             </fieldset>
                             <div class="preview-images-zone">
                             </div>
@@ -154,7 +157,7 @@
                     </label>
                 </div> -->
 
-                <button id="btnGuardar" type="button" class="btn btn-primary borderNone borderRadius0px outlineNone margin_top_small backgroundPink hoverBackgroundPinkOscuro textUppercase fontSize12px fontWeight600 padding10px">Publicar anuncio</button>
+                <button id="btnGuardar" type="button" class="btn colorWhite hoverColorWhite borderNone borderRadius0px outlineNone margin_top_small backgroundPink hoverBackgroundPinkOscuro textUppercase fontSize12px fontWeight600 paddingLaterales20px paddingSuperiorInferior10px">Publicar anuncio</button>
             </div>
 
             <br><br>
@@ -192,7 +195,7 @@
                         <div class="row" id="divRemitentes">
                         </div>
                     </div>
-                    <div id="divMensajes" class="col-sm-8 backgroundGray scrollVisible height100porciento displayNoneMovil paddingSuperiorInferior10px">
+                    <div id="divMensajes" class="col-sm-8 backgroundGrayFondo scrollVisible height100porciento displayNoneMovil paddingSuperiorInferior10px">
                     </div>
                 </div>
             </div>
@@ -271,7 +274,7 @@
       </div>
       <div class="modal-body">
             <div>
-                <div class="card-columns margin_top_30px cardColumsNum5" id="divMisFotos"> 
+                <div class="card-columns margin_top_30px cardColumsNum5 cardColumsNum3Movil" id="divMisFotos"> 
                 </div>
             </div>
       </div>
@@ -295,7 +298,7 @@
       </div>
       <div class="modal-body">
             <div>
-                <div class="card-columns margin_top_30px cardColumsNum5" id="divMisFotosEditar"> 
+                <div class="card-columns margin_top_30px cardColumsNum5 cardColumsNum3Movil" id="divMisFotosEditar"> 
                 </div>
             </div>
       </div>
@@ -321,9 +324,9 @@
             <input type="hidden" id="inpIdAnuncioEditar">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="fontSize14px fontFamilyRoboto">
-                        <p class="letterSpacingMinimo  
-                        colorGrisOscuro">1. Rellena los datos de tu anuncio</p>
+                    <div>
+                        <p class="letterSpacingMinimo fontSize14px fontFamilyRoboto
+                        colorGrisOscuro">1. Edita el contenido de tu anuncio</p>
                     </div>
                     <input type="text" class="form-control inputStyle margin_top_medium" name="inpTituloEditar" id="inpTituloEditar" placeholder="Titulo">
                 </div>
@@ -331,7 +334,7 @@
             <div class="row margin_top_small">
                 <div class="col-sm-12 height100porciento">
                     <div id="inpDescripcionEditar" style="min-height: 120px"></div>
-                    <div id="counterEditar" class="counterEditorTexto"></div>
+                    <div id="counterEditar" class="fontFamilyRoboto counterEditorTexto"></div>
                 </div>
             </div>
             <div id="tagCloudEditar" class="margin_top_small"></div>
@@ -359,7 +362,7 @@
                         <fieldset class="form-group">
                             <a href="javascript:void(0)" onclick="$('#pro-imageEditar').click()" class="hoverGrisClaro textDecorationNone fontFamilyRoboto fontSize14px">Subir imágenes</a>
                             <input type="file" id="pro-imageEditar" name="pro-imageEditar[]" style="display: none;" class="form-control" multiple>
-                            <button class="btn btn-primary floatRight fontFamilyRoboto fontSize14px" id="btnMiGaleriaEditar">Mi Galería</button>
+                            <button class="btn btn-primary floatRight fontFamilyRoboto fontSize14px borderRadius0px" id="btnMiGaleriaEditar">Mi Galería</button>
                         </fieldset>
                         <div class="preview-images-zone-editar">
                         </div>
@@ -369,7 +372,7 @@
             </div>
       </div>
       <div class="modal-footer">
-        <button id="btnAceptarEdicion" type="button" class="btn btn-primary borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo">Aceptar</button>
+        <button id="btnAceptarEdicion" type="button" class="btn colorWhite hoverColorWhite backgroundPink hoverBackgroundPinkOscuro borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo paddingSuperiorInferior10px paddingLaterales20px">Aceptar</button>
       </div>
     </div>
   </div>
@@ -400,7 +403,7 @@
 <!-- ********************************* -->
 
 <div class="modal" id="modalEstadisticas" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-xl" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content borderRadius0px">
       <div class="modal-header">
         <h5 id="ldlTitleEstadisticas" class="modal-title textCenter fontSize16px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto width100porciento">Estadisticas del anuncio</h5>
@@ -411,118 +414,190 @@
       <div class="modal-body">
             <input type="hidden" id="inpIdAnuncioEstadisticas">
 
-            <div class=row>
-                <div class="col-sm-4">
-                    <h4 class="margin0 colorGrisOscuro fontSize12px textCenter textUppercase"> Estadísticas Generales </h4>
-                </div>
+            <nav>
+              <div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link textUppercase colorGrisClaro fontWeight600 fontSize12px letterSpacingMinimo active" data-toggle="tab" href="#tabGraficasGeneral" role="tab" aria-controls="tabGraficasGeneral" aria-selected="true">Datos Generales</a>
+                <a class="nav-item nav-link textUppercase colorGrisClaro fontWeight600 fontSize12px letterSpacingMinimo" data-toggle="tab" href="#tabGraficasFechas" role="tab" aria-controls="tabGraficasFechas" aria-selected="false">Datos por fechas</a>
+                <a class="nav-item nav-link textUppercase colorGrisClaro fontWeight600 fontSize12px letterSpacingMinimo" data-toggle="tab" href="#tabGraficasInversion" role="tab" aria-controls="tabGraficasInversion" aria-selected="false">Detalle inversión</a>
+              </div>
+            </nav>
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="tabGraficasGeneral" role="tabpanel">
+                    <div class="row">
+                          <div class="col-sm-5">
 
-                <div class="col-sm-3">
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text fontFamilyRoboto">Fecha Inicial</span>
-                        </div>
-                        <input type="date" class="form-control fontFamilyRoboto" id="inpFecha1Estadistica">
+                                <div class="row margin_laterales_0px margin_top_medium">
+                                    <div class="container-fluid">
+                                        <div class="row margin_top_small">
+                                            <div class="col-sm-5 text-center paddingRight0px">
+                                                <h4 class="margin0 colorGrisOscuro"> Detalle </h4>
+                                            </div>
+                                            <div class="col-sm-3 text-center fontFamilyRoboto colorGrisMenosOscuro">
+                                                <h4 class="margin0"> Hoy </h4>
+                                            </div>
+                                            <div class="col-sm-4 text-center fontFamilyRoboto colorGrisMenosOscuro">
+                                                <h4 class="margin0"> Total </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <div class="row margin_top_small">
+                                            <div class="col-sm-5 paddingRight0px text-center fontFamilyRoboto fontSize12px colorGrisMenosOscuro">
+                                                <label class="margin_bottom_0px">Visitas al anuncio</label>
+                                            </div>
+                                            <div class="col-sm-3 borderRightSolid3pxPink text-center fontSize14px" title="Visitas de este anuncio el dia de hoy">
+                                            <label id="lblVistasHoy" class="fontBold margin_bottom_0px">-</label>
+                                            </div>
+                                            <div class="col-sm-4 text-center fontSize14px" title="Visitas totales de este anuncio">
+                                            <label id="lblVistasTotal" class="fontBold margin_bottom_0px">-</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <div class="row margin_top_masSmall">
+                                            <div class="col-sm-5 paddingRight0px text-center fontFamilyRoboto fontSize12px colorGrisMenosOscuro">
+                                                <label class="margin_bottom_0px">Clics WhatsApp</label>
+                                            </div>
+                                            <div class="col-sm-3 borderRightSolid3pxGreen text-center fontSize14px" title="Clicks en los whatsApp de este anuncio el dia de hoy">
+                                            <label id="lblWhatsAppHoy" class="fontBold margin_bottom_0px">-</label>
+                                            </div>
+                                            <div class="col-sm-4 text-center fontSize14px" title="Clicks totales en los whatsApp de este anuncio">
+                                                <label id="lblWhatsAppTotal" class="fontBold margin_bottom_0px">-</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="container-fluid">
+                                        <div class="row margin_top_masSmall">
+                                            <div class="col-sm-5 paddingRight0px text-center fontFamilyRoboto fontSize12px colorGrisMenosOscuro">
+                                                <label class="margin_bottom_0px">Clics en Llamar</label>
+                                            </div>
+                                            <div class="col-sm-3 borderRightSolid3pxBlue text-center fontSize14px" title="Clicks en los teléfonos de este anuncio el dia de hoy">
+                                            <label id="lblCallsHoy" class="fontBold margin_bottom_0px">-</label>
+                                            </div>
+                                            <div class="col-sm-4 text-center fontSize14px" title="Clicks totales en los teléfonos de este anuncio">
+                                                <label id="lblCallsTotal" class="fontBold margin_bottom_0px">-</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card margin_top_medium shadow-sm">
+                                    <div class="card-body padding10px5px textCenter">
+                                        <label class="fontSize13px margin0 fontFamilyRoboto" id="lblEstadisticaCreacion">Fecha de creación: - </label>   
+                                        <br> 
+                                        <label class="fontSize13px margin0 fontFamilyRoboto" id="lblEstadisticaUltimaEdicion">Última Edición: - </label>
+                                    </div>
+                                </div>
+
+                                <div class="card margin_top_small shadow-sm">
+                                    <div class="card-body padding10px5px textCenter">
+                                        <div class="row">
+                                            <div class="col-4 borderRightSolid1pxGrayClaro">
+                                                <label class="fontSize13px margin0 fontFamilyRoboto">TOP <br> <span id="lblNumTop">0</span> </label>
+                                            </div>
+                                            <div class="col-4 borderRightSolid1pxGrayClaro">
+                                                <label class="fontSize13px margin0 fontFamilyRoboto">PREMIUM <br> <span id="lblNumPremium">0</span> </label>
+                                            </div>
+                                            <div class="col-4">
+                                                <label class="fontSize13px margin0 fontFamilyRoboto">PLATINO <br> <span id="lblNumPlatino">0</span> </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                          </div>
+                          <div class="col-sm-7">
+                              <div class="margin_top_small paddingLaterales20px">
+                                  <canvas id="myChartVistasPorHoras" width="400" height="350"></canvas>
+                              </div>
+                          </div>
                     </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="input-group input-group-sm mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text fontFamilyRoboto">Fecha Final</span>
-                        </div>
-                        <input type="date" class="form-control fontFamilyRoboto" id="inpFecha2Estadistica">
-                    </div>
-                </div>
-
-                <div class="col-sm-2">
-                    <button type="button" class="btn btn-primary btn-sm textUppercase fontSize12px" id="inpCargarEstadistica">Cargar</button>
-                </div>
-            </div>
-
-            <!-- ********************************** -->
-
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="row margin_laterales_0px">
-                        <div class="container-fluid">
-                            <div class="row margin_top_small">
-                                <div class="col-sm-5 text-center paddingRight0px">
-                                    <h4 class="margin0 colorGrisOscuro"> Detalle </h4>
+              </div>
+              <div class="tab-pane fade" id="tabGraficasFechas" role="tabpanel">
+                    <div class="row margin_top_medium">
+                        <div class="col-sm-4 offset-sm-1">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text fontFamilyRoboto">Fecha Inicial</span>
                                 </div>
-                                <div class="col-sm-3 textRight fontFamilyRoboto colorGrisMenosOscuro">
-                                    <h4 class="margin0"> Hoy </h4>
-                                </div>
-                                <div class="col-sm-4 textLeft fontFamilyRoboto colorGrisMenosOscuro">
-                                    <h4 class="margin0"> Total </h4>
-                                </div>
+                                <input type="date" class="form-control fontFamilyRoboto" id="inpFecha1Estadistica">
                             </div>
                         </div>
-                        <div class="container-fluid">
-                            <div class="row margin_top_small">
-                                <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto fontSize14px colorGrisMenosOscuro">
-                                    <label class="margin_bottom_0px centradoVertical">Visitas al anuncio</label>
+
+                        <div class="col-sm-4">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text fontFamilyRoboto">Fecha Final</span>
                                 </div>
-                                <div class="col-sm-3 borderRightSolid3pxPink fontSize14px" title="Visitas de este anuncio el dia de hoy">
-                                <label id="lblVistasHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
-                                </div>
-                                <div class="col-sm-4 textLeft fontSize14px paddingRight0px" title="Visitas totales de este anuncio">
-                                <label id="lblVistasTotal" class="fontBold margin_bottom_0px centradoVertical">-</label>
-                                </div>
+                                <input type="date" class="form-control fontFamilyRoboto" id="inpFecha2Estadistica">
                             </div>
                         </div>
-                        <div class="container-fluid">
-                            <div class="row margin_top_masSmall">
-                                <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto fontSize14px colorGrisMenosOscuro">
-                                    <label class="margin_bottom_0px centradoVertical">Clics WhatsApp</label>
-                                </div>
-                                <div class="col-sm-3 borderRightSolid3pxGreen fontSize14px" title="Clicks en los whatsApp de este anuncio el dia de hoy">
-                                <label id="lblWhatsAppHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
-                                </div>
-                                <div class="col-sm-4 textLeft fontSize14px paddingRight0px" title="Clicks totales en los whatsApp de este anuncio">
-                                    <label id="lblWhatsAppTotal" class="fontBold margin_bottom_0px centradoVertical">-</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container-fluid">
-                            <div class="row margin_top_masSmall">
-                                <div class="col-sm-5 paddingRight0px centradoVertical fontFamilyRoboto fontSize14px colorGrisMenosOscuro">
-                                    <label class="margin_bottom_0px centradoVertical">Clics en Llamar</label>
-                                </div>
-                                <div class="col-sm-3 borderRightSolid3pxBlue fontSize14px" title="Clicks en los teléfonos de este anuncio el dia de hoy">
-                                <label id="lblCallsHoy" class="fontBold margin_bottom_0px centradoVertical pull-right">-</label>
-                                </div>
-                                <div class="col-sm-4 textLeft fontSize14px paddingRight0px" title="Clicks totales en los teléfonos de este anuncio">
-                                    <label id="lblCallsTotal" class="fontBold margin_bottom_0px centradoVertical">-</label>
-                                </div>
-                            </div>
+
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary btn-sm textUppercase fontSize12px width100porciento" id="inpCargarEstadistica">Cargar</button>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-4">
-                    <canvas id="myChartPieDiv" width="400" height="160"></canvas>
-                </div>
-                <div class="col-sm-4 testCol2">
+                    <div class="row margin_top_small">
+                        <div class="col-sm-6">
+                            <canvas id="myChartTiposVistas" width="400" height="200"></canvas>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="myChartVistas" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                    <div class="row margin_top_medium">
+                        <div class="col-sm-6">
+                            <canvas id="myChartWhat" width="400" height="200"></canvas>
+                        </div>
+                        <div class="col-sm-6">
+                            <canvas id="myChartCall" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+              </div>
+              <div class="tab-pane fade" id="tabGraficasInversion" role="tabpanel">
+                    <div class="row margin_top_medium">
+                        <div class="col-sm-4 offset-sm-1">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text fontFamilyRoboto">Fecha Inicial</span>
+                                </div>
+                                <input type="date" class="form-control fontFamilyRoboto" id="inpFecha1Inversion">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="input-group input-group-sm mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text fontFamilyRoboto">Fecha Final</span>
+                                </div>
+                                <input type="date" class="form-control fontFamilyRoboto" id="inpFecha2Inversion">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary btn-sm textUppercase fontSize12px width100porciento" id="inpCargarInversion">Cargar</button>
+                        </div>
+                    </div>
+                    <div class="row margin_top_small">
+                        <div class="col-sm-6">
+                            <canvas id="myChartInversionFecha" width="400" height="200"></canvas>
+                        </div> 
+                        <div class="col-sm-6">
+                            <canvas id="myChartInversionTotalByTipo" width="400" height="180"></canvas>
+                        </div> 
+                    </div>
+                    <!--// **************************** -->
                     
-                </div>
+                    <hr class="styleHR width50porciento margin_top_30px">
+
+                    <h4 class="textCenter margin_top_small">Historico Compras</h4>
+                    
+                    <div id="divTablaHistorico" class="container margin_top_medium scrollVisible" style="max-height: 300px">
+                    </div>
+
+              </div>
             </div>
 
-            <div class="row margin_top_medium">
-                <div class="col-sm-4">
-                    <canvas id="myChartVistas" width="400" height="200"></canvas>
-                </div>
-                <div class="col-sm-4">
-                    <canvas id="myChartWhat" width="400" height="200"></canvas>
-                </div>
-                <div class="col-sm-4">
-                    <canvas id="myChartCall" width="400" height="200"></canvas>
-                </div>
-            </div>
-
-            <div class="pull-left">
-                <label class="fontSize13px margin0 margin_top_medium fontFamilyRoboto" id="lblEstadisticaCreacion">Fecha de creación: - </label>   
-                <br> 
-                <label class="fontSize13px margin0 fontFamilyRoboto" id="lblEstadisticaUltimaEdicion">Última Edición: - </label>
-            </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo" data-dismiss="modal">Cerrar</button>
@@ -744,4 +819,6 @@
       </div>
     </div>
   </div>
+</div>
+
 </div>

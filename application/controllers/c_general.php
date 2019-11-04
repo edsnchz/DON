@@ -16,7 +16,7 @@ class c_general extends CI_Controller {
     public function getCategorias(){		
       $data = $this->general->db_get_categorias();
       echo json_encode($data);	
-      }
+    }
     
     public function getEtiquetasByCategoria(){		
       $data = $this->general->db_get_etiquetasByCategoria($_POST["idCategoria"]);
@@ -108,6 +108,26 @@ class c_general extends CI_Controller {
       echo json_encode($data);	
     }
 
+    public function getGraficoInversionByAnuncioAndFecha(){    
+      $data = $this->general->db_get_GraficoInversionByAnuncioAndFecha($_POST["id"], $_POST["fecha1"], $_POST["fecha2"]);
+      echo json_encode($data);  
+    }
+
+    public function getGraficoInversionTotalTipoByAnuncioAndFecha(){    
+      $data = $this->general->db_get_GraficoInversionTotalTipoByAnuncioAndFecha($_POST["id"]);
+      echo json_encode($data);  
+    }
+
+    public function getHistoricoComprasByAnuncioAndFecha(){    
+      $data = $this->general->db_get_HistoricoComprasByAnuncioAndFecha($_POST["id"], $_POST["fecha1"], $_POST["fecha2"]);
+      echo json_encode($data);  
+    }
+
+    public function getConsolidadoPromocionesByAnuncio(){    
+      $data = $this->general->db_get_ConsolidadoTotalPromociones($_POST["id"]);
+      echo json_encode($data);  
+    }
+
     public function sendPrivateMessage(){		
       $data = $this->general->db_send_menssage($_POST["idAnuncio"], $_POST["correo"], $_POST["mensaje"]);
       echo json_encode($data);	
@@ -181,6 +201,11 @@ class c_general extends CI_Controller {
     public function getAnunciosByUser(){		
       $data = $this->general->db_get_anunciosByUser($this->session->userdata('idusuario'));
       echo json_encode($data);	
+    }
+
+    public function getGraficaVistasPorHoras(){    
+      $data = $this->general->db_get_AuditoriaVistasPorHoras($_POST["idAnuncio"]);
+      echo json_encode($data);  
     }
 
     public function insertPromocionAnuncio(){    

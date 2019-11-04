@@ -23,17 +23,21 @@ $(function () {
     var selectMisFotosEditar = [];
     var dataFormFotosEditar = new FormData();
     var keyFotosFormEditar = [];
-    var myChartV, myChartW, myChartC, myChartPie;
+    var myChartV, myChartW, myChartC, myChartTiposVistas, myChartVistasHoras, 
+        myChartInversionFecha, myChartInversionTotalByTipo;
+    AjaxLoadMisAnuncios();
     AjaxLoadNumbers();
     AjaxloadOptionsServices({ tipo: "class" });
     AjaxGetUsersMensajes();
     AjaxAlarmMensajes();
     AjaxGetPreciosCreditos();
     AjaxGetMisCreditos();
-    AjaxLoadMisAnuncios();
 
     $("#inpFecha1Estadistica").val(SubDateNow(15));
     $("#inpFecha2Estadistica").val(dateNow());
+
+    $("#inpFecha1Inversion").val(SubDateNow(15));
+    $("#inpFecha2Inversion").val(dateNow());
 
     // CREO EL EDITOR DE TEXTO
     crearEditorCrear("inpDescripcion");
@@ -43,7 +47,7 @@ $(function () {
         url: '../c_general/getCategorias',
         type: 'POST',
         dataType: "json",
-        async: false,
+       // async: false,
         success: function (data) {
             if (data.resultado == true) {
                 $.each(data.data, function (key, value) {
@@ -57,7 +61,7 @@ $(function () {
         url: '../c_general/getDepartamentos',
         type: 'POST',
         dataType: "json",
-        async: false,
+       // async: false,
         success: function (data) {
             if (data.resultado == true) {
                 $.each(data.data, function (key, value) {
@@ -143,7 +147,7 @@ $(function () {
             url: '../c_general/getTiemposServicios',
             type: 'POST',
             dataType: "json",
-            async: false,
+           // async: false,
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
@@ -157,7 +161,7 @@ $(function () {
             url: '../c_general/getRelacionesServicios',
             type: 'POST',
             dataType: "json",
-            async: false,
+          //  async: false,
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
@@ -353,6 +357,9 @@ $(function () {
             url: '../c_general/getAnunciosByUser',
             type: 'POST',
             dataType: "json",
+            beforeSend: function(data){
+                loading.show();
+            },
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (index, value) {
@@ -373,6 +380,9 @@ $(function () {
                     });
                 }
 
+            },
+            complete: function(data){
+                loading.hide();
             }
         });
     }
@@ -631,9 +641,9 @@ $(function () {
                     $.each(data.data, function (key, value) {
                         if (key == 0) {
                             AjaxGetMensajes(value.correo);
-                            $("#divRemitentes").append('<div class="rowRemitentes col-sm-12 borderSolidGray2 paddingSuperiorInferior15px hoverLeftSolidPink cursorPointer fontFamilyRoboto" data-correo="' + value.correo + '"><i class="fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro"></i><label class="paddingLeft15px">' + value.correo + '</label><button class="btn btn-light btnStyleResponMensaje fontWeight600 colorGrisOscuro btnResponderMail height100porciento fontFamilyRoboto paddingSuperiorInferior5px" data-correo="' + value.correo + '"><span class="oi oi-share"></span> <br> Enviar mail</button></div>');
+                            $("#divRemitentes").append('<div class="rowRemitentes col-sm-12 shadow margin_superiores_1px paddingSuperiorInferior13px hoverLeftSolidPink cursorPointer fontFamilyRoboto fontSize12px backgroudWhite" data-correo="' + value.correo + '"><i class="fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro"></i><label class="paddingLeft15px">' + value.correo + '</label><button class="btn btn-light btnStyleResponMensaje fontWeight600 colorGrisOscuro btnResponderMail height100porciento fontFamilyRoboto paddingSuperiorInferior5px" data-correo="' + value.correo + '"><span class="oi oi-share"></span> <br> Enviar mail</button></div>');
                         } else {
-                            $("#divRemitentes").append("<div class='rowRemitentes col-sm-12 borderSolidGray2 paddingSuperiorInferior15px hoverLeftSolidPink cursorPointer fontFamilyRoboto' data-correo='" + value.correo + "'><i class='fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro'></i><label class='paddingLeft15px'>" + value.correo + "</label></div>");
+                            $("#divRemitentes").append("<div class='rowRemitentes col-sm-12 shadow margin_superiores_1px paddingSuperiorInferior13px hoverLeftSolidPink cursorPointer fontFamilyRoboto fontSize12px backgroudWhite' data-correo='" + value.correo + "'><i class='fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro'></i><label class='paddingLeft15px'>" + value.correo + "</label></div>");
                         }
                     });
                 } else {
@@ -653,7 +663,7 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
-                        $("#divMensajes").append('<div class="burbujaChat fontFamilyRoboto colorGrisOscuro"><p>' + value.mensaje + '</p><div class="textRight fontFamilyRoboto fontWeight300 colorGrisClaro"><small>Recibido: ' + value.fecha + '</small></div></div>');
+                        $("#divMensajes").append('<div class="burbujaChat shadow-sm fontFamilyRoboto colorGrisOscuro"><p>' + value.mensaje + '</p><div class="textRight fontFamilyRoboto fontWeight300 colorGrisClaro"><small>Recibido: ' + value.fecha + '</small></div></div>');
                     });
                 } else {
                     toastr.error("Error al cargar los mensajes");
@@ -714,7 +724,7 @@ $(function () {
     }
 
     function renderCelularesVacias() {
-        $("#divTelefonos").append('<div class="col-sm-3 margin_top_small"><div class="card backgroundGrayDos colorWhite cursorPointer" style="height: 180px"><div class="card-body textCenter"><h6 class="card-subtitle mb-2 text-muted textCenter"></h6><p class="card-text"><div class="form-group"><img class="height80px" src="../../images/phone_plus.svg"></div></p><a href="#" class="card-link hoverGrisClaro fontFamilyRoboto fontSize14px" data-toggle="modal" data-target="#modalNumber">Agregar número</a></div></div></div>');
+        $("#divTelefonos").append('<div class="col-sm-3 margin_top_small"><div class="card backgroundGrayDos colorWhite cursorPointer" style="height: 170px"><div class="card-body textCenter"><h6 class="card-subtitle mb-2 text-muted textCenter"></h6><p class="card-text"><div class="form-group"><img class="height80px" src="../../images/phone_plus.svg"></div></p><a href="#" class="card-link hoverGrisClaro fontFamilyRoboto fontSize14px" data-toggle="modal" data-target="#modalNumber">Agregar número</a></div></div></div>');
     }
 
     function renderCelularesEditar(id, number) {
@@ -859,7 +869,7 @@ $(function () {
         }
 
         if ((quillCrear.getLength()) < 200) {
-            toastr.warning("Ingrese una descripcion con mínimo 200 caracteres");
+            toastr.warning("Ingrese una descripción con mínimo 200 caracteres");
             return false;
         }
 
@@ -1536,18 +1546,31 @@ $(function () {
 
     $('body').on('click', '.btnEstadisticas', function () {
         $("#inpIdAnuncioEstadisticas").val($(this).data("id"));
-        $("#ldlTitleEstadisticas").text("Estadisticas del anuncio " + $(this).data("id"));
+        $("#ldlTitleEstadisticas").text("Estadisticas del anuncio ID " + $(this).data("id"));
+        // ----------------
         AjaxDatosGraficosGenerales($(this).data("id"), $("#inpFecha1Estadistica").val(), $("#inpFecha2Estadistica").val());
-        AjaxDatosGraficosPie($(this).data("id"), $("#inpFecha1Estadistica").val(), $("#inpFecha2Estadistica").val());
+        AjaxDatosGraficosTiposVistas($(this).data("id"), $("#inpFecha1Estadistica").val(), $("#inpFecha2Estadistica").val());
         AjaxDatosGeneralesEstadistica($(this).data("id"));
+        AjaxDatosGraficosVistasPorHora($(this).data("id"));
+        // ----------------
+        AjaxDatosGraficosInversionByFecha($("#inpIdAnuncioEstadisticas").val(), $("#inpFecha1Inversion").val(), $("#inpFecha2Inversion").val());
+        AjaxDatosGraficosInversionTotalByTipo($("#inpIdAnuncioEstadisticas").val());
+        AjaxDatosTablaHistoricoCompras($("#inpIdAnuncioEstadisticas").val(), $("#inpFecha1Inversion").val(), $("#inpFecha2Inversion").val());
+        // ----------------
         AjaxDatosFechasByAnuncio($(this).data("id"));
+        AjaxDatosConsolidadoPromocionesByAnuncio($(this).data("id"));
         $("#modalEstadisticas").modal("show");
     });
 
     $("#inpCargarEstadistica").click(function () {
         AjaxDatosGraficosGenerales($("#inpIdAnuncioEstadisticas").val(), $("#inpFecha1Estadistica").val(), $("#inpFecha2Estadistica").val());
-        AjaxDatosGraficosPie($("#inpIdAnuncioEstadisticas").val(), $("#inpFecha1Estadistica").val(), $("#inpFecha2Estadistica").val());
-        AjaxDatosGeneralesEstadistica($("#inpIdAnuncioEstadisticas").val());
+        AjaxDatosGraficosTiposVistas($("#inpIdAnuncioEstadisticas").val(), $("#inpFecha1Estadistica").val(), $("#inpFecha2Estadistica").val());
+    });
+
+    $("#inpCargarInversion").click(function () {
+        AjaxDatosGraficosInversionByFecha($("#inpIdAnuncioEstadisticas").val(), $("#inpFecha1Inversion").val(), $("#inpFecha2Inversion").val());
+        AjaxDatosGraficosInversionTotalByTipo($("#inpIdAnuncioEstadisticas").val());
+        AjaxDatosTablaHistoricoCompras($("#inpIdAnuncioEstadisticas").val(), $("#inpFecha1Inversion").val(), $("#inpFecha2Inversion").val());
     });
 
     function createObjChart(title, colors, data) {
@@ -1579,7 +1602,35 @@ $(function () {
         });
     }
 
+    function AjaxDatosConsolidadoPromocionesByAnuncio(id) {
+        $.ajax({
+            url: '../c_general/getConsolidadoPromocionesByAnuncio',
+            type: 'POST',
+            dataType: "json",
+            data: { id: id },
+            success: function (data) {
+                if (data.resultado == true) {
+                    $.each(data.data, function (key, value) {
+                        if(value.tipo == "TOP"){
+                            $("#lblNumTop").html("<b>" + value.total + "</b>");        
+                        }else if(value.tipo == "PREMIUM"){
+                            $("#lblNumPremium").html("<b>" + value.total + "</b>");        
+                        }else if(value.tipo == "PLATINO"){
+                            $("#lblNumPlatino").html("<b>" + value.total + "</b>");        
+                        }
+                    });
+                }
+            }
+        });
+    }
+
     function AjaxDatosGeneralesEstadistica(id) {
+        $("#lblVistasHoy").text("0");
+        $("#lblWhatsAppHoy").text("0");
+        $("#lblCallsHoy").text("0");
+        $("#lblVistasTotal").text("0");
+        $("#lblWhatsAppTotal").text("0");
+        $("#lblCallsTotal").text("0");
         $.ajax({
             url: '../c_general/getAuditoriaByAnuncio',
             type: 'POST',
@@ -1618,6 +1669,29 @@ $(function () {
                                 break;
                         }
                     });
+                }
+            }
+        });
+    }
+
+    function AjaxDatosGraficosVistasPorHora(idAnuncio) {
+        if (typeof myChartVistasHoras !== "undefined") {
+            myChartVistasHoras.destroy();
+        }
+        $.ajax({
+            url: '../c_general/getGraficaVistasPorHoras',
+            type: 'POST',
+            dataType: "json",
+            data: {idAnuncio: idAnuncio},
+            success: function (data) {
+                if (data.resultado == true) {
+                    let horas = [];
+                    let vistas = [];
+                    $.each(data.data, function( index, value ) {
+                        horas.push(value.rango);
+                        vistas.push(parseInt(value.vistas));
+                    });
+                    createChartVistasHoras(horas, vistas);
                 }
             }
         });
@@ -1662,9 +1736,9 @@ $(function () {
         });
     }
 
-    function AjaxDatosGraficosPie(id, fecha1, fecha2) {
-        if (typeof myChartPie !== "undefined") {
-            myChartPie.destroy();
+    function AjaxDatosGraficosTiposVistas(id, fecha1, fecha2) {
+        if (typeof myChartTiposVistas !== "undefined") {
+            myChartTiposVistas.destroy();
         }
         $.ajax({
             url: '../c_general/getAuditoriaGraficoTipoVistaByAnuncioAndFecha',
@@ -1674,32 +1748,145 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     data = data.data;
-                    createChartPie([data[0].valor, data[1].valor]);
+                    var dias = [];
+                    var objVistasPC = [];
+                    var objVistasMovil = [];
+                    $.each(data, function (key, value) {
+                        dias.push(value.dia);
+                        objVistasPC.push(value.vistas_pc);
+                        objVistasMovil.push(value.vistas_movil);
+                    });
+
+                    var objsVPC = createObjChart("Vistas PC", { "border": '#ff9800', "background": '#ffa726' }, objVistasPC);
+
+                    var objsVMV = createObjChart("Vistas Movil", { "border": '#039be5', "background": '#03a9f4' }, objVistasMovil);
+
+                    createChartTiposVistas(dias, objsVPC, objsVMV);
                 }
             }
         });
     }
 
-    function createChartPie(data) {
-        var ctx = document.getElementById('myChartPieDiv').getContext('2d');
-        myChartPie = new Chart(ctx, {
-            type: 'pie',
+    function AjaxDatosGraficosInversionByFecha(id, fecha1, fecha2) {
+        if (typeof myChartInversionFecha !== "undefined") {
+            myChartInversionFecha.destroy();
+        }
+        $.ajax({
+            url: '../c_general/getGraficoInversionByAnuncioAndFecha',
+            type: 'POST',
+            dataType: "json",
+            data: { id: id, fecha1: fecha1, fecha2: fecha2 },
+            success: function (data) {
+                if (data.resultado == true) {
+                    let dias = [];
+                    let valor = [];
+                    $.each(data.data, function( index, value ) {
+                        dias.push(value.fecha);
+                        valor.push(parseInt(value.valor));
+                    });
+
+                    var objsVal = [createObjChart("Creditos", { "border": '#039be5', "background": '#03a9f4' }, valor)];
+
+                    createChartInversionTotalByFecha(dias, objsVal);
+                }
+            }
+        });
+    }
+
+    function AjaxDatosGraficosInversionTotalByTipo(id) {
+        if (typeof myChartInversionTotalByTipo !== "undefined") {
+            myChartInversionTotalByTipo.destroy();
+        }
+        $.ajax({
+            url: '../c_general/getGraficoInversionTotalTipoByAnuncioAndFecha',
+            type: 'POST',
+            dataType: "json",
+            data: { id: id },
+            success: function (data) {
+                if (data.resultado == true) {
+                    let tipo = [];
+                    let valor = [];
+                    $.each(data.data, function( index, value ) {
+                        tipo.push(value.tipo);
+                        valor.push(parseInt(value.valor));
+                    });
+
+                    createChartInversionTotalByTipo(tipo, valor);
+                }
+            }
+        });
+    }
+
+    function AjaxDatosTablaHistoricoCompras(id, fecha1, fecha2) {
+        $.ajax({
+            url: '../c_general/getHistoricoComprasByAnuncioAndFecha',
+            type: 'POST',
+            dataType: "json",
+            data: { id: id, fecha1: fecha1, fecha2: fecha2},
+            success: function (data) {
+                if (data.resultado == true) {
+                    createCabezeraTablaHistorico();
+                    $.each(data.data, function( index, value ) {
+                        createRegistroTablaHistorico(value.tipo, value.inicio, value.fin, value.estado, value.fecha_compra, value.valor);
+                    });
+                }
+            }
+        });
+    }
+
+    function createChartTiposVistas(dias, dataPC, dataMOVIL) {
+        var ctx = document.getElementById("myChartTiposVistas").getContext('2d');
+        myChartTiposVistas = new Chart(ctx, {
+            type: 'bar',
             data: {
-                datasets: [{
-                    data: data,
-                    backgroundColor: [
-                        'rgb(255, 159, 64)',
-                        'rgb(54, 162, 235)',
-                    ],
-                    label: 'Dataset 1'
-                }],
-                labels: [
-                    'Vistas PC',
-                    'Vistas Movil',
-                ]
+                labels: dias,
+                datasets: [dataPC, dataMOVIL]
             },
             options: {
-                responsive: true
+                plugins: {
+                    labels: {
+                        render: function (args) {
+                            return (args.value>0)?args.value:"";
+                        }
+                    }
+                },
+                responsive: true,
+                legend: {
+                    display: true,
+                },
+                title: {
+                    display: true,
+                    text: 'Visitas por plataforma',
+                    fontSize: 13,
+                },
+                tooltips: {
+                    mode: "index",
+                    intersect: true,
+                    callbacks: {
+                        title: function(tooltipItems, data) {
+                            return 'Dia: ' + tooltipItems[0].xLabel;
+                        }
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true,
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true,
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        }
+                    }]
+                }
             }
         });
     }
@@ -1707,23 +1894,51 @@ $(function () {
     function createChartV(dias, data) {
         var ctx = document.getElementById("myChartVistas").getContext('2d');
         myChartV = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: dias,
                 datasets: data
             },
             options: {
-                legend: {
-                    display: true,
+                plugins: {
                     labels: {
-                        fontSize: 15,
-                        boxWidth: 20
+                        render: function (args) {
+                            return (args.value>0)?args.value:"";
+                        }
+                    }
+                },
+                responsive: true,
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    text: 'Total vistas al anuncio',
+                    fontSize: 13,
+                },
+                tooltips: {
+                    callbacks: {
+                        title: function(tooltipItems, data) {
+                            return 'Dia: ' + tooltipItems[0].xLabel;
+                        }
                     }
                 },
                 scales: {
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true,
+                        }
+                    }],
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            min: 0,
+                            beginAtZero: true,
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
                         }
                     }]
                 }
@@ -1734,23 +1949,51 @@ $(function () {
     function createChartW(dias, data) {
         var ctx = document.getElementById("myChartWhat").getContext('2d');
         myChartW = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: dias,
                 datasets: data
             },
             options: {
-                legend: {
-                    display: true,
+                plugins: {
                     labels: {
-                        fontSize: 15,
-                        boxWidth: 20
+                        render: function (args) {
+                            return (args.value>0)?args.value:"";
+                        }
+                    }
+                },
+                responsive: true,
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    text: 'WhatsApp enviados',
+                    fontSize: 13,
+                },
+                tooltips: {
+                    callbacks: {
+                        title: function(tooltipItems, data) {
+                            return 'Dia: ' + tooltipItems[0].xLabel;
+                        }
                     }
                 },
                 scales: {
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true,
+                        }
+                    }],
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            min: 0,
+                            beginAtZero: true,
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
                         }
                     }]
                 }
@@ -1761,23 +2004,51 @@ $(function () {
     function createChartC(dias, data) {
         var ctx = document.getElementById("myChartCall").getContext('2d');
         myChartC = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: dias,
                 datasets: data
             },
             options: {
-                legend: {
-                    display: true,
+                plugins: {
                     labels: {
-                        fontSize: 15,
-                        boxWidth: 20
+                        render: function (args) {
+                            return (args.value>0)?args.value:"";
+                        }
+                    }
+                },
+                responsive: true,
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    text: 'Llamadas realizadas',
+                    fontSize: 13,
+                },
+                tooltips: {
+                    callbacks: {
+                        title: function(tooltipItems, data) {
+                            return 'Dia: ' + tooltipItems[0].xLabel;
+                        }
                     }
                 },
                 scales: {
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true,
+                        }
+                    }],
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            min: 0,
+                            beginAtZero: true,
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
                         }
                     }]
                 }
@@ -1785,6 +2056,136 @@ $(function () {
         });
     }
 
+    function createChartInversionTotalByFecha(dias, data) {
+        var ctx = document.getElementById("myChartInversionFecha").getContext('2d');
+        myChartInversionFecha = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: dias,
+                datasets: data
+            },
+            options: {
+                plugins: {
+                    labels: {
+                        render: function (args) {
+                            return (args.value>0)?args.value:"";
+                        }
+                    }
+                },
+                responsive: true,
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    text: 'Inversion por fecha',
+                    fontSize: 13,
+                },
+                tooltips: {
+                    callbacks: {
+                        title: function(tooltipItems, data) {
+                            return 'Dia: ' + tooltipItems[0].xLabel;
+                        }
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true,
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            beginAtZero: true,
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        }
+                    }]
+                }
+            }
+        });
+    }
+
+    function createChartVistasHoras(horas, data){
+        var barChartData = {
+            labels: horas,
+            datasets: [{
+                label: 'Visitas',
+                backgroundColor: "#FF9DB2",
+                borderColor: "#FF7391",
+                borderWidth: 1,
+                data: data
+            }]
+        };
+
+        var ctx = document.getElementById('myChartVistasPorHoras').getContext('2d');
+        myChartVistasHoras = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: barChartData,
+            options: {
+                responsive: true,
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Visitas al anuncio por horas',
+                    fontSize: 15,
+                }
+            }
+        });
+    }
+
+    function createChartInversionTotalByTipo(tipos, data){
+        var ctx = document.getElementById('myChartInversionTotalByTipo').getContext('2d');
+        myChartInversionTotalByTipo = new Chart(ctx,  {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        "#4BC0C0", "#FFCC52", "#FF6384"
+                    ],
+                    label: 'Tipos Paquetes'
+                }],
+                labels: tipos
+            },
+            options: {
+                plugins: {
+                    labels: {
+                        render: 'percentage',
+                        fontStyle: 'bold',
+                        fontColor: 'white',
+                    }
+                },
+                responsive: true,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: false,
+                    text: 'Total inversion por tipo'
+                },
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            }
+        });
+    }
+
+    function createRegistroTablaHistorico(tipo, inicio, fin, estado, compra, valor){
+        $("#divTablaHistorico").append('<div class="row textCenter borderSupAndInfGray fontSize12px marginTop5Movil"><div class="col-12 col-sm-4 col-md-1"><label class="margin0 marginTop2Movil d-block d-md-none"><small>Tipo:</small></label><label class="margin0 paddingSuperiorInferior7px paddingSubAndInf2pxMovil">'+tipo+'</label></div><div class="col-6 col-sm-4 col-md-3"><label class="margin0 d-block d-md-none"><small>Inicio:</small></label><label class="margin0 paddingSuperiorInferior7px paddingTop2pxMovil">'+inicio+'</label></div><div class="col-6 col-sm-4 col-md-3"><label class="margin0 d-block d-md-none"><small>Final:</small></label><label class="margin0 paddingSuperiorInferior7px paddingTop2pxMovil">'+fin+'</label></div><div class="col-3 col-sm-4 col-md-1"><label class="margin0 d-block d-md-none"><small>Estado:</small></label><label class="margin0 paddingSuperiorInferior7px paddingTop2pxMovil">'+estado+'</label></div><div class="col-6 col-sm-4 col-md-3"><label class="margin0 d-block d-md-none"><small>Compra:</small></label><label class="margin0 paddingSuperiorInferior7px paddingTop2pxMovil">'+compra+'</label></div><div class="col-3 col-sm-4 col-md-1"><label class="margin0 d-block d-md-none"><small>Valor:</small></label><label class="margin0 paddingSuperiorInferior7px paddingTop2pxMovil">'+valor+'</label></div></div>');
+    }
+
+    function createCabezeraTablaHistorico(){
+        $("#divTablaHistorico").html('<div class="row textCenter displayNoneMovil fontSize13px fontWeight600 shadow-sm"><div class="col-sm-1"><label class="margin0 paddingSuperiorInferior7px">TIPO</label></div><div class="col-sm-3"><label class="margin0 paddingSuperiorInferior7px">INICIO</label></div><div class="col-sm-3"><label class="margin0 paddingSuperiorInferior7px">FINAL</label></div><div class="col-sm-1"><label class="margin0 paddingSuperiorInferior7px">ESTADO</label></div><div class="col-sm-3"><label class="margin0 paddingSuperiorInferior7px">COMPRA</label></div><div class="col-sm-1"><label class="margin0 paddingSuperiorInferior7px">VALOR</label></div></div>');
+    }
 
     // PROCESO UPLOADS IMAGENES 
 
