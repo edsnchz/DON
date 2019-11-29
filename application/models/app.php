@@ -54,6 +54,39 @@ class app extends CI_Model {
         }
 	}
 
+	public function db_user_getPass($idUsuario) {
+
+		$result = $this->db->query('SELECT pass FROM usuarios where id=?', array($idUsuario));
+		$a = $result->result_array();
+		$result->free_result();
+
+		if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+	}
+
+	public function db_user_changePass($idUsuario, $lastpass, $newpass) {
+
+		if($newpass == ""){
+			return array("resultado" => false, "message" => "Los datos ingresados son erroneos");
+		}
+
+		$this->db->query('INSERT INTO `auditoria_cambio_pass` (idUsuario, `lastpass`, `newpass`, `fecha_accion`) VALUES(?,?,?,NOW());', array($idUsuario, $lastpass, $newpass));
+
+		$this->db->query('UPDATE `usuarios` SET pass = ? WHERE id=?', array($newpass, $idUsuario));
+
+
+		if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "message" => "Se cambio la contraseña satisfactoriamente");
+        }
+	}
+
 	public function db_get_usuario($correo, $pass) {
 		$result = $this->db->query('SELECT * FROM usuarios where correo=? and pass=? and estado=1', array($correo, $pass));
 		$a = $result->result_array();

@@ -16,7 +16,9 @@ toastr.options = {
     "hideMethod": "fadeOut"
 }
 
-var keyMaps = "AIzaSyAwfipAJXbF1gA58tRGDuZvM9WrqAGfilU";
+//var keyMaps = "--AIzaSyAwfipAJXbF1gA58tRGDuZvM9WrqAGfilU--";
+
+var numAnunciosForPage = 6;
 
 if (typeof loginBack !== "undefined") {
     if (loginBack == false) {
@@ -43,7 +45,7 @@ if (localStorage.getItem("userLogin") !== "true") {
 }
 
 function logout() {
-    $.post(urlProyect() + "c_app/logout", {}, function (data) {
+    $.post(urlProyect() + "c_app/setLogout", {}, function (data) {
         toastr.success(data.message);
         localStorage.setItem('userLogin', false);
         localStorage.removeItem('userAccess');  
@@ -53,7 +55,7 @@ function logout() {
 }
 
 function autoLogin(correo, pass) {
-    $.post(urlProyect() + "c_app/login", {
+    $.post(urlProyect() + "c_app/setLogin", {
         correo: correo,
         pass: pass
     }, function (data) {
@@ -77,19 +79,19 @@ var loading = {
 
 $(".btnPanel").click(function () {
     if (localStorage.getItem("userLogin") === "false") {
-        $(location).attr('href', urlProyect() + 'c_app/vstLogin');
-        localStorage.setItem('urlBeforeLogin', "c_app/vstUsuario?tab=0");
+        $(location).attr('href', urlProyect() + 'login');
+        localStorage.setItem('urlBeforeLogin', "usuario?tab=0");
     } else {
-        $(location).attr('href', urlProyect() + 'c_app/vstUsuario?tab=0');
+        $(location).attr('href', urlProyect() + 'usuario?tab=0');
     }
 });
 
 $(".btnPublicar").click(function () {
     if (localStorage.getItem("userLogin") === "false") {
-        $(location).attr('href', urlProyect() + 'c_app/vstLogin');
-        localStorage.setItem('urlBeforeLogin', "c_app/vstUsuario?tab=1");
+        $(location).attr('href', urlProyect() + 'login');
+        localStorage.setItem('urlBeforeLogin', "usuario?tab=1");
     } else {
-        $(location).attr('href', urlProyect() + 'c_app/vstUsuario?tab=1');
+        $(location).attr('href', urlProyect() + 'usuario?tab=1');
     }
 });
 
@@ -119,23 +121,23 @@ $("#divColLogo").on("click", "img", function (event) {
 });
 
 $("#aLinkCondicionesUso").click(function(){
-    $(location).attr('href', urlProyect() + 'c_app/vstCondicionesUso');
+    $(location).attr('href', urlProyect() + 'condiciones');
 });
 
 $("#aLinkPoliticaPagos").click(function(){
-    $(location).attr('href', urlProyect() + 'c_app/vstPoliticaPagos');
+    $(location).attr('href', urlProyect() + 'politica_pagos');
 });
 
 $("#aLinkPoliticaPrivacidad").click(function(){
-    $(location).attr('href', urlProyect() + 'c_app/vstPoliticaPrivacidad');
+    $(location).attr('href', urlProyect() + 'politica_privacidad');
 });
 
 $("#aLinkContactanos").click(function(){
-    $(location).attr('href', urlProyect() + 'c_app/vstContactanos');
+    $(location).attr('href', urlProyect() + 'contactanos');
 });
 
 function urlProyect() {
-    return "/index.php/";
+    return "/";
 }
 
 function urlProyectShort() {
@@ -307,4 +309,92 @@ function isMobileAndTablet() {
     return check;
 }
 
+function validParamsUrl(param){
+    if(param != "NaN"){
+        return true;  
+    }else{
+        return false;
+    }
+}
 
+function validParamsUrlBig(param){
+    if(param != "NaN_NaN"){
+        return true;  
+    }else{
+        return false;
+    }
+}
+
+function validParamsUrlDouble(param1, param2){
+    if(param1 != "NaN" || param2 != "NaN"){
+        return true;
+    }else{
+        return false;    
+    }
+}
+
+function clearParamsUrl(params){
+    if(params.length == 1){
+        return "";
+    }
+    if(params.substr(-1) == "&"){
+        return params.substr(0, (params.length-1));
+    }
+    return params;
+}
+
+function createParamsUrl_V1(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text){
+    let params = "?";
+
+    if(validParamsUrlDouble(idCategoria, categoria)){
+        params += 'categ=' + categoria + '_' + idCategoria + '&';
+    }
+
+    if(validParamsUrlDouble(idEtiqueta, etiqueta)){
+        params += 'etiq=' + etiqueta + '_' + idEtiqueta + '&';   
+    }
+
+    if(validParamsUrl(idDepartamento)){
+        params += 'state=' + idDepartamento + '&';      
+    }
+
+    if(validParamsUrl(idCiudad)){
+        params += 'city=' + idCiudad + '&';      
+    }
+
+    if(validParamsUrl(text)){
+        params += 'text=' + text + '&';      
+    }
+
+    params = clearParamsUrl(params);
+
+    return params;
+}
+
+function createParamsUrl_V2(categ, etiq, state, city, text){
+    let params = "?";
+
+    if(validParamsUrlBig(categ)){
+        params += 'categ=' + categ + '&';
+    }
+
+    if(validParamsUrlBig(etiq)){
+        params += 'etiq=' + etiq + '&';   
+    }
+
+    if(validParamsUrl(state)){
+        params += 'state=' + state + '&';      
+    }
+
+    if(validParamsUrl(city)){
+        params += 'city=' + city + '&';      
+    }
+
+    if(validParamsUrl(text)){
+        params += 'text=' + text + '&';      
+    }
+
+    params = clearParamsUrl(params);
+
+    return params;
+}

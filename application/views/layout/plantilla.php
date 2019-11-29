@@ -63,28 +63,28 @@
 
 
     <!-- FOOTER -->
-    <footer class="footer bg-light height40px centradoVertical paddingTop45remMovil">
+    <footer class="footer bg-light height40px centradoVertical paddingTop43remMovil">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 h-100 text-lg-center my-auto">
                     <ul class="list-inline mb-2 textCenter">
                         <li class="list-inline-item">
-                            <a href="#" id="aLinkCondicionesUso" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Condiciones de uso</a>
+                            <a href="#" id="aLinkCondicionesUso" class="textDecorationNone fontSize11px fontSize10pxMovil letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Condiciones de uso</a>
                         </li>
                         <li class="list-inline-item">&sdot;</li>
                         <li class="list-inline-item">
-                            <a href="#" id="aLinkPoliticaPagos" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Política de pagos</a>
+                            <a href="#" id="aLinkPoliticaPagos" class="textDecorationNone fontSize11px fontSize10pxMovil letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Política de pagos</a>
                         </li>
                         <li class="list-inline-item">&sdot;</li>
                         <li class="list-inline-item">
-                            <a href="#" id="aLinkPoliticaPrivacidad" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Política de privacidad</a>
+                            <a href="#" id="aLinkPoliticaPrivacidad" class="textDecorationNone fontSize11px fontSize10pxMovil letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Política de privacidad</a>
                         </li>
                         <li class="list-inline-item">&sdot;</li>
                         <li class="list-inline-item">
-                            <a href="#" id="aLinkContactanos" class="textDecorationNone fontSize12px letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Contacto</a>
+                            <a href="#" id="aLinkContactanos" class="textDecorationNone fontSize11px fontSize10pxMovil letterSpacingMinimo textUppercase fontWeight600 colorGrisOscuro hoverGrisClaro">Contacto</a>
                         </li>
                     </ul>
-                    <p class="text-muted small mb-2 mb-lg-0 fontFamilyRoboto textCenter">&copy; "doneróticos.com" es una página de contenido +18. Todos los anunciantes han reconocido ser mayores de 18 años y aceptar los terminos.</p>
+                    <p class="text-muted small mb-2 mb-lg-0 fontFamilyRoboto textCenter fontSize12px fontSize11pxMovil">&copy; "doneróticos.com" es una página de contenido +18. Todos los anunciantes han reconocido ser mayores de 18 años y aceptar los terminos.</p>
                 </div>
             </div>
         </div>

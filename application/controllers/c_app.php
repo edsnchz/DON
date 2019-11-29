@@ -17,7 +17,7 @@ class c_app extends CI_Controller {
 		$this->layout->view("app", $data);	
 	}
 
-	public function vstLogin(){
+	public function login(){
 		$this->load->view('login');	
 	}
 
@@ -25,7 +25,7 @@ class c_app extends CI_Controller {
 		$this->load->view('pageNotFound');	
 	}
 
-	public function vstUsuario(){
+	public function usuario(){
 		$this->layout->setTitle("Panel de Usuario - doneróticos.com");
 		$this->layout->js(Array(
 			base_url()."js/views/usuario.js",
@@ -51,12 +51,14 @@ class c_app extends CI_Controller {
 		$this->layout->view("usuario", $data);			
 	}
 
-	public function vstListaAnuncios(){
+	// TODOS LOS ANUNCIOS
+	public function anuncios(){
 		$this->layout->setTitle("Anuncios eróticos en Colombia");
 		$this->layout->js(Array(
 			base_url()."js/views/listaAnuncios.js",
 			base_url()."js/gridAnuncios.js",
-			base_url()."assets/bricklayer/bricklayer.js"
+			base_url()."assets/bricklayer/bricklayer.js",
+			base_url()."assets/pagination/twbspagination.js"
 		));
 		$this->layout->css(Array(
 			base_url()."css/gridAnuncios.css",
@@ -64,15 +66,17 @@ class c_app extends CI_Controller {
 		));
 
 		$dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
-		$dataParams["categ"] = $_GET["categ"];
-		$dataParams["etiq"] = $_GET["etiq"];
-		$dataParams["state"] = $_GET["state"];
-		$dataParams["city"] = $_GET["city"];
-		$dataParams["text"] = $_GET["text"];
+		$dataParams["categ"] = (!isset($_GET["categ"]))?"NaN_NaN":$_GET["categ"];
+		$dataParams["etiq"] = (!isset($_GET["etiq"]))?"NaN_NaN":$_GET["etiq"];
+		$dataParams["state"] = (!isset($_GET["state"]))?"NaN":$_GET["state"];
+		$dataParams["city"] = (!isset($_GET["city"]))?"NaN":$_GET["city"];
+		$dataParams["text"] = (!isset($_GET["text"]))?"NaN":$_GET["text"];
+
 		$this->layout->view("listaAnuncios", $dataParams);			
 	}
 
-	public function vstDetalleAnuncio(){
+	// DETALLE ANUNCIO
+	public function anuncio(){
 		$this->layout->setTitle("Anuncios eróticos en Colombia");
 		$this->layout->js(Array(
 			base_url()."js/views/detalleAnuncio.js",
@@ -83,45 +87,45 @@ class c_app extends CI_Controller {
 			base_url().'assets/quill-editor/quill-snow.css',
 		));
 
-		$boolean = $this->general->db_validIfExist_anuncio($_GET["idAnuncio"]);
+		$boolean = $this->general->db_validIfExist_anuncio($_GET["id"]);
 		if(!$boolean["result"]){
 			$this->load->view('pageNotFound');	
 			return false;
 		}
 
 		// AUDITORIA 
-		$this->general->db_aud_anuncios($_GET["idAnuncio"], "VISTA");
+		$this->general->db_aud_anuncios($_GET["id"], "VISTA");
 
 		$dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
-		$dataParams["id"] = $_GET["idAnuncio"];
+		$dataParams["id"] = $_GET["id"];
 		$this->layout->view("detalleAnuncio", $dataParams);			
 	}
 
-	public function vstCondicionesUso()	{
+	public function condiciones()	{
 		$this->layout->setTitle("Condiciones de Uso - doneróticos.com");
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("condicionesUso", $data);	
 	}
 
-	public function vstPoliticaPagos()	{
+	public function politica_pagos()	{
 		$this->layout->setTitle("Politica Pagos - doneróticos.com");
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("politicaPagos", $data);	
 	}
 
-	public function vstPoliticaPrivacidad()	{
+	public function politica_privacidad()	{
 		$this->layout->setTitle("Politica Privacidad - doneróticos.com");
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("politicaPrivacidad", $data);	
 	}
 
-	public function vstContactanos()	{
+	public function contactanos()	{
 		$this->layout->setTitle("Contacto - doneróticos.com");
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("contactanos", $data);	
 	}
 
-	public function login(){		
+	public function setLogin(){		
 		$data = $this->app->db_get_usuario($_POST["correo"], $_POST["pass"]);
 		if(count($data) == 0){
 			echo json_encode( array("resultado" => false, "message" => "Verifique el nombre de usuario y contraseña"));
@@ -135,7 +139,7 @@ class c_app extends CI_Controller {
 		}	
 	}
 
-	public function logout(){
+	public function setLogout(){
 		$datasession = array(
 				'idusuario'  => null,			 
 				'correo' =>null,	
@@ -151,6 +155,16 @@ class c_app extends CI_Controller {
 
 	public function setNewPass(){		
 		$data = $this->app->db_setNewPass_usuario($_POST["correo"], $_POST["pass"]);
+		echo json_encode($data);	
+	}
+
+	public function getPassCurrent(){		
+		$data = $this->app->db_user_getPass($this->session->userdata('idusuario'));
+		echo json_encode($data);	
+	}
+
+	public function changePass(){		
+		$data = $this->app->db_user_changePass($this->session->userdata('idusuario'), $_POST["lastpass"], $_POST["newpass"]);
 		echo json_encode($data);	
 	}
 

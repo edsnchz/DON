@@ -38,6 +38,16 @@
 |
 */
 
+$route['anuncios'] = "c_app/anuncios";
+$route['anuncio'] = "c_app/anuncio";
+$route['login'] = "c_app/login";
+$route['usuario'] = "c_app/usuario";
+$route['condiciones'] = "c_app/condiciones";
+$route['politica_pagos'] = "c_app/politica_pagos";
+$route['politica_privacidad'] = "c_app/politica_privacidad";
+$route['contactanos'] = "c_app/contactanos";
+
+
 $route['default_controller'] = "c_app";
 $route['404_override'] = 'config_404';
 

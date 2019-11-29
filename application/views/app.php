@@ -121,12 +121,13 @@
     </div>
 </section>
 
-<div id="divInfoWindows" class="card shadow-sm">
-  <div class="card-body">
-    <h5 class="card-title">Tranquilo!</h5>
-    <h6 class="card-subtitle mb-2 text-muted fontSize12px">Esta pagina no contiene publicidad</h6>
-    <p class="card-text margin0 fontSize12px">Puedes desactivar los BlockAds, y usamos cookies para mejorar la experiencia de usuario.</p>
-    <a href="#" id="btnCloseInfoWindows" class="card-link fontSize14px floatRight">Aceptar</a>
+<div id="divInfoWindows" class="card">
+  <div class="card-body backgroundGray shadow-lg borderRadius0px">
+    <h5 class="card-title fontFamilyRoboto">Tranquilo!</h5>
+    <h6 class="card-subtitle mb-2 text-muted fontSize14px fontFamilyRoboto">Esta página no contiene publicidad</h6>
+    <p class="card-text margin0 fontSize12px fontFamilyRoboto">Desactiva los 'AdBlocks' para el correcto funcionamiento del sitio.</p>
+    <!-- <p class="card-text margin0 fontSize12px fontFamilyRoboto">También usamos cookies para mejorar la experiencia de usuario.</p> -->
+    <a href="#" id="btnCloseInfoWindows" class="card-link colorPink hoverColorPink fontSize12px floatRight textUppercase fontWeight600 letterSpacingMinimo">Aceptar</a>
   </div>
 </div>
 

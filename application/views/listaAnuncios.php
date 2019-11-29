@@ -69,6 +69,7 @@
     </nav>
 
     <div id="btnsStyleGrid" class="pull-right d-none d-sm-block">
+        <label class="fontSize12px"><span class="countTotalAnuncios fontWeight600 fontSize14px">-</span> anuncios</label>
         <div class="btn-group padding0 paddingRight105px" role="group">
             <button type="button" class="btn btnViewTable"><span class="oi oi-grid-three-up"></span></button>    
             <button type="button" class="btn btnViewList inactivo"><span class="oi oi-list-rich fontSize18px margin0"></span></button>
@@ -87,7 +88,8 @@
                 </ul>
             </div>
             <!-- ************** -->
-            <div id="btnsStyleGridMovil" class="pull-right d-block d-sm-none margin_bottom_5px">
+            <div id="btnsStyleGridMovil" class="pull-right d-block d-sm-none margin_top_masSmall">
+                <label class="fontSize12px"><span class="countTotalAnuncios fontWeight600 fontSize14px">-</span> anuncios</label>
                 <div class="btn-group padding0" role="group">
                     <button type="button" class="btn btnViewTable"><span class="oi oi-grid-three-up"></span></button>    
                     <button type="button" class="btn btnViewList inactivo"><span class="oi oi-list-rich fontSize18px margin0"></span></button>
@@ -98,6 +100,9 @@
                 <!-- ANUNCIOS -->
         </div>
     </div>
+
+    <ul id="ulPaginado" class="pagination-sm justify-content-end margin_top_medium"></ul>
+
     <!-- ************** -->
     <div class="margin_top_medium d-block d-sm-none">
         <ul class="paddingSuperiorInferior10px backgroundGrayDos enlacesCategorias margin0">

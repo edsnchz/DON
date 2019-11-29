@@ -834,6 +834,28 @@ class general extends CI_Model {
         }
     }
 
+    public function db_save_feedback($idUsuario, $votacion, $estrellas, $mensaje) {
+        $this->db->trans_start(); 
+        $this->db->query('INSERT INTO `feedback`(`idUsuario`, `votacion`, `estrellas`, `mensaje`, `fecha_creacion`) VALUES (?,?,?,?,NOW())', array($idUsuario, $votacion, $estrellas, $mensaje));
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "message" => "Sugerencia guardada satisfactoriamente");
+        }
+    }
+
+    public function db_save_ticket_support($idUsuario, $idConcepto, $mensaje) {
+        $this->db->trans_start(); 
+        $this->db->query('INSERT INTO `soporte`(`idConcepto`, `mensaje`, `idUsuario`, `fechaCreacion`) VALUES (?,?,?,NOW());', array($idConcepto, $mensaje, $idUsuario));
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "message" => "Ticket enviado a soporte satisfactoriamente, Pronto se te respondera via correo electronico.");
+        }
+    }
+
     public function db_get_conceptosDenuncias() {
         $this->db->trans_start();
 
@@ -864,6 +886,21 @@ class general extends CI_Model {
         $this->db->trans_start();
 
         $result = $this->db->query('SELECT * FROM `opciones_paquetes` WHERE `idPaquete`=? AND dias =? ORDER BY horas', array($idPaquete, $dias));
+        $a = $result->result_array();
+        $result->free_result();
+        
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
+    public function db_get_conceptosSoportes() {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT * FROM `conceptos_soporte`');
         $a = $result->result_array();
         $result->free_result();
         

@@ -18,7 +18,7 @@ $(function () {
     }, optionsNavigator);
     */
     
-    setCurrentLocation("10.987041", "-74.784388");
+    //setCurrentLocation("10.987041", "-74.784388");
 
     function setCurrentLocation(lat, long){
         $.ajax({
@@ -38,7 +38,7 @@ $(function () {
     }
 
     $.ajax({
-        url: 'index.php/c_general/getCategorias',
+        url: 'c_general/getCategorias',
         type: 'POST',
         dataType: "json",
         async: false,
@@ -52,7 +52,7 @@ $(function () {
     });
 
     $.ajax({
-        url: 'index.php/c_general/getDepartamentos',
+        url: 'c_general/getDepartamentos',
         type: 'POST',
         dataType: "json",
         async: false,
@@ -68,7 +68,7 @@ $(function () {
     function AjaxLoadCiudades(id) {
         $("#inpCiudades").html("<option value='NaN'>Todas las ciudades</option>");
         $.ajax({
-            url: 'index.php/c_general/getCiudadesByDepartamento',
+            url: 'c_general/getCiudadesByDepartamento',
             type: 'POST',
             dataType: "json",
             data: { idDepartamento: id },
@@ -92,7 +92,7 @@ $(function () {
 
     function AjaxLoadEtiquetas() {
         $.ajax({
-            url: 'index.php/c_general/getEtiquetas',
+            url: 'c_general/getEtiquetas',
             type: 'POST',
             dataType: "json",
             success: function (data) {
@@ -185,7 +185,8 @@ $(function () {
     });
 
     function redirectAnuncios(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text) {
-        $(location).attr('href', urlProyect() + 'c_app/vstListaAnuncios?categ=' + categoria + '_' + idCategoria + '&etiq=' + etiqueta + '_' + idEtiqueta + '&state=' + idDepartamento + '&city=' + idCiudad + '&text=' + text);
+        let params = createParamsUrl_V1(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text);
+        $(location).attr('href', urlProyect() + 'anuncios' + params);
     }
 
     AjaxLoadEtiquetas();

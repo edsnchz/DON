@@ -184,7 +184,7 @@
         </div>
         <div class="tab-pane fade" id="tMensajes" role="tabpanel">
 
-            <div style="height: 65vh;">
+            <div style="height: 69vh;">
 
                 <span id="btnArrowMensajes" class="arrowSlideMessages sombraPequeña displayNone">
                     <i class="fas fa-arrow-left"></i>
@@ -202,7 +202,149 @@
 
         </div>
         <div class="tab-pane fade" id="tOpciones" role="tabpanel">
-            OPCIONES
+            
+            <div class="height69vhNoMovil padding10px">
+
+                <div class="row height100porciento">
+                  <div class="col-12 col-sm-4 col-md-3 height100porciento">
+                    <div class="nav flex-column nav-pills height100porciento borderRightSolid3pxPink borderLeftSolid3pxPinkMovil" role="tablist" aria-orientation="vertical">
+
+                      <a class="nav-link colorBlack navActivePink active" style="color: white !important" id="opcUsuarioCambioPass-tab" data-toggle="pill" href="#opcUsuarioCambioPass" role="tab" aria-selected="true"> <i class="fa fa-edit iStyleNav2"></i> <span class="margin_left_10px fontSize13px">Cambiar Contraseña</span></a>
+
+                      <a class="nav-link colorBlack navActivePink" id="opcUsuarioFeedBack-tab" data-toggle="pill" href="#opcUsuarioFeedBack" role="tab"  aria-selected="false"> <i class="fa fa-paper-plane iStyleNav marginTop12pxNoMovil fontSize13px"></i> <span>Sugerencias y <br> Recomendaciones</span></a>
+
+                      <a class="nav-link colorBlack navActivePink" id="opcUsuarioSoporte-tab" data-toggle="pill" href="#opcUsuarioSoporte" role="tab" aria-selected="false"> <i class="fa fa-life-ring iStyleNav2"></i> <span class="fontSize13px">Soporte / Ayuda</span></a>
+
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-8 col-md-9 height100porciento">
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active" id="opcUsuarioCambioPass" role="tabpanel">
+                            
+                            <div class="row">
+
+                                <div class="col-md-6 offset-md-3 padding30px">
+                                    
+                                    <div class="card margin_top_medium">
+                                      <h5 class="card-header">Cambiar clave de acceso</h5>
+                                      <div class="card-body">
+                                        
+                                        <div class="form-group row margin_bottom_7px">
+                                            <label for="inpActualPass" class="col-sm-12 col-md-6 col-form-label fontSize13px">Contraseña Actual:</label>
+                                            <div class="col-sm-12 col-md-6">
+                                              <input type="text" class="form-control inputStyle" id="inpActualPass">
+                                              <div id="lblValidCurrentPass" class="invalid-feedback">
+                                                Clave incorrecta <i class="fa fa-times"></i>
+                                              </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row margin_bottom_7px">
+                                            <label for="inpNewPass" class="col-sm-12 col-md-6 col-form-label fontSize13px">Nueva Contraseña:</label>
+                                            <div class="col-sm-12 col-md-6">
+                                              <input type="text" class="form-control inputStyle" id="inpNewPass">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row margin_bottom_7px">
+                                            <label for="inpReNewPass" class="col-sm-12 col-md-6 col-form-label fontSize13px">Repite Contraseña:</label>
+                                            <div class="col-sm-12 col-md-6">
+                                              <input type="text" class="form-control inputStyle" id="inpReNewPass">
+                                              <div id="lblValidReNewPass" class="invalid-feedback">
+                                                Las claves no coinciden <i class="fa fa-times"></i>
+                                              </div>
+                                            </div>
+                                        </div>
+                                          
+                                        <button id="btnAceptarCambiarClave" type="button" class="btn colorWhite hoverColorWhite borderNone borderRadius0px outlineNone margin_top_small backgroundPink hoverBackgroundPinkOscuro textUppercase fontSize12px fontWeight600 paddingLaterales20px paddingSuperiorInferior10px">Aceptar</button>
+
+                                      </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="opcUsuarioFeedBack" role="tabpanel">
+                            
+                            <p class="fontSize18px textCenter margin_top_medium">Que opinas de <b>don<span class="colorPink">eróticos</span>?</b></p>
+
+                            <div class="container-fluid paddingLaterales90px paddingLaterales35pxMovil">
+
+                                <div class="row margin_top_small">
+                                    <div class="col-2 offset-1">
+                                        <div class="fontSize70px fontSize30pxMovil colorGrisMasClaro width100porciento textCenter cursorPointer">
+                                            <i data-text="LO ODIO" data-val="1" class="iconRating far fa-angry hoverColorPink"></i>    
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="fontSize70px fontSize30pxMovil colorGrisMasClaro width100porciento textCenter cursorPointer">
+                                            <i data-text="MALO" data-val="2" class="iconRating far fa-frown hoverColorPink"></i>    
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="fontSize70px fontSize30pxMovil colorGrisMasClaro width100porciento textCenter cursorPointer">
+                                            <i data-text="REGULAR" data-val="3" class="iconRating far fa-meh hoverColorPink"></i>    
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="fontSize70px fontSize30pxMovil colorGrisMasClaro width100porciento textCenter cursorPointer">
+                                            <i data-text="BUENO" data-val="4" class="iconRating far fa-smile hoverColorPink"></i>    
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="fontSize70px fontSize30pxMovil colorGrisMasClaro width100porciento textCenter cursorPointer">
+                                            <i data-text="ME ENCANTA" data-val="5" class="iconRating far fa-grin-hearts hoverColorPink"></i>    
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p id="lblTextRating" class="colorPink textCenter fontBold fontSize16px"></p>
+
+                                <textarea rows="4" id="inpMsjRating" class="form-control inputStyle" placeholder="Dinos que piensas ..."></textarea>
+
+                                <button id="btnAceptarFeedBack" type="button" class="btn float-right colorWhite hoverColorWhite borderNone borderRadius0px outlineNone margin_top_medium backgroundPink hoverBackgroundPinkOscuro textUppercase fontSize12px fontWeight600 paddingLaterales20px paddingSuperiorInferior10px">Enviar</button>
+
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="opcUsuarioSoporte" role="tabpanel">
+                            
+                            <p class="fontSize18px textCenter margin_top_medium">Contacta a un experto de nuestro equipo</p>
+
+                            <div class="container-fluid paddingLaterales90px paddingLaterales35pxMovil">
+                                <div class="row margin_top_small">
+                                    <div class="col-9">
+                                        <p class="margin_bottom_10px">Tipo:</p>
+                                        <select id="inpTipoSoporte" class="form-control inputStyle">
+                                            <option value="N/A">DESPLEGAR OPCIONES</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-3 textCenter centradoVerticalHorizontal">
+                                        <i class="far fa-comments colorPink fontSize70px fontSize50pxMovil"></i>
+                                    </div>
+                                    <div class="col-sm-12 margin_top_small">
+                                        <p class="margin_bottom_10px">Mensaje:</p>
+                                        <textarea rows="4" id="inpMsjSoporte" class="form-control inputStyle" placeholder="Describe tu problema ..."></textarea>
+                                    </div>
+                                </div>
+
+                                <button id="btnAceptarSoporte" type="button" class="btn float-right colorWhite hoverColorWhite borderNone borderRadius0px outlineNone margin_top_medium backgroundPink hoverBackgroundPinkOscuro textUppercase fontSize12px fontWeight600 paddingLaterales20px paddingSuperiorInferior10px">Enviar</button>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
 </div>

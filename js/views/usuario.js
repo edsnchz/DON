@@ -71,6 +71,19 @@ $(function () {
         }
     });
 
+    $.ajax({
+        url: '../c_general/getConceptosSoportes',
+        type: 'POST',
+        dataType: "json",
+        success: function (data) {
+            if (data.resultado == true) {
+                $.each(data.data, function (key, value) {
+                    $("#inpTipoSoporte").append("<option value=" + value.id + ">" + value.nombre + "</option>");
+                });
+            }
+        }
+    });
+
     function AjaxLoadNumbers() {
         $("#divTelefonos").html("");
         numNumbers = 0;
@@ -147,7 +160,7 @@ $(function () {
             url: '../c_general/getTiemposServicios',
             type: 'POST',
             dataType: "json",
-           // async: false,
+            async: false,
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
@@ -161,7 +174,7 @@ $(function () {
             url: '../c_general/getRelacionesServicios',
             type: 'POST',
             dataType: "json",
-          //  async: false,
+            async: false,
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
@@ -240,6 +253,62 @@ $(function () {
                     if (data[0].mensajes > 0) {
                         $("#tabMensajes").append('<span class="badge badge-pill badge-danger margin_left_5px fontFamilyRoboto fontSize11px">' + data[0].mensajes + '</span>');
                     }
+                }
+            }
+        });
+    }
+
+    function AjaxChangePass(lastPass, newPass) {
+        $.ajax({
+            url: '../c_app/changePass',
+            type: 'POST',
+            dataType: "json",
+            data: {lastpass: lastPass, newpass: newPass},
+            success: function (data) {
+                if (data.resultado == true) {
+                    toastr.success(data.message);
+                    $("#inpActualPass").val("")
+                    $("#inpNewPass").val("")
+                    $("#inpReNewPass").val("")
+                }else{
+                    toastr.error(data.message);
+                }
+            }
+        });
+    }
+
+    function AjaxSendFeedBack(votacion, estrellas, mensaje) {
+        $.ajax({
+            url: '../c_general/saveFeedBack',
+            type: 'POST',
+            dataType: "json",
+            data: {votacion: votacion, estrellas: estrellas, mensaje: mensaje},
+            success: function (data) {
+                if (data.resultado == true) {
+                    toastr.success(data.message);
+                    $(".iconRating").removeClass("colorPink");
+                    $("#lblTextRating").html("");
+                    $("#inpMsjRating").val("");
+                }else{
+                    toastr.error(data.message);
+                }
+            }
+        });
+    }
+
+    function AjaxSendSupport(idConcepto, mensaje) {
+        $.ajax({
+            url: '../c_general/saveTicketSupport',
+            type: 'POST',
+            dataType: "json",
+            data: {idConcepto: idConcepto, mensaje: mensaje},
+            success: function (data) {
+                if (data.resultado == true) {
+                    toastr.success(data.message);
+                    $("#inpTipoSoporte").val("N/A");
+                    $("#inpMsjSoporte").val("");
+                }else{
+                    toastr.error(data.message);
                 }
             }
         });
@@ -351,6 +420,44 @@ $(function () {
         });
     }
 
+    var requestValidPass;
+
+    function AjaxValidCurrentPass() {
+        var rtn;
+
+        if(requestValidPass != null || typeof requestValidPass != "undefined"){
+            requestValidPass.abort();
+        }
+
+        requestValidPass = $.ajax({
+            url: '../c_app/getPassCurrent',
+            type: 'POST',
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data.resultado == true) {
+                    let res = data.data;
+
+                    if($("#inpActualPass").val() != res[0].pass){
+                        $("#inpActualPass").addClass("alertErrorInput");
+                        $("#lblValidCurrentPass").addClass("displayBlock");
+                        $("#btnAceptarCambiarClave").prop("disabled", true);
+                        rtn = false;
+                    }else{
+                        $("#inpActualPass").removeClass("alertErrorInput");
+                        $("#lblValidCurrentPass").removeClass("displayBlock");
+                        $("#btnAceptarCambiarClave").prop("disabled", false);
+                        rtn = true;
+                    }
+                    
+                } else {
+                    toastr.error(data.message);
+                }
+            }
+        });
+        return rtn;
+    }
+
     function AjaxLoadMisAnuncios() {
         $("#divMisAnuncios").html("");
         $.ajax({
@@ -376,7 +483,7 @@ $(function () {
 
                         var stringNumero = '<div class="btnNumeroMiAnuncio">ID: ' + value.id + '</div>';
 
-                        $("#divMisAnuncios").append('<div class="col-sm-12 col-md-6"><div class="container backgroundGray sombra margin_top_medium"><div class="row"><div class="col-4 col-sm-3 padding0"><div class="backgroundGrayDos"><img src="../../uploads/anuncios/' + value.url + '" class="imgItemCarousel" style="height: 143px"></div>' + stringTop + stringNumero + '</div><div class="col-8 col-sm-6 paddingSuperior10px"><h5 class="colorGrisOscuro fontFamilyRoboto fontWeight900 margin_bottom_5px"><a href="' + urlProyect() + 'c_app/vstDetalleAnuncio?idAnuncio=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + ((value.titulo.length > 50) ? value.titulo.substring(0, 50) + "..." : value.titulo) + '</a></h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 50) ? value.descripcion.substring(0, 50).toLowerCase() + "..." : value.descripcion.toLowerCase()) + '</p>' + stringCategoria + stringCityAnuncio + stringUltEdicion + '</div><div class="col-12 col-sm-3" style="padding: 0px 5px"><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEditarAnuncio" data-id="' + value.id + '" title="Editar Anuncio"><i class="far fa-edit"></i></button><button class="btn backgroundGrayDosbtn btnEliminarAnuncio colorRed2" data-id="' + value.id + '" title="Eliminar Anuncio"><i class="far fa-trash-alt"></i></button></div><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEstadisticas" data-id="' + value.id + '" title="Estadísticas"><i class="far fa-chart-bar"></i></button><button class="btn backgroundGrayDosbtn btnRelojito colorPink" data-id="' + value.id + '" title="Subidas Individuales"><i class="fas fa-history"></i></button></div><button class="btnPromocionar btn fontFamilyRoboto backgroundPinkClaro hoverBackgroundPinkOscuro hoverColorWhite width100porciento margin_top_7px colorWhite fontSize13px borderRadius0px fontWeight600" data-id="' + value.id + '">Promocionar</button></div></div></div></div>');
+                        $("#divMisAnuncios").append('<div class="col-sm-12 col-md-6"><div class="container backgroundGray sombra margin_top_medium"><div class="row"><div class="col-4 col-sm-3 padding0"><div class="backgroundGrayDos"><img src="../../uploads/anuncios/' + value.url + '" class="imgItemCarousel" style="height: 143px"></div>' + stringTop + stringNumero + '</div><div class="col-8 col-sm-6 paddingSuperior10px"><h5 class="colorGrisOscuro fontFamilyRoboto fontWeight900 margin_bottom_5px"><a href="' + urlProyect() + 'anuncio?id=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + ((value.titulo.length > 50) ? value.titulo.substring(0, 50) + "..." : value.titulo) + '</a></h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 50) ? value.descripcion.substring(0, 50).toLowerCase() + "..." : value.descripcion.toLowerCase()) + '</p>' + stringCategoria + stringCityAnuncio + stringUltEdicion + '</div><div class="col-12 col-sm-3" style="padding: 0px 5px"><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEditarAnuncio" data-id="' + value.id + '" title="Editar Anuncio"><i class="far fa-edit"></i></button><button class="btn backgroundGrayDosbtn btnEliminarAnuncio colorRed2" data-id="' + value.id + '" title="Eliminar Anuncio"><i class="far fa-trash-alt"></i></button></div><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEstadisticas" data-id="' + value.id + '" title="Estadísticas"><i class="far fa-chart-bar"></i></button><button class="btn backgroundGrayDosbtn btnRelojito colorPink" data-id="' + value.id + '" title="Subidas Individuales"><i class="fas fa-history"></i></button></div><button class="btnPromocionar btn fontFamilyRoboto backgroundPinkClaro hoverBackgroundPinkOscuro hoverColorWhite width100porciento margin_top_7px colorWhite fontSize13px borderRadius0px fontWeight600" data-id="' + value.id + '">Promocionar</button></div></div></div></div>');
                     });
                 }
 
@@ -641,9 +748,9 @@ $(function () {
                     $.each(data.data, function (key, value) {
                         if (key == 0) {
                             AjaxGetMensajes(value.correo);
-                            $("#divRemitentes").append('<div class="rowRemitentes col-sm-12 shadow margin_superiores_1px paddingSuperiorInferior13px hoverLeftSolidPink cursorPointer fontFamilyRoboto fontSize12px backgroudWhite" data-correo="' + value.correo + '"><i class="fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro"></i><label class="paddingLeft15px">' + value.correo + '</label><button class="btn btn-light btnStyleResponMensaje fontWeight600 colorGrisOscuro btnResponderMail height100porciento fontFamilyRoboto paddingSuperiorInferior5px" data-correo="' + value.correo + '"><span class="oi oi-share"></span> <br> Enviar mail</button></div>');
+                            $("#divRemitentes").append('<div class="rowRemitentes col-sm-12 borderBottomSolid1pxGrayClaro margin_superiores_1px paddingSuperiorInferior13px hoverLeftSolidPink cursorPointer fontFamilyRoboto fontSize12px backgroudWhite" data-correo="' + value.correo + '"><i class="fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro"></i><label class="paddingLeft15px">' + value.correo + '</label><button class="btn btn-light btnStyleResponMensaje fontWeight600 colorGrisOscuro btnResponderMail height100porciento fontFamilyRoboto paddingSuperiorInferior5px" data-correo="' + value.correo + '"><span class="oi oi-share"></span> <br> Enviar mail</button></div>');
                         } else {
-                            $("#divRemitentes").append("<div class='rowRemitentes col-sm-12 shadow margin_superiores_1px paddingSuperiorInferior13px hoverLeftSolidPink cursorPointer fontFamilyRoboto fontSize12px backgroudWhite' data-correo='" + value.correo + "'><i class='fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro'></i><label class='paddingLeft15px'>" + value.correo + "</label></div>");
+                            $("#divRemitentes").append("<div class='rowRemitentes col-sm-12 borderBottomSolid1pxGrayClaro margin_superiores_1px paddingSuperiorInferior13px hoverLeftSolidPink cursorPointer fontFamilyRoboto fontSize12px backgroudWhite' data-correo='" + value.correo + "'><i class='fas fa-user fontSize22px paddingLeft15px colorGrisMasClaro'></i><label class='paddingLeft15px'>" + value.correo + "</label></div>");
                         }
                     });
                 } else {
@@ -2187,6 +2294,79 @@ $(function () {
         $("#divTablaHistorico").html('<div class="row textCenter displayNoneMovil fontSize13px fontWeight600 shadow-sm"><div class="col-sm-1"><label class="margin0 paddingSuperiorInferior7px">TIPO</label></div><div class="col-sm-3"><label class="margin0 paddingSuperiorInferior7px">INICIO</label></div><div class="col-sm-3"><label class="margin0 paddingSuperiorInferior7px">FINAL</label></div><div class="col-sm-1"><label class="margin0 paddingSuperiorInferior7px">ESTADO</label></div><div class="col-sm-3"><label class="margin0 paddingSuperiorInferior7px">COMPRA</label></div><div class="col-sm-1"><label class="margin0 paddingSuperiorInferior7px">VALOR</label></div></div>');
     }
 
+
+    $('.navActivePink').click(function () {
+        $(".navActivePink").removeAttr("style");
+        $(this).attr("style", "color: white !important");
+    });
+
+
+    function validNewsPass(){
+        if($("#inpNewPass").val() != $('#inpReNewPass').val()){
+            $('#inpReNewPass').addClass("alertErrorInput");
+            $("#lblValidReNewPass").addClass("displayBlock");
+            $("#btnAceptarCambiarClave").prop("disabled", true);    
+            return false;
+        }else{
+            $('#inpReNewPass').removeClass("alertErrorInput");
+            $("#lblValidReNewPass").removeClass("displayBlock");
+            $("#btnAceptarCambiarClave").prop("disabled", false);    
+            return true;
+        }
+    }
+
+    $('#inpActualPass').keyup(function () {
+        AjaxValidCurrentPass();
+    });
+
+    $('#inpReNewPass').keyup(function () {
+        validNewsPass();
+    });
+
+    $("#btnAceptarCambiarClave").click(function(){
+        if(!AjaxValidCurrentPass()){
+            return false;
+        }
+        if(!validNewsPass()){
+            return false;
+        }
+
+        AjaxChangePass($("#inpActualPass").val(), $("#inpNewPass").val());
+    });
+
+
+    $(".iconRating").click(function(){
+        $(".iconRating").removeClass("colorPink");
+        $(this).addClass("colorPink");
+        $("#lblTextRating").html($(this).data("text") + " - " + $(this).data("val") + " <i class='fas fa-star'></i>");
+    });
+
+    $("#btnAceptarFeedBack").click(function(){
+        let text = $(".iconRating.colorPink").data("text");
+        let stars = $(".iconRating.colorPink").data("val"); 
+        if(typeof text === "undefined" || typeof stars === "undefined"){
+            toastr.info("Debe escoger una puntuacion");
+            return false;
+        }
+
+        AjaxSendFeedBack(text, stars, $("#inpMsjRating").val());
+    });
+
+    $("#btnAceptarSoporte").click(function(){
+        if($("#inpTipoSoporte").val() == "N/A"){
+            toastr.info("Debe escojer un tipo de soporte");
+            return false;
+        }
+        if($("#inpMsjSoporte").val() == ""){
+            toastr.info("Debe escribir una descripcion de su problema.");
+            return false;
+        }
+
+        AjaxSendSupport($("#inpTipoSoporte").val(), $("#inpMsjSoporte").val());
+    });
+
+
+
     // PROCESO UPLOADS IMAGENES 
 
     $('body').on('click', '.image-cancel', function () {
@@ -2309,7 +2489,7 @@ $(function () {
             external: "false",
             extra1: dataCreditos[0]["id"],
             extra2: usuXt,
-            response: "http://192.190.42.155/index.php/c_general/responsePayment"
+            response: "http://192.190.42.155/c_general/responsePayment"
         }
         executePayment(data);
     }

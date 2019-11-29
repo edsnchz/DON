@@ -379,7 +379,7 @@ $(function () {
     $('body').on('click', '.itemCarousel', function () {
         // ENVIAR PARAMETROS
         var id = $(this).data("id");
-        $(location).attr('href', urlProyect() + 'c_app/vstDetalleAnuncio?idAnuncio=' + id);
+        $(location).attr('href', urlProyect() + 'anuncio?id=' + id);
     });
 
     $("#eMapCategoria").click(function () {
@@ -395,7 +395,8 @@ $(function () {
     });
 
     function redirectAnuncios(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text) {
-        $(location).attr('href', urlProyect() + 'c_app/vstListaAnuncios?categ=' + categoria + '_' + idCategoria + '&etiq=' + etiqueta + '_' + idEtiqueta + '&state=' + idDepartamento + '&city=' + idCiudad + '&text=' + text);
+        let params = createParamsUrl_V1(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text);
+        $(location).attr('href', urlProyect() + 'anuncios' + params);
     }
 
     $('body').on('click', '.btnWhats', function () {

@@ -61,7 +61,7 @@ $(function () {
     }
 
     function createCarouselAnunciosLista(i, stringImagenes) {
-        return string = '<div id="CarouselAnunciosAll' + i + '" class="carousel slide height100porciento height130pxDesktop" data-ride="carousel"><div class="carousel-inner height100porciento">' + stringImagenes + '</div><a class="carousel-control-prev" href="#CarouselAnunciosAll' + i + '" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#CarouselAnunciosAll' + i + '" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a></div>';
+        return string = '<div id="CarouselAnunciosAll' + i + '" class="carousel slide height100porciento height130pxNoMovil" data-ride="carousel"><div class="carousel-inner height100porciento">' + stringImagenes + '</div><a class="carousel-control-prev" href="#CarouselAnunciosAll' + i + '" role="button" data-slide="prev"><span class="carousel-control-prev-icon" aria-hidden="true"></span><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#CarouselAnunciosAll' + i + '" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a></div>';
     }
 
     $.ajax({
@@ -177,6 +177,8 @@ $(function () {
         });
     }
 
+    var anunciosByPage = [];
+
     function AjaxLoadAnunciosCuadricula(idCategoria, idDepartamento, idCiudad, idEtiqueta, text) {
         $("#divCuadricula").html("");
         $.ajax({
@@ -189,64 +191,13 @@ $(function () {
             },
             success: function (data) {
                 if (data.resultado == true) {
-                    $("#divCuadricula").html('<div class="bricklayer" id="myBricklayer"></div>');
-
-                    $.each(data.data, function (index, value) {
-
-                        var stringEtiquetas = '<div class="pull-left paddingLeft7px">';
-                        countEtiquetas = 0
-                        $.each(value.etiquetas, function (indexE, etiqueta) {
-                            var nombreEti = (etiqueta.nombre.length > 10) ? etiqueta.nombre.substring(0, 9) + "..." : etiqueta.nombre;
-                            stringEtiquetas += '<span class="badge badge-pill etiquetasAnunciosPequeñas fontFamilyRoboto">' + nombreEti + '</span>';
-                            countEtiquetas++;
-                            if (countEtiquetas == 3) {
-                                return false;
-                            }
-                        });
-                        if (((value.etiquetas.length) - 3) > 0) {
-                            stringEtiquetas += '<span class="badge badge-pill etiquetasMas"> + ' + ((value.etiquetas.length) - 3) + '</span>';
-                        }
-                        stringEtiquetas += "</div>";
-
-                        var stringImagenesTemp = '';
-                        $.each(value.imagenes, function (indexI, imagen) {
-                            if (indexI == 0) {
-                                stringImagenesTemp += '<div style= "height: 150px" class="carousel-item active backgroundGrayDos"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel" style= "height: 150px"></div>';
-                            } else {
-                                stringImagenesTemp += '<div style= "height: 150px" class="carousel-item backgroundGrayDos"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel" style= "height: 150px"></div>';
-                            }
-                        });
-                        stringImagenes = createCarouselAnunciosCuadricula(value.id, stringImagenesTemp);
-
-                        var stringTop = '';
-                        if (value.isTop == 1) {
-                            var stringTop = '<button class="btn btn-success btnMarkItemAnuncio">TOP</button>';
-                        }
-
-                        var stringCategoria = '';
-                        if ($("#inpCategorias").val() == "NaN") {
-                            var stringCategoria = '<div class="btnCategoriaItemAnuncio">' + value.categoria + '</div>';
-                        }
-
-                        var stringCountImgs = '<div class="btnCountImagesAnuncio">' + value.countImagenes + ' Fotos</div>';
-
-                        var stringCityAnuncio = '<div class="btnCityAnuncio">' + value.ciudad + '</div>';
-
-                        var classPackDestacado = "";
-                        if(value.tipoDestacado == "14"){
-                            classPackDestacado = "backgroundYellowAnuncios"
-                        }else if(value.tipoDestacado == "15"){
-                            classPackDestacado = "backgroundPinkAnuncios"
-                        }
-
-                        $("#myBricklayer").append('<div class="card sombra margin5px marginSuperior13px cardAnuncio '+classPackDestacado+'"><div style= "height: 150px" >' + stringImagenes + stringCategoria + stringTop + stringCountImgs + stringCityAnuncio + '</div> <div class="card-block"><h4 class="card-title cursorPointer padding10px margin0 paddinginferior0 selectAnuncio fontWeight900" data-id=' + value.id + '><a href="' + urlProyect() + 'c_app/vstDetalleAnuncio?idAnuncio=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + value.titulo + '</a></h4><div class="card-text padding10px fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 80) ? value.descripcion.substring(0, 80) + "..." : value.descripcion) + '</div>' + ((countEtiquetas>0)?stringEtiquetas + "<br><br>":"") + '</div></div>');
-
-                    });
-
-                   /* bricklayer.destroy();*/
-                    var bricklayer = new Bricklayer(document.getElementById('myBricklayer'));
+                    anunciosByPage = [];
+                    let dataResponse = data.data;
+                    $(".countTotalAnuncios").text(dataResponse.length);
+                    let numPages = Math.ceil(dataResponse.length / numAnunciosForPage);
+                    crearMatrizAnuncios(dataResponse);
+                    createPagination(numPages);
                 }
-
             },
             complete: function(data){
                 loading.hide();
@@ -254,8 +205,67 @@ $(function () {
         });
     }
 
+    function createAnunciosCuadricula(data){
+        $("#divCuadricula").html('<div class="bricklayer" id="myBricklayer"></div>');
+
+        $.each(data, function (index, value) {
+
+            var stringEtiquetas = '<div class="pull-left paddingLeft7px">';
+            countEtiquetas = 0
+            $.each(value.etiquetas, function (indexE, etiqueta) {
+                var nombreEti = (etiqueta.nombre.length > 10) ? etiqueta.nombre.substring(0, 9) + "..." : etiqueta.nombre;
+                stringEtiquetas += '<span class="badge badge-pill etiquetasAnunciosPequeñas fontFamilyRoboto">' + nombreEti + '</span>';
+                countEtiquetas++;
+                if (countEtiquetas == 3) {
+                    return false;
+                }
+            });
+            if (((value.etiquetas.length) - 3) > 0) {
+                stringEtiquetas += '<span class="badge badge-pill etiquetasMas"> + ' + ((value.etiquetas.length) - 3) + '</span>';
+            }
+            stringEtiquetas += "</div>";
+
+            var stringImagenesTemp = '';
+            $.each(value.imagenes, function (indexI, imagen) {
+                if (indexI == 0) {
+                    stringImagenesTemp += '<div style= "height: 150px" class="carousel-item active backgroundGrayDos"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel" style= "height: 150px"></div>';
+                } else {
+                    stringImagenesTemp += '<div style= "height: 150px" class="carousel-item backgroundGrayDos"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel" style= "height: 150px"></div>';
+                }
+            });
+            stringImagenes = createCarouselAnunciosCuadricula(value.id, stringImagenesTemp);
+
+            var stringTop = '';
+            if (value.isTop == 1) {
+                var stringTop = '<button class="btn btn-success btnMarkItemAnuncio">TOP</button>';
+            }
+
+            var stringCategoria = '';
+            if ($("#inpCategorias").val() == "NaN") {
+                var stringCategoria = '<div class="btnCategoriaItemAnuncio">' + value.categoria + '</div>';
+            }
+
+            var stringCountImgs = '<div class="btnCountImagesAnuncio">' + value.countImagenes + ' Fotos</div>';
+
+            var stringCityAnuncio = '<div class="btnCityAnuncio">' + value.ciudad + '</div>';
+
+            var classPackDestacado = "";
+            if(value.tipoDestacado == "14"){
+                classPackDestacado = "backgroundYellowAnuncios"
+            }else if(value.tipoDestacado == "15"){
+                classPackDestacado = "backgroundPinkAnuncios"
+            }
+
+            $("#myBricklayer").append('<div class="card sombra margin5px marginSuperior13px cardAnuncio '+classPackDestacado+'"><div style= "height: 150px" >' + stringImagenes + stringCategoria + stringTop + stringCountImgs + stringCityAnuncio + '</div> <div class="card-block"><h4 class="card-title cursorPointer padding10px margin0 paddinginferior0 selectAnuncio fontWeight900" data-id=' + value.id + '><a href="' + urlProyect() + 'anuncio?id=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + value.titulo + '</a></h4><div class="card-text padding10px fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 80) ? value.descripcion.substring(0, 80) + "..." : value.descripcion) + '</div>' + ((countEtiquetas>0)?stringEtiquetas + "<br><br>":"") + '</div></div>');
+
+        });
+
+        /* bricklayer.destroy();*/
+        var bricklayer = new Bricklayer(document.getElementById('myBricklayer'));
+    }
+
+
     function AjaxLoadAnunciosList(idCategoria, idDepartamento, idCiudad, idEtiqueta, text) {
-        $("#divCuadricula").html("");
         $.ajax({
             url: '../c_general/getAnuncios',
             type: 'POST',
@@ -266,65 +276,91 @@ $(function () {
             },
             success: function (data) {
                 if (data.resultado == true) {
-
-                    $.each(data.data, function (index, value) {
-
-                        var stringEtiquetas = '<div class="padding7px">';
-                        countEtiquetas = 0
-                        $.each(value.etiquetas, function (indexE, etiqueta) {
-                            var nombreEti = (etiqueta.nombre.length > 10) ? etiqueta.nombre.substring(0, 9) + "..." : etiqueta.nombre;
-                            stringEtiquetas += '<span class="badge badge-pill etiquetasAnunciosPequeñas fontFamilyRoboto">' + nombreEti + '</span>';
-                            countEtiquetas++;
-                            if (countEtiquetas == 3) {
-                                return false;
-                            }
-                        });
-                        if (((value.etiquetas.length) - 3) > 0) {
-                            stringEtiquetas += '<span class="badge badge-pill etiquetasMas"> + ' + ((value.etiquetas.length) - 3) + '</span>';
-                        }
-                        stringEtiquetas += "</div>";
-
-                        var stringImagenesTemp = '';
-                        $.each(value.imagenes, function (indexI, imagen) {
-                            if (indexI == 0) {
-                                stringImagenesTemp += '<div class="carousel-item active backgroundGrayDos height100porciento"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel height100porciento"></div>';
-                            } else {
-                                stringImagenesTemp += '<div class="carousel-item backgroundGrayDos height100porciento"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel height100porciento"></div>';
-                            }
-                        });
-                        stringImagenes = createCarouselAnunciosLista(value.id, stringImagenesTemp);
-
-                        var stringTop = '';
-                        if (value.isTop == 1) {
-                            var stringTop = '<button class="btn btn-success btnMarkItemAnuncio">TOP</button>';
-                        }
-
-                        var stringCategoria = '';
-                        if ($("#inpCategorias").val() == "NaN") {
-                            var stringCategoria = '<div class="btnCategoriaItemAnuncio">' + value.categoria + '</div>';
-                        }
-
-                        var stringCountImgs = '<div class="btnCountImagesAnuncioList">' + value.countImagenes + ' Fotos</div>';
-
-                        var stringCityAnuncio = '<div class="btnCityAnuncioList">' + value.ciudad + '</div>';
-
-                        var divStringEtiquetas =  ((countEtiquetas>0)?('<div class="col-sm-2 d-none d-sm-block" style="padding: 0px 5px">' + stringEtiquetas + '</div>'):"");
-
-                        var classPackDestacado = "";
-                        if(value.tipoDestacado == "14"){
-                            classPackDestacado = "backgroundYellowAnuncios"
-                        }else if(value.tipoDestacado == "15"){
-                            classPackDestacado = "backgroundPinkAnuncios"
-                        }
-
-                        $("#divCuadricula").append('<div class="row backgroundGray margin_top_medium"><div class="col-sm-12"><div class="container-fluid '+classPackDestacado+'"><div class="row row-eq-height sombra cardAnuncio"><div class="col-4 col-sm-3 padding0">' + stringImagenes + stringCategoria + stringTop + stringCountImgs + '</div><div class="'+((countEtiquetas>0)?('col-8 col-sm-7'):('col-8 col-sm-9'))+' paddingSuperior15px paddingLaterales20px"><h5 class="cursorPointer selectAnuncio fontWeight900" data-id=' + value.id + '><a href="' + urlProyect() + 'c_app/vstDetalleAnuncio?idAnuncio=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + ((value.titulo.length > 100) ? value.titulo.substring(0, 100) + "..." : value.titulo) + '</a></h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px marginBottom22pxMovil margin_bottom_30px">' + ((value.descripcion.length > 90) ? value.descripcion.substring(0, ((countEtiquetas>0)?90:200)) + "..." : value.descripcion) + stringCityAnuncio + '</p></div>'+divStringEtiquetas+'</div></div></div></div>');
-
-                    });
+                    anunciosByPage = [];
+                    let dataResponse = data.data;
+                    $(".countTotalAnuncios").text(dataResponse.length);
+                    let numPages = Math.ceil(dataResponse.length / numAnunciosForPage);
+                    crearMatrizAnuncios(dataResponse);
+                    createPagination(numPages);
                 }
-
             },
             complete: function(data){
                 loading.hide();
+            }
+        });
+    }
+
+    function createAnunciosLista(data){
+
+        $("#divCuadricula").html("");
+
+        $.each(data, function (index, value) {
+
+            var stringEtiquetas = '<div class="padding7px">';
+            countEtiquetas = 0
+            $.each(value.etiquetas, function (indexE, etiqueta) {
+                var nombreEti = (etiqueta.nombre.length > 10) ? etiqueta.nombre.substring(0, 9) + "..." : etiqueta.nombre;
+                stringEtiquetas += '<span class="badge badge-pill etiquetasAnunciosPequeñas fontFamilyRoboto">' + nombreEti + '</span>';
+                countEtiquetas++;
+                if (countEtiquetas == 3) {
+                    return false;
+                }
+            });
+            if (((value.etiquetas.length) - 3) > 0) {
+                stringEtiquetas += '<span class="badge badge-pill etiquetasMas"> + ' + ((value.etiquetas.length) - 3) + '</span>';
+            }
+            stringEtiquetas += "</div>";
+
+            var stringImagenesTemp = '';
+            $.each(value.imagenes, function (indexI, imagen) {
+                if (indexI == 0) {
+                    stringImagenesTemp += '<div class="carousel-item active backgroundGrayDos height100porciento"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel height100porciento"></div>';
+                } else {
+                    stringImagenesTemp += '<div class="carousel-item backgroundGrayDos height100porciento"><img src="../../uploads/anuncios/' + imagen.url + '" class="imgItemCarousel height100porciento"></div>';
+                }
+            });
+            stringImagenes = createCarouselAnunciosLista(value.id, stringImagenesTemp);
+
+            var stringTop = '';
+            if (value.isTop == 1) {
+                var stringTop = '<button class="btn btn-success btnMarkItemAnuncio">TOP</button>';
+            }
+
+            var stringCategoria = '';
+            if ($("#inpCategorias").val() == "NaN") {
+                var stringCategoria = '<div class="btnCategoriaItemAnuncio">' + value.categoria + '</div>';
+            }
+
+            var stringCountImgs = '<div class="btnCountImagesAnuncioList">' + value.countImagenes + ' Fotos</div>';
+
+            var stringCityAnuncio = '<div class="btnCityAnuncioList">' + value.ciudad + '</div>';
+
+            var divStringEtiquetas =  ((countEtiquetas>0)?('<div class="col-sm-2 d-none d-sm-block" style="padding: 0px 5px">' + stringEtiquetas + '</div>'):"");
+
+            var classPackDestacado = "";
+            if(value.tipoDestacado == "14"){
+                classPackDestacado = "backgroundYellowAnuncios"
+            }else if(value.tipoDestacado == "15"){
+                classPackDestacado = "backgroundPinkAnuncios"
+            }
+
+            $("#divCuadricula").append('<div class="row backgroundGray margin_top_medium"><div class="col-sm-12"><div class="container-fluid '+classPackDestacado+'"><div class="row row-eq-height sombra cardAnuncio"><div class="col-4 col-sm-3 padding0">' + stringImagenes + stringCategoria + stringTop + stringCountImgs + '</div><div class="'+((countEtiquetas>0)?('col-8 col-sm-7'):('col-8 col-sm-9'))+' paddingSuperior15px paddingLaterales20px"><h5 class="cursorPointer selectAnuncio fontWeight900" data-id=' + value.id + '><a href="' + urlProyect() + 'anuncio?id=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + ((value.titulo.length > 100) ? value.titulo.substring(0, 100) + "..." : value.titulo) + '</a></h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px marginBottom22pxMovil margin_bottom_30px">' + ((value.descripcion.length > 90) ? value.descripcion.substring(0, ((countEtiquetas>0)?90:200)) + "..." : value.descripcion) + stringCityAnuncio + '</p></div>'+divStringEtiquetas+'</div></div></div></div>');
+
+        });
+    }
+
+    function crearMatrizAnuncios(data){
+        let numPageTemp = 1;
+        let countTemp = 0;
+        let arrayAnunciosTemp = [];
+        $.each(data, function(index, value){
+            arrayAnunciosTemp.push(value);
+            countTemp ++;
+            if(countTemp == numAnunciosForPage || (index == (data.length-1) && arrayAnunciosTemp.length>0)){
+                anunciosByPage[numPageTemp] = arrayAnunciosTemp;
+                arrayAnunciosTemp = [];
+                countTemp = 0;
+                numPageTemp ++;
             }
         });
     }
@@ -420,14 +456,14 @@ $(function () {
     $('body').on('click', '.selectAnuncio', function () {
         // ENVIAR PARAMETROS
        var id = $(this).data("id");
-        $(location).attr('href', urlProyect() + 'c_app/vstDetalleAnuncio?idAnuncio=' + id);
+        $(location).attr('href', urlProyect() + 'anuncio?id=' + id);
     });
    */
 
     $('body').on('click', '.itemCarousel', function () {
         // ENVIAR PARAMETROS
         var id = $(this).data("id");
-        $(location).attr('href', urlProyect() + 'c_app/vstDetalleAnuncio?idAnuncio=' + id);
+        $(location).attr('href', urlProyect() + 'anuncio?id=' + id);
     });
 
     function createAnuncios(categorias, departamento, ciudad, etiqueta, text, tipoGrid) {
@@ -452,26 +488,54 @@ $(function () {
 
     function setUrl(categ, etiq, state, city, text) {
         let url = new URL(window.location.href);
-        url.searchParams.set("categ", categ);
-        url.searchParams.set("etiq", etiq);
-        url.searchParams.set("state", state);
-        url.searchParams.set("city", city);
-        url.searchParams.set("text", text);
+
+        if(validParamsUrlBig(categ)){
+            url.searchParams.set("categ", categ);    
+        }else{
+            url.searchParams.delete("categ");    
+        }
+
+        if(validParamsUrlBig(etiq)){
+            url.searchParams.set("etiq", etiq); 
+        }else{
+            url.searchParams.delete("etiq");    
+        }
+
+        if(validParamsUrl(state)){
+            url.searchParams.set("state", state);
+        }else{
+            url.searchParams.delete("state");
+        }
+        
+        if(validParamsUrl(city)){
+            url.searchParams.set("city", city);
+        }else{
+            url.searchParams.delete("city");
+        }
+
+        if(validParamsUrl(text)){
+            url.searchParams.set("text", text);
+        }else{
+            url.searchParams.delete("text");
+        }
+        
         window.history.pushState({}, 'Anuncios eróticos en Colombia', url);
 
         setTitle($("#inpCategorias option:selected").text(), $("#inpCiudades option:selected").text());
 
         // VERSION NAVEGADORES IE AND EDGE
         if (getBrowserCurrent() == "edge" || getBrowserCurrent() == "ie") {
-            var urlIE = "vstListaAnuncios?categ=" + categ + "&etiq=" + etiq + "&state=" + state + "&city=" + city + "&text=" + text;
+            let params = createParamsUrl_V2(categ, etiq, state, city, text);
+            var urlIE = "anuncios" + params;
             window.history.replaceState({}, 'Anuncios eróticos en Colombia', urlIE);
         }
 
     }
 
-    function openUrl(categ, etiq, state, city, text) {       
-       let url = "vstListaAnuncios?categ=" + categ + "&etiq=" + etiq + "&state=" + state + "&city=" + city + "&text=" + text;
-       window.open(url, '_blank');
+    function openUrl(categ, etiq, state, city, text) { 
+        let params = createParamsUrl_V2(categ, etiq, state, city, text);
+        let url = "anuncios" + params;
+        window.open(url, '_blank');
     }
 
     function setTitle(categoria, ciudad) {
@@ -491,7 +555,10 @@ $(function () {
         tipoGridView = "table";
         $(this).removeClass("inactivo");
         $(".btnViewList").addClass("inactivo");
-        createAnuncios(lastParams.categorias, lastParams.departamento, lastParams.ciudad, lastParams.etiqueta, lastParams.text, tipoGridView);
+        
+        createAnunciosCuadricula(anunciosByPage[$("#ulPaginado").twbsPagination('getCurrentPage')]);
+
+        //createAnuncios(lastParams.categorias, lastParams.departamento, lastParams.ciudad, lastParams.etiqueta, lastParams.text, tipoGridView);
     });
 
     $(".btnViewList").click(function () {
@@ -499,7 +566,10 @@ $(function () {
         tipoGridView = "list";
         $(this).removeClass("inactivo");
         $(".btnViewTable").addClass("inactivo");
-        createAnuncios(lastParams.categorias, lastParams.departamento, lastParams.ciudad, lastParams.etiqueta, lastParams.text, tipoGridView);
+
+        createAnunciosLista(anunciosByPage[$("#ulPaginado").twbsPagination('getCurrentPage')]);
+
+        //createAnuncios(lastParams.categorias, lastParams.departamento, lastParams.ciudad, lastParams.etiqueta, lastParams.text, tipoGridView);
     });
 
     createAnuncios(categorias[1], $("#inpDepartamentos").val(), $("#inpCiudades").val(), etiquetas[1], text, tipoGridView);
@@ -507,6 +577,36 @@ $(function () {
     function setFavTypeGrid(tipo){
         localStorage.setItem("tipoGridView", tipo);
     }
+
+
+    function createPagination(totalPages){
+        totalPages = (totalPages==0||totalPages<0)?1:totalPages;
+        $('#ulPaginado').twbsPagination('destroy');
+        $('#ulPaginado').twbsPagination({
+            totalPages: totalPages,
+            startPage: 1,
+            visiblePages: 7,
+            hideOnlyOnePage: true,
+            href: false,
+            hrefVariable: '{{number}}',
+            first: '<i class="fas fa-angle-double-left"></i>',
+            prev: '<i class="fas fa-chevron-left"></i>',
+            next: '<i class="fas fa-chevron-right"></i>',
+            last: '<i class="fas fa-angle-double-right"></i>',
+            onPageClick: function (event, page) {
+                if (tipoGridView == "table") {
+                    createAnunciosCuadricula(anunciosByPage[page]);
+                }else{
+                    createAnunciosLista(anunciosByPage[page]);
+                }
+                $('html, body').animate({scrollTop:0}, '300');
+            }
+        });
+    }
+
+    
+
+
 
 
 

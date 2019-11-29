@@ -208,6 +208,21 @@ class c_general extends CI_Controller {
       echo json_encode($data);  
     }
 
+    public function getConceptosSoportes(){    
+      $data = $this->general->db_get_conceptosSoportes();
+      echo json_encode($data);  
+    }
+
+    public function saveFeedBack(){    
+      $data = $this->general->db_save_feedback($this->session->userdata('idusuario'),$_POST["votacion"],$_POST["estrellas"],$_POST["mensaje"]);
+      echo json_encode($data);  
+    }
+
+    public function saveTicketSupport(){    
+      $data = $this->general->db_save_ticket_support($this->session->userdata('idusuario'),$_POST["idConcepto"],$_POST["mensaje"]);
+      echo json_encode($data);  
+    }
+
     public function insertPromocionAnuncio(){    
       $data = $this->general->db_insert_promocion_anuncio($_POST["idAnuncio"], $_POST["idOpcion"], $_POST["fechaHoraI"], $_POST["fechaHoraF"], $this->session->userdata('idusuario'));
       echo json_encode($data);  

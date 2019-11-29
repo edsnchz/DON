@@ -12,7 +12,7 @@
 
     <?= load_styles(); ?>
     <?= load_styles_url("css/login.css"); ?>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 
 
@@ -20,6 +20,9 @@
 
 <body>
 
+
+    <div style="text-align: center; margin-top: 50px;"><img src="https://raw.githubusercontent.com/edsnchz/DON/master/images/logo.jpg" alt="Logo" title="Logo" style="display:block; text-align: center" height="85" /><br><br><h1 style="color: #656565; font-family: inherit; font-size: 18px">Esta es tu nueva contraseña, guardala bien ;) <br><br> Puedes cambiarla cuando quieras en Opciones de Perfil</h1><br><br><label style="padding:20px; background: #b804ef; border:none; border-radius: 15pt; box-shadow: -1px 9px 21px -10px rgba(0,0,0,0.51); color: white; font-size: 25px; text-decoration: none; margin-top: 20px">'+pass+'</label></div><br><br>
+    
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
