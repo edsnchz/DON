@@ -2,9 +2,8 @@ $(function () {
 
     var arrayEtiquetas = [[], [], [], [], [], []];
 
-    /*
     var optionsNavigator = {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
         timeout: 1000,
         maximumAge: 0
     };
@@ -16,9 +15,7 @@ $(function () {
     }, function(error){
         console.log(error);
     }, optionsNavigator);
-    */
-    
-    //setCurrentLocation("10.987041", "-74.784388");
+
 
     function setCurrentLocation(lat, long){
         $.ajax({
@@ -26,10 +23,10 @@ $(function () {
             type: 'GET',
             dataType: "json",
             success: function (data) {
-                let currentUbication = data.results[6].address_components;
-                let city = currentUbication[0].short_name;
-                let state = currentUbication[1].short_name;
-
+                data = data["results"][0].address_components;
+                let city = getElementUbication(data, "locality");
+                let state = getElementUbication(data, "administrative_area_level_1");
+                let country = getElementUbication(data, "country");
                 $('#inpDepartamentos option:contains(' + state + ')').attr('selected', 'selected');
                 AjaxLoadCiudades($('#inpDepartamentos option:contains(' + state + ')').val());
                 $('#inpCiudades option:contains(' + city + ')').attr('selected', 'selected');
@@ -191,12 +188,31 @@ $(function () {
 
     AjaxLoadEtiquetas();
 
-    setTimeout(function () {
-        $("#divInfoWindows").addClass("move");
-    }, 3000);
 
     $("#btnCloseInfoWindows").click(function(){
         $("#divInfoWindows").addClass("moveOut");
     });
+
+
+    if(localStorage.getItem('sawAlertsInfo') == null){
+
+        setTimeout(function () {
+            $('#modal18year').modal();
+        }, 2000);
+
+    }
+
+    $("#btnAcept18year").click(function(){
+        $('#modal18year').modal("hide");
+
+        setTimeout(function () {
+            $("#divInfoWindows").addClass("move");
+        }, 1000);
+
+        localStorage.setItem('sawAlertsInfo', true);
+        
+    });
+
+    
 
 });

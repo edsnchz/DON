@@ -18,7 +18,7 @@
 
     <script type="text/javascript">
         function goHome() {
-            window.location.href = "http://192.190.42.155";
+            window.location.href = "https://doneroticos.com";
         }
 
         function goBack(){

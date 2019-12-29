@@ -345,8 +345,25 @@ class c_general extends CI_Controller {
         $this->layout->view("respuestaPago", $dataParams);
     }
 
+    public function sendSMS(){
+        // CREDENCIALES
+        $url = "https://api.sms.to/sms/send";
+        $key = "93L9jBh6m31WS7FxCa1luoUNBa8A9l7W";
+
+        $paramsBody = array(
+          "message" => "Tu codigo es " . $_POST["code"],
+          "to" => "+57" . $_POST["number"]
+        );
+
+        $response = $this->utiles->consumeRest($url, $key, json_encode($paramsBody));
+        
+        echo json_encode($response);
+
+    }
 
 
+
+    
 
 
 

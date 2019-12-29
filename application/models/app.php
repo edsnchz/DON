@@ -4,6 +4,7 @@ class app extends CI_Model {
 	private static $db;
 	function __construct(){
 		parent::__construct();	
+		$this->load->model('utiles');	
 		self::$db = &get_instance()->db;	
 	}
 
@@ -21,8 +22,9 @@ class app extends CI_Model {
 			return array("resultado" => false, "message" => "El correo ingresado ya se encuentra registrado");
 		}
 
-
-		$this->db->query('insert into usuarios (correo, pass, token_email) values(?,?,?)', array($correo, $pass, $token));
+		$encrypterPass = $this->utiles->encryptIt($pass);
+		$this->db->query('insert into usuarios (correo, pass, token_email) values(?,?,?)', array($correo, $encrypterPass, $token));
+		
 		if ($this->db->_error_number()) {
             return array("resultado" => false, "message" => $this->db->_error_message());
         } else {
@@ -45,7 +47,9 @@ class app extends CI_Model {
 			return array("resultado" => false, "message" => "El correo ingresado no se encuentra registrado");
 		}
 
-		$this->db->query('UPDATE `usuarios` SET pass=? WHERE correo=?', array($pass, $correo));
+		$encrypterPass = $this->utiles->encryptIt($pass);
+		$this->db->query('UPDATE `usuarios` SET pass=? WHERE correo=?', array($encrypterPass, $correo));
+
 		if ($this->db->_error_number()) {
             return array("resultado" => false, "message" => $this->db->_error_message());
         } else {
@@ -59,6 +63,8 @@ class app extends CI_Model {
 		$result = $this->db->query('SELECT pass FROM usuarios where id=?', array($idUsuario));
 		$a = $result->result_array();
 		$result->free_result();
+
+		$a[0]["pass"] = $this->utiles->decryptIt($a[0]["pass"]);
 
 		if ($this->db->_error_number()) {
             return array("resultado" => false, "message" => $this->db->_error_message());
@@ -74,9 +80,10 @@ class app extends CI_Model {
 			return array("resultado" => false, "message" => "Los datos ingresados son erroneos");
 		}
 
-		$this->db->query('INSERT INTO `auditoria_cambio_pass` (idUsuario, `lastpass`, `newpass`, `fecha_accion`) VALUES(?,?,?,NOW());', array($idUsuario, $lastpass, $newpass));
+		$this->db->query('INSERT INTO `auditoria_cambio_pass` (idUsuario, `lastpass`, `newpass`, `fecha_accion`) VALUES(?,?,?,NOW());', array($idUsuario, $this->utiles->encryptIt($lastpass), $this->utiles->encryptIt($newpass)));
 
-		$this->db->query('UPDATE `usuarios` SET pass = ? WHERE id=?', array($newpass, $idUsuario));
+		$encrypterPass = $this->utiles->encryptIt($newpass);
+		$this->db->query('UPDATE `usuarios` SET pass = ? WHERE id=?', array($encrypterPass, $idUsuario));
 
 
 		if ($this->db->_error_number()) {
@@ -88,7 +95,8 @@ class app extends CI_Model {
 	}
 
 	public function db_get_usuario($correo, $pass) {
-		$result = $this->db->query('SELECT * FROM usuarios where correo=? and pass=? and estado=1', array($correo, $pass));
+		$encrypterPass = $this->utiles->encryptIt($pass);
+		$result = $this->db->query('SELECT * FROM usuarios where correo=? and pass=? and estado=1', array($correo, $encrypterPass));
 		$a = $result->result_array();
         $result->free_result();
         return $a;

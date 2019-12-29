@@ -26,6 +26,11 @@ class c_app extends CI_Controller {
 	}
 
 	public function usuario(){
+		if($this->session->userdata('idusuario') == ""){
+			$this->load->view('pageNotFound');
+			return false;		
+		}
+
 		$this->layout->setTitle("Panel de Usuario - doneróticos.com");
 		$this->layout->js(Array(
 			base_url()."js/views/usuario.js",
@@ -37,6 +42,7 @@ class c_app extends CI_Controller {
 			"https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js",
 			base_url().'assets/quill-editor/quill.js',
 			base_url().'assets/quill-editor/config-quill.js',
+			"https://smtpjs.com/v3/smtp.js"
 		));
 		$this->layout->css(Array(
 			base_url()."css/uploadImages.css",
@@ -108,13 +114,13 @@ class c_app extends CI_Controller {
 	}
 
 	public function politica_pagos()	{
-		$this->layout->setTitle("Politica Pagos - doneróticos.com");
+		$this->layout->setTitle("Politica de Pagos - doneróticos.com");
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("politicaPagos", $data);	
 	}
 
 	public function politica_privacidad()	{
-		$this->layout->setTitle("Politica Privacidad - doneróticos.com");
+		$this->layout->setTitle("Politica de Privacidad - doneróticos.com");
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("politicaPrivacidad", $data);	
 	}

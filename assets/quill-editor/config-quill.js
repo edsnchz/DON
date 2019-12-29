@@ -8,8 +8,8 @@
   }
 
   calculate() {
-    let text = this.quill.getText();
-    return (text.length)-1;
+    let text = $.trim(this.quill.getText());
+    return text.length;
   }
   
   update() {

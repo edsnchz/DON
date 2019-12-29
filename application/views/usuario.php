@@ -1,7 +1,15 @@
+
 <script type="text/javascript">
     var tabDefault = "<?php echo $tab ?>";
     var apiKey = "<?php echo $apiKey ?>";
     var usuXt = "<?php echo $usuXt ?>";
+    
+
+    //CERTIFICADO SSL 
+    var tlJsHost = ((window.location.protocol == "https:") ? "https://secure.trust-provider.com/" : "http://www.trustlogo.com/");
+    document.write(unescape("%3Cscript src='" + tlJsHost + "trustlogo/javascript/trustlogo.js' type='text/javascript'%3E%3C/script%3E"));
+    //]]>
+    
 </script>
 
 <div class="pageComplete2">
@@ -27,8 +35,19 @@
     <div class="tab-content">
         <div class="tab-pane fade show active" id="tMisAnuncios" role="tabpanel">
             <div class="container">  
+
+                <div id="divMsjFirstAdd" class="text-center margin_top_40pt marginTop20ptMovil paddingLaterales15porcNoMovil animated zoomIn slowAnimation displayNone">
+                    <i class="fas fa-donate margin_bottom_20px colorGold fontSize80px"></i>
+                    <h4 class="fontSize25px margin_bottom_10px fontSize18pxMovil">Bienvenido a don<span class="colorPink">eróticos</span>! :)</h4>
+                    <p class="margin_bottom_10px fontSize14px fontSize12pxMovil">Lo que mas nos interesa es crecer juntos!, ponemos a tu disposicion una plataforma con la cual miles de personas podran conocerte y contactarte, <b>TOTALMENTE GRATIS.</b></p>
+                    <p class="margin_bottom_10px fontSize14px fontSize12pxMovil">ademas por publicar tu primer anuncio te regalaremos <b>100 Creditos</b> para que lo promociones y pautes.</p>
+
+                    <button id="btnCallToActionCrearAnuncio" type="button" class="btn colorWhite hoverColorWhite borderNone borderRadius0px outlineNone margin_top_small backgroundPink hoverBackgroundPinkOscuro textUppercase fontSize12px fontWeight600 paddingLaterales20px paddingSuperiorInferior10px">Crear Anuncio</button>
+                </div>
+
                 <div class="row" id="divMisAnuncios">
                 </div>
+
                 <br><br>
             </div>
         </div>
@@ -67,7 +86,7 @@
                 </div>
                 <div class="row margin_top_small">
                     <div class="col-sm-12 height100porciento">
-                        <div id="inpDescripcion" style="min-height: 120px"></div>
+                        <div id="inpDescripcion" style="min-height: 120px; cursor: text;"></div>
                         <div id="counterCrear" class="fontFamilyRoboto counterEditorTexto"></div>
                     </div>
                 </div>
@@ -179,6 +198,18 @@
             </div>
             <div class="col-xl-12 mx-auto padding0 textCenter margin_top_30px">
                 <img class="img-responsive width100porcientoMovil" src="<?= load_img_url('images/pagos.png'); ?>" style="width: 40%; height: auto">
+                <br>
+                
+                <div class="width100porciento centradoVerticalHorizontal">
+                    <div>
+                        <script language="JavaScript" type="text/javascript">
+                            TrustLogo("https://doneroticos.com/images/positivessl_trust_seal_md_167x42.png", "CL1", "none");
+                        </script>
+                        <a href="https://www.instantssl.com/" id="comodoTL">Essential SSL</a>
+                    </div>
+                </div>
+
+                <br><br>
             </div>
 
         </div>
@@ -353,29 +384,25 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content borderRadius0px">
       <div class="modal-header">
-        <h5 class="modal-title textCenter fontSize14px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto">Verificaremos tu numero de teléfono</h5>
+        <h5 class="modal-title textCenter fontSize14px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto">Verificacion via SMS</h5>
         <button type="button" class="close outlineNone" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-            <input type="number" class="form-control inputStyle textCenter letterSpacingMinimo" id="inpNumber" name="inpNumber" placeholder="Ingresa aquí tu nuevo número">
-            <div class="centradoVertical margin_top_small ">
-				    <label class="textCenter">
-					    <input id="inpAceptTermsNum" type="checkbox" name="inpAceptTermsNum" class="checkboxSimple"> <span class="label-text fontFamilyRoboto fontSize13px colorGrisClaro">
-                        Acepto recibir mensajes SMS</span>
-					</label>
-				 </div>
-            
-            <!-- <div class="form-group pull-left centradoVertical margin_top_small">
-                <input id="inpAceptTermsNum" type="checkbox" name="inpAceptTermsNum" class="checkStyle margin_left_small">
-                <label for="inpAceptTermsNum" class="fontSize14px colorGrisClaro fontWeight600 margin_left_MasSmall height6px">
-                    
-                </label>
-            </div> -->
+            <label id="lblNumber" class="textCenter width100porciento">Digite su numero de telefono:</label>
+            <div class="paddingLaterales40pxNoMovil">
+                <input type="number" class="form-control inputStyle textCenter letterSpacingMinimo fontSize16px" id="inpNumber" name="inpNumber">
+                <div class="centradoVertical margin_top_small">
+    			    <label class="textCenter">
+    				    <input id="inpAceptTermsNum" type="checkbox" name="inpAceptTermsNum" class="checkboxSimple"> 
+                        <span class="label-text fontFamilyRoboto fontSize13px colorGrisClaro">Acepto recibir mensajes SMS</span>
+    				</label>
+    			</div>
+            </div>
       </div>
       <div class="modal-footer">
-        <button id="btnGuardarNumero" type="button" class="btn btn-primary borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo" data-dismiss="modal">Validar</button>
+        <button id="btnGuardarNumero" type="button" class="btn btn-primary borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo">Enviar</button>
       </div>
     </div>
   </div>
@@ -475,7 +502,7 @@
             </div>
             <div class="row margin_top_small">
                 <div class="col-sm-12 height100porciento">
-                    <div id="inpDescripcionEditar" style="min-height: 120px"></div>
+                    <div id="inpDescripcionEditar" style="min-height: 120px; cursor: text;"></div>
                     <div id="counterEditar" class="fontFamilyRoboto counterEditorTexto"></div>
                 </div>
             </div>

@@ -463,6 +463,14 @@ $(function () {
     $('body').on('click', '.itemCarousel', function () {
         // ENVIAR PARAMETROS
         var id = $(this).data("id");
+
+        if(typeof id == "undefined"){
+            if(localStorage.getItem("userLogin") === "true"){
+                $(location).attr('href', urlProyect() + 'usuario?tab=0');
+            }
+            return false;
+        }
+
         $(location).attr('href', urlProyect() + 'anuncio?id=' + id);
     });
 

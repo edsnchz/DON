@@ -156,6 +156,8 @@ class general extends CI_Model {
     public function db_add_anuncio($string, $idUsuario) {
         $this->db->trans_start(); 
 
+        $freeCredits = false;
+
         $data = (array) json_decode($string, true);
 
         $titulo = strtolower($data["titulo"]);
@@ -179,11 +181,31 @@ class general extends CI_Model {
         }
 
 
+        // REGALO DE 100 CREDITOS AL PRIMER ANUNCIO
+
+        $resultCountAnuncios = $this->db->query("SELECT * FROM `anuncios` WHERE `id_usuario`=?", array($idUsuario));
+        $countAnuncios = $resultCountAnuncios->result_array();
+        $resultCountAnuncios->free_result();        
+
+        if(count($countAnuncios) == 1){
+            $resultMovimiento = $this->db->query("SELECT * FROM `movimientos` where idUsuario=?", array($idUsuario));
+            $movimiento = $resultMovimiento->result_array();
+            $resultMovimiento->free_result();
+
+            if(count($movimiento) > 0){
+                $this->db->query("UPDATE movimientos SET `cantidad`=`cantidad`+100 WHERE idUsuario=?", array($idUsuario));
+            }else{
+                $this->db->query("INSERT INTO `movimientos`(`idUsuario`, `cantidad`) VALUES(?,?)", array($idUsuario, 100));
+            }   
+
+            $freeCredits = true; 
+        }
+
         if ($this->db->_error_number()) {
             return array("resultado" => false, "message" => $this->db->_error_message());
         } else {
             $this->db->trans_complete();
-            return array("resultado" => true, "message" => "Anuncio publicado correctamente", "id" => $idAnuncio);
+            return array("resultado" => true, "message" => "Anuncio publicado correctamente", "id" => $idAnuncio, "freeCredits" => $freeCredits);
         }
     }
 
@@ -300,7 +322,7 @@ class general extends CI_Model {
                 
         $querySelect = "SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, cate.nombre categoria, (SELECT COUNT(*) FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id) countImagenes, IFNULL((SELECT pq.`idOpcPaq` FROM `paquetes_anuncios` pq WHERE pq.`idOpcPaq` IN (14, 15) AND DATE(NOW()) BETWEEN pq.`fecha_inicial` AND pq.`fecha_final` AND pq.`estado`='VIGENTE' AND pq.idAnuncio=a.id LIMIT 1), 'NO') tipoDestacado, 1 isTop FROM anuncios a JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id` JOIN categorias cate ON a.`id_categoria`=cate.`id`";
 
-        $queryTop = " AND a.id IN (SELECT `idAnuncio` FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND DATE(NOW()) BETWEEN `fecha_inicial` AND `fecha_final` AND TIME(NOW()) BETWEEN `hora_inicial` AND `hora_final` AND `estado`='VIGENTE')";
+        $queryTop = " AND a.id IN (SELECT `idAnuncio` FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND DATE(NOW()) BETWEEN `fecha_inicial` AND `fecha_final` AND TIME(NOW()) BETWEEN `hora_inicial` AND `hora_final` AND `estado`='VIGENTE') ORDER BY RAND()";
 
         $resultAnuncios = $this->db->query($querySelect.$query.$queryTop, $params);
         $anuncios = $resultAnuncios->result_array();
@@ -847,12 +869,20 @@ class general extends CI_Model {
 
     public function db_save_ticket_support($idUsuario, $idConcepto, $mensaje) {
         $this->db->trans_start(); 
+        
         $this->db->query('INSERT INTO `soporte`(`idConcepto`, `mensaje`, `idUsuario`, `fechaCreacion`) VALUES (?,?,?,NOW());', array($idConcepto, $mensaje, $idUsuario));
+
+        $id = $this->db->insert_id();
+
+        $resultUsuario = $this->db->query('SELECT correo, NOW() fecha FROM `usuarios` WHERE id=?', array($idUsuario));
+        $usuario = $resultUsuario->result_array();
+        $resultUsuario->free_result();     
+
         if ($this->db->_error_number()) {
             return array("resultado" => false, "message" => $this->db->_error_message());
         } else {
             $this->db->trans_complete();
-            return array("resultado" => true, "message" => "Ticket enviado a soporte satisfactoriamente, Pronto se te respondera via correo electronico.");
+            return array("resultado" => true, "message" => "Ticket enviado a soporte satisfactoriamente, Pronto se te respondera via correo electronico.", "correo" => $usuario[0]["correo"], "fecha" => $usuario[0]["fecha"], "id" => $id);
         }
     }
 

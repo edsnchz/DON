@@ -16,9 +16,10 @@ toastr.options = {
     "hideMethod": "fadeOut"
 }
 
-//var keyMaps = "--AIzaSyAwfipAJXbF1gA58tRGDuZvM9WrqAGfilU--";
-
-var numAnunciosForPage = 6;
+var keyMaps = "AIzaSyDXHbCxIjLcqmPi65H5mQqI-4kZ26I4oAo";
+var numAnunciosForPage = 12;
+var tokenEmails = "244547e3-d66f-425b-b96d-65766e301fec";
+var emailFrom = "edson.snchz@gmail.com";
 
 if (typeof loginBack !== "undefined") {
     if (loginBack == false) {
@@ -397,4 +398,40 @@ function createParamsUrl_V2(categ, etiq, state, city, text){
     params = clearParamsUrl(params);
 
     return params;
+}
+
+function createEmail_Template(title, email, body){
+    let msg = '<div style="text-align: center; margin-top: 50px;"><img src="https://raw.githubusercontent.com/edsnchz/DON/master/images/logo.png" alt="Don Eroticos" title="Don Eroticos" style="height:80px"/><br><br><div>'+body+'</div></div><br><br>';
+    Email.send({
+        SecureToken: tokenEmails,
+        To: email,
+        From: emailFrom,
+        Subject: title,
+        Body: msg
+    }).then(
+        message => console.log(message)
+    );
+}
+
+function createEmail(title, email, body){
+    Email.send({
+        SecureToken: tokenEmails,
+        To: email,
+        From: emailFrom,
+        Subject: title,
+        Body: body
+    }).then(
+        message => console.log(message)
+    );
+}
+
+function getElementUbication(res, name){
+    let rtn = null;
+    $.each(res, function(index, result) {
+        if(result.types[0] == name && result.types[1] == "political"){
+            rtn = result.short_name;
+            return false;
+        }
+    });
+    return reemplazarAcentos(rtn);
 }

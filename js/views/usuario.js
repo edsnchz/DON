@@ -25,6 +25,9 @@ $(function () {
     var keyFotosFormEditar = [];
     var myChartV, myChartW, myChartC, myChartTiposVistas, myChartVistasHoras, 
         myChartInversionFecha, myChartInversionTotalByTipo;
+    var generateCodeSMS = "";
+    var numberSendCode = "";
+    var isGenerateCode = false;
     AjaxLoadMisAnuncios();
     AjaxLoadNumbers();
     AjaxloadOptionsServices({ tipo: "class" });
@@ -304,6 +307,7 @@ $(function () {
             data: {idConcepto: idConcepto, mensaje: mensaje},
             success: function (data) {
                 if (data.resultado == true) {
+                    createEmail_Template("TICKET SOPORTE #"+data.id+" - DONEROTICOS", emailFrom, '<h1 style="color: #656565; font-family: inherit; font-size: 17px; margin-bottom: 15px">El usuario con correo: <b>'+data.correo+'</b> envio una peticion a soporte</h1><h2 style="color: #656565; font-family: inherit; font-size: 15px">TIPO: <br> '+$("#inpTipoSoporte option:selected").text()+'</h2><h2 style="color: #656565; font-family: inherit; font-size: 15px; margin-bottom: 15px">MENSAJE: <br> '+mensaje+'</h2><p>Fecha Creacion: '+data.fecha+'</p><br><br>');
                     toastr.success(data.message);
                     $("#inpTipoSoporte").val("N/A");
                     $("#inpMsjSoporte").val("");
@@ -394,12 +398,34 @@ $(function () {
                 if (data.resultado == true) {
                     AjaxLoadNumbers();
                     toastr.success(data.message);
-                    //$("#modalNumber").modal("hide");
+                    $("#modalNumber").modal("hide");
                 } else {
                     toastr.error(data.message);
                 }
             }
         });
+    }
+
+    function AjaxSendCodeAddNumber(number, code) {
+        let rtn;
+        $.ajax({
+            url: '../c_general/sendSMS',
+            type: 'POST',
+            dataType: "json",
+            async: false,
+            data: { number: number, code: code },
+            success: function (data) {
+                if(data.success){
+                    rtn = true;
+                }else{
+                    rtn = data.message;
+                }
+            },
+            error: function(x){
+                rtn = "Error al enviar el SMS de validacion";
+            }
+        });
+        return rtn;
     }
 
     function AjaxDeleteNumber(id) {
@@ -469,6 +495,13 @@ $(function () {
             },
             success: function (data) {
                 if (data.resultado == true) {
+
+                    if((data.data).length == 0){
+                        $("#divMsjFirstAdd").css({"display": "block"});
+                    }else{
+                        $("#divMsjFirstAdd").css({"display": "none"});
+                    }
+
                     $.each(data.data, function (index, value) {
                         var stringTop = '';
                         if (value.isTop == 1) {
@@ -831,7 +864,7 @@ $(function () {
     }
 
     function renderCelularesVacias() {
-        $("#divTelefonos").append('<div class="col-sm-3 margin_top_small"><div class="card backgroundGrayDos colorWhite cursorPointer" style="height: 170px"><div class="card-body textCenter"><h6 class="card-subtitle mb-2 text-muted textCenter"></h6><p class="card-text"><div class="form-group"><img class="height80px" src="../../images/phone_plus.svg"></div></p><a href="#" class="card-link hoverGrisClaro fontFamilyRoboto fontSize14px" data-toggle="modal" data-target="#modalNumber">Agregar número</a></div></div></div>');
+        $("#divTelefonos").append('<div class="col-sm-3 margin_top_small"><div class="card backgroundGrayDos colorWhite cursorPointer" style="height: 170px"><div class="card-body textCenter"><h6 class="card-subtitle mb-2 text-muted textCenter"></h6><p class="card-text"><div class="form-group"><img class="height80px" src="../../images/phone_plus.svg"></div></p><a href="#" class="btnAddNumber card-link hoverGrisClaro fontFamilyRoboto fontSize14px">Agregar número</a></div></div></div>');
     }
 
     function renderCelularesEditar(id, number) {
@@ -893,9 +926,69 @@ $(function () {
         }
     });
 
-    $("#btnGuardarNumero").click(function () {
-        AjaxAddNumber($("#inpNumber").val());
+    $('body').on('click', '.btnAddNumber', function () {
+        $("#modalNumber").modal();
+        limpiarSendSMS();
     });
+
+    $("#inpAceptTermsNum").change(function () {
+        if(!$(this).is(':checked')){
+            $("#inpNumber").prop("disabled", true);
+        }else{
+            $("#inpNumber").prop("disabled", false);  
+        }
+    });
+
+    $("#btnGuardarNumero").click(function () {
+        if(!$("#inpAceptTermsNum").is(':checked')){
+            toastr.error("Debe aceptar el envio de SMS a su telefono");
+            return false;
+        }
+
+        if(!isGenerateCode){
+
+            generateCodeSMS = generateRandomNumber();
+            numberSendCode = $("#inpNumber").val();
+
+            let rtnSend = AjaxSendCodeAddNumber(numberSendCode, generateCodeSMS);
+
+            if(rtnSend){
+                $("#lblNumber").text("Ingrese el codigo:");
+                $("#inpNumber").val("");
+                $(this).text("Validar");
+                isGenerateCode = true;    
+            }else{
+                toastr.error(rtnSend);
+                return false;
+            }
+
+        }else{
+
+            if($("#inpNumber").val() == generateCodeSMS){
+                AjaxAddNumber(numberSendCode);
+            }else{
+                toastr.error("Codigo incorrecto!, porfavor verifique");
+                return false;   
+            }
+
+        }
+        
+    });
+
+    $('#modalNumber').on('hidden.bs.modal', function (e) {
+        limpiarSendSMS();
+    })
+
+    function limpiarSendSMS(){
+        $("#lblNumber").text("Digite su numero de telefono:");
+        $("#inpNumber").val("");
+        $("#btnGuardarNumero").text("Enviar");
+        $("#inpNumber").prop("disabled", false);
+        $("#inpAceptTermsNum").prop("checked", true);
+        generateCodeSMS = "";
+        numberSendCode = "";
+        isGenerateCode = false;
+    }
 
     $("#btnEliminarNumero").click(function () {
         AjaxDeleteNumber($("#inpIdEliminar").val());
@@ -948,6 +1041,10 @@ $(function () {
         return rtn;
     }
 
+    function getLengthTrimTextEditor(obj){
+        return $.trim(obj.getText(0, obj.getLength())).length;
+    }
+
     $("#btnGuardar").click(function () {
 
         if ($("#inpCategorias").val() == "N/A") {
@@ -975,7 +1072,7 @@ $(function () {
             return false;
         }
 
-        if ((quillCrear.getLength()) < 200) {
+        if (getLengthTrimTextEditor(quillCrear) < 200) {
             toastr.warning("Ingrese una descripción con mínimo 200 caracteres");
             return false;
         }
@@ -1059,6 +1156,10 @@ $(function () {
                         limpiar();
                     }
                     toastr.success(data.message);
+                    if(data.freeCredits){
+                        toastr.success("Has recibido <b>100 Creditos</b> gratis por publicar tu primer anuncio! Promocionalo para que mas personas lo vean ;)");
+                        AjaxGetMisCreditos();
+                    }
                     $("#tabMisAnuncios").click();
                 } else {
                     toastr.error(data.message);
@@ -1080,7 +1181,7 @@ $(function () {
             return false;
         }
 
-        if ((quillEditar.getLength()) < 200) {
+        if (getLengthTrimTextEditor(quillEditar) < 200) {
             toastr.warning("Ingrese una descripcion con mínimo 200 caracteres");
             return false;
         }
@@ -2365,6 +2466,17 @@ $(function () {
         AjaxSendSupport($("#inpTipoSoporte").val(), $("#inpMsjSoporte").val());
     });
 
+    $('body').on('click', '#inpDescripcion', function () {
+        $("#inpDescripcion .ql-editor").focus();
+    });
+
+    $('body').on('click', '#inpDescripcionEditar', function () {
+        $("#inpDescripcionEditar .ql-editor").focus();
+    });
+
+    $("#btnCallToActionCrearAnuncio").click(function(){
+        $("#tabCrearAnuncio").click();
+    });
 
 
     // PROCESO UPLOADS IMAGENES 
@@ -2489,7 +2601,7 @@ $(function () {
             external: "false",
             extra1: dataCreditos[0]["id"],
             extra2: usuXt,
-            response: "http://192.190.42.155/c_general/responsePayment"
+            response: "https://doneroticos.com/c_general/responsePayment"
         }
         executePayment(data);
     }
