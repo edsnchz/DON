@@ -54,7 +54,7 @@ class app extends CI_Model {
             return array("resultado" => false, "message" => $this->db->_error_message());
         } else {
             $this->db->trans_complete();
-            return array("resultado" => true, "message" => "Contraseña reestablecida satisfactoriamente, porfavor verifique su correo");
+            return array("resultado" => true, "message" => "Una nueva contraseña ha sido enviada a tu correo electrónico");
         }
 	}
 

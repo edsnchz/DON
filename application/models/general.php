@@ -159,12 +159,9 @@ class general extends CI_Model {
         $freeCredits = false;
 
         $data = (array) json_decode($string, true);
-
-        $titulo = strtolower($data["titulo"]);
-        $titulo = ucfirst($titulo);
         
         $this->db->query('INSERT INTO `anuncios`(`titulo`, `descripcion`, `descripcionFormat`, `id_categoria`, `id_ciudad`, `id_usuario`, `fecha_creacion`)
-        VALUES (?,?,?,?,?,?,NOW())', array($titulo, $data["descripcion"], $data["descripcionFormat"], $data["idCategoria"], $data["idCiudad"], $idUsuario));
+        VALUES (?,?,?,?,?,?,NOW())', array($data["titulo"], $data["descripcion"], $data["descripcionFormat"], $data["idCategoria"], $data["idCiudad"], $idUsuario));
         
         $idAnuncio = $this->db->insert_id();
 
@@ -214,10 +211,7 @@ class general extends CI_Model {
 
         $data = (array) json_decode($string, true);
 
-        $titulo = strtolower($data["titulo"]);
-        $titulo = ucfirst($titulo);
-
-        $this->db->query('UPDATE `anuncios` SET titulo=?, `descripcion`=?, `descripcionFormat`=?, `fecha_ultima_edicion`=NOW() WHERE id=?;', array($titulo, $data["descripcion"], $data["descripcionFormat"], $data["id"]));
+        $this->db->query('UPDATE `anuncios` SET titulo=?, `descripcion`=?, `descripcionFormat`=?, `fecha_ultima_edicion`=NOW() WHERE id=?;', array($data["titulo"], $data["descripcion"], $data["descripcionFormat"], $data["id"]));
 
         $this->db->query('DELETE FROM `etiquetas_anuncios` WHERE id_anuncio=?;', array($data["id"]));
         foreach ($data["etiquetas"] as $key => $etiqueta) {
@@ -322,7 +316,8 @@ class general extends CI_Model {
                 
         $querySelect = "SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, cate.nombre categoria, (SELECT COUNT(*) FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id) countImagenes, IFNULL((SELECT pq.`idOpcPaq` FROM `paquetes_anuncios` pq WHERE pq.`idOpcPaq` IN (14, 15) AND DATE(NOW()) BETWEEN pq.`fecha_inicial` AND pq.`fecha_final` AND pq.`estado`='VIGENTE' AND pq.idAnuncio=a.id LIMIT 1), 'NO') tipoDestacado, 1 isTop FROM anuncios a JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id` JOIN categorias cate ON a.`id_categoria`=cate.`id`";
 
-        $queryTop = " AND a.id IN (SELECT `idAnuncio` FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND DATE(NOW()) BETWEEN `fecha_inicial` AND `fecha_final` AND TIME(NOW()) BETWEEN `hora_inicial` AND `hora_final` AND `estado`='VIGENTE') ORDER BY RAND()";
+        $queryTop = " AND a.id IN (SELECT `idAnuncio` FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND NOW() 
+                    BETWEEN CONCAT(fecha_inicial, ' ', hora_inicial) AND CONCAT(`fecha_final`, ' ', `hora_final`) AND `estado`='VIGENTE') ORDER BY a.orderTops";
 
         $resultAnuncios = $this->db->query($querySelect.$query.$queryTop, $params);
         $anuncios = $resultAnuncios->result_array();
@@ -332,7 +327,7 @@ class general extends CI_Model {
 
         $querySelect = "SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, cate.nombre categoria, (SELECT COUNT(*) FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id) countImagenes, IFNULL((SELECT pq.`idOpcPaq` FROM `paquetes_anuncios` pq WHERE pq.`idOpcPaq` IN (14, 15) AND DATE(NOW()) BETWEEN pq.`fecha_inicial` AND pq.`fecha_final` AND pq.`estado`='VIGENTE' AND pq.idAnuncio=a.id LIMIT 1), 'NO') tipoDestacado, 0 isTop FROM anuncios a JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id` JOIN categorias cate ON a.`id_categoria`=cate.`id`";
 
-        $queryTop = " AND a.id NOT IN (SELECT `idAnuncio` FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND DATE(NOW()) BETWEEN `fecha_inicial` AND `fecha_final` AND TIME(NOW()) BETWEEN `hora_inicial` AND `hora_final` AND `estado`='VIGENTE') ORDER BY a.fecha_creacion DESC";
+        $queryTop = " AND a.id NOT IN (SELECT `idAnuncio` FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND NOW() BETWEEN CONCAT(fecha_inicial, ' ', hora_inicial) AND CONCAT(`fecha_final`, ' ', `hora_final`) AND `estado`='VIGENTE') ORDER BY a.fecha_creacion DESC";
 
 		$resultAnuncios2 = $this->db->query($querySelect.$query.$queryTop, $params);
 		$anunciosTemp = $resultAnuncios2->result_array();
@@ -882,7 +877,7 @@ class general extends CI_Model {
             return array("resultado" => false, "message" => $this->db->_error_message());
         } else {
             $this->db->trans_complete();
-            return array("resultado" => true, "message" => "Ticket enviado a soporte satisfactoriamente, Pronto se te respondera via correo electronico.", "correo" => $usuario[0]["correo"], "fecha" => $usuario[0]["fecha"], "id" => $id);
+            return array("resultado" => true, "message" => "Ticket enviado a soporte satisfactoriamente, pronto se te respondera via correo electrónico.", "correo" => $usuario[0]["correo"], "fecha" => $usuario[0]["fecha"], "id" => $id);
         }
     }
 
@@ -1034,9 +1029,8 @@ class general extends CI_Model {
 		$resultAnuncios = $this->db->query("SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, a.`fecha_creacion`,
         cate.nombre categoria, IFNULL(DATE_FORMAT(a.`fecha_ultima_edicion`, '%d/%m/%Y - %H:%i'), 'Sin ediciones') fechaUltEdicionFormat, 
             IFNULL((SELECT url FROM imagenes_anuncios i WHERE i.id_anuncio=a.id LIMIT 1), '../../images/default_img.svg') url,
-            IFNULL((SELECT 1 FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND DATE(NOW()) 
-                BETWEEN `fecha_inicial` AND `fecha_final` AND TIME(NOW()) BETWEEN `hora_inicial` 
-                AND `hora_final` AND `estado`='VIGENTE' AND `idAnuncio`=a.id LIMIT 1),0) isTop
+            IFNULL((SELECT 1 FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND NOW() 
+            BETWEEN CONCAT(fecha_inicial, ' ', hora_inicial) AND CONCAT(`fecha_final`, ' ', `hora_final`) AND `estado`='VIGENTE' AND `idAnuncio`=a.id LIMIT 1),0) isTop
             FROM anuncios a 
             JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id`  
             JOIN categorias cate ON a.`id_categoria`=cate.`id` 

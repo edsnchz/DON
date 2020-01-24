@@ -8,7 +8,7 @@
     <meta name="description" content="PAGINA DE CONTENIDO ADULTO">
     <meta name="author" content="DON">
 
-    <title>Inicio de Sesión - doneróticos.com</title>
+    <title>Inicio de Sesión - doneroticos.com</title>
 
     <?= load_styles(); ?>
     <?= load_styles_url("css/login.css"); ?>

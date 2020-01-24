@@ -11,7 +11,7 @@ class c_app extends CI_Controller {
 	}
 	
 	public function index()	{
-		$this->layout->setTitle("Anuncios eróticos en Colombia - doneróticos.com");
+		$this->layout->setTitle("Anuncios eróticos en Colombia - doneróticos");
 		$this->layout->js(Array(base_url()."js/views/app.js"));
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("app", $data);	
@@ -27,14 +27,15 @@ class c_app extends CI_Controller {
 
 	public function usuario(){
 		if($this->session->userdata('idusuario') == ""){
-			$this->load->view('pageNotFound');
+			$this->load->view('login');
 			return false;		
 		}
 
-		$this->layout->setTitle("Panel de Usuario - doneróticos.com");
+		$this->layout->setTitle("Panel de Usuario - doneroticos.com");
 		$this->layout->js(Array(
 			base_url()."js/views/usuario.js",
 			"https://code.jquery.com/ui/1.12.1/jquery-ui.js",
+			base_url().'js/jquery/jquery.ui.touch-punch.min.js',
 			"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js",
 			"https://cdn.jsdelivr.net/gh/emn178/chartjs-plugin-labels/src/chartjs-plugin-labels.js",
 			"https://checkout.epayco.co/checkout.js",
@@ -108,25 +109,25 @@ class c_app extends CI_Controller {
 	}
 
 	public function condiciones()	{
-		$this->layout->setTitle("Condiciones de Uso - doneróticos.com");
+		$this->layout->setTitle("Condiciones de Uso - doneroticos.com");
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("condicionesUso", $data);	
 	}
 
 	public function politica_pagos()	{
-		$this->layout->setTitle("Politica de Pagos - doneróticos.com");
+		$this->layout->setTitle("Politica de Pagos - doneroticos.com");
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("politicaPagos", $data);	
 	}
 
 	public function politica_privacidad()	{
-		$this->layout->setTitle("Politica de Privacidad - doneróticos.com");
+		$this->layout->setTitle("Politica de Privacidad - doneroticos.com");
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("politicaPrivacidad", $data);	
 	}
 
 	public function contactanos()	{
-		$this->layout->setTitle("Contacto - doneróticos.com");
+		$this->layout->setTitle("Contacto - doneroticos.com");
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 		
 		$this->layout->view("contactanos", $data);	
 	}
@@ -177,7 +178,8 @@ class c_app extends CI_Controller {
 	public function validEmail(){
 		$data = $this->app->db_valid_tokenEmail($_GET["idxt"]);
 		if($data["resultado"] == true){
-			$this->load->view('login');		
+			//$this->load->view('login');	
+			redirect('login', 'refresh');
 		}else{
 			echo $data["message"];
 		}	
@@ -231,7 +233,7 @@ class c_app extends CI_Controller {
 
 				$this->general->db_set_imagenes($_POST["idAnuncio"], $this->upload->data("file_name")["file_name"]);
 			}else{
-				echo json_encode(Array("resultado" => false, "mensaje" => "Error al subir las imagenes"));	
+				echo json_encode(Array("resultado" => false, "mensaje" => "Error al subir las imagenes - ". $this->upload->display_errors()));
 				return;
 			}
 

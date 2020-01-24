@@ -17,9 +17,9 @@ toastr.options = {
 }
 
 var keyMaps = "AIzaSyDXHbCxIjLcqmPi65H5mQqI-4kZ26I4oAo";
-var numAnunciosForPage = 12;
+var numAnunciosForPage = 60;
 var tokenEmails = "244547e3-d66f-425b-b96d-65766e301fec";
-var emailFrom = "edson.snchz@gmail.com";
+var emailFrom = "soporte@donstudioweb.co";
 
 if (typeof loginBack !== "undefined") {
     if (loginBack == false) {
@@ -38,18 +38,39 @@ if (localStorage.getItem("userLogin") === "true") {
 }
 
 if (localStorage.getItem("userLogin") !== "true") {
-    if(localStorage.getItem("userAccess") != null) {
+    if (localStorage.getItem("userAccess") != null) {
         let decrypted = CryptoJS.AES.decrypt(localStorage.getItem("userAccess"), "userAccess").toString(CryptoJS.enc.Utf8);
         let res = decrypted.split("&");
         autoLogin(res[0], res[1]);
-    }   
+    }
 }
+
+$("#btnCloseInfoWindows").click(function () {
+    $("#divInfoWindows").addClass("moveOut");
+});
+
+
+if (localStorage.getItem('sawAlertsInfo') == null) {
+    setTimeout(function () {
+        $('#modal18year').modal();
+    }, 2000);
+}
+
+$("#btnAcept18year").click(function () {
+    $('#modal18year').modal("hide");
+
+    setTimeout(function () {
+        $("#divInfoWindows").addClass("move");
+    }, 1000);
+
+    localStorage.setItem('sawAlertsInfo', true);
+});
 
 function logout() {
     $.post(urlProyect() + "c_app/setLogout", {}, function (data) {
         toastr.success(data.message);
         localStorage.setItem('userLogin', false);
-        localStorage.removeItem('userAccess');  
+        localStorage.removeItem('userAccess');
         menuLogout();
         $(location).attr('href', urlProyectShort());
     }, "json"); //post
@@ -66,16 +87,16 @@ function autoLogin(correo, pass) {
 }
 
 var loading = {
-  show: function() {
-    $("#divLoading").css("visibility", "visible");
-    $("#divLoading").removeClass("fadeOut");
-    $("#divLoading").addClass("fadeIn");
-  },
-  hide: function() {
-    $("#divLoading").css("visibility", "hidden");
-    $("#divLoading").removeClass("fadeIn");
-    $("#divLoading").addClass("fadeOut");
-  }
+    show: function () {
+        $("#divLoading").css("visibility", "visible");
+        $("#divLoading").removeClass("fadeOut");
+        $("#divLoading").addClass("fadeIn");
+    },
+    hide: function () {
+        $("#divLoading").css("visibility", "hidden");
+        $("#divLoading").removeClass("fadeIn");
+        $("#divLoading").addClass("fadeOut");
+    }
 }
 
 $(".btnPanel").click(function () {
@@ -102,17 +123,17 @@ $(".btnSalir").click(function () {
 
 $("#btnOpenPanelLateral").click(function () {
     $(this).toggleClass("is-active");
-    if($(this).data("open") == "0"){
-        $("#divPanelLateral").css({"z-index": "990", "opacity": "1"});
-        $("#divPanelLateral ul li a").css({"opacity": "1", "transform": "translateX(0)"}); 
+    if ($(this).data("open") == "0") {
+        $("#divPanelLateral").css({ "z-index": "990", "opacity": "1" });
+        $("#divPanelLateral ul li a").css({ "opacity": "1", "transform": "translateX(0)" });
         // BLOCK SCROLLING
-        $('html, body').css({overflow: 'hidden',height: '100%'});   
+        $('html, body').css({ overflow: 'hidden', height: '100%' });
         $(this).data("open", "1")
-    }else{
-        $("#divPanelLateral").css({"z-index": "-1", "opacity": "0"});
-        $("#divPanelLateral ul li a").css({"opacity": "0", "transform": "translateX(0)"});
+    } else {
+        $("#divPanelLateral").css({ "z-index": "-1", "opacity": "0" });
+        $("#divPanelLateral ul li a").css({ "opacity": "0", "transform": "translateX(0)" });
         // RESTART SCROLLING
-        $('html, body').css({overflow: 'auto',height: 'auto'});
+        $('html, body').css({ overflow: 'auto', height: 'auto' });
         $(this).data("open", "0")
     }
 });
@@ -121,19 +142,19 @@ $("#divColLogo").on("click", "img", function (event) {
     $(location).attr('href', urlProyectShort());
 });
 
-$("#aLinkCondicionesUso").click(function(){
+$("#aLinkCondicionesUso").click(function () {
     $(location).attr('href', urlProyect() + 'condiciones');
 });
 
-$("#aLinkPoliticaPagos").click(function(){
+$("#aLinkPoliticaPagos").click(function () {
     $(location).attr('href', urlProyect() + 'politica_pagos');
 });
 
-$("#aLinkPoliticaPrivacidad").click(function(){
+$("#aLinkPoliticaPrivacidad").click(function () {
     $(location).attr('href', urlProyect() + 'politica_privacidad');
 });
 
-$("#aLinkContactanos").click(function(){
+$("#aLinkContactanos").click(function () {
     $(location).attr('href', urlProyect() + 'contactanos');
 });
 
@@ -310,61 +331,61 @@ function isMobileAndTablet() {
     return check;
 }
 
-function validParamsUrl(param){
-    if(param != "NaN"){
-        return true;  
-    }else{
-        return false;
-    }
-}
-
-function validParamsUrlBig(param){
-    if(param != "NaN_NaN"){
-        return true;  
-    }else{
-        return false;
-    }
-}
-
-function validParamsUrlDouble(param1, param2){
-    if(param1 != "NaN" || param2 != "NaN"){
+function validParamsUrl(param) {
+    if (param != "NaN") {
         return true;
-    }else{
-        return false;    
+    } else {
+        return false;
     }
 }
 
-function clearParamsUrl(params){
-    if(params.length == 1){
+function validParamsUrlBig(param) {
+    if (param != "NaN_NaN") {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function validParamsUrlDouble(param1, param2) {
+    if (param1 != "NaN" || param2 != "NaN") {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function clearParamsUrl(params) {
+    if (params.length == 1) {
         return "";
     }
-    if(params.substr(-1) == "&"){
-        return params.substr(0, (params.length-1));
+    if (params.substr(-1) == "&") {
+        return params.substr(0, (params.length - 1));
     }
     return params;
 }
 
-function createParamsUrl_V1(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text){
+function createParamsUrl_V1(idCategoria, categoria, idEtiqueta, etiqueta, idDepartamento, idCiudad, text) {
     let params = "?";
 
-    if(validParamsUrlDouble(idCategoria, categoria)){
+    if (validParamsUrlDouble(idCategoria, categoria)) {
         params += 'categ=' + categoria + '_' + idCategoria + '&';
     }
 
-    if(validParamsUrlDouble(idEtiqueta, etiqueta)){
-        params += 'etiq=' + etiqueta + '_' + idEtiqueta + '&';   
+    if (validParamsUrlDouble(idEtiqueta, etiqueta)) {
+        params += 'etiq=' + etiqueta + '_' + idEtiqueta + '&';
     }
 
-    if(validParamsUrl(idDepartamento)){
-        params += 'state=' + idDepartamento + '&';      
+    if (validParamsUrl(idDepartamento)) {
+        params += 'state=' + idDepartamento + '&';
     }
 
-    if(validParamsUrl(idCiudad)){
-        params += 'city=' + idCiudad + '&';      
+    if (validParamsUrl(idCiudad)) {
+        params += 'city=' + idCiudad + '&';
     }
 
-    if(validParamsUrl(text)){
-        params += 'text=' + text + '&';      
+    if (validParamsUrl(text)) {
+        params += 'text=' + text + '&';
     }
 
     params = clearParamsUrl(params);
@@ -372,27 +393,27 @@ function createParamsUrl_V1(idCategoria, categoria, idEtiqueta, etiqueta, idDepa
     return params;
 }
 
-function createParamsUrl_V2(categ, etiq, state, city, text){
+function createParamsUrl_V2(categ, etiq, state, city, text) {
     let params = "?";
 
-    if(validParamsUrlBig(categ)){
+    if (validParamsUrlBig(categ)) {
         params += 'categ=' + categ + '&';
     }
 
-    if(validParamsUrlBig(etiq)){
-        params += 'etiq=' + etiq + '&';   
+    if (validParamsUrlBig(etiq)) {
+        params += 'etiq=' + etiq + '&';
     }
 
-    if(validParamsUrl(state)){
-        params += 'state=' + state + '&';      
+    if (validParamsUrl(state)) {
+        params += 'state=' + state + '&';
     }
 
-    if(validParamsUrl(city)){
-        params += 'city=' + city + '&';      
+    if (validParamsUrl(city)) {
+        params += 'city=' + city + '&';
     }
 
-    if(validParamsUrl(text)){
-        params += 'text=' + text + '&';      
+    if (validParamsUrl(text)) {
+        params += 'text=' + text + '&';
     }
 
     params = clearParamsUrl(params);
@@ -400,8 +421,8 @@ function createParamsUrl_V2(categ, etiq, state, city, text){
     return params;
 }
 
-function createEmail_Template(title, email, body){
-    let msg = '<div style="text-align: center; margin-top: 50px;"><img src="https://raw.githubusercontent.com/edsnchz/DON/master/images/logo.png" alt="Don Eroticos" title="Don Eroticos" style="height:80px"/><br><br><div>'+body+'</div></div><br><br>';
+function createEmail_Template(title, email, body) {
+    let msg = '<div style="text-align: center;">' + body + '</div><br>';
     Email.send({
         SecureToken: tokenEmails,
         To: email,
@@ -413,7 +434,7 @@ function createEmail_Template(title, email, body){
     );
 }
 
-function createEmail(title, email, body){
+function createEmail(title, email, body) {
     Email.send({
         SecureToken: tokenEmails,
         To: email,
@@ -425,13 +446,18 @@ function createEmail(title, email, body){
     );
 }
 
-function getElementUbication(res, name){
+function getElementUbication(res, name) {
     let rtn = null;
-    $.each(res, function(index, result) {
-        if(result.types[0] == name && result.types[1] == "political"){
+    $.each(res, function (index, result) {
+        if (result.types[0] == name && result.types[1] == "political") {
             rtn = result.short_name;
             return false;
         }
     });
     return reemplazarAcentos(rtn);
+}
+
+function toCapitalize(string){
+    let titulo = string.toLowerCase();
+    return titulo.charAt(0).toUpperCase() + titulo.slice(1);
 }

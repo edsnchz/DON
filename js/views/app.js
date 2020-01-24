@@ -45,6 +45,9 @@ $(function () {
                     $("#inpCategorias").append("<option value=" + value.id + ">" + value.nombre + "</option>");
                 });
             }
+        },
+        error: function (data){
+            toastr.error("Error al consultar las categorias, porfavor intente nuevamente");
         }
     });
 
@@ -59,6 +62,9 @@ $(function () {
                     $("#inpDepartamentos").append("<option value=" + value.id + ">" + value.nombre + "</option>");
                 });
             }
+        },
+        error: function (data){
+            toastr.error("Error al consultar los departamentos, porfavor intente nuevamente");
         }
     });
 
@@ -118,6 +124,9 @@ $(function () {
                     });
                     renderCategoria();
                 }
+            },
+            error: function (data){
+                toastr.error("Error al cargar las etiquetas, porfavor intente nuevamente");
             }
         });
     }
@@ -187,32 +196,6 @@ $(function () {
     }
 
     AjaxLoadEtiquetas();
-
-
-    $("#btnCloseInfoWindows").click(function(){
-        $("#divInfoWindows").addClass("moveOut");
-    });
-
-
-    if(localStorage.getItem('sawAlertsInfo') == null){
-
-        setTimeout(function () {
-            $('#modal18year').modal();
-        }, 2000);
-
-    }
-
-    $("#btnAcept18year").click(function(){
-        $('#modal18year').modal("hide");
-
-        setTimeout(function () {
-            $("#divInfoWindows").addClass("move");
-        }, 1000);
-
-        localStorage.setItem('sawAlertsInfo', true);
-        
-    });
-
     
 
 });

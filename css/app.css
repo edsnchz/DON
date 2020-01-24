@@ -202,6 +202,10 @@ footer.footer {
 
 /* COMIENZO ESTILOS PROPIOS */
 
+.paddingTop0px {
+  padding-top: 0px !important;
+}
+
 .paddingLaterales20px {
   padding-left: 20px !important;
   padding-right: 20px !important;
@@ -217,6 +221,13 @@ footer.footer {
   padding-right: 90px !important;
 }
 
+.paddingLaterales120px {
+  padding-left: 120px !important;
+  padding-right: 120px !important;
+}
+.paddingLeft0px {
+  padding-left: 0px !important;
+}
 .paddingLeft7px {
   padding-left: 7px !important;
 }
@@ -292,6 +303,10 @@ footer.footer {
   padding: 30px !important;
 }
 
+.padding35px{
+  padding: 35px !important;
+}
+
 .padding18px{
   padding: 18px !important;
 }
@@ -314,6 +329,18 @@ footer.footer {
 
 .paddinginferior0{
   padding-bottom: 0% !important;
+}
+
+.paddinginferior5px{
+  padding-bottom: 5px !important;
+}
+
+.paddinginferior10px{
+  padding-bottom: 10px !important;
+}
+
+.paddinginferior3rem{
+  padding-bottom: 3rem !important;
 }
 
 .paddingSuperior10px{
@@ -401,11 +428,21 @@ footer.footer {
   height: 60px !important;
 }
 
+.height90px {
+  height: 90px !important;
+}
+
 .height120px {
   height: 120px !important;
 }
 
+.height300px {
+  height: 300px !important;
+}
 
+.minHeight300px {
+  min-height: 300px !important;
+}
 
 .textRight {
   text-align: right;
@@ -557,6 +594,10 @@ footer.footer {
   color: #ce93d8 !important;
 }
 
+.colorGrisMenosClaro {
+  color: #777 !important;
+}
+
 .colorGrisClaro {
   color: #999999 !important;
 }
@@ -581,9 +622,16 @@ color: #bebebe;
   border-right: none;
   border-left: none;
 }
+.borderSolid2pxBlue {
+  border: 2px solid #007bff;
+}
 
 .borderSolid1pxPink {
   border: solid 1px #C501FE;
+}
+
+.borderSolid1pxGray {
+  border: solid 1px #999;
 }
 
 .borderBottomSolid1pxGray {
@@ -591,7 +639,7 @@ color: #bebebe;
 }
 
 .borderBottomSolid1pxGrayClaro {
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid #d6d6d6;
 }
 
 .borderRightSolid1pxGray {
@@ -631,12 +679,20 @@ color: #bebebe;
   width: 75% !important;
 }
 
+.width85porciento {
+  width: 85% !important;
+}
+
 .width95porciento {
   width: 95% !important;
 }
 
 .width20porciento {
   width: 20% !important;
+}
+
+.width15porciento {
+  width: 15% !important;
 }
 
 .height100porciento {
@@ -752,6 +808,10 @@ color: #bebebe;
   margin-top: 30px !important;
 }
 
+.margin_top_40px {
+  margin-top: 40px !important;
+}
+
 .margin_top_big {
   margin-top: 70pt !important;
 }
@@ -779,6 +839,11 @@ color: #bebebe;
 .margin_laterales_0px{
   margin-right: 0px;
   margin-left: 0px;
+}
+
+.margin_laterales_10px{
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .margin_right_masSmall{
@@ -882,6 +947,22 @@ color: #bebebe;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
+.sombraMediana {
+  -webkit-box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.1);
+}
+
+.btn-red{
+  font-size: 12px !important;
+  border-radius: 0px !important;
+}
+
+.btn-light{
+  font-size: 12px !important;
+  border-radius: 0px !important;
+}
+
 .btnComprarCreditos{
   border: solid 1px #ce93d8
 }
@@ -894,6 +975,14 @@ color: #bebebe;
   border-radius: 10pt;
 }
 
+.borderRadius20pt {
+  border-radius: 20pt !important;
+}
+
+.borderRadius60px {
+  border-radius: 20px;
+}
+
 .borderRadius0px {
   border-radius: 0px !important;
 }
@@ -904,6 +993,10 @@ color: #bebebe;
 
 .hoverColorWhite:hover {
   color: white;
+}
+
+.hoverColorgray:hover {
+  color: gray;
 }
 
 .hovergreenClaro:hover {
@@ -1522,7 +1615,7 @@ input[type="checkbox"].checkStyle:checked:after{
 
 hr.styleHR { 
   border: 0; 
-  height: 1px; 
+  height: 2px; 
   background-image: -webkit-linear-gradient(left, #f0f0f0, #C80FFE, #f0f0f0);
   background-image: -moz-linear-gradient(left, #f0f0f0, #C80FFE, #f0f0f0);
   background-image: -ms-linear-gradient(left, #f0f0f0, #C80FFE, #f0f0f0);
@@ -1588,10 +1681,21 @@ hr.styleHR {
 
 .iconDeleteMisFotos{
   position: absolute;
-  top: 35%;
-  left: 40%;
-  font-size: 30px;
+  font-size: 35px;
   color: white;
+}
+
+.iconSelectDeleteMisFotos{
+  position: absolute;
+  top: 3px;
+  right: 6px;
+}
+
+.iconSelectDeleteMisFotos_2{
+  position: absolute;
+  top: 6px;
+  right: 4.5px;
+  font-size: 20px !important;
 }
 
 .filterBlur1pxToimg img{
@@ -1721,6 +1825,9 @@ a.nav-link.active {
   .padding0Movil{
     padding: 0px !important;
   }
+  .width50porcientoMovil{
+    width: 50% !important;
+  }
   .width70porcientoMovil{
     width: 70% !important;
   }
@@ -1780,6 +1887,13 @@ a.nav-link.active {
     padding-left: 30px !important;
     padding-right: 30px !important;
   }
+  .paddingLaterales15pxMovil {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+  .width50porcientoMovil {
+    width: 50% !important;
+  }
   .displayNoneMovil {
     display: none;
   }
@@ -1797,6 +1911,10 @@ a.nav-link.active {
   }
   .borderLeftSolid3pxPinkMovil{
     border-left: 3px solid rgba(197, 1, 254, 1) !important;  
+  }
+  .borderLeftandBottomSolid1pxGrisClaroMovil{
+    border-left: 1px solid #d6d6d6 !important;  
+    border-bottom: 1px solid #d6d6d6 !important;
   }
   .height200pxMovil{
     height: 200px !important;
@@ -1967,7 +2085,7 @@ a.nav-link.active {
   justify-content: center;
   min-height: 100vh;
   background-color: #ededed40;
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 1000;
@@ -2026,6 +2144,16 @@ a.nav-link.active {
   background: #C501FE !important;
 }
 
+.navActiveGray{
+  font-size: 14px;
+  padding: 15px;
+  text-align: center;
+}
+
+.navActiveGray.active{
+  background: #c6c6c6 !important;
+}
+
 .iStyleNav{
   position: absolute;
   left: 30px;
@@ -2072,19 +2200,57 @@ a.nav-link.active {
 .divLbls18year{
   z-index: 100000 !important;
   position: absolute;
-  right: 0px;
-  width: 55%;
-  top: 45%;
+  right: 50px;
+  width: 40%;
+  height: 300px;
+  top: 50px;
   background: white;
   padding: 22px 30px;
-  border-radius: 10px 0px 0px 10px;
+  /* border-radius: 0px 0px 0px 0px; */
+}
+
+.buttonSalir18{
+    background-color: #d6d6d6 !important;
+    outline: none;
+    color: #444;
+    font-size: 12px;
+    height: 35px;
+    font-weight: 600 !important;
+    padding: 0;
+    text-transform: uppercase;
+    border: none !important;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+    width: 100%; 
+    bottom: 80px;
+}
+
+.buttonSalir18:hover,
+.buttonSalir18:focus {
+    color: #444 !important;
+    background-color: #c6c6c6 !important;
 }
 
 .buttonAcept18year{
-  margin-left: 30px; 
-  width: 50px; 
-  padding: 0px; 
-  height: 30px;
+    background-color: #C501FE !important;
+    outline: none;
+    color: #fff;
+    font-size: 12px;
+    height: 35px;
+    font-weight: 600 !important;
+    padding: 0;
+    text-transform: uppercase;
+    border: none !important;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+    width: 100%; 
+    bottom: 30px;
+}
+
+.buttonAcept18year:hover,
+.buttonAcept18year:focus {
+    color: #fff !important;
+    background-color: #b804ef !important;
 }
 
 @media (max-width: 800px){
@@ -2096,11 +2262,15 @@ a.nav-link.active {
     top: 0%;
     background: white;
     padding: 22px 30px;
-    border-radius: 10px !important;
-    border: 3px solid #C501FE !important;
+    /* border-radius: 10px !important; */
+    /* border: 3px solid #C501FE !important; */
   }
 }
 
 .colorGold{
   color: #FFC107;
+}
+
+.card-columns .card{
+  display: block;
 }

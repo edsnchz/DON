@@ -282,7 +282,7 @@ class c_general extends CI_Controller {
       $response = json_decode($response);
       $data = $response->data;
       
-      $this->layout->setTitle("Respuesta Pago - doneróticos.com");
+      $this->layout->setTitle("Respuesta Pago - doneroticos.com");
       $this->layout->js(Array(base_url()."js/views/respuestaPago.js"));
       $this->layout->css(Array("https://fonts.googleapis.com/css?family=Lobster&display=swap"));
       
@@ -319,8 +319,8 @@ class c_general extends CI_Controller {
 
 
     private function pageResponseSuccess(){
-        $dataParams["msgTitulo"] = "Transacción procesada <br> satisfactoriamente";
-        $dataParams["msgSubTitulo"] = "En breves instantes recibirás una confirmación vía correo electrónico <br> y tus créditos se verán reflejados en unos minutos.";
+        $dataParams["msgTitulo"] = "Transacción <strong>correcta</strong>";
+        $dataParams["msgSubTitulo"] = "Una vez procesada recibirás una confirmación vía correo electrónico <br> y tus créditos se verán reflejados después de unos minutos.";
         $dataParams["icon"] = "<span class='oi oi-check classIconCheck'></span>";
 
         $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
@@ -328,8 +328,8 @@ class c_general extends CI_Controller {
     }
 
     private function pageResponseSuccessEspera(){
-        $dataParams["msgTitulo"] = "Transacción procesada <br> satisfactoriamente";
-        $dataParams["msgSubTitulo"] = "Realiza el pago en el menor tiempo posible para ver reflejada la compra!";
+        $dataParams["msgTitulo"] = "Transacción <strong>pendiente</strong>";
+        $dataParams["msgSubTitulo"] = "Una vez procesada recibirás una confirmación vía correo electrónico <br> y tus créditos se verán reflejados después de unos minutos.";
         $dataParams["icon"] = "<span class='oi oi-clock classIconCheck'></span>";
 
         $dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true;  
@@ -337,7 +337,7 @@ class c_general extends CI_Controller {
     }
 
     private function pageResponseError(){
-        $dataParams["msgTitulo"] = "Transacción <br> fallida";
+        $dataParams["msgTitulo"] = "Transacción <strong>fallida</strong>";
         $dataParams["msgSubTitulo"] = "Verifique los datos ingresados e intente nuevamente";
         $dataParams["icon"] = "<span class='oi oi-x classIconX'></span>";
 

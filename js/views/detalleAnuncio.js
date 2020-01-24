@@ -33,7 +33,7 @@ $(function () {
         }
     });
     owl.on('mousewheel', '.owl-stage', function (e) {
-        if (e.deltaY>0) {
+        if (e.deltaY > 0) {
             owl.trigger('next.owl');
         } else {
             owl.trigger('prev.owl');
@@ -52,6 +52,9 @@ $(function () {
                     $("#inpDepartamentos").append("<option value=" + value.id + ">" + value.nombre + "</option>");
                 });
             }
+        },
+        error: function (data){
+            toastr.error("Error al consultar los departamentos, porfavor intente nuevamente");
         }
     });
 
@@ -66,6 +69,9 @@ $(function () {
                     $("#inpCategorias").append("<option value=" + value.id + ">" + value.nombre + "</option>");
                 });
             }
+        },
+        error: function (data){
+            toastr.error("Error al consultar las categorias, porfavor intente nuevamente");
         }
     });
 
@@ -98,43 +104,49 @@ $(function () {
                         $("#divMotivosDenuncia").append('<div class="input-group paddingSuperiorInferior5px"><div class="input-group-prepend outlineNone"><div class="input-group-text"><input type="radio" name="inpRConceptoDenuncia" data-id="' + value.id + '"></div></div><input type="text" class="form-control outlineNone fontFamilyRoboto fontSize14px" readonly value="' + value.nombre + '"></div>');
                     });
                 }
+            },
+            error: function (data){
+                toastr.error("Error al consultar los conceptos de denuncias, porfavor intente nuevamente");
             }
         });
     }
 
-    function AjaxCreateDatosCarousel(idCategoria, idDepartamento){
-        for (var i=0; i<$('.item').length; i++) {
-           owl.trigger('remove.owl.carousel', [i]).trigger('refresh.owl.carousel');
+    function AjaxCreateDatosCarousel(idCategoria, idDepartamento) {
+        for (var i = 0; i < $('.item').length; i++) {
+            owl.trigger('remove.owl.carousel', [i]).trigger('refresh.owl.carousel');
         }
-       
+
         $.ajax({
             url: '../c_general/getAnunciosCarousel',
             type: 'POST',
             dataType: "json",
-            data: {idCategoria: idCategoria, idDepartamento: idDepartamento},
+            data: { idCategoria: idCategoria, idDepartamento: idDepartamento },
             success: function (data) {
                 if (data.resultado == true) {
                     let datos = data.data;
-                    if(datos.length == 0){
+                    if (datos.length == 0) {
                         owl.trigger('add.owl.carousel', [createItemCarouselVacioPlatino(), 0]).trigger('refresh.owl.carousel');
-                    }else{
+                    } else {
                         let count = 0;
                         $.each(datos, function (key, value) {
-                            let div = (value.url==null||value.url=="")?createItemCarouselVacioPlatino():createItemCarouselPlatino(value.id, value.url);
+                            let div = (value.url == null || value.url == "") ? createItemCarouselVacioPlatino() : createItemCarouselPlatino(value.id, value.url);
                             owl.trigger('add.owl.carousel', [div, count]).trigger('refresh.owl.carousel');
-                            count ++;
-                        });    
+                            count++;
+                        });
                     }
                 }
+            },
+            error: function (data){
+                toastr.error("Error al cargar el carousel, porfavor intente nuevamente");
             }
         });
     }
 
-    function createItemCarouselPlatino(id, url){
-        return '<div class="item itemCarousel backgroundGrayDos sombraPequeña cursorPointer" data-id="'+id+'"><img src="../../uploads/anuncios/'+url+'" class="imgItemCarousel sombraPequeña"></div>';
+    function createItemCarouselPlatino(id, url) {
+        return '<div class="item itemCarousel backgroundGrayDos sombraPequeña cursorPointer" data-id="' + id + '"><img src="../../uploads/anuncios/' + url + '" class="imgItemCarousel sombraPequeña"></div>';
     }
 
-    function createItemCarouselVacioPlatino(){
+    function createItemCarouselVacioPlatino() {
         return '<div class="item itemCarousel backgroundGrayDos sombraPequeña padding18px"><img src="../../images/camera.svg" class="imgItemCarouselDefault"></div>';
     }
 
@@ -151,6 +163,9 @@ $(function () {
                 } else {
                     toastr.error(data.message);
                 }
+            },
+            error: function (data){
+                toastr.error("Error al agregar denuncia, porfavor intente nuevamente");
             }
         });
     }
@@ -170,6 +185,9 @@ $(function () {
                 } else {
                     toastr.error(data.message);
                 }
+            },
+            error: function (data){
+                toastr.error("Error al enviar el mensaje, porfavor intente nuevamente");
             }
         });
     }
@@ -213,6 +231,9 @@ $(function () {
                     }
                 });
             }
+        },
+        error: function (data){
+            toastr.error("Error al cargar la auditoria, porfavor intente nuevamente");
         }
     });
 
@@ -253,6 +274,9 @@ $(function () {
 
                 createChart(dias, objs);
             }
+        },
+        error: function (data){
+            toastr.error("Error al consultar, porfavor intente nuevamente");
         }
     });
 
@@ -305,7 +329,7 @@ $(function () {
                     $("#eMapDepartamento").text($("#inpDepartamentos option:selected").text());
                     $("#eMapCategoria").text(data[0].categoria);
 
-                    document.title = (data[0].titulo.substring(0, 60))+"...";
+                    document.title = (data[0].titulo.substring(0, 60)) + "...";
 
                     AjaxCreateDatosCarousel(data[0].id_categoria, data[0].id_departamento);
 
@@ -322,23 +346,26 @@ $(function () {
                         var spanWhat;
                         var spanCall;
                         if (value.opcion_1_wp == 1) {
-                            spanWhat = '<span class="btnWhats input-group-text whatActive cursorPointer" title="Enviar WhatsApp" data-celular=' + value.celular + '><i class="fab fa-whatsapp"></i></span>';
+                            spanWhat = '<span class="borderRadius0px btnWhats input-group-text whatActive cursorPointer" title="Enviar WhatsApp" data-celular=' + value.celular + '><i class="fab fa-whatsapp"></i></span>';
                         } else {
-                            spanWhat = '<span class="btnWhats input-group-text optionsNumberInactive"><i class="fab fa-whatsapp"></i></span>';
+                            spanWhat = '<span class="borderRadius0px btnWhats input-group-text optionsNumberInactive"><i class="fab fa-whatsapp"></i></span>';
                         }
                         if (value.opcion_2_call == 1) {
-                            spanCall = '<span class="btnCalls input-group-text phoneActive cursorPointer" title="Llamar" data-celular=' + value.celular + '><i class="fas fa-phone"></i></span>';
+                            spanCall = '<span class="borderRadius0px btnCalls input-group-text phoneActive cursorPointer" title="Llamar" data-celular=' + value.celular + '><i class="fas fa-phone"></i></span>';
                         } else {
-                            spanCall = '<span class="btnCalls input-group-text optionsNumberInactive"><i class="fas fa-phone"></i></span>';
+                            spanCall = '<span class="borderRadius0px btnCalls input-group-text optionsNumberInactive"><i class="fas fa-phone"></i></span>';
                         }
-                        $("#divCelulares").append('<div class="input-group margin_top_medium"><input type="number" class="btn-link colorGrisOscuro form-control text-center fontSize17px fontBold backgroudWhite inptsCelulares cursorPointer" title="Buscar anuncios con este numero" readonly value="' + value.celular + '"><div class="input-group-append">' + spanWhat + spanCall + '</div></div>');
+                        $("#divCelulares").append('<div class="input-group margin_top_medium"><input type="number" class="borderRadius0px btn-link colorGrisOscuro form-control text-center fontSize17px fontWeight600 backgroudWhite inptsCelulares cursorPointer" title="Buscar anuncios con este numero" readonly value="' + value.celular + '"><div class="input-group-append">' + spanWhat + spanCall + '</div></div>');
                     });
                     // SET CONDICIONES
                     $.each(data["condiciones"], function (index, value) {
-                        $("#divCondiciones").append('<div class="row margin_top_medium backgroundGrayDos margin_laterales_0px"><div class="col-5 centradoVerticalHorizontal" style="border: 1px solid gray;"><div class="margin0 text-center fontFamilyRoboto fontSize14px colorGrisOscuro">' + value.precio + '</div></div><div class="col-7 text-center"><div class="row"><div class="col-12 text-center fontSize12px fontFamilyRoboto colorGrisOscuro borderBottomSolid1pxGray">' + value.tiempo + '</div><div class="col-12 text-center fontSize12px fontFamilyRoboto colorGrisOscuro">' + value.relaciones + '</div></div></div></div>');
+                        $("#divCondiciones").append('<div class="row margin_top_medium backgroundGrayDos margin_laterales_0px"><div class="col-5 centradoVerticalHorizontal" style="border: 1px solid gray;"><div class="margin0 text-center fontFamilyRoboto fontWeight600 fontSize14px colorGrisOscuro">' + value.precio + '</div></div><div class="col-7 text-center"><div class="row"><div class="col-12 text-center fontSize12px fontFamilyRoboto colorGrisOscuro borderBottomSolid1pxGray">' + value.tiempo + '</div><div class="col-12 text-center fontSize12px fontFamilyRoboto colorGrisOscuro">' + value.relaciones + '</div></div></div></div>');
                     });
 
                 }
+            },
+            error: function (data){
+                toastr.error("Error al consultar el anuncio, porfavor intente nuevamente");
             }
         });
     }
@@ -402,7 +429,7 @@ $(function () {
     $('body').on('click', '.btnWhats', function () {
         if (typeof $(this).data("celular") !== "undefined") {
             AjaxInsertAud(idAnuncio, "CLICK_WHAT");
-            window.open("https://wa.me/57" + $(this).data("celular") + "?text=Hola! vi tu anuncio en doneróticos.com");
+            window.open("https://wa.me/57" + $(this).data("celular") + "?text=Hola! vi tu anuncio en doneroticos.com");
         }
     });
 
@@ -428,11 +455,11 @@ $(function () {
     });
 
     $("#btnAceptarDenuncia").click(function () {
-        if(typeof $("input[name='inpRConceptoDenuncia']:checked").data("id") == "undefined"){
+        if (typeof $("input[name='inpRConceptoDenuncia']:checked").data("id") == "undefined") {
             toastr.warning("Debe escojer un motivo");
             return false;
         }
-        if($("#inpTextDenunciar").val().length < 10){
+        if ($("#inpTextDenunciar").val().length < 10) {
             toastr.warning("Ingrese minimo 10 caracteres");
             return false;
         }

@@ -8,7 +8,7 @@
     <meta name="description" content="PAGINA NO ENCONTRADA">
     <meta name="author" content="DON">
 
-    <title>Pagina no encontrada - doneróticos.com</title>
+    <title>Pagina no encontrada - doneroticos.com</title>
 
     <link rel="stylesheet" href="../../css/pageNotFound.css">
 
@@ -17,13 +17,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
     <script type="text/javascript">
-        function goHome() {
-            window.location.href = "https://doneroticos.com";
-        }
+    function goHome() {
+        window.location.href = "https://doneroticos.com";
+    }
 
-        function goBack(){
-            window.history.back();
-        }
+    function goBack() {
+        window.history.back();
+    }
     </script>
 </head>
 
@@ -35,7 +35,7 @@
                 <!--<i class="fa fa-exclamation-circle iconExclamation"></i>-->
                 <h1 class="tituloPage animated bounceInDown">404</h1>
                 <h1 class="subTituloPage animated fadeIn">Página no encontrada</h1>
-                <p class="textPage animated fadeIn">No se pudo encontrar la página solicitada: 
+                <p class="textPage animated fadeIn">No se pudo encontrar la página solicitada:
                     esto <br>podría ser un error de ortografía o una página eliminada.</p>
             </div>
         </div>

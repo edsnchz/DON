@@ -23,11 +23,11 @@ $(function () {
     });
 
     function sendEmail(email, token) {
-    	createEmail_Template("CONFIRMACION DE CORREO - DON EROTICOS", email, '<h1 style="color: #656565; font-family: inherit; font-size: 18px">Bienvenido a un mundo de fantasias y placeres! Confirmanos que eres tu ;)</h1><br><br><a style="padding:20px; background: #b804ef; border:none; border-radius: 15pt; box-shadow: -1px 9px 21px -10px rgba(0,0,0,0.51); color: white; font-size: 25px; text-decoration: none; margin-top: 20px" href="https://doneroticos.com/c_app/validEmail?idxt=' + token + '" target="_blank">Confirmar correo</a>');
+        createEmail_Template("Confirmacion de Correo - doneróticos", email, '<p>Hola,<br>Te damos la bienvenida a <b>doneróticos!</b><br>Utiliza el siguiente link para confirmar tu correo electrónico.</p><br><a style="padding:15px; background: #b804ef; border:none; border-radius: 0; box-shadow: -1px 9px 21px -10px rgba(0,0,0,0.51); color: white; font-size: 17px; text-decoration: none; margin-top: 20px" href="https://doneroticos.com/c_app/validEmail?idxt=' + token + '" target="_blank">Confirmar correo</a>');
     }
 
     function sendEmailPass(email, pass) {
-    	createEmail_Template("NUEVA CONTRASEÑA - DON EROTICOS", email, '<h1 style="color: #656565; font-family: inherit; font-size: 18px">Esta es tu nueva contraseña, guardala bien ;) <br><br> Puedes cambiarla cuando quieras en Opciones de Perfil</h1><br><br><label style="padding:20px; background: #b804ef; border:none; border-radius: 15pt; box-shadow: -1px 9px 21px -10px rgba(0,0,0,0.51); color: white; font-size: 25px; text-decoration: none; margin-top: 20px">'+pass+'</label>');
+        createEmail_Template("Nueva Contraseña - doneróticos", email, '<h1 style="color: #656565; font-family: inherit; font-size: 18px">Esta es tu nueva contraseña de acceso, <br><br> Puedes cambiarla desde el Panel de Usuario</h1><br><br><label style="padding:20px; background: #b804ef; border:none; border-radius: 15pt; box-shadow: -1px 9px 21px -10px rgba(0,0,0,0.51); color: white; font-size: 25px; text-decoration: none; margin-top: 20px">' + pass + '</label>');
     }
 
     function login(correo, pass, remenber) {
@@ -44,20 +44,20 @@ $(function () {
                 });
             } else {
 
-                if(remenber){
-                    var encrypted = String(CryptoJS.AES.encrypt((correo+"&"+pass), "userAccess"));
-                    localStorage.setItem('userAccess', encrypted);     
-                }else{
-                    localStorage.removeItem('userAccess');     
+                if (remenber) {
+                    var encrypted = String(CryptoJS.AES.encrypt((correo + "&" + pass), "userAccess"));
+                    localStorage.setItem('userAccess', encrypted);
+                } else {
+                    localStorage.removeItem('userAccess');
                 }
 
                 localStorage.setItem('userLogin', true);
 
                 let url = localStorage.getItem("urlBeforeLogin");
                 localStorage.removeItem("urlBeforeLogin");
-                if(url == "" || typeof url == "undefined" || url == null){
-                    $(location).attr('href', urlProyectShort()); 
-                }else{
+                if (url == "" || typeof url == "undefined" || url == null) {
+                    $(location).attr('href', urlProyectShort());
+                } else {
                     $(location).attr('href', urlProyect() + url);
                 }
 
@@ -117,14 +117,14 @@ $(function () {
     });
 
     $("#inpPass").on('keyup', function (e) {
-	    if (e.keyCode === 13) {
-	        login($("#inpCorreo").val(), $("#inpPass").val(), $("#remenberCheck").prop("checked"));
-	    }
-	});
+        if (e.keyCode === 13) {
+            login($("#inpCorreo").val(), $("#inpPass").val(), $("#remenberCheck").prop("checked"));
+        }
+    });
 
 
-    $(".imgLogin").click(function(){
-        $(location).attr('href', urlProyectShort()); 
+    $(".imgLogin").click(function () {
+        $(location).attr('href', urlProyectShort());
     });
 
     $('#btnRegistro').click(function () {
@@ -144,19 +144,19 @@ $(function () {
     });
 
 
-    $('body').on('click', '.btnOlvidarPass', function () {  
+    $('body').on('click', '.btnOlvidarPass', function () {
         olvidarPass();
     });
 
-    async function olvidarPass(){
+    async function olvidarPass() {
         const { value: email } = await Swal.fire({
-          title: 'Digite el correo electronico',
-          input: 'email',
-          inputPlaceholder: ''
+            title: 'Digite el correo electrónico',
+            input: 'email',
+            inputPlaceholder: ''
         })
         if (email) {
-          let number = generateRandomNumber();
-          newPass(email, number);
+            let number = generateRandomNumber();
+            newPass(email, number);
         }
     }
 

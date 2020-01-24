@@ -68,7 +68,7 @@ $(function () {
         url: '../c_general/getDepartamentos',
         type: 'POST',
         dataType: "json",
-       // async: false,
+        async: false,
         success: function (data) {
             if (data.resultado == true) {
                 $.each(data.data, function (key, value) {
@@ -79,6 +79,9 @@ $(function () {
             AjaxLoadCiudades($('#inpDepartamentos').val());
             $("#eMapDepartamento").text($("#inpDepartamentos option:selected").text());
             AjaxLoadCategorias();
+        },
+        error: function (data){
+            toastr.error("Error al consultar los departamentos, porfavor intente nuevamente");
         }
     });
 
@@ -96,6 +99,9 @@ $(function () {
                     });
                 }
                 $("#inpCategorias").val(categorias[1]);
+            },
+            error: function (data){
+                toastr.error("Error al consultar las categorias, porfavor intente nuevamente");
             }
         });
     }
@@ -108,7 +114,7 @@ $(function () {
             type: 'POST',
             dataType: "json",
             data: { idDepartamento: id },
-          //  async: false,
+            async: false,
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
@@ -148,6 +154,9 @@ $(function () {
                         });    
                     }
                 }
+            },
+            error: function (data){
+                toastr.error("Error al cargar el carousel, porfavor intente nuevamente");
             }
         });
     }
@@ -173,6 +182,9 @@ $(function () {
                         $("#tagCloud").append('<span class="badge badge-pill etiquetasNube cursorPointer itemTag fontFamilyRoboto" data-id="' + value.id + '">' + value.nombre + '</span>');
                     });
                 }
+            },
+            error: function (data){
+                toastr.error("Error crear las etiquetas, porfavor intente nuevamente");
             }
         });
     }
@@ -198,6 +210,10 @@ $(function () {
                     crearMatrizAnuncios(dataResponse);
                     createPagination(numPages);
                 }
+            },
+            error: function (data){
+                toastr.error("Error al consultar los anuncios, porfavor intente nuevamente");
+                loading.hide();
             },
             complete: function(data){
                 loading.hide();
@@ -256,7 +272,7 @@ $(function () {
                 classPackDestacado = "backgroundPinkAnuncios"
             }
 
-            $("#myBricklayer").append('<div class="card sombra margin5px marginSuperior13px cardAnuncio '+classPackDestacado+'"><div style= "height: 150px" >' + stringImagenes + stringCategoria + stringTop + stringCountImgs + stringCityAnuncio + '</div> <div class="card-block"><h4 class="card-title cursorPointer padding10px margin0 paddinginferior0 selectAnuncio fontWeight900" data-id=' + value.id + '><a href="' + urlProyect() + 'anuncio?id=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + value.titulo + '</a></h4><div class="card-text padding10px fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 80) ? value.descripcion.substring(0, 80) + "..." : value.descripcion) + '</div>' + ((countEtiquetas>0)?stringEtiquetas + "<br><br>":"") + '</div></div>');
+            $("#myBricklayer").append('<div class="card sombra margin5px marginSuperior13px cardAnuncio '+classPackDestacado+'"><div style= "height: 150px" >' + stringImagenes + stringCategoria + stringTop + stringCountImgs + stringCityAnuncio + '</div> <div class="card-block"><h4 class="card-title cursorPointer padding10px margin0 paddinginferior0 selectAnuncio fontWeight900" data-id=' + value.id + '><a href="' + urlProyect() + 'anuncio?id=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + value.titulo + '</a></h4><div class="card-text padding10px fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 80) ? value.descripcion.substring(0, 80).toLowerCase() + "..." : value.descripcion.toLowerCase()) + '</div>' + ((countEtiquetas>0)?stringEtiquetas + "<br><br>":"") + '</div></div>');
 
         });
 
@@ -283,6 +299,10 @@ $(function () {
                     crearMatrizAnuncios(dataResponse);
                     createPagination(numPages);
                 }
+            },
+            error: function (data){
+                toastr.error("Error al consultar los anuncios, porfavor intente nuevamente");
+                loading.hide();
             },
             complete: function(data){
                 loading.hide();
@@ -344,7 +364,7 @@ $(function () {
                 classPackDestacado = "backgroundPinkAnuncios"
             }
 
-            $("#divCuadricula").append('<div class="row backgroundGray margin_top_medium"><div class="col-sm-12"><div class="container-fluid '+classPackDestacado+'"><div class="row row-eq-height sombra cardAnuncio"><div class="col-4 col-sm-3 padding0">' + stringImagenes + stringCategoria + stringTop + stringCountImgs + '</div><div class="'+((countEtiquetas>0)?('col-8 col-sm-7'):('col-8 col-sm-9'))+' paddingSuperior15px paddingLaterales20px"><h5 class="cursorPointer selectAnuncio fontWeight900" data-id=' + value.id + '><a href="' + urlProyect() + 'anuncio?id=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + ((value.titulo.length > 100) ? value.titulo.substring(0, 100) + "..." : value.titulo) + '</a></h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px marginBottom22pxMovil margin_bottom_30px">' + ((value.descripcion.length > 90) ? value.descripcion.substring(0, ((countEtiquetas>0)?90:200)) + "..." : value.descripcion) + stringCityAnuncio + '</p></div>'+divStringEtiquetas+'</div></div></div></div>');
+            $("#divCuadricula").append('<div class="row backgroundGray margin_top_medium"><div class="col-sm-12"><div class="container-fluid '+classPackDestacado+'"><div class="row row-eq-height sombra cardAnuncio"><div class="col-4 col-sm-3 padding0">' + stringImagenes + stringCategoria + stringTop + stringCountImgs + '</div><div class="'+((countEtiquetas>0)?('col-8 col-sm-7'):('col-8 col-sm-9'))+' paddingSuperior15px paddingLaterales20px"><h5 class="cursorPointer selectAnuncio fontWeight900" data-id=' + value.id + '><a href="' + urlProyect() + 'anuncio?id=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + ((value.titulo.length > 100) ? value.titulo.substring(0, 100) + "..." : value.titulo) + '</a></h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px marginBottom22pxMovil margin_bottom_30px">' + ((value.descripcion.length > 90) ? value.descripcion.substring(0, ((countEtiquetas>0)?90:200)).toLowerCase() + "..." : value.descripcion.toLowerCase()) + stringCityAnuncio + '</p></div>'+divStringEtiquetas+'</div></div></div></div>');
 
         });
     }
@@ -564,7 +584,13 @@ $(function () {
         $(this).removeClass("inactivo");
         $(".btnViewList").addClass("inactivo");
         
-        createAnunciosCuadricula(anunciosByPage[$("#ulPaginado").twbsPagination('getCurrentPage')]);
+        let numPage = $("#ulPaginado").twbsPagination('getCurrentPage');
+
+        if(!Number.isInteger(numPage)){
+            numPage = 1;
+        }
+
+        createAnunciosCuadricula(anunciosByPage[numPage]);
 
         //createAnuncios(lastParams.categorias, lastParams.departamento, lastParams.ciudad, lastParams.etiqueta, lastParams.text, tipoGridView);
     });
@@ -575,7 +601,13 @@ $(function () {
         $(this).removeClass("inactivo");
         $(".btnViewTable").addClass("inactivo");
 
-        createAnunciosLista(anunciosByPage[$("#ulPaginado").twbsPagination('getCurrentPage')]);
+        let numPage = $("#ulPaginado").twbsPagination('getCurrentPage');
+
+        if(!Number.isInteger(numPage)){
+            numPage = 1;
+        }
+
+        createAnunciosLista(anunciosByPage[numPage]);
 
         //createAnuncios(lastParams.categorias, lastParams.departamento, lastParams.ciudad, lastParams.etiqueta, lastParams.text, tipoGridView);
     });
