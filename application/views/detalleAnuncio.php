@@ -6,9 +6,9 @@ var idAnuncio = "<?php echo $id ?>";
 
     <div class="container-fluid margin_top_small">
         <div class="row">
-            <div class="col-md-4 col-sm-6 col-12 mx-auto margin_top_small">
+            <div class="col-md-3 col-sm-6 col-12 mx-auto margin_top_small">
                 <input type="text" class="form-control searchStyle" id="inpTextBuscar"
-                    placeholder="Término de búsqueda (Opcional)">
+                    placeholder="Palabra clave">
             </div>
             <div class="col-md-3 col-sm-6 col-12 mx-auto margin_top_small">
                 <select class="form-control searchStyle" id="inpCategorias">
@@ -35,10 +35,10 @@ var idAnuncio = "<?php echo $id ?>";
                     </select>
                 </div>
             </div>
-            <div class="col-md-1 col-sm-12 col-xs-12 margin_top_small">
+            <div class="col-md-2 col-sm-12 col-xs-12 margin_top_small">
                 <button id="btnBuscar"
                     class="btn btn-secondary borderRadius0px height35px fontSize12px textUppercase fontWeight600 width100porciento"
-                    type="button">Buscar</button>
+                    type="button">Buscar / Ir</button>
             </div>
         </div>
     </div>
@@ -120,6 +120,15 @@ var idAnuncio = "<?php echo $id ?>";
                         data-toggle="modal" data-target="#modalDenunciar"><i
                             class="fas fa-exclamation-triangle"></i></button>
 
+                    <div
+                        class="BackgrounGreenTOP colorWhite text-center margin_top_medium paddingLaterales20px paddingSuperiorInferior20px">
+                        <label class="fontSize16px fontFamilyRoboto">Sube tu anuncio<br>a primera
+                            posición</label>
+                        <button
+                            class="width100porciento btn btn-success borderSolid1pxWhite borderRadius0px margin_top_small fontWeight600"
+                            id="btnTopFree">TOP GRATIS</button>
+                    </div>
+
                     <!-- <hr class="styleHR margin_top_30px"> -->
                     <div class="borderSolid1pxGray margin_top_30px padding5px borderRadius10pt">
                         <div class="row  borderBottomSolid1pxGray margin_laterales_0px">
@@ -200,15 +209,9 @@ var idAnuncio = "<?php echo $id ?>";
 
                 <label class="text-center margin_top_small fontFamilyRoboto fontSize12px colorGrisMenosOscuro">Puedes
                     ver las estadísticas completas de tus anuncios en el panel de usuario.</label>
-
             </div>
         </div>
     </div>
-
-
-
-
-
 
     <br><br><br>
 
@@ -274,6 +277,45 @@ var idAnuncio = "<?php echo $id ?>";
                     <button id="btnAceptarDenuncia" type="button"
                         class="btn btn-danger borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo"
                         data-dismiss="modal">Reportar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ********************************* -->
+
+    <div class="modal" id="modalTopFree" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content borderRadius0px">
+                <div class="modal-header">
+                    <h5
+                        class="modal-title textCenter fontSize14px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto">
+                        Sube tu anuncio gratis</h5>
+                    <button type="button" class="close outlineNone" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <h4 id="divAlertMaximoTopFree"
+                        class="text-center fontFamilyRoboto padding10px width100porciento btn-success colorWhite margin_bottom_10px displayNone margin_top_small">
+                        TOP GRATIS Activo.
+                    </h4>
+
+                    <p class="textCenter fontFamilyRoboto fontSize14px colorGrisClaro">Sube tu anuncio a las primeras
+                        posiciónes totalmente gratis. Tu anuncio rotará durante
+                        15 minutos en los primeros lugares.
+                    </p>
+
+                </div>
+                <div class="modal-footer centradoHorizontal">
+                    <div>
+                        <button id="btnAceptarTopFree" type="button"
+                            class="btn btn-primary borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo fontSizeBig paddingLaterales35px">Aceptar</button>
+                        <button type="button"
+                            class="btn btn-default borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo fontSizeBig"
+                            data-dismiss="modal">Cerrar</button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -101,7 +101,7 @@ class general extends CI_Model {
     
     public function db_get_celularesByUser($idUsuario) {
         $this->db->trans_start(); 
-		$result = $this->db->query('SELECT * FROM `celulares` WHERE idUsuario=?', array($idUsuario));
+		$result = $this->db->query('SELECT * FROM `celulares` WHERE idUsuario=? order by fecha_creacion', array($idUsuario));
 		$a = $result->result_array();
         $result->free_result();
         if ($this->db->_error_number()) {
@@ -122,7 +122,13 @@ class general extends CI_Model {
             return array("resultado" => false, "message" => "Este numero ya se encuentra registrado");
         }
 
-		$this->db->query('insert INTO celulares (idUsuario, celular, fecha_creacion, estado) VALUES(?,?,NOW(),1)', array($idUsuario, $number));
+        $resultValid2 = $this->db->query('SELECT * FROM `celulares` WHERE idUsuario=?', array($idUsuario));
+        $valid2 = $resultValid2->result_array();
+        $resultValid2->free_result();
+        
+        $isPrincipal = (count($valid2)==0)?1:0;
+
+		$this->db->query('insert INTO celulares (idUsuario, celular, isPrincipal, fecha_creacion, estado) VALUES(?,?,?,NOW(),1)', array($idUsuario, $number, $isPrincipal));
         if ($this->db->_error_number()) {
             return array("resultado" => false, "message" => $this->db->_error_message());
         } else {
@@ -178,7 +184,7 @@ class general extends CI_Model {
         }
 
 
-        // REGALO DE 100 CREDITOS AL PRIMER ANUNCIO
+        // REGALO $10.000 SALDO AL PRIMER ANUNCIO
 
         $resultCountAnuncios = $this->db->query("SELECT * FROM `anuncios` WHERE `id_usuario`=?", array($idUsuario));
         $countAnuncios = $resultCountAnuncios->result_array();
@@ -190,12 +196,18 @@ class general extends CI_Model {
             $resultMovimiento->free_result();
 
             if(count($movimiento) > 0){
-                $this->db->query("UPDATE movimientos SET `cantidad`=`cantidad`+100 WHERE idUsuario=?", array($idUsuario));
+                $this->db->query("UPDATE movimientos SET `cantidad`=`cantidad`+10000 WHERE idUsuario=?", array($idUsuario));
             }else{
-                $this->db->query("INSERT INTO `movimientos`(`idUsuario`, `cantidad`) VALUES(?,?)", array($idUsuario, 100));
+                $this->db->query("INSERT INTO `movimientos`(`idUsuario`, `cantidad`) VALUES(?,?)", array($idUsuario, 10000));
             }   
 
             $freeCredits = true; 
+        }
+
+        // PONGO EN CAROUSEL POR 90 DIAS
+
+        if($data["numFotos"]>0){
+            $this->db->query("INSERT INTO `paquetes_anuncios`(idAnuncio, `idOpcPaq`, `fecha_inicial`, `fecha_final`, `hora_inicial`, `hora_final`, `fecha_compra`) VALUES(?, 17, DATE(NOW()), DATE(DATE_ADD(NOW(), INTERVAL 90 DAY)), TIME(NOW()), TIME(NOW()), NOW());", array($idAnuncio));    
         }
 
         if ($this->db->_error_number()) {
@@ -316,8 +328,8 @@ class general extends CI_Model {
                 
         $querySelect = "SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, cate.nombre categoria, (SELECT COUNT(*) FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id) countImagenes, IFNULL((SELECT pq.`idOpcPaq` FROM `paquetes_anuncios` pq WHERE pq.`idOpcPaq` IN (14, 15) AND DATE(NOW()) BETWEEN pq.`fecha_inicial` AND pq.`fecha_final` AND pq.`estado`='VIGENTE' AND pq.idAnuncio=a.id LIMIT 1), 'NO') tipoDestacado, 1 isTop FROM anuncios a JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id` JOIN categorias cate ON a.`id_categoria`=cate.`id`";
 
-        $queryTop = " AND a.id IN (SELECT `idAnuncio` FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND NOW() 
-                    BETWEEN CONCAT(fecha_inicial, ' ', hora_inicial) AND CONCAT(`fecha_final`, ' ', `hora_final`) AND `estado`='VIGENTE') ORDER BY a.orderTops";
+        $queryTop = " AND a.id IN (SELECT p.`idAnuncio` FROM `paquetes_anuncios` p JOIN opciones_paquetes op ON p.idOpcPaq=op.id WHERE op.`idPaquete` = 2 AND NOW() 
+                    BETWEEN CONCAT(p.fecha_inicial, ' ', p.hora_inicial) AND CONCAT(p.`fecha_final`, ' ', p.`hora_final`) AND p.`estado`='VIGENTE') ORDER BY a.orderTops";
 
         $resultAnuncios = $this->db->query($querySelect.$query.$queryTop, $params);
         $anuncios = $resultAnuncios->result_array();
@@ -327,7 +339,8 @@ class general extends CI_Model {
 
         $querySelect = "SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, cate.nombre categoria, (SELECT COUNT(*) FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id) countImagenes, IFNULL((SELECT pq.`idOpcPaq` FROM `paquetes_anuncios` pq WHERE pq.`idOpcPaq` IN (14, 15) AND DATE(NOW()) BETWEEN pq.`fecha_inicial` AND pq.`fecha_final` AND pq.`estado`='VIGENTE' AND pq.idAnuncio=a.id LIMIT 1), 'NO') tipoDestacado, 0 isTop FROM anuncios a JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id` JOIN categorias cate ON a.`id_categoria`=cate.`id`";
 
-        $queryTop = " AND a.id NOT IN (SELECT `idAnuncio` FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND NOW() BETWEEN CONCAT(fecha_inicial, ' ', hora_inicial) AND CONCAT(`fecha_final`, ' ', `hora_final`) AND `estado`='VIGENTE') ORDER BY a.fecha_creacion DESC";
+        $queryTop = " AND a.id NOT IN (SELECT p.`idAnuncio` FROM `paquetes_anuncios` p JOIN opciones_paquetes op ON p.idOpcPaq=op.id WHERE op.`idPaquete` = 2 AND NOW() 
+                    BETWEEN CONCAT(p.fecha_inicial, ' ', p.hora_inicial) AND CONCAT(p.`fecha_final`, ' ', p.`hora_final`) AND p.`estado`='VIGENTE') ORDER BY a.fecha_creacion DESC";
 
 		$resultAnuncios2 = $this->db->query($querySelect.$query.$queryTop, $params);
 		$anunciosTemp = $resultAnuncios2->result_array();
@@ -395,22 +408,22 @@ class general extends CI_Model {
 
         $querySelect = "SELECT a.id, (SELECT i.url FROM `imagenes_anuncios` i WHERE i.id_anuncio=a.id LIMIT 1) url FROM `anuncios` a JOIN `paquetes_anuncios` p ON a.`id`=p.`idAnuncio` ";
 
-        $query = "WHERE `idOpcPaq`=15 AND DATE(NOW()) BETWEEN p.`fecha_inicial` AND p.`fecha_final` AND p.`estado`='VIGENTE' ";
+        $query = "WHERE `idOpcPaq` IN (15, 17) AND DATE(NOW()) BETWEEN p.`fecha_inicial` AND p.`fecha_final` AND p.`estado`='VIGENTE' ";
       
         if($idCategoria <> "NaN"){
             if($idDepartamento <> "NaN"){
-                $query .= " AND a.estado=1 AND id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) AND `id_categoria`=? ORDER BY a.fecha_creacion DESC";
+                $query .= " AND a.estado=1 AND id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) AND `id_categoria`=? ORDER BY RAND() LIMIT 50";
                 $params = array($idDepartamento, $idCategoria);
             }else{
-                $query .= " AND a.estado=1 AND `id_categoria`=? ORDER BY a.fecha_creacion DESC";
+                $query .= " AND a.estado=1 AND `id_categoria`=? ORDER BY RAND() LIMIT 50";
                 $params = array($idCategoria);
             }
         }else{
             if($idDepartamento <> "NaN"){
-                $query .= " AND a.estado=1 AND id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) ORDER BY a.fecha_creacion DESC";
+                $query .= " AND a.estado=1 AND id_ciudad IN (SELECT id FROM ciudades WHERE idDepartamento=?) ORDER BY RAND() LIMIT 50";
                 $params = array($idDepartamento);
             }else{
-                $query .= " AND a.estado=1 ORDER BY a.fecha_creacion DESC";
+                $query .= " AND a.estado=1 ORDER BY RAND() LIMIT 50";
                 $params = array();
             }
         }
@@ -896,6 +909,26 @@ class general extends CI_Model {
         }
     }
 
+    public function db_valid_idAnuncioByUser($idUsuario, $idAnuncio) {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT id_usuario FROM `anuncios` where id=?', array($idAnuncio));
+        $a = $result->result_array();
+        $result->free_result();
+        
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+
+            if($idUsuario == $a[0]["id_usuario"]){
+                return array("resultado" => true, "data" => true);
+            }else{
+                return array("resultado" => true, "data" => false);
+            }
+        }
+    }
+
     public function db_add_denuncia($idAnuncio, $concepto, $text) {
         $this->db->trans_start(); 
 		$this->db->query('INSERT INTO `denuncias_anuncios` (`idAnuncio`, `concepto`, motivo, `fecha_accion`) VALUES(?,?,?,NOW());', array($idAnuncio, $concepto, $text));
@@ -941,6 +974,23 @@ class general extends CI_Model {
         $this->db->trans_start();
 
         $result = $this->db->query('SELECT TIME_FORMAT(`hora_inicial`, "%h:%i %p") hora_inicial FROM paquetes_anuncios WHERE idOpcPaq=1 AND (`fecha_final` > DATE(NOW()) OR 
+                                ( `fecha_final` = DATE(NOW()) AND `hora_final` > TIME(NOW())))
+                                AND `estado`="VIGENTE" AND idAnuncio=?', array($idAnuncio));
+        $a = $result->result_array();
+        $result->free_result();
+        
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "data" => $a);
+        }
+    }
+
+    public function db_get_promociones_topFreeActivaByAnuncio($idAnuncio) {
+        $this->db->trans_start();
+
+        $result = $this->db->query('SELECT TIME_FORMAT(`hora_inicial`, "%h:%i %p") hora_inicial FROM paquetes_anuncios WHERE idOpcPaq=16 AND (`fecha_final` > DATE(NOW()) OR 
                                 ( `fecha_final` = DATE(NOW()) AND `hora_final` > TIME(NOW())))
                                 AND `estado`="VIGENTE" AND idAnuncio=?', array($idAnuncio));
         $a = $result->result_array();
@@ -1029,8 +1079,8 @@ class general extends CI_Model {
 		$resultAnuncios = $this->db->query("SELECT a.id, `titulo`, `descripcion`,  ciu.nombre ciudad, a.`fecha_creacion`,
         cate.nombre categoria, IFNULL(DATE_FORMAT(a.`fecha_ultima_edicion`, '%d/%m/%Y - %H:%i'), 'Sin ediciones') fechaUltEdicionFormat, 
             IFNULL((SELECT url FROM imagenes_anuncios i WHERE i.id_anuncio=a.id LIMIT 1), '../../images/default_img.svg') url,
-            IFNULL((SELECT 1 FROM `paquetes_anuncios` WHERE `idOpcPaq` NOT IN (14, 15) AND NOW() 
-            BETWEEN CONCAT(fecha_inicial, ' ', hora_inicial) AND CONCAT(`fecha_final`, ' ', `hora_final`) AND `estado`='VIGENTE' AND `idAnuncio`=a.id LIMIT 1),0) isTop
+            IFNULL((SELECT 1 FROM `paquetes_anuncios` p JOIN opciones_paquetes op ON p.idOpcPaq=op.id WHERE op.idPaquete =2 AND NOW()
+            BETWEEN CONCAT(p.fecha_inicial, ' ', p.hora_inicial) AND CONCAT(p.`fecha_final`, ' ', p.`hora_final`) AND p.`estado`='VIGENTE' AND p.`idAnuncio`=a.id LIMIT 1),0) isTop
             FROM anuncios a 
             JOIN ciudades ciu ON a.`id_ciudad`=ciu.`id`  
             JOIN categorias cate ON a.`id_categoria`=cate.`id` 
@@ -1139,7 +1189,13 @@ class general extends CI_Model {
     public function db_insert_compra($ref_payco) {
         $this->db->trans_start();
 
-        $this->db->query("INSERT INTO `historico_movimientos` (`idExterno`) VALUES (?);", array($ref_payco));
+        $result = $this->db->query("SELECT * FROM `historico_movimientos` WHERE idExterno=?", array($ref_payco));
+        $a = $result->result_array();
+        $result->free_result();
+
+        if(count($a)==0){
+            $this->db->query("INSERT INTO `historico_movimientos` (`idExterno`) VALUES (?);", array($ref_payco));
+        }
 
         if ($this->db->_error_number()) {
             return false;
@@ -1154,7 +1210,7 @@ class general extends CI_Model {
 
         $this->db->query("INSERT INTO `auditoria_compras` (`idExterno`, `idUsuario`, `creditos_comprados`, `valor`, `fecha_transaction`, `estado`, `descripcion`) VALUES (?,?,(SELECT creditos FROM `precios_creditos` WHERE id=?),?,?,?,?)", array($data["ref_payco"], $data["idUsuario"], $data["idCredito"], $data["valor"], $data["fechaTransaction"], $data["resultado"], $data["text_resultado"]));
 
-        if((int) $data["codeResultado"] == 1 || (int) $data["codeResultado"] == 3){
+        if((int) $data["codeResultado"] == 1){
 
             $resultValid = $this->db->query("SELECT * FROM `historico_movimientos` where idExterno=? and estado=0", array($data["ref_payco"]));
             $valid = $resultValid->result_array();
@@ -1193,7 +1249,7 @@ class general extends CI_Model {
         $valid = $resultValid->result_array();
         $resultValid->free_result();
         if($valid[0]["rtn"] == "0"){
-            return array("resultado" => false, "message" => "No tienes suficientes creditos para la compra");
+            return array("resultado" => false, "message" => "No tienes suficiente saldo para la compra");
         }
         
 
@@ -1242,6 +1298,45 @@ class general extends CI_Model {
         }
 
         $this->db->query('INSERT INTO `paquetes_anuncios`(`idAnuncio`, `idOpcPaq`, `fecha_inicial`, `fecha_final`, `hora_inicial`, `hora_final`, fecha_compra) VALUES(?,?,date(?),date(?),time(?),time(?), NOW())', array($idAnuncio, $idOpcion, $fechaHoraI, $fechaHoraF, $fechaHoraI, $fechaHoraF));
+
+        $this->db->query('UPDATE `movimientos` SET `cantidad` = (`cantidad` - (SELECT valor FROM `opciones_paquetes` WHERE id=?)) WHERE `idUsuario`=?', array($idOpcion, $idUsuario));
+
+        if ($this->db->_error_number()) {
+            return array("resultado" => false, "message" => $this->db->_error_message());
+        } else {
+            $this->db->trans_complete();
+            return array("resultado" => true, "message" => "Anuncio promocionado satisfactoriamente");
+        }
+    }
+
+    public function db_insert_promocion_anuncio_now($idAnuncio, $idOpcion, $idUsuario) {
+        $this->db->trans_start(); 
+        
+        $resultValid = $this->db->query('SELECT IF((`cantidad`-valor)>=0,1,0) rtn FROM (SELECT `cantidad`, (SELECT valor FROM `opciones_paquetes` WHERE id=?) valor FROM `movimientos` WHERE `idUsuario`=?) q', array($idOpcion, $idUsuario));
+        $valid = $resultValid->result_array();
+        $resultValid->free_result();
+        if($valid[0]["rtn"] == "0"){
+            return array("resultado" => false, "message" => "No tienes suficiente saldo para la compra");
+        }
+
+        $resultHoraActual = $this->db->query('SELECT NOW() hora;');
+        $horaActual = $resultHoraActual->result_array();
+        $resultHoraActual->free_result();
+
+        $resultHoraSumDias = $this->db->query('SELECT DATE_ADD(?, INTERVAL (SELECT dias FROM `opciones_paquetes` WHERE id=?) DAY) hora;', array($horaActual[0]["hora"], $idOpcion));
+        $horaSumDias = $resultHoraSumDias->result_array();
+        $resultHoraSumDias->free_result();
+
+        $resultHoraSumHoras = $this->db->query('SELECT DATE_ADD(?, INTERVAL (SELECT horas FROM `opciones_paquetes` WHERE id=?) HOUR) hora;', array($horaSumDias[0]["hora"], $idOpcion));
+        $horaSumHoras = $resultHoraSumHoras->result_array();
+        $resultHoraSumHoras->free_result();
+
+        $resultHoraSumMinutos = $this->db->query('SELECT DATE_ADD(?, INTERVAL (SELECT minutos FROM `opciones_paquetes` WHERE id=?) MINUTE) hora;', array($horaSumHoras[0]["hora"], $idOpcion));
+        $horaSumMinutos = $resultHoraSumMinutos->result_array();
+        $resultHoraSumMinutos->free_result();
+
+
+        $this->db->query('INSERT INTO `paquetes_anuncios`(`idAnuncio`, `idOpcPaq`, `fecha_inicial`, `fecha_final`, `hora_inicial`, `hora_final`, fecha_compra) VALUES(?,?,date(?),date(?),time(?),time(?), NOW())', array($idAnuncio, $idOpcion, $horaActual[0]["hora"], $horaSumMinutos[0]["hora"], $horaActual[0]["hora"], $horaSumMinutos[0]["hora"]));
 
         $this->db->query('UPDATE `movimientos` SET `cantidad` = (`cantidad` - (SELECT valor FROM `opciones_paquetes` WHERE id=?)) WHERE `idUsuario`=?', array($idOpcion, $idUsuario));
 

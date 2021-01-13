@@ -53,7 +53,7 @@ $(function () {
                 });
             }
         },
-        error: function (data){
+        error: function (data) {
             toastr.error("Error al consultar los departamentos, porfavor intente nuevamente");
         }
     });
@@ -70,7 +70,7 @@ $(function () {
                 });
             }
         },
-        error: function (data){
+        error: function (data) {
             toastr.error("Error al consultar las categorias, porfavor intente nuevamente");
         }
     });
@@ -105,7 +105,7 @@ $(function () {
                     });
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar los conceptos de denuncias, porfavor intente nuevamente");
             }
         });
@@ -113,8 +113,9 @@ $(function () {
 
     function AjaxCreateDatosCarousel(idCategoria, idDepartamento) {
         for (var i = 0; i < $('.item').length; i++) {
-            owl.trigger('remove.owl.carousel', [i]).trigger('refresh.owl.carousel');
+            owl.trigger('remove.owl.carousel', i);
         }
+        owl.trigger('refresh.owl.carousel');
 
         $.ajax({
             url: '../c_general/getAnunciosCarousel',
@@ -136,7 +137,7 @@ $(function () {
                     }
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al cargar el carousel, porfavor intente nuevamente");
             }
         });
@@ -164,10 +165,68 @@ $(function () {
                     toastr.error(data.message);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al agregar denuncia, porfavor intente nuevamente");
             }
         });
+    }
+
+    function AjaxGetTopFreeActuales(id) {
+        $.ajax({
+            url: '../c_general/getPromocionTopFreeActiva',
+            type: 'POST',
+            dataType: "json",
+            data: { idAnuncio: id },
+            success: function (data) {
+                if (data.resultado == true) {
+                    let datos = data.data;
+                    if (datos.length >= 1) {
+                        $("#btnAceptarTopFree").prop("disabled", true);
+                        $("#divAlertMaximoTopFree").removeClass("displayNone");
+                        $("#divAlertMaximoTopFree").addClass("displayBlock");
+                    } else {
+                        $("#btnAceptarTopFree").prop("disabled", false);
+                        $("#divAlertMaximoTopFree").removeClass("displayBlock");
+                        $("#divAlertMaximoTopFree").addClass("displayNone");
+                    }
+                } else {
+                    toastr.error("Error al cargar subidas individuales programadas");
+                }
+            },
+            error: function (data) {
+                toastr.error("Error al consultar, porfavor intente nuevamente");
+            }
+        });
+    }
+
+    function AjaxInsertPromocionAnuncioNOW(id, idOpcion) {
+        let rtn;
+        $.ajax({
+            url: '../c_general/insertPromocionAnuncioNow',
+            type: 'POST',
+            dataType: "json",
+            data: { idAnuncio: id, idOpcion: idOpcion },
+            async: false,
+            success: function (data) {
+                rtn = data;
+            }
+        });
+        return rtn;
+    }
+
+    function AjaxValidIdAnuncioByUser(id) {
+        let rtn;
+        $.ajax({
+            url: '../c_general/validIdAnuncioByUser',
+            type: 'POST',
+            dataType: "json",
+            data: { idAnuncio: id },
+            async: false,
+            success: function (data) {
+                rtn = data;
+            }
+        });
+        return rtn;
     }
 
     function AjaxSendMessage(correo, mensaje) {
@@ -186,7 +245,7 @@ $(function () {
                     toastr.error(data.message);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al enviar el mensaje, porfavor intente nuevamente");
             }
         });
@@ -232,7 +291,7 @@ $(function () {
                 });
             }
         },
-        error: function (data){
+        error: function (data) {
             toastr.error("Error al cargar la auditoria, porfavor intente nuevamente");
         }
     });
@@ -275,7 +334,7 @@ $(function () {
                 createChart(dias, objs);
             }
         },
-        error: function (data){
+        error: function (data) {
             toastr.error("Error al consultar, porfavor intente nuevamente");
         }
     });
@@ -364,7 +423,7 @@ $(function () {
 
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar el anuncio, porfavor intente nuevamente");
             }
         });
@@ -464,6 +523,32 @@ $(function () {
             return false;
         }
         AjaxAddDenuncia(idAnuncio, $("input[name='inpRConceptoDenuncia']:checked").data("id"), $("#inpTextDenunciar").val());
+    });
+
+
+    $("#btnTopFree").click(function () {
+        if (localStorage.getItem("userLogin") === "false") {
+            $(location).attr('href', urlProyect() + 'login');
+            localStorage.setItem('urlBeforeLogin', "usuario?tab=1");
+        } else {
+            let res = AjaxValidIdAnuncioByUser(idAnuncio);
+            if (res.data == true) {
+                AjaxGetTopFreeActuales(idAnuncio);
+                $("#modalTopFree").modal("show");
+            } else {
+                toastr.warning("Este anuncio no pertenece a tu cuenta");
+            }
+        }
+    });
+
+    $("#btnAceptarTopFree").click(function () {
+        var result = AjaxInsertPromocionAnuncioNOW(idAnuncio, 16);
+        if (result.resultado) {
+            AjaxGetTopFreeActuales(idAnuncio);
+            toastr.success(result.message);
+        } else {
+            toastr.error(result.message);
+        }
     });
 
     $("#eMapInicio").click(function () {

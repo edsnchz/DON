@@ -8,53 +8,65 @@ class app extends CI_Model {
 		self::$db = &get_instance()->db;	
 	}
 
-	public function db_insert_usuario($correo, $pass, $token) {
+	public function db_insert_usuario($correo, $pass, $number) {
+		$this->db->trans_start();
 
-		if($correo == "" || $pass == "" || $token == ""){
+		if($correo == "" || $pass == "" || $number == ""){
 			return array("resultado" => false, "message" => "Los datos ingresados son erroneos");
 		}
 
-		$result = $this->db->query('SELECT * FROM usuarios where correo=?', array($correo));
-		$a = $result->result_array();
-		$result->free_result();
+		$resultValid1 = $this->db->query('SELECT * FROM usuarios where correo=?', array($correo));
+		$valid1 = $resultValid1->result_array();
+		$resultValid1->free_result();
 
-		if(count($a)>0){
+		if(count($valid1)>0){
 			return array("resultado" => false, "message" => "El correo ingresado ya se encuentra registrado");
 		}
 
+		$resultValid2 = $this->db->query('SELECT * FROM celulares where celular=?', array($number));
+		$valid2 = $resultValid2->result_array();
+		$resultValid2->free_result();
+
+		if(count($valid2)>0){
+			return array("resultado" => false, "message" => "Este numero de telefono ya se encuentra registrado");
+		}
+
 		$encrypterPass = $this->utiles->encryptIt($pass);
-		$this->db->query('insert into usuarios (correo, pass, token_email) values(?,?,?)', array($correo, $encrypterPass, $token));
+		$this->db->query('insert into usuarios (correo, pass) values(?,?)', array($correo, $encrypterPass));
+		$id = $this->db->insert_id();
+
+		$this->db->query('INSERT INTO celulares (`idUsuario`, `celular`, `isPrincipal`, `fecha_creacion`, `estado`) VALUES(?,?,1,NOW(),1)', array($id, $number));
 		
 		if ($this->db->_error_number()) {
             return array("resultado" => false, "message" => $this->db->_error_message());
         } else {
             $this->db->trans_complete();
-            return array("resultado" => true, "message" => "El usuario se ingreso satisfactoriamente, porfavor verifique su correo");
+            return array("resultado" => true, "message" => "Usuario creado satisfactoriamente");
         }
 	}
 
-	public function db_setNewPass_usuario($correo, $pass) {
+	public function db_setNewPass_usuario($number, $code) {
 
-		if($correo == "" || $pass == ""){
+		if($number == "" || $code == ""){
 			return array("resultado" => false, "message" => "Los datos ingresados son erroneos");
 		}
 
-		$result = $this->db->query('SELECT * FROM usuarios where correo=?', array($correo));
+		$result = $this->db->query('SELECT * FROM celulares where celular=? AND isPrincipal=1', array($number));
 		$a = $result->result_array();
 		$result->free_result();
 
 		if(count($a) == 0){
-			return array("resultado" => false, "message" => "El correo ingresado no se encuentra registrado");
+			return array("resultado" => false, "message" => "Este numero de telefono no se encuentra registrado");
 		}
 
-		$encrypterPass = $this->utiles->encryptIt($pass);
-		$this->db->query('UPDATE `usuarios` SET pass=? WHERE correo=?', array($encrypterPass, $correo));
+		$encrypterPass = $this->utiles->encryptIt($code);
+		$this->db->query('UPDATE `usuarios` SET pass=? WHERE id=?', array($encrypterPass, $a[0]["idUsuario"]));
 
 		if ($this->db->_error_number()) {
             return array("resultado" => false, "message" => $this->db->_error_message());
         } else {
             $this->db->trans_complete();
-            return array("resultado" => true, "message" => "Una nueva contraseña ha sido enviada a tu correo electrónico");
+            return array("resultado" => true, "message" => "Una nueva contraseña ha sido enviada a tu numero telefonico");
         }
 	}
 

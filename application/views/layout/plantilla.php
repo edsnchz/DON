@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
-        content="Anuncios clasificados eróticos gratis en toda Colombia. Busca y publica anuncios eróticos gratis, anuncios de servicios sexuales, avisos para prepagos, masajes eróticos, escorts gay, gigolós y transexuales - doneroticos.com">
+        content="Prepagos, Gigolos, Escorts, Gays, Trans, Masajistas disponibles a un click, Anuncios clasificados eróticos gratis en toda Colombia. Busca y publica.">
     <meta name="keywords"
-        content="prepagos,putas,escort,anuncios,clasificados,erótico,masajistas,transexuales,travestis,gay,gigolo">
-    <meta name="author" content="doneróticos">
+        content="prepagos,putas,escort,anuncios,clasificados,erótico,masajistas,transexuales,travestis,gay,gigolo,disponibles,click,rapido">
+    <meta name="author" content="doneroticos">
+
 
     <title><?= $title ?></title>
 
@@ -29,8 +29,7 @@
     <div class="container-fluid width100porciento">
         <div class="row sombraPequeña">
             <div class="col-12 col-sm-8 cursorPointer centradoVertical" id="divColLogo">
-                <img class="height50px" src="<?= load_img_url('images/logo.svg'); ?>">
-
+                <img class="height50px" src="<?= load_img_url('images/logo.svg'); ?>" alt="LOGO DONEROTICOS">
                 <button id="btnOpenPanelLateral" class="hamburger hamburger--spin centradoVertical d-block d-sm-none"
                     type="button" data-open="0" style="width: 65px">
                     <span class="hamburger-box margin_top_8px">
@@ -98,7 +97,8 @@
                     <p class="text-muted small mb-2 mb-lg-0 fontFamilyRoboto textCenter fontSize12px fontSize11pxMovil">
                         <strong>doneroticos.com</strong> es una página de contenido adulto. Todos los anunciantes han
                         reconocido
-                        ser mayores de 18 años.</p>
+                        ser mayores de 18 años.
+                    </p>
                 </div>
             </div>
         </div>
@@ -148,12 +148,14 @@
             <div class="modal-content backgroundTransparent">
 
                 <div class="width100porciento height200pxMovil" style="height: 400px;">
-                    <img src="../images/alert18years.jpg"
-                        class="width100porciento height100porciento img18year displayNoneMovil">
+                    <img src="../images/alert18years.webp"
+                        class="width100porciento height100porciento img18year displayNoneMovil"
+                        alt="Imagen descriptiva confirmacion mayoria de edad">
 
                     <div class="sombra divLbls18year">
                         <!-- <img src="../images/logoPNG.png" class="imgSmall18year displayNoneNoMovil"> -->
-                        <img src="../images/18years.svg" class="height90px" style="display: block; margin: auto">
+                        <img src="../images/18years.svg" class="height90px" style="display: block; margin: auto"
+                            alt="Imagen descriptiva confirmacion mayoria de edad MOVIL">
                         <!-- <h4 class="text-center fontSize16px margin_bottom_20px">Eres mayor de edad? (+18)</h4> -->
                         <h4 class="text-center fontFamilyRoboto fontSize13px fontWeight400 margin_top_small">
                             Este sitio tiene contenido explicito, debes ser mayor de edad para acceder!</h4>
@@ -176,6 +178,19 @@
 
     <?= load_scripts(); ?>
     <?= $js ?>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156985052-1">
+    </script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-156985052-1');
+    </script>
 
 </body>
 

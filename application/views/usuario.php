@@ -27,7 +27,7 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
             </li>
             <li class="nav-item">
                 <a class="nav-link colorGrisClaro fontWeight600" id="tabMisCreditos" data-toggle="tab" href="#tPremium"
-                    role="tab" aria-controls="tPremium" aria-selected="false">CRÉDITOS</a>
+                    role="tab" aria-controls="tPremium" aria-selected="false">COMPRAS</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link colorGrisClaro fontWeight600" id="tabMensajes" data-toggle="tab" href="#tMensajes"
@@ -46,11 +46,11 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
                         class="text-center margin_top_40pt marginTop20ptMovil paddingLaterales15porcNoMovil animated zoomIn slowAnimation displayNone">
                         <i class="fas fa-hand-holding-usd margin_bottom_20px colorGold fontSize80px"></i>
                         <h4 class="fontFamilyRoboto fontSize25px margin_bottom_10px fontSize18pxMovil colorGrisOscuro">
-                            Reclama tus primeros<span class="colorPink"> 100 créditos</span> gratis</h4>
+                            Reclama tus primeros<span class="colorPink"> $10.000 </span> gratis</h4>
                         <p class="margin_bottom_10px fontSize16px fontSize12pxMovil fontFamilyRoboto colorGrisClaro">
                             Publica ya! tu
-                            primer anuncio y doneróticos de obsequia 100 créditos para que lo promociones y subas al
-                            primer lugar. Los créditos nunca se vencen y los puedes usar cuando quieras.</p>
+                            primer anuncio y doneróticos te obsequia $10.000 en saldo para que lo promociones y subas al
+                            primer lugar. Tu saldo nunca se vence y lo puedes usar cuando quieras.</p>
 
                         <button id="btnCallToActionCrearAnuncio" type="button"
                             class="btn colorWhite hoverColorWhite borderNone borderRadius0px outlineNone margin_top_small backgroundPink hoverBackgroundPinkOscuro textUppercase fontSize12px fontWeight600 paddingLaterales20px paddingSuperiorInferior10px">Crear
@@ -101,7 +101,8 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
                     </div>
                     <div class="row margin_top_small">
                         <div class="col-sm-12 height100porciento">
-                            <div id="inpDescripcion" class="backgroudWhite" style="min-height: 120px; cursor: text;"></div>
+                            <div id="inpDescripcion" class="backgroudWhite" style="min-height: 120px; cursor: text;">
+                            </div>
                             <div id="counterCrear" class="fontFamilyRoboto counterEditorTexto"></div>
                         </div>
                     </div>
@@ -167,7 +168,8 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
                     <br><br>
                     <div class="fontFamilyRoboto">
                         <p class="letterSpacingMinimo  
-                        colorGrisOscuro fontSize14px margin_bottom_5px">4. Agrega tus fotos</p>
+                        colorGrisOscuro fontSize14px margin_bottom_5px">4. Agrega tus fotos <i>(Maximo 20 fotos por
+                                anuncio)</i></p>
                         <p class="colorGrisClaro fontSize14px">En "Mi Galería" encontrarás todas las fotos que hayas
                             subido antes.</p>
 
@@ -176,15 +178,20 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
                         <div class="col-sm-12">
 
                             <div class="containerUpload">
-                                <input type="file" id="pro-image" name="pro-image[]" style="display: none;" class="form-control" multiple>
+                                <input type="file" id="pro-image" name="pro-image[]" style="display: none;"
+                                    class="form-control" multiple>
 
                                 <div class="row">
                                     <div class="col-sm-8 paddingRight0px paddingLaterales15pxMovil">
-                                        <button class="btn btn-primary floatRight fontFamilyRoboto fontSize14px borderRadius0px width100porciento height100porciento" onclick="$('#pro-image').click()">Seleccionar Imagenes</button>
+                                        <button
+                                            class="btn btn-primary floatRight fontFamilyRoboto fontSize14px borderRadius0px width100porciento height100porciento"
+                                            onclick="$('#pro-image').click()">Seleccionar Imagenes</button>
                                     </div>
                                     <div class="col-sm-4 paddingLeft0px paddingLaterales15pxMovil">
-                                        <button class="btn btn-primary floatRight fontFamilyRoboto fontSize14px borderRadius0px width100porciento colorBlue backgroudWhite borderSolid2pxBlue" id="btnMiGaleria" data-toggle="modal" data-target="#modalMiGaleria">Mi
-                                        Galeria</button>
+                                        <button
+                                            class="btn btn-primary floatRight fontFamilyRoboto fontSize14px borderRadius0px width100porciento colorBlue backgroudWhite borderSolid2pxBlue"
+                                            id="btnMiGaleria" data-toggle="modal" data-target="#modalMiGaleria">Mi
+                                            Galeria</button>
                                     </div>
                                 </div>
 
@@ -222,24 +229,25 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
 
                 <span
                     class="spCreditos2 d-none d-sm-block badge badge-pill borderRadius0px badge-warning fontSize14px fontWeight500 padding7px fontFamilyRoboto"
-                    title="Tus créditos actuales" style="position: absolute; right: 50px"></span>
+                    title="Tu saldo actual" style="position: absolute; right: 50px"></span>
 
                 <h4
                     class="spCreditos2 d-block d-sm-none textCenter margin_top_medium badge-warning width100porciento padding7px fontSize14px fontWeight500 fontFamilyRoboto">
-                    Tus creditos: -</h4>
+                    Tu Saldo: -</h4>
 
-                <p class="fontSize18px colorGrisOscuro textCenter margin_top_medium fontFamilyRoboto">Comprar créditos
+                <p class="fontSize18px colorGrisOscuro textCenter margin_top_medium fontFamilyRoboto">Recarga tu cuenta
                 </p>
                 <p class="textCenter fontFamilyRoboto colorGrisClaro fontSize14px">
                     Valores netos a pagar. Ningún método de pago genera comisiones adicionales.
                     <br>
-                    Tus créditos estarán disponibles una vez aprobada y verificada la transacción por el sistema.
+                    Tu saldo estará disponible una vez aprobada y verificada la transacción por el sistema.
                 </p>
-                <div class="row margin_top_small paddingLaterales35pxMovil" id="divPrecios">
+                <div class="row margin_top_small paddingLaterales15pxMovil width100porcientoMovil width75porciento marginauto"
+                    id="divPrecios">
                 </div>
                 <div class="col-xl-12 mx-auto padding0 textCenter margin_top_30px">
                     <img class="img-responsive width100porcientoMovil" src="<?= load_img_url('images/pagos.png'); ?>"
-                        style="width: 40%; height: auto">
+                        style="width: 40%; height: auto" alt="LOGO PASARELA PAGOS">
                     <br>
 
                     <div class="width100porciento centradoVerticalHorizontal">
@@ -452,7 +460,8 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
                                             <div class="col-sm-12 margin_top_small">
                                                 <p class="margin_bottom_10px fontFamilyRoboto colorGrisOscuro">Mensaje:
                                                 </p>
-                                                <textarea rows="4" id="inpMsjSoporte" class="form-control inputStyle shadow-sm"
+                                                <textarea rows="4" id="inpMsjSoporte"
+                                                    class="form-control inputStyle shadow-sm"
                                                     placeholder="Explica con más detalles tu problema."></textarea>
                                             </div>
                                         </div>
@@ -625,7 +634,8 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
                     </div>
                     <div class="row margin_top_small">
                         <div class="col-sm-12 height100porciento">
-                            <div id="inpDescripcionEditar" class="backgroudWhite" style="min-height: 120px; cursor: text;"></div>
+                            <div id="inpDescripcionEditar" class="backgroudWhite"
+                                style="min-height: 120px; cursor: text;"></div>
                             <div id="counterEditar" class="fontFamilyRoboto counterEditorTexto"></div>
                         </div>
                     </div>
@@ -673,22 +683,27 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
                             <div>
                                 <p
                                     class="fontSize14px letterSpacingMinimo colorGrisOscuro margin_top_medium margin_bottom_5px">
-                                    4. Agrega o cambia tus fotos.
+                                    4. Agrega o cambia tus fotos. <i>(Maximo 20 fotos por anuncio)</i>
                                 </p>
                                 <p class="colorGrisClaro fontSize14px">En "Mi Galería" encontrarás todas las fotos que
                                     hayas subido antes.</p>
                             </div>
 
                             <div class="containerUpload">
-                                <input type="file" id="pro-imageEditar" name="pro-imageEditar[]" style="display: none;" class="form-control" multiple>
+                                <input type="file" id="pro-imageEditar" name="pro-imageEditar[]" style="display: none;"
+                                    class="form-control" multiple>
 
                                 <div class="row">
                                     <div class="col-sm-8 paddingRight0px paddingLaterales15pxMovil">
-                                        <button class="btn btn-primary floatRight fontFamilyRoboto fontSize14px borderRadius0px width100porciento height100porciento" onclick="$('#pro-imageEditar').click()">Seleccionar Imagenes</button>
+                                        <button
+                                            class="btn btn-primary floatRight fontFamilyRoboto fontSize14px borderRadius0px width100porciento height100porciento"
+                                            onclick="$('#pro-imageEditar').click()">Seleccionar Imagenes</button>
                                     </div>
                                     <div class="col-sm-4 paddingLeft0px paddingLaterales15pxMovil">
-                                        <button class="btn btn-primary floatRight fontFamilyRoboto fontSize14px borderRadius0px width100porciento colorBlue backgroudWhite borderSolid2pxBlue" id="btnMiGaleriaEditar">Mi
-                                        Galeria</button>
+                                        <button
+                                            class="btn btn-primary floatRight fontFamilyRoboto fontSize14px borderRadius0px width100porciento colorBlue backgroudWhite borderSolid2pxBlue"
+                                            id="btnMiGaleriaEditar">Mi
+                                            Galeria</button>
                                     </div>
                                 </div>
 
@@ -1004,7 +1019,7 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
                     <div class="width100porciento textCenter centradoHorizontal">
                         <h4
                             class="spCreditosModals cursorPointer textCenter margin_bottom_7px badge-warning width50porciento width100porcientoMovil padding7px fontSize14px fontWeight500 fontFamilyRoboto">
-                            Tus creditos: -</h4>
+                            Tu Saldo: -</h4>
                     </div>
 
                     <h4 id="divAlertMaximoRelojito"
@@ -1012,8 +1027,7 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
                         Ya programaste 5 subidas para este anuncio.
                     </h4>
 
-                    <p class="textCenter fontFamilyRoboto fontSize14px colorGrisClaro">Por tan solo 1 crédito ($100)
-                        tu
+                    <p class="textCenter fontFamilyRoboto fontSize14px colorGrisClaro">Por tan solo $100 tu
                         anuncio subirá a primera posición y rotará en el top de anuncios por 20 minutos. Puedes
                         programar simultaneamente hasta 5 subidas individuales por anuncio.</p>
 
@@ -1064,6 +1078,46 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
 
     <!-- ********************************* -->
 
+    <div class="modal" id="modalTopFree" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content borderRadius0px">
+                <div class="modal-header">
+                    <h5
+                        class="modal-title textCenter fontSize14px colorGrisOscuro letterSpacingMinimo fontFamilyRoboto">
+                        Sube tu anuncio gratis</h5>
+                    <button type="button" class="close outlineNone" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="inpIdAnuncioTopFree">
+
+                    <h4 id="divAlertMaximoTopFree"
+                        class="text-center fontFamilyRoboto padding10px width100porciento btn-success colorWhite margin_bottom_10px displayNone margin_top_small">
+                        TOP GRATIS Activo.
+                    </h4>
+
+                    <p class="textCenter fontFamilyRoboto fontSize14px colorGrisClaro">Sube tu anuncio a primera
+                        posición totalmente gratis. Tu anuncio rotará durante
+                        15 minutos en los primeros lugares.
+                    </p>
+
+                </div>
+                <div class="modal-footer centradoHorizontal">
+                    <div>
+                        <button id="btnAceptarTopFree" type="button"
+                            class="btn btn-primary borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo fontSizeBig paddingLaterales35px">Aceptar</button>
+                        <button type="button"
+                            class="btn btn-default borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo fontSizeBig"
+                            data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ********************************* -->
+
     <div class="modal" id="modalPromociones" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content borderRadius0px">
@@ -1081,7 +1135,7 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
                     <div class="width100porciento textCenter centradoHorizontal">
                         <h4
                             class="spCreditosModals cursorPointer textCenter margin_bottom_10px badge-warning width50porciento width100porcientoMovil padding7px fontSize14px fontWeight500 fontFamilyRoboto">
-                            Tus creditos: -</h4>
+                            Tu Saldo: -</h4>
                     </div>
 
                     <nav>
@@ -1153,16 +1207,14 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
 
                                     <h5 id="tituloPremiun" class="card-title textCenter fontSize16px textUppercase">
                                         Premium</h5>
-                                    <p class="card-subtitle mb-2 text-muted textCenter fontFamilyRoboto">Resalta tu
-                                        anuncio con un fondo amarillo</p>
-                                    <h6 class="card-text textCenter fontFamilyRoboto colorGrisOscuro">Destaca tu
-                                        anuncio
-                                        en las listas por 30 días, y recibe de obsequio 20 minutos en el TOP de
-                                        anuncios.</h6>
+                                    <h6 class="card-subtitle mb-2 textCenter fontFamilyRoboto colorGrisOscuro">
+                                        Resalta tu
+                                        anuncio con un fondo amarillo por 30 días</h6>
+                                    <h6 class="card-text textCenter fontFamilyRoboto colorGrisOscuro">Gratis 20 minutos
+                                        en primeras posiciones.</h6>
                                     <div class="centradoHorizontal">
                                         <button id="btnPackPremiun"
-                                            class="margin_top_small btn borderRadius0px backgroundPinkClaro colorWhite width50porciento fontFamilyRoboto fontSize14px fontWeight600 paddingSuperiorInferior5px sombraPequeña hoverColorWhite hoverBackgroundPinkOscuro">150
-                                            Créditos</button>
+                                            class="margin_top_small btn borderRadius0px backgroundPinkClaro colorWhite width50porciento fontFamilyRoboto fontSize14px fontWeight600 paddingSuperiorInferior5px sombraPequeña hoverColorWhite hoverBackgroundPinkOscuro">$15.000</button>
                                     </div>
                                     <p
                                         class="margin_bottom_0px margin_top_small width100porciento textCenter fontFamilyRoboto">
@@ -1179,17 +1231,14 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
 
                                     <h5 id="tituloPlatino" class="card-title textCenter fontSize16px textUppercase">
                                         Platino + Carrusel</h5>
-                                    <p class="card-subtitle mb-2 text-muted textCenter fontFamilyRoboto">Resalta tu
-                                        anuncio con un fondo purpura</p>
-                                    <h6 class="card-text textCenter fontFamilyRoboto colorGrisOscuro">Destaca tu
-                                        anuncio
-                                        en las listas y súbete al carrusel por 30 días. Recibe de obsequio un
-                                        paquete
-                                        TOP de 7 días/8 Horas.</h6>
+                                    <h6 class="card-subtitle mb-2 textCenter fontFamilyRoboto colorGrisOscuro">Resalta
+                                        tu
+                                        anuncio con un fondo purpura y súbelo al carrusel por 30 días</h6>
+                                    <h6 class="card-text textCenter fontFamilyRoboto colorGrisOscuro">Gratis 7 días/8
+                                        Horas al día en primeras posiciones.</h6>
                                     <div class="centradoHorizontal">
                                         <button id="btnPackPlatino"
-                                            class="margin_top_small btn borderRadius0px backgroundPink colorWhite width50porciento fontFamilyRoboto fontSize14px fontWeight600 paddingSuperiorInferior5px sombraPequeña hoverColorWhite hoverBackgroundPinkOscuro">1300
-                                            Créditos</button>
+                                            class="margin_top_small btn borderRadius0px backgroundPink colorWhite width50porciento fontFamilyRoboto fontSize14px fontWeight600 paddingSuperiorInferior5px sombraPequeña hoverColorWhite hoverBackgroundPinkOscuro">$130.000</button>
                                     </div>
                                     <p
                                         class="margin_bottom_0px margin_top_small width100porciento textCenter fontFamilyRoboto">

@@ -81,7 +81,7 @@ $(function () {
             AjaxLoadCategorias();
         },
         error: function (data){
-            toastr.error("Error al consultar los departamentos, porfavor intente nuevamente");
+            //toastr.error("Error al consultar los departamentos, porfavor intente nuevamente");
         }
     });
 
@@ -101,7 +101,7 @@ $(function () {
                 $("#inpCategorias").val(categorias[1]);
             },
             error: function (data){
-                toastr.error("Error al consultar las categorias, porfavor intente nuevamente");
+               // toastr.error("Error al consultar las categorias, porfavor intente nuevamente");
             }
         });
     }
@@ -131,10 +131,11 @@ $(function () {
     }
 
     function AjaxCreateDatosCarousel(idCategoria, idDepartamento){
-        for (var i=0; i<$('.item').length; i++) {
-           owl.trigger('remove.owl.carousel', [i]).trigger('refresh.owl.carousel');
+        for (var i = 0; i < $('.item').length; i++) {
+           owl.trigger('remove.owl.carousel', i);
         }
-       
+        owl.trigger('refresh.owl.carousel');
+
         $.ajax({
             url: '../c_general/getAnunciosCarousel',
             type: 'POST',
@@ -156,7 +157,7 @@ $(function () {
                 }
             },
             error: function (data){
-                toastr.error("Error al cargar el carousel, porfavor intente nuevamente");
+               // toastr.error("Error al cargar el carousel, porfavor intente nuevamente");
             }
         });
     }
@@ -184,7 +185,7 @@ $(function () {
                 }
             },
             error: function (data){
-                toastr.error("Error crear las etiquetas, porfavor intente nuevamente");
+               // toastr.error("Error crear las etiquetas, porfavor intente nuevamente");
             }
         });
     }
@@ -212,7 +213,7 @@ $(function () {
                 }
             },
             error: function (data){
-                toastr.error("Error al consultar los anuncios, porfavor intente nuevamente");
+                // toastr.error("Error al consultar los anuncios, porfavor intente nuevamente");
                 loading.hide();
             },
             complete: function(data){
@@ -301,7 +302,7 @@ $(function () {
                 }
             },
             error: function (data){
-                toastr.error("Error al consultar los anuncios, porfavor intente nuevamente");
+                // toastr.error("Error al consultar los anuncios, porfavor intente nuevamente");
                 loading.hide();
             },
             complete: function(data){

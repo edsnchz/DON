@@ -1,5 +1,11 @@
 $(function () {
 
+    if($(window).width() <= 1000){
+        $("#imgBanner").attr("src", "../images/bg-header-m.webp");
+    }else{
+        $("#imgBanner").attr("src", "../images/bg-header.webp");
+    }
+
     var arrayEtiquetas = [[], [], [], [], [], []];
 
     var optionsNavigator = {

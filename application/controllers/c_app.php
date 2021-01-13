@@ -51,7 +51,7 @@ class c_app extends CI_Controller {
 			"https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css",
 			base_url().'assets/quill-editor/quill-snow.css',
 		));
-		$data["tab"] = (isset($_GET["tab"]))?$_GET["tab"]:null;
+		$data["tab"] = (isset($_GET["tab"]))?strip_tags($_GET["tab"]):null;
 		$data["apiKey"] = $this->general->db_get_paramsPayments()["data"][0]["apiKey"];
 		$data["usuXt"] = $this->session->userdata('idusuario');
 		$data["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
@@ -73,11 +73,11 @@ class c_app extends CI_Controller {
 		));
 
 		$dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
-		$dataParams["categ"] = (!isset($_GET["categ"]))?"NaN_NaN":$_GET["categ"];
-		$dataParams["etiq"] = (!isset($_GET["etiq"]))?"NaN_NaN":$_GET["etiq"];
-		$dataParams["state"] = (!isset($_GET["state"]))?"NaN":$_GET["state"];
-		$dataParams["city"] = (!isset($_GET["city"]))?"NaN":$_GET["city"];
-		$dataParams["text"] = (!isset($_GET["text"]))?"NaN":$_GET["text"];
+		$dataParams["categ"] = (!isset($_GET["categ"]))?"NaN_NaN":strip_tags($_GET["categ"]);
+		$dataParams["etiq"] = (!isset($_GET["etiq"]))?"NaN_NaN":strip_tags($_GET["etiq"]);
+		$dataParams["state"] = (!isset($_GET["state"]))?"NaN":strip_tags($_GET["state"]);
+		$dataParams["city"] = (!isset($_GET["city"]))?"NaN":strip_tags($_GET["city"]);
+		$dataParams["text"] = (!isset($_GET["text"]))?"NaN":strip_tags($_GET["text"]);
 
 		$this->layout->view("listaAnuncios", $dataParams);			
 	}
@@ -94,17 +94,17 @@ class c_app extends CI_Controller {
 			base_url().'assets/quill-editor/quill-snow.css',
 		));
 
-		$boolean = $this->general->db_validIfExist_anuncio($_GET["id"]);
+		$boolean = $this->general->db_validIfExist_anuncio(strip_tags($_GET["id"]));
 		if(!$boolean["result"]){
 			$this->load->view('pageNotFound');	
 			return false;
 		}
 
 		// AUDITORIA 
-		$this->general->db_aud_anuncios($_GET["id"], "VISTA");
+		$this->general->db_aud_anuncios(strip_tags($_GET["id"]), "VISTA");
 
 		$dataParams["loginBack"] = ($this->session->userdata('idusuario') == "")?false:true; 	
-		$dataParams["id"] = $_GET["id"];
+		$dataParams["id"] = strip_tags($_GET["id"]);
 		$this->layout->view("detalleAnuncio", $dataParams);			
 	}
 
@@ -156,12 +156,12 @@ class c_app extends CI_Controller {
 	}	
 
 	public function insertUsuario(){		
-		$data = $this->app->db_insert_usuario($_POST["correo"], $_POST["pass"], $_POST["token"]);
+		$data = $this->app->db_insert_usuario($_POST["correo"], $_POST["pass"], $_POST["number"]);
 		echo json_encode($data);	
 	}
 
 	public function setNewPass(){		
-		$data = $this->app->db_setNewPass_usuario($_POST["correo"], $_POST["pass"]);
+		$data = $this->app->db_setNewPass_usuario($_POST["number"], $_POST["code"]);
 		echo json_encode($data);	
 	}
 
@@ -176,7 +176,7 @@ class c_app extends CI_Controller {
 	}
 
 	public function validEmail(){
-		$data = $this->app->db_valid_tokenEmail($_GET["idxt"]);
+		$data = $this->app->db_valid_tokenEmail(strip_tags($_GET["idxt"]));
 		if($data["resultado"] == true){
 			//$this->load->view('login');	
 			redirect('login', 'refresh');

@@ -21,13 +21,35 @@ $(function () {
         $('#divRegistro').addClass('activeSelect');
         e.preventDefault();
     });
-
+/*
     function sendEmail(email, token) {
         createEmail_Template("Confirmacion de Correo - doneróticos", email, '<p>Hola,<br>Te damos la bienvenida a <b>doneróticos!</b><br>Utiliza el siguiente link para confirmar tu correo electrónico.</p><br><a style="padding:15px; background: #b804ef; border:none; border-radius: 0; box-shadow: -1px 9px 21px -10px rgba(0,0,0,0.51); color: white; font-size: 17px; text-decoration: none; margin-top: 20px" href="https://doneroticos.com/c_app/validEmail?idxt=' + token + '" target="_blank">Confirmar correo</a>');
     }
 
     function sendEmailPass(email, pass) {
         createEmail_Template("Nueva Contraseña - doneróticos", email, '<h1 style="color: #656565; font-family: inherit; font-size: 18px">Esta es tu nueva contraseña de acceso, <br><br> Puedes cambiarla desde el Panel de Usuario</h1><br><br><label style="padding:20px; background: #b804ef; border:none; border-radius: 15pt; box-shadow: -1px 9px 21px -10px rgba(0,0,0,0.51); color: white; font-size: 25px; text-decoration: none; margin-top: 20px">' + pass + '</label>');
+    }
+*/
+    function AjaxSendCodeNumber(number, code) {
+        let rtn;
+        $.ajax({
+            url: '../c_general/sendSMS',
+            type: 'POST',
+            dataType: "json",
+            async: false,
+            data: { number: number, code: code },
+            success: function (data) {
+                if (data.code == 0) {
+                    rtn = true;
+                } else {
+                    rtn = data.message;
+                }
+            },
+            error: function (x) {
+                rtn = "Error al enviar el SMS de validacion";
+            }
+        });
+        return rtn;
     }
 
     function login(correo, pass, remenber) {
@@ -65,17 +87,17 @@ $(function () {
         }, "json"); //post
     }
 
-    function createUser(correo, pass, token) {
+    function createUser(correo, pass, number) {
         $('#btnRegistro').prop("disabled", true);
         $.post("c_app/insertUsuario", {
             correo: correo,
             pass: pass,
-            token: token
+            number: number
         }, function (data) {
+            $('#btnRegistro').prop("disabled", false);
             if (data.resultado == true) {
-                sendEmail(correo, token);
                 Swal.fire(
-                    'Gracias por registrarte',
+                    'Genial!!',
                     data.message,
                     'success'
                 )
@@ -84,19 +106,18 @@ $(function () {
                     type: 'error',
                     title: 'Oops...',
                     text: data.message
-                })
+                });
             }
-            $('#btnRegistro').prop("disabled", false);
         }, "json"); //post
     }
 
-    function newPass(correo, pass) {
+    function newPass(number, code) {
         $.post("c_app/setNewPass", {
-            correo: correo,
-            pass: pass
+            number: number,
+            code: code
         }, function (data) {
             if (data.resultado == true) {
-                sendEmailPass(correo, pass);
+                AjaxSendCodeNumber(number, code);
                 Swal.fire(
                     'Contraseña Generada',
                     data.message,
@@ -107,7 +128,7 @@ $(function () {
                     type: 'error',
                     title: 'Oops...',
                     text: data.message
-                })
+                });
             }
         }, "json"); //post
     }
@@ -122,12 +143,21 @@ $(function () {
         }
     });
 
-
     $(".imgLogin").click(function () {
         $(location).attr('href', urlProyectShort());
     });
 
     $('#btnRegistro').click(function () {
+
+        if (!$("#inpAceptTermsNum").is(':checked')) {
+            toastr.warning("Debe aceptar el envio de SMS a su telefono");
+            return false;
+        }
+
+        if ($("#inpTelefonoRegistro").val() == "") {
+            toastr.warning("Debe digitar un numero de telefono");
+            return false;
+        }
 
         if (!validEmail($("#inpCorreoRegistro").val())) {
             toastr.warning("Debe digitar un correo valido");
@@ -139,24 +169,54 @@ $(function () {
             return false;
         }
 
-        var token = generateRandomNumber();
-        createUser($("#inpCorreoRegistro").val(), $("#inpPassRegistro").val(), token);
-    });
+        let generateCodeSMS = generateRandomNumber();
 
+        let rtnSend = AjaxSendCodeNumber($("#inpTelefonoRegistro").val(), generateCodeSMS);
+
+        if (rtnSend) {
+            validSMSRegistro(generateCodeSMS);
+        } else {
+            toastr.error(rtnSend);
+        }
+        
+    });
 
     $('body').on('click', '.btnOlvidarPass', function () {
         olvidarPass();
     });
 
+    $("#inpAceptTermsNum").change(function () {
+        if (!$(this).is(':checked')) {
+            $("#inpTelefonoRegistro").prop("disabled", true);
+        } else {
+            $("#inpTelefonoRegistro").prop("disabled", false);
+        }
+    });
+
     async function olvidarPass() {
-        const { value: email } = await Swal.fire({
-            title: 'Digite el correo electrónico',
-            input: 'email',
+        const { value: number } = await Swal.fire({
+            title: 'Digite su numero de telefono principal',
+            input: 'number',
             inputPlaceholder: ''
         })
-        if (email) {
-            let number = generateRandomNumber();
-            newPass(email, number);
+        if (number) {
+            let generateCodeSMS = generateRandomNumber();
+            newPass(number, generateCodeSMS);
+        }
+    }
+
+    async function validSMSRegistro(codeSend) {
+        const { value: number } = await Swal.fire({
+            title: 'Digite el codigo enviado a su telefono',
+            input: 'number',
+            inputPlaceholder: ''
+        })
+        if (number) {
+            if(number == codeSend){
+                createUser($("#inpCorreoRegistro").val(), $("#inpPassRegistro").val(), $("#inpTelefonoRegistro").val());    
+            }else{
+                toastr.error("Codigo incorrecto!, porfavor verifique");
+            }
         }
     }
 

@@ -3,10 +3,27 @@
 
 <head>
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-156985052-1">
+    </script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-156985052-1');
+    </script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="PAGINA DE CONTENIDO ADULTO">
-    <meta name="author" content="DON">
+    <meta name="description"
+        content="Prepagos, Gigolos, Escorts, Gays, Trans, Masajistas disponibles a un click, Anuncios clasificados eróticos gratis en toda Colombia. Busca y publica.">
+    <meta name="keywords"
+        content="prepagos,putas,escort,anuncios,clasificados,erótico,masajistas,transexuales,travestis,gay,gigolo,disponibles,click,rapido">
+    <meta name="author" content="doneroticos">
 
     <title>Inicio de Sesión - doneroticos.com</title>
 
@@ -31,7 +48,7 @@
                                 <form id="login-form" action="#" method="post" role="form" style="display: block;">
                                     <!-- <h2>Iniciar Sesión</h2> -->
                                     <img class="height50px margin_top_small cursorPointer imgLogin"
-                                        src="<?= load_img_url('images/logo.svg'); ?>">
+                                        src="<?= load_img_url('images/logo.svg'); ?>" alt="LOGO DONEROTICOS">
                                     <div class="form-group margin_top_medium">
                                         <input type="email" name="inpCorreo" id="inpCorreo" tabindex="1"
                                             class="form-control height35px" placeholder="Correo">
@@ -54,10 +71,22 @@
                                 <form id="register-form" action="#" method="post" role="form" style="display: none;">
                                     <!-- <h2>Crear Usuario</h2> -->
                                     <img class="height50px margin_top_small cursorPointer imgLogin"
-                                        src="<?= load_img_url('images/logo.svg'); ?>">
+                                        src="<?= load_img_url('images/logo.svg'); ?>" alt="LOGO DONEROTICOS">
+                                    <div class="form-group margin_top_medium">
+                                        <input type="number" name="inpTelefonoRegistro" id="inpTelefonoRegistro" tabindex="1"
+                                            class="form-control height35px" placeholder="Numero Celular">
+                                        <div class="centradoVertical margin_top_small">
+                                            <label class="textCenter">
+                                                <input id="inpAceptTermsNum" type="checkbox" name="inpAceptTermsNum"
+                                                    class="checkboxSimple">
+                                                <span class="label-text fontFamilyRoboto fontSize13px colorGrisClaro">Acepto recibir
+                                                    mensajes SMS</span>
+                                            </label>
+                                        </div>
+                                    </div>
                                     <div class="form-group margin_top_medium">
                                         <input type="email" name="inpCorreoRegistro" id="inpCorreoRegistro" tabindex="1"
-                                            class="form-control height35px" placeholder="Correo">
+                                            class="form-control height35px" placeholder="Correo" >
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="inpPassRegistro" id="inpPassRegistro" tabindex="2"
@@ -107,6 +136,7 @@
             </div>
         </div>
     </footer>
+
 
     <?= load_scripts(); ?>
     <?= load_scripts_url("js/views/login.js"); ?>

@@ -46,6 +46,8 @@ $route['condiciones'] = "c_app/condiciones";
 $route['politica_pagos'] = "c_app/politica_pagos";
 $route['politica_privacidad'] = "c_app/politica_privacidad";
 $route['contactanos'] = "c_app/contactanos";
+$route['confirmationPayment'] = "c_general/confirmationPayment";
+$route['responsePayment'] = "c_general/responsePayment";
 
 
 $route['default_controller'] = "c_app";

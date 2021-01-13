@@ -196,7 +196,8 @@ label {
 
 .panel-login input[type="text"],
 .panel-login input[type="email"],
-.panel-login input[type="password"] {
+.panel-login input[type="password"],
+.panel-login input[type="number"] {
     height: 45px;
     border: 1px solid #d8d8d8;
     /* font-family: 'Poppins', sans-serif; */

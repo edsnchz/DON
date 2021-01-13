@@ -5,8 +5,11 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="PAGINA NO ENCONTRADA">
-    <meta name="author" content="DON">
+    <meta name="description"
+        content="Prepagos, Gigolos, Escorts, Gays, Trans, Masajistas disponibles a un click, Anuncios clasificados eróticos gratis en toda Colombia. Busca y publica.">
+    <meta name="keywords"
+        content="prepagos,putas,escort,anuncios,clasificados,erótico,masajistas,transexuales,travestis,gay,gigolo,disponibles,click,rapido">
+    <meta name="author" content="doneroticos">
 
     <title>Pagina no encontrada - doneroticos.com</title>
 
@@ -34,7 +37,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <!--<i class="fa fa-exclamation-circle iconExclamation"></i>-->
                 <h1 class="tituloPage animated bounceInDown">404</h1>
-                <h1 class="subTituloPage animated fadeIn">Página no encontrada</h1>
+                <h2 class="subTituloPage animated fadeIn">Página no encontrada</h2>
                 <p class="textPage animated fadeIn">No se pudo encontrar la página solicitada:
                     esto <br>podría ser un error de ortografía o una página eliminada.</p>
             </div>
@@ -58,7 +61,7 @@
     <div class="width100" style="position: fixed; bottom: 0">
         <div class="centradoVerticalHorizontal">
             <div onclick="goHome()" class="divLogo">
-                <img src="../../images/logo.svg" style="width: 100%">
+                <img src="../../images/logo.svg" style="width: 100%" alt="LOGO DONEROTICOS">
             </div>
         </div>
     </div>

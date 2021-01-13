@@ -19,7 +19,7 @@ toastr.options = {
 var keyMaps = "AIzaSyDXHbCxIjLcqmPi65H5mQqI-4kZ26I4oAo";
 var numAnunciosForPage = 60;
 var tokenEmails = "244547e3-d66f-425b-b96d-65766e301fec";
-var emailFrom = "soporte@donstudioweb.co";
+var emailFrom = "soporte@donstudioweb.com";
 
 if (typeof loginBack !== "undefined") {
     if (loginBack == false) {
@@ -166,8 +166,11 @@ function urlProyectShort() {
     return "/";
 }
 
-function generateRandomNumber() {
-    return Math.floor(Math.random() * 1000000) + 500000;
+function generateRandomNumber(limit = 4) {
+    let number = Math.floor(Math.random() * 1000000) + 500000;
+    let numberSTR = number.toString();
+    let rtn = (numberSTR.length <= limit) ? number : parseInt(numberSTR.substring(0, limit));
+    return rtn;
 }
 
 function validEmail(string) {
@@ -457,7 +460,7 @@ function getElementUbication(res, name) {
     return reemplazarAcentos(rtn);
 }
 
-function toCapitalize(string){
+function toCapitalize(string) {
     let titulo = string.toLowerCase();
     return titulo.charAt(0).toUpperCase() + titulo.slice(1);
 }

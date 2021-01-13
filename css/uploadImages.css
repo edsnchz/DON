@@ -115,3 +115,9 @@
     height: 30px;
     text-align: center;
 }
+
+@media (min-width: 768px) {  
+    .divIconSelectDelete {
+        display: block !important;
+    }
+}

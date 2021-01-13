@@ -58,7 +58,7 @@ $(function () {
                 });
             }
         },
-        error: function (data){
+        error: function (data) {
             toastr.error("Error al consultar las categorias, porfavor intente nuevamente");
         }
     });
@@ -75,7 +75,7 @@ $(function () {
                 });
             }
         },
-        error: function (data){
+        error: function (data) {
             toastr.error("Error al consultar los departamentos, porfavor intente nuevamente");
         }
     });
@@ -91,7 +91,7 @@ $(function () {
                 });
             }
         },
-        error: function (data){
+        error: function (data) {
             toastr.error("Error al consultar, porfavor intente nuevamente");
         }
     });
@@ -109,14 +109,14 @@ $(function () {
                     cantVacias = 4 - data.length;
                     $.each(data, function (key, value) {
                         numNumbers++;
-                        renderCelulares(numNumbers, value.id, value.celular);
+                        renderCelulares(numNumbers, value.id, value.celular, value.isPrincipal);
                     });
                     for (var i = 0; i < cantVacias; i++) {
                         renderCelularesVacias();
                     }
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar los telefonos, porfavor intente nuevamente");
             }
         });
@@ -136,7 +136,7 @@ $(function () {
                     });
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -157,7 +157,7 @@ $(function () {
                     });
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -189,7 +189,7 @@ $(function () {
                     });
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -206,7 +206,7 @@ $(function () {
                     });
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -227,7 +227,7 @@ $(function () {
                     });
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar las ciudades, porfavor intente nuevamente");
             }
         });
@@ -266,7 +266,7 @@ $(function () {
                 }
             },
             error: function (xr) {
-                toastr.error("Error al obtener los datos de los creditos");
+                toastr.error("Error al obtener los datos de tu saldo");
             }
         });
         return temp;
@@ -285,9 +285,18 @@ $(function () {
                     }
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
+        });
+    }
+
+    function AjaxPostTwitter(id) {
+        $.ajax({
+            url: '../c_general/postTwitter',
+            type: 'POST',
+            dataType: "json",
+            data: { id: id }
         });
     }
 
@@ -307,7 +316,7 @@ $(function () {
                     toastr.error(data.message);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al cambiar la contraseña, porfavor intente nuevamente");
             }
         });
@@ -329,7 +338,7 @@ $(function () {
                     toastr.error(data.message);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al enviar el ticket, porfavor intente nuevamente");
             }
         });
@@ -351,7 +360,7 @@ $(function () {
                     toastr.error(data.message);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al enviar el ticket, porfavor intente nuevamente");
             }
         });
@@ -417,7 +426,7 @@ $(function () {
 
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -445,7 +454,7 @@ $(function () {
                     toastr.error(data.message);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al agregar el numero celular, porfavor intente nuevamente");
             }
         });
@@ -460,7 +469,7 @@ $(function () {
             async: false,
             data: { number: number, code: code },
             success: function (data) {
-                if (data.success) {
+                if (data.code == 0) {
                     rtn = true;
                 } else {
                     rtn = data.message;
@@ -488,7 +497,7 @@ $(function () {
                     toastr.error(data.message);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al eliminar el numero celular, porfavor intente nuevamente");
             }
         });
@@ -528,7 +537,7 @@ $(function () {
                     toastr.error(data.message);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -567,7 +576,7 @@ $(function () {
 
                         var stringNumero = '<div class="btnNumeroMiAnuncio">ID: ' + value.id + '</div>';
 
-                        $("#divMisAnuncios").append('<div class="col-sm-12 col-md-6"><div class="container backgroundGray sombra margin_top_medium"><div class="row"><div class="col-4 col-sm-3 padding0"><div class="backgroundGrayDos"><img src="../../uploads/anuncios/' + value.url + '" class="imgItemCarousel" style="height: 143px"></div>' + stringTop + stringNumero + '</div><div class="col-8 col-sm-6 paddingSuperior10px"><h5 class="colorGrisOscuro fontFamilyRoboto fontWeight900 margin_bottom_5px"><a href="' + urlProyect() + 'anuncio?id=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + ((value.titulo.length > 50) ? value.titulo.substring(0, 50) + "..." : value.titulo) + '</a></h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 50) ? value.descripcion.substring(0, 50).toLowerCase() + "..." : value.descripcion.toLowerCase()) + '</p>' + stringCategoria + stringCityAnuncio + stringUltEdicion + '</div><div class="col-12 col-sm-3" style="padding: 0px 5px"><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEditarAnuncio" data-id="' + value.id + '" title="Editar Anuncio"><i class="far fa-edit"></i></button><button class="btn backgroundGrayDosbtn btnEliminarAnuncio colorRed2" data-id="' + value.id + '" title="Eliminar Anuncio"><i class="far fa-trash-alt"></i></button></div><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEstadisticas" data-id="' + value.id + '" title="Estadísticas"><i class="far fa-chart-bar"></i></button><button class="btn backgroundGrayDosbtn btnRelojito colorPink" data-id="' + value.id + '" title="Subidas Individuales"><i class="fas fa-history"></i></button></div><button class="btnPromocionar btn fontFamilyRoboto backgroundPinkClaro hoverBackgroundPinkOscuro hoverColorWhite width100porciento margin_top_7px colorWhite fontSize13px borderRadius0px fontWeight600" data-id="' + value.id + '">Promocionar</button></div></div></div></div>');
+                        $("#divMisAnuncios").append('<div class="col-sm-12 col-md-6"><div class="container backgroundGray sombra margin_top_medium"><div class="row"><div class="col-4 col-sm-3 padding0"><div class="backgroundGrayDos"><img src="../../uploads/anuncios/' + value.url + '" class="imgItemCarousel" style="height: 143px"></div>' + stringTop + stringNumero + '</div><div class="col-8 col-sm-6 paddingSuperior10px"><h5 class="colorGrisOscuro fontFamilyRoboto fontWeight900 margin_bottom_5px"><a href="' + urlProyect() + 'anuncio?id=' + value.id + '" class="hoverColorPink colorGrisOscuro fontFamilyRoboto textDecorationNone">' + ((value.titulo.length > 50) ? value.titulo.substring(0, 50) + "..." : value.titulo) + '</a></h5><p class="fontFamilyRoboto colorGrisMenosOscuro fontSize14px">' + ((value.descripcion.length > 50) ? value.descripcion.substring(0, 50).toLowerCase() + "..." : value.descripcion.toLowerCase()) + '</p>' + stringCategoria + stringCityAnuncio + stringUltEdicion + '</div><div class="col-12 col-sm-3" style="padding: 0px 5px;"><div class="paddingSuperiorInferior13px"><div class="btn-group padding0 width100porciento" role="group"><button class="btn backgroundGrayDosbtn btnEditarAnuncio paddingSup3_Lat12" data-id="' + value.id + '" title="Editar Anuncio"><i class="far fa-edit"></i></button><button class="btn backgroundGrayDosbtn btnEliminarAnuncio colorRed2 paddingSup3_Lat12" data-id="' + value.id + '" title="Eliminar Anuncio"><i class="far fa-trash-alt"></i></button></div><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn backgroundGrayDosbtn btnEstadisticas paddingSup3_Lat12" data-id="' + value.id + '" title="Estadísticas"><i class="far fa-chart-bar"></i></button><button class="btn backgroundGrayDosbtn btnRelojito colorPink paddingSup3_Lat12" data-id="' + value.id + '" title="Subidas Individuales"><i class="fas fa-history"></i></button></div><div class="btn-group padding0 width100porciento margin_top_small" role="group"><button class="btn btn-success btnTopFree colorWhite paddingSup3_Lat12" data-id="' + value.id + '" title="Subir Gratis"><i class="fa fa-arrow-up"></i></button><button class="btnPromocionar btn backgroundPinkClaro hoverBackgroundPinkOscuro hoverColorWhite colorWhite paddingSup3_Lat12" data-id="' + value.id + '" title="Promocionar Anuncio"><i class="far fa-money-bill-alt"></i></button></div></div></div></div></div></div>');
                     });
                 }
 
@@ -586,13 +595,13 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     data = data.data;
-                    $(".spCreditos2").html('Tienes ' + data[0]["cantidad"] + ' créditos -- <i class="fas fa-donate"></i>');
+                    $(".spCreditos2").html('Tu saldo = ' + formatCurrencyString(data[0]["cantidad"]) + ' <i class="far fa-money-bill-alt"></i>');
                 } else {
-                    toastr.error("Error al cargar los créditos");
+                    toastr.error("Error al cargar tu saldo");
                 }
             },
-            error: function (data){
-                toastr.error("Error al consultar mis creditos, porfavor intente nuevamente");
+            error: function (data) {
+                toastr.error("Error al consultar tu saldo, porfavor intente nuevamente");
             }
         });
     }
@@ -609,7 +618,7 @@ $(function () {
                     data = data.data;
                     temp = data[0]["cantidad"];
                 } else {
-                    toastr.error("Error al cargar los créditos");
+                    toastr.error("Error al cargar tu saldo");
                 }
             }
         });
@@ -631,7 +640,7 @@ $(function () {
                     toastr.error("Error al cargar los paquetes");
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -666,7 +675,35 @@ $(function () {
                     toastr.error("Error al cargar subidas individuales programadas");
                 }
             },
-            error: function (data){
+            error: function (data) {
+                toastr.error("Error al consultar, porfavor intente nuevamente");
+            }
+        });
+    }
+
+    function AjaxGetTopFreeActuales(idAnuncio) {
+        $.ajax({
+            url: '../c_general/getPromocionTopFreeActiva',
+            type: 'POST',
+            dataType: "json",
+            data: { idAnuncio: idAnuncio },
+            success: function (data) {
+                if (data.resultado == true) {
+                    let datos = data.data;
+                    if (datos.length >= 1) {
+                        $("#btnAceptarTopFree").prop("disabled", true);
+                        $("#divAlertMaximoTopFree").removeClass("displayNone");
+                        $("#divAlertMaximoTopFree").addClass("displayBlock");
+                    } else {
+                        $("#btnAceptarTopFree").prop("disabled", false);
+                        $("#divAlertMaximoTopFree").removeClass("displayBlock");
+                        $("#divAlertMaximoTopFree").addClass("displayNone");
+                    }
+                } else {
+                    toastr.error("Error al cargar subidas individuales programadas");
+                }
+            },
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -702,7 +739,7 @@ $(function () {
                     }
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -716,13 +753,13 @@ $(function () {
             success: function (data) {
                 if (data.resultado == true) {
                     $.each(data.data, function (key, value) {
-                        $("#divPrecios").append('<div class="col-12 col-sm-4 col-md-2 margin_top_medium"><div class="card shadow"><div class="card-body centradoHorizontal" style="height: 80px"><h5 class="textCenter fontSize22px margin_bottom_0px">' + value.creditos + '</h5><h6 class="fontFamilyRoboto margin_bottom_0px colorGrisOscuro margin_top_8px">&nbsp;Créditos</h6><label class="textCenter positionAbsolute Top45px fontFamilyRoboto fontSize13px colorGrisMenosOscuro">' + value.beneficio + '</label></div><ul class="list-group list-group-flush"><li class="list-group-item textCenter fontSize18px fontFamilyRoboto paddingSuperiorInferior20px">' + formatCurrencyString(value.valor) + '</li></ul><div class="card-body backgroundPinkClaro textCenter cursorPointer hoverBackgroundPinkOscuro btnComprarCreditos" data-id="' + value.id + '"><h4 class="colorWhite fontSize14px textUppercase fontWeight600 margin_bottom_0px">Comprar</h4></div></div></div>');
+                        $("#divPrecios").append('<div class="col-sm-4 margin_top_medium"><div class="card shadow"><div class="card-body centradoHorizontal" style="height: 80px"><h5 class="textCenter fontSize22px margin_bottom_0px">' + formatCurrencyString(value.valor) + '</h5><label class="textCenter positionAbsolute Top50px fontFamilyRoboto fontSize15px colorGrisMenosOscuro">' + value.beneficio + '</label></div><div class="card-body backgroundPinkClaro textCenter cursorPointer hoverBackgroundPinkOscuro btnComprarCreditos" data-id="' + value.id + '"><h4 class="colorWhite fontSize14px textUppercase fontWeight600 margin_bottom_0px">Comprar</h4></div></div></div>');
                     });
                 } else {
                     toastr.error("Error al cargar los precios");
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -744,7 +781,7 @@ $(function () {
                     toastr.error("Error al eliminar el anuncio");
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al eliminar el anuncio, porfavor intente nuevamente");
             }
         });
@@ -757,6 +794,21 @@ $(function () {
             type: 'POST',
             dataType: "json",
             data: { idAnuncio: idAnuncio, idOpcion: idOpcion, fechaHoraI: fechaHoraI, fechaHoraF: fechaHoraF },
+            async: false,
+            success: function (data) {
+                rtn = data;
+            }
+        });
+        return rtn;
+    }
+
+    function AjaxInsertPromocionAnuncioNOW(idAnuncio, idOpcion) {
+        let rtn;
+        $.ajax({
+            url: '../c_general/insertPromocionAnuncioNow',
+            type: 'POST',
+            dataType: "json",
+            data: { idAnuncio: idAnuncio, idOpcion: idOpcion },
             async: false,
             success: function (data) {
                 rtn = data;
@@ -780,7 +832,7 @@ $(function () {
                     toastr.error("Error al cargar mis fotos");
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar tus fotos, porfavor intente nuevamente");
             }
         });
@@ -801,7 +853,7 @@ $(function () {
                     toastr.error("Error al cargar mis fotos");
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar tus fotos, porfavor intente nuevamente");
             }
         });
@@ -867,7 +919,7 @@ $(function () {
                     toastr.error("Error al cargar los remitentes");
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar tus mensajes, porfavor intente nuevamente");
             }
         });
@@ -910,15 +962,16 @@ $(function () {
             type: 'POST',
             dataType: "json",
             success: function (data) {
+                loading.hide();
                 if (data.resultado == true) {
                     limpiar();
-                    loading.hide();
                     toastr.success("Anuncio publicado correctamente");
+                    AjaxPostTwitter(id);
                 } else {
                     toastr.error(data.mensaje + " pero el anuncio se publico correctamente, puedes reintentar subir las imagenes en el apartado (Mis Anuncios)");
                 }
             },
-            error: function (data){
+            error: function (data) {
                 loading.hide();
                 toastr.error("Error al subir las imagenes pero el anuncio se publico correctamente, puedes reintentar subir las imagenes en el apartado (Mis Anuncios)");
             }
@@ -943,8 +996,9 @@ $(function () {
         });
     }
 
-    function renderCelulares(i, id, number) {
-        $("#divTelefonos").append('<div class="col-sm-3 margin_top_small"><div class="card"><div class="card-body textCenter"><h6 id="lblNumero' + id + '" class="card-subtitle mb-2 text-muted textCenter fontWeight600 colorGrisOscuroTels fontSizeBig fontSize17pxMovil">' + number + '</h6><p class="card-text"><div class="row"><div class="col-6 col-sm-12"><div class="form-group pull-left centradoVertical"><input id="inpWhat' + i + '" type="checkbox" name="inpWhat' + i + '" class="checkStyle margin_left_small" data-id="' + id + '"><label for="inpWhat' + i + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">WhatsApp</label></div></div><div class="col-6 col-sm-12"><div class="form-group pull-left centradoVertical"><input id="inpTel' + i + '" type="checkbox" name="inpTel' + i + '" class="checkStyle margin_left_small margin0Movil"  data-id="' + id + '"><label for="inpTel' + i + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">Llamadas</label></div></div></p><br><br><a id="btnEliminar' + i + '" href="#" class="card-link margin0 colorRed hoverGrisClaro fontFamilyRoboto fontSize14px width100porciento" data-id="' + id + '" onclick="eliminarNumero(this)" data-toggle="modal" data-target="#modalEliminarNumero">Eliminar</a></div></div></div>');
+    function renderCelulares(i, id, number, isPrincipal) {
+        let partFooter = (isPrincipal == 1) ? '<div class="width100porciento centradoHorizontal"><span class="fontFamilyRoboto fontSize14px textUppercase">Principal</span></div>' : '<div class="width100porciento centradoHorizontal"><span class="fontFamilyRoboto fontSize14px hoverGrisClaro colorRed2 cursorPointer" data-id="' + id + '" onclick="eliminarNumero(this)" data-toggle="modal" data-target="#modalEliminarNumero">Eliminar</span></div>';
+        $("#divTelefonos").append('<div class="col-sm-3 margin_top_small"><div class="card"><div class="card-body textCenter"><h6 id="lblNumero' + id + '" class="card-subtitle mb-2 text-muted textCenter fontWeight600 colorGrisOscuroTels fontSizeBig fontSize17pxMovil">' + number + '</h6><p class="card-text"><div class="row"><div class="col-6 col-sm-12"><div class="form-group pull-left centradoVertical"><input id="inpWhat' + i + '" type="checkbox" name="inpWhat' + i + '" class="checkStyle margin_left_small" data-id="' + id + '" ' + (isPrincipal == 1) ? "checked" : "" + ' ><label for="inpWhat' + i + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">WhatsApp</label></div></div><div class="col-6 col-sm-12"><div class="form-group pull-left centradoVertical"><input id="inpTel' + i + '" type="checkbox" name="inpTel' + i + '" class="checkStyle margin_left_small margin0Movil"  data-id="' + id + '"><label for="inpTel' + i + '" class="fontFamilyPoppins fontWeight600 textUppercase fontSize12px colorGrisClaro margin_left_MasSmall height6px">Llamadas</label></div></div></p><br><br>' + partFooter + '</div></div></div>');
     }
 
     function renderCelularesVacias() {
@@ -1133,6 +1187,18 @@ $(function () {
 
         $("#btnGuardar").prop("disabled", true);
 
+        if (numNumbers == 0) {
+            toastr.warning("Agrega al menos un numero de telefono para publicar");
+            $("#btnGuardar").prop("disabled", false);
+            return false;
+        }
+
+        if (keyFotosForm.length > 20) {
+            toastr.warning("Deben ser maximo 20 fotos por anuncio, tienes " + keyFotosForm.length + " fotos.");
+            $("#btnGuardar").prop("disabled", false);
+            return false;
+        }
+
         if ($("#inpCategorias").val() == "N/A") {
             toastr.warning("Debe escoger una categoría");
             $("#btnGuardar").prop("disabled", false);
@@ -1184,7 +1250,7 @@ $(function () {
             }
             if ($("#inpPrecio" + i).val() == "" || $("#inpTiempo" + i).val() == "N/A" ||
                 $("#inpRelaciones" + i).val() == "N/A") {
-                toastr.warning("Debe digitar todos los datos en las condiciones");
+                toastr.warning("Rellena todos los campos en tarifas y condiciones");
                 okOptionsServicios = false;
                 return false;
             }
@@ -1229,6 +1295,7 @@ $(function () {
             idCiudad: $("#inpCiudades").val(),
             condiciones: selectRowsOptions,
             telefonos: selectNumber,
+            numFotos: keyFotosForm.length
         });
 
         $.ajax({
@@ -1236,7 +1303,7 @@ $(function () {
             type: 'POST',
             dataType: "json",
             data: { data: stringData },
-            beforeSend: function() {
+            beforeSend: function () {
                 loading.show();
             },
             success: function (data) {
@@ -1252,11 +1319,11 @@ $(function () {
                     } else {
                         limpiar();
                         loading.hide();
-                        toastr.success(data.message);    
+                        toastr.success(data.message);
                     }
 
                     if (data.freeCredits) {
-                        toastr.success("Has recibido <b>100 Créditos</b> gratis por publicar tu primer anuncio!");
+                        toastr.success("Has recibido <b>$10.000</b> gratis por publicar tu primer anuncio!");
                         AjaxGetMisCreditos();
                     }
 
@@ -1266,7 +1333,7 @@ $(function () {
                     toastr.error(data.message);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 loading.hide();
                 $("#btnGuardar").prop("disabled", false);
                 toastr.error("Error al crear el anuncio, porfavor intente nuevamente");
@@ -1276,8 +1343,14 @@ $(function () {
     });
 
     $("#btnAceptarEdicion").click(function () {
-        
+
         $("#btnAceptarEdicion").prop("disabled", true);
+
+        if ($(".preview-images-zone-editar").children().length > 20) {
+            toastr.warning("Deben ser maximo 20 fotos por anuncio, tienes " + $(".preview-images-zone-editar").children().length + " fotos.");
+            $("#btnAceptarEdicion").prop("disabled", false);
+            return false;
+        }
 
         if ($("#inpTituloEditar").val().length < 40) {
             toastr.warning("Ingrese un titulo entre 40 y 200 caracteres");
@@ -1302,16 +1375,16 @@ $(function () {
         $.each(numRowsOptionServiciosEditar, function (index, i) {
             if ($("#inpPrecioEditar" + i).val() == "" || $("#inpTiempoEditar" + i).val() == "N/A" ||
                 $("#inpRelacionesEditar" + i).val() == "N/A") {
-                toastr.warning("Debe digitar todos los datos en las condiciones");
+                toastr.warning("Rellena todos los campos en tarifas y condiciones");
                 okOptionsServicios = false;
                 return false;
             }
-            if(typeof $("#inpPrecioEditar" + i).val() !== "undefined"){
+            if (typeof $("#inpPrecioEditar" + i).val() !== "undefined") {
                 selectRowsOptions.push({
                     "precio": $("#inpPrecioEditar" + i).val(),
                     "tiempo": $("#inpTiempoEditar" + i).val(),
                     "relaciones": $("#inpRelacionesEditar" + i).val()
-                });    
+                });
             }
         });
 
@@ -1361,7 +1434,7 @@ $(function () {
             type: 'POST',
             dataType: "json",
             data: { data: stringData },
-            beforeSend: function() {
+            beforeSend: function () {
                 loading.show();
             },
             success: function (data) {
@@ -1387,7 +1460,7 @@ $(function () {
                     toastr.error(data.message);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 loading.hide();
                 $("#btnAceptarEdicion").prop("disabled", false);
                 toastr.error("Error al editar el anuncio, porfavor intente nuevamente");
@@ -1528,11 +1601,11 @@ $(function () {
     function setCreditosSpanFloat() {
         let creditos = AjaxReturnMisCreditos();
         if (typeof creditos === "undefined" || creditos == 0) {
-            $(".spCreditosModals").html('Conseguir créditos -- <i class="fas fa-donate"></i>');
+            $(".spCreditosModals").html('Recargar Saldo -- <i class="fas fa-donate"></i>');
             $("#btnAceptarRelojito").prop("disabled", true);
             $("#btnAceptarPromocion").prop("disabled", true);
         } else {
-            $(".spCreditosModals").html('Tienes ' + creditos + ' créditos -- <i class="fas fa-donate"></i>');
+            $(".spCreditosModals").html('Tu saldo = ' + formatCurrencyString(creditos) + ' <i class="far fa-money-bill-alt"></i>');
             $("#btnAceptarRelojito").prop("disabled", false);
             $("#btnAceptarPromocion").prop("disabled", false);
         }
@@ -1542,11 +1615,16 @@ $(function () {
     $('body').on('click', '.spCreditosModals', function () {
         $('#tabMisCreditos').tab('show');
         $("#modalRelojito").modal("hide");
+        $("#modalTopFree").modal("hide");
         $("#modalPromociones").modal("hide");
     });
 
     $('#modalRelojito').on('hidden.bs.modal', function (e) {
         $("#btnAceptarRelojito").prop("disabled", false);
+    });
+
+    $('#modalTopFree').on('hidden.bs.modal', function (e) {
+        $("#btnAceptarTopFree").prop("disabled", false);
     });
 
     $('#modalPromociones').on('hidden.bs.modal', function (e) {
@@ -1566,6 +1644,13 @@ $(function () {
         AjaxGetRelojitosActuales($(this).data("id"));
         $("#inpIdAnuncioRelojito").val($(this).data("id"));
         $("#modalRelojito").modal("show");
+    });
+
+    $('body').on('click', '.btnTopFree', function () {
+        isPremiunPack = false;
+        AjaxGetTopFreeActuales($(this).data("id"));
+        $("#inpIdAnuncioTopFree").val($(this).data("id"));
+        $("#modalTopFree").modal("show");
     });
 
     $('body').on('click', '.btnPromocionar', function () {
@@ -1588,8 +1673,8 @@ $(function () {
 
     function accionesBtnPremiun() {
         let creditos = AjaxReturnMisCreditos();
-        if (creditos < 150) {
-            toastr.error("No tienes suficientes creditos para realizar la compra");
+        if (creditos < 15000) {
+            toastr.error("No tienes suficiente saldo para realizar la compra");
             return false;
         }
         $("#modalPromociones").modal("hide");
@@ -1628,8 +1713,8 @@ $(function () {
 
     function accionesBtnPlatino() {
         let creditos = AjaxReturnMisCreditos();
-        if (creditos < 1300) {
-            toastr.error("No tienes suficientes creditos para realizar la compra");
+        if (creditos < 130000) {
+            toastr.error("No tienes suficiente saldo para realizar la compra");
             return false;
         }
         $("#modalPromociones").modal("hide");
@@ -1815,6 +1900,24 @@ $(function () {
         $("#inpFecha2Promocion").val(timeF.format("YYYY-MM-DD HH:mm:ss"));
     });
 
+    $("#btnAceptarTopFree").click(function () {
+
+        if (typeof $("#inpIdAnuncioTopFree").val() === "undefined" || $("#inpIdAnuncioTopFree").val() == "") {
+            toastr.error("Debe seleccionar un anuncio");
+            return false;
+        }
+
+        var result = AjaxInsertPromocionAnuncioNOW($("#inpIdAnuncioTopFree").val(), 16);
+        if (result.resultado) {
+            AjaxGetTopFreeActuales($("#inpIdAnuncioTopFree").val());
+            toastr.success(result.message);
+            isPremiunPack = false;
+        } else {
+            toastr.error(result.message);
+        }
+
+    });
+
     $("#btnAceptarPromocion").click(function () {
 
         if ($("#inpHoraInicioPromocion").val() == "") {
@@ -1879,7 +1982,7 @@ $(function () {
 
             $("#" + container).html("");
             $.each(data, function (index, value) {
-                $("#" + container).append('<hr class="margin_top_small margin_bottom_10px"><div class="row"><div class="col-8"><label class="textCenter fontFamilyRoboto fontSize14px width100porciento margin0">' + value.horas + ' Horas al día</label><p class="textCenter margin0 fontFamilyRoboto fontSize13px colorGrisClaro">' + value.descripcion + '</p></div><div class="col-4 centradoVertical"><button class="btnOpcionPromocion btn borderRadius0px backgroundPinkClaro hoverBackgroundPinkOscuro colorWhite width100porciento fontFamilyRoboto fontSize14px fontWeight600 hoverColorWhite" data-id="' + value.id + '" data-horas="' + value.horas + '" data-dias="' + value.dias + '">' + value.valor + ' Créditos</button></div></div>');
+                $("#" + container).append('<hr class="margin_top_small margin_bottom_10px"><div class="row"><div class="col-8"><label class="textCenter fontFamilyRoboto fontSize14px width100porciento margin0">' + value.horas + ' Horas al día</label><p class="textCenter margin0 fontFamilyRoboto fontSize13px colorGrisClaro">' + value.descripcion + '</p></div><div class="col-4 centradoVertical"><button class="btnOpcionPromocion btn borderRadius0px backgroundPinkClaro hoverBackgroundPinkOscuro colorWhite width100porciento fontFamilyRoboto fontSize14px fontWeight600 hoverColorWhite" data-id="' + value.id + '" data-horas="' + value.horas + '" data-dias="' + value.dias + '">' + formatCurrencyString(value.valor) + '</button></div></div>');
             });
 
             $(this).data("load", true);
@@ -1941,7 +2044,7 @@ $(function () {
                     $("#lblEstadisticaUltimaEdicion").html("Última edición: <b>" + data.fechaUltEdicionFormat + "</b>");
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar las fechas, porfavor intente nuevamente");
             }
         });
@@ -1966,7 +2069,7 @@ $(function () {
                     });
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -2019,7 +2122,7 @@ $(function () {
                     });
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -2045,7 +2148,7 @@ $(function () {
                     createChartVistasHoras(horas, vistas);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -2087,7 +2190,7 @@ $(function () {
                     createChartC(dias, objsC);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -2121,7 +2224,7 @@ $(function () {
                     createChartTiposVistas(dias, objsVPC, objsVMV);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -2150,7 +2253,7 @@ $(function () {
                     createChartInversionTotalByFecha(dias, objsVal);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -2177,7 +2280,7 @@ $(function () {
                     createChartInversionTotalByTipo(tipo, valor);
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -2197,7 +2300,7 @@ $(function () {
                     });
                 }
             },
-            error: function (data){
+            error: function (data) {
                 toastr.error("Error al consultar, porfavor intente nuevamente");
             }
         });
@@ -2655,8 +2758,8 @@ $(function () {
     document.getElementById('pro-image').addEventListener('change', readImage, false);
 
     $('.preview-images-zone').sortable({
-        update: function(event, ui) {
-            var ids = $('.preview-images-zone img').map(function(){
+        update: function (event, ui) {
+            var ids = $('.preview-images-zone img').map(function () {
                 let split = $(this).attr('id').split('-');
                 return split[2];
             }).get();
@@ -2703,11 +2806,11 @@ $(function () {
         let num = $(this).data('num');
         $(".preview-image-editar.preview-img-actual.preview-show-" + num).toggleClass("filterBlur1pxToimg2");
         $(".preview-image-editar.preview-img-actual.preview-show-" + num + " .image-zone").toggleClass("displayNoneToI");
-        if($(this).data("state") == 0){
+        if ($(this).data("state") == 0) {
             $(this).html('<i class="fas fa-check iconSelectDeleteMisFotos_2"></i>');
             $(this).attr("title", "Desmarcar");
             $(this).data("state", 1);
-        }else{
+        } else {
             $(this).html('<i class="fas fa-times iconSelectDeleteMisFotos"></i>');
             $(this).attr("title", "Marcar para eliminar");
             $(this).data("state", 0);
@@ -2727,9 +2830,9 @@ $(function () {
     document.getElementById('pro-imageEditar').addEventListener('change', readImageEditar, false);
 
     $('.preview-images-zone-editar').sortable({
-        update: function(event, ui) {
-            var ids = $('.preview-images-zone-editar img').map(function(){
-                if(typeof $(this).attr('id') !== "undefined"){
+        update: function (event, ui) {
+            var ids = $('.preview-images-zone-editar img').map(function () {
+                if (typeof $(this).attr('id') !== "undefined") {
                     let split = $(this).attr('id').split('-');
                     return split[2];
                 }
@@ -2781,8 +2884,8 @@ $(function () {
         var dataCreditos = AjaxGetDataCreditos(idCredito);
         var nextInvoice = AjaxGetNextInvoice();
         var data = {
-            name: "Compra por " + dataCreditos[0]["creditos"] + " Creditos",
-            description: "Compra CRED.",
+            name: "Compra por $" + dataCreditos[0]["creditos"],
+            description: "Recarga saldo",
             invoice: nextInvoice,
             currency: "cop",
             amount: dataCreditos[0]["valor"],
@@ -2793,7 +2896,7 @@ $(function () {
             external: "false",
             extra1: dataCreditos[0]["id"],
             extra2: usuXt,
-            response: "https://doneroticos.com/c_general/responsePayment"
+            response: "https://doneroticos.com/responsePayment"
         }
         executePayment(data);
     }

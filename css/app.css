@@ -225,6 +225,12 @@ footer.footer {
   padding-left: 120px !important;
   padding-right: 120px !important;
 }
+
+.paddingLaterales400px {
+  padding-left: 400px !important;
+  padding-right: 400px !important;
+}
+
 .paddingLeft0px {
   padding-left: 0px !important;
 }
@@ -355,8 +361,16 @@ footer.footer {
   padding-top: 3px;
 }
 
+.paddingSup3_Lat12{
+  padding: 3px 12px;
+}
+
 .margin0auto {
   margin: 0% auto !important;
+}
+
+.marginauto {
+  margin: auto !important;
 }
 
 .margin0 {
@@ -614,6 +628,10 @@ color: #bebebe;
   color: white;
 }
 
+.colorGreenTOP {
+  color: #28A745;
+}
+
 .borderNone {
   border: none;
 }
@@ -630,8 +648,16 @@ color: #bebebe;
   border: solid 1px #C501FE;
 }
 
+.borderSolid1pxGreenTOP {
+  border: solid 1px #28A745;
+}
+
 .borderSolid1pxGray {
   border: solid 1px #999;
+}
+
+.borderSolid1pxWhite {
+  border: solid 1px white;
 }
 
 .borderBottomSolid1pxGray {
@@ -1177,6 +1203,10 @@ color: #bebebe;
   border-left: 3px solid #b804ef;
 }
 
+.noHover{
+  pointer-events: none;
+}
+
 .hoverColorPink:hover {
   color: #b804ef;
 }
@@ -1515,6 +1545,10 @@ input[type="checkbox"].checkStyle:checked:after{
     padding-right: 15% !important;
     padding-left: 15% !important;
   }
+  .paddingLaterales400pxNoMovil{
+    padding-right: 400px !important;
+    padding-left: 400px !important;
+  }
   .displayNoneNoMovil{
     display: none !important;
   }
@@ -1562,6 +1596,10 @@ input[type="checkbox"].checkStyle:checked:after{
 .marginSuperior13px{
   margin-top: 13px !important;
   margin-bottom: 13px !important;
+}
+
+.marginTop14px{
+  margin-top: 14px !important;
 }
 
 #btnsStyleGrid{
@@ -1778,6 +1816,9 @@ a.nav-link.active {
 }
 .Top45px{
   top:45px;
+}
+.Top50px{
+  top:50px;
 }
 
 @media (max-width: 800px){
@@ -2037,6 +2078,10 @@ a.nav-link.active {
 
 .colorGreen{
   color: #07ff07;
+}
+
+.BackgrounGreenTOP{
+  background-color: #28A745;
 }
 
 .borderSupAndInfGray{

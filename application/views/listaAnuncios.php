@@ -12,9 +12,8 @@ var text = "<?php echo $text ?>";
 
     <div class="container-fluid margin_top_small">
         <div class="row">
-            <div class="col-md-4 col-sm-6 col-12 mx-auto margin_top_small">
-                <input type="text" class="form-control searchStyle" id="inpTextBuscar"
-                    placeholder="Término de búsqueda (Opcional)">
+            <div class="col-md-3 col-sm-6 col-12 mx-auto margin_top_small">
+                <input type="text" class="form-control searchStyle" id="inpTextBuscar" placeholder="Palabra clave">
             </div>
             <div class="col-md-3 col-sm-6 col-12 mx-auto margin_top_small">
                 <select class="form-control searchStyle" id="inpCategorias">
@@ -41,10 +40,10 @@ var text = "<?php echo $text ?>";
                     </select>
                 </div>
             </div>
-            <div class="col-md-1 col-sm-12 col-xs-12 margin_top_small">
+            <div class="col-md-2 col-sm-12 col-xs-12 margin_top_small">
                 <button id="btnBuscar"
                     class="btn btn-secondary borderRadius0px height35px fontSize12px textUppercase fontWeight600 width100porciento"
-                    type="button">Buscar</button>
+                    type="button">Buscar / Ir</button>
             </div>
         </div>
     </div>

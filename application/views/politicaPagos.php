@@ -6,12 +6,13 @@
                 <h1 class="fontSizeAunMasBig margin_top_40pt fontFamilyStaatliches">POLÍTICA DE PAGOS</h1>
                 <hr>
                 <p class="margin_top_30px fontFamilyRoboto fontSize14px fontWeight400"><strong>doneroticos.com</strong>
-                    es un portal de anuncios gratuitos. Los usuarios tienen la posibilidad de comprar créditos para
+                    es un portal de anuncios gratuitos. Los usuarios tienen la posibilidad de adquirir paquetes para
                     promocionar sus anuncios.
                     <br><br>
                     Las promociones se dividen en 'PAQUETES TOP' y 'DESTACADOS'.<br>
                     Tanto un producto como otro lo que hace es dar mayor visibilidad a un anuncio en diferentes espacios
-                    de tiempo.</p>
+                    de tiempo.
+                </p>
                 <label class="textUppercase margin_top_30px text-justufy fontWeight600">'PAQUETES TOP'</label>
                 <p class="fontFamilyRoboto fontSize14px fontWeight400">Suben tus anuncios al top
                     por unas horas determinadas en unos días determinados.
@@ -29,12 +30,12 @@
                 </p>
                 <p class="margin_top_30px fontFamilyRoboto fontSize14px fontWeight400">
                     <strong>doneroticos.com</strong> dispone de cuatro tipos de productos:
-                    <ul class="fontFamilyRoboto fontSize14px fontWeight400">
-                        <li>Gratis</li>
-                        <li>TOP</li>
-                        <li>Destacado PREMIUM</li>
-                        <li>Destacado PLATINO</li>
-                    </ul>
+                <ul class="fontFamilyRoboto fontSize14px fontWeight400">
+                    <li>Gratis</li>
+                    <li>TOP</li>
+                    <li>Destacado PREMIUM</li>
+                    <li>Destacado PLATINO</li>
+                </ul>
                 </p>
                 <label class="textUppercase margin_top_30px text-justufy fontWeight600">Gratis</label>
                 <p class="fontFamilyRoboto fontSize14px fontWeight400">Todos los anuncios sin un paquete
@@ -60,26 +61,25 @@
                     “Promocionar” de cada anuncio se encuentran las tarifas de cada producto según su plazo de
                     contratación.</p>
 
-                <label class="textUppercase margin_top_30px text-justufy fontWeight600">Créditos</label>
-                <p class="fontFamilyRoboto fontSize14px fontWeight400">Un usuario puede adquirir créditos
+                <label class="textUppercase margin_top_30px text-justufy fontWeight600">Saldo</label>
+                <p class="fontFamilyRoboto fontSize14px fontWeight400">Un usuario puede recargar saldo
                     principalmente
                     para promocionar sus anuncios ya sea con subidas individuales, 'PAQUETES TOP' o 'DESTACADOS'.
-                    Cada crédito tiene un valor de tan solo <b>$100 pesos (COP).</b> Sin embargo por compras de 200
-                    créditos en adelante, los usuarios reciben créditos adicionales gratis.
-                    Asimismo, por publicar su primer anuncio cada usuario recibe <b>100 créditos gratis.</b>
+                    Los usuarios reciben saldo adicional gratis en recargas de $20.000 en adelante.
+                    Asimismo, por publicar su primer anuncio cada usuario recibe <b>$10.000 gratis.</b>
                     <br><br>
-                    Las compras de créditos se pueden hacer por $10.000, $20.000, $30.000, $50.000, $100.000 y
+                    Las recargas de saldo se pueden hacer por $10.000, $20.000, $30.000, $50.000, $100.000 y
                     $200.000
                     (COP)
                     <br>
-                    Una vez el sistema haya verificado el pago, los créditos se activarán en unos minutos,
+                    Una vez el sistema haya verificado el pago, el saldo se reflejará en unos minutos,
                     el proceso es automatizado.
                 </p>
                 <label class="textUppercase margin_top_30px text-justufy fontWeight600">Procedimiento de la
                     contratación</label>
                 <p class="fontFamilyRoboto fontSize14px fontWeight400">Publique un anuncio, vaya al panel de usuario,
                     pestaña “MIS ANUNCIOS” y en el botón “Promocionar” de cada anuncio seleccione el producto que quiere
-                    contratar. Debe disponer de créditos suficientes para realizar la activación.
+                    contratar. Debe disponer de saldo suficiente para realizar la activación.
                     Todas las activaciones se realizan de forma inmediata.
                     <br><br>
                     Si usted ha realizado un pago y no se ha activado de inmediato contactenos mediante el area de
@@ -117,7 +117,7 @@
                 </p>
                 <br><br><br>
                 <hr>
-                <p class="fontFamilyRoboto fontSize12px fontWeight400">Ultima actualización: 07-01-2020
+                <p class="fontFamilyRoboto fontSize12px fontWeight400">Ultima actualización: 02-01-2021
                     <br><br>
             </div>
         </div>

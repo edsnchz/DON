@@ -3,6 +3,11 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
+// LOAD COMPOSER
+require FCPATH . 'application/libraries/vendor/autoload.php';
+// LOAD TWITTER
+use Abraham\TwitterOAuth\TwitterOAuth;
+
 class c_general extends CI_Controller {
 
     function __construct() {
@@ -173,6 +178,11 @@ class c_general extends CI_Controller {
       echo json_encode($data);  
     }
 
+    public function getPromocionTopFreeActiva(){   
+      $data = $this->general->db_get_promociones_topFreeActivaByAnuncio($_POST["idAnuncio"]);
+      echo json_encode($data);  
+    }
+
     public function getPromocionesDiffDiasByAnuncioAndOpcion(){   
       $data = $this->general->db_get_promociones_diffDiasByAnuncioAndOpcion($_POST["idAnuncio"], $_POST["idOpcion"]);
       echo json_encode($data);  
@@ -223,8 +233,18 @@ class c_general extends CI_Controller {
       echo json_encode($data);  
     }
 
+    public function validIdAnuncioByUser(){   
+      $data = $this->general->db_valid_idAnuncioByUser($this->session->userdata('idusuario'), $_POST["idAnuncio"]);
+      echo json_encode($data);  
+    }
+
     public function insertPromocionAnuncio(){    
       $data = $this->general->db_insert_promocion_anuncio($_POST["idAnuncio"], $_POST["idOpcion"], $_POST["fechaHoraI"], $_POST["fechaHoraF"], $this->session->userdata('idusuario'));
+      echo json_encode($data);  
+    }
+
+    public function insertPromocionAnuncioNow(){    
+      $data = $this->general->db_insert_promocion_anuncio_now($_POST["idAnuncio"], $_POST["idOpcion"], $this->session->userdata('idusuario'));
       echo json_encode($data);  
     }
 
@@ -249,6 +269,12 @@ class c_general extends CI_Controller {
     }
 
     public function confirmationPayment(){    
+      
+      if(!isset($_REQUEST["x_ref_payco"])){
+          echo "INFORMACION INVALIDA";
+          return false;
+      }
+
       $dataParams = $this->general->db_get_paramsPayments();
       
       $data["ref_payco"] = $_REQUEST["x_ref_payco"];
@@ -278,6 +304,12 @@ class c_general extends CI_Controller {
     }
 
     public function responsePayment(){ 
+
+      if(!isset($_GET["ref_payco"])){
+          echo "INFORMACION INVALIDA";
+          return false;
+      }
+
       $response = file_get_contents('https://secure.epayco.co/validation/v1/reference/'.$_GET["ref_payco"]);
       $response = json_decode($response);
       $data = $response->data;
@@ -319,7 +351,7 @@ class c_general extends CI_Controller {
 
 
     private function pageResponseSuccess(){
-        $dataParams["msgTitulo"] = "Transacción <strong>correcta</strong>";
+        $dataParams["msgTitulo"] = "Transacción <strong>Correcta</strong>";
         $dataParams["msgSubTitulo"] = "Una vez procesada recibirás una confirmación vía correo electrónico <br> y tus créditos se verán reflejados después de unos minutos.";
         $dataParams["icon"] = "<span class='oi oi-check classIconCheck'></span>";
 
@@ -328,7 +360,7 @@ class c_general extends CI_Controller {
     }
 
     private function pageResponseSuccessEspera(){
-        $dataParams["msgTitulo"] = "Transacción <strong>pendiente</strong>";
+        $dataParams["msgTitulo"] = "Transacción <strong>Pendiente</strong>";
         $dataParams["msgSubTitulo"] = "Una vez procesada recibirás una confirmación vía correo electrónico <br> y tus créditos se verán reflejados después de unos minutos.";
         $dataParams["icon"] = "<span class='oi oi-clock classIconCheck'></span>";
 
@@ -337,7 +369,7 @@ class c_general extends CI_Controller {
     }
 
     private function pageResponseError(){
-        $dataParams["msgTitulo"] = "Transacción <strong>fallida</strong>";
+        $dataParams["msgTitulo"] = "Transacción <strong>Fallida</strong>";
         $dataParams["msgSubTitulo"] = "Verifique los datos ingresados e intente nuevamente";
         $dataParams["icon"] = "<span class='oi oi-x classIconX'></span>";
 
@@ -347,23 +379,66 @@ class c_general extends CI_Controller {
 
     public function sendSMS(){
         // CREDENCIALES
-        $url = "https://api.sms.to/sms/send";
-        $key = "93L9jBh6m31WS7FxCa1luoUNBa8A9l7W";
+        $url = "https://api.labsmobile.com/json/send";
+        $key = base64_encode("contacto@edsonsanchezarq.com:M1PRuNFd92@2");
 
         $paramsBody = array(
-          "message" => "Tu codigo es " . $_POST["code"],
-          "to" => "+57" . $_POST["number"]
+          "message" => $_POST["code"] . " es tu codigo de verificacion doneroticos.",
+          "recipient" => array("msisdn" => $_POST["number"])
         );
 
         $response = $this->utiles->consumeRest($url, $key, json_encode($paramsBody));
         
         echo json_encode($response);
+    }
 
+    public function postTwitter(){
+        // CREDENCIALES
+        $consumerKey = "cIUQMM3dP74LagkyRcnMjAfWv";
+        $consumerSecret = "Vslob7tilURGoobkW5XYJFNRrNqKK1rpxoPg9KBztevGXwXuYf";
+        $accessToken = "1286784082727272457-r54mqEH08Ja5fbWEnpUKVer0icAXSS";
+        $accessTokenSecret = "59QcBOSFKyijpnHfAAfAm4u69Wlth8Ho8LjaWIAEUKFSA";
+
+        $connection = new TwitterOAuth($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
+        
+        $id = isset($_POST["id"])?$_POST["id"]:$_GET["id"];
+        $data = $this->general->db_get_anuncioById($id)["data"];
+        $titulo = "🔞💜 " . substr($data[0]["titulo"],0,140) . ".. 💜🔥" . " #doneroticos";
+        $ubicacion = "🇨🇴 " . ($data[0]["ciudad"] . ", " . $data[0]["departamento"]);
+        $etiquetas = $data["etiquetas"];
+        $imagenes = $data["imagenes"];
+
+        if(count($imagenes) == 0){
+          return false;
+        }
+
+        $stringStatus = $titulo . "\n";
+        $stringStatus .= $ubicacion . "\n";
+
+        $limitEtiquetas = (count($etiquetas)>4)?4:count($etiquetas);
+        for ($i=0; $i < ($limitEtiquetas); $i++) { 
+            $stringStatus .= "#".str_replace(" ","", $etiquetas[$i]["nombre"]) . " ";
+        }
+        $stringStatus .= "\n\n";
+        $stringStatus .= "Visita: https://doneroticos.com/anuncio?id=".$id;
+
+        $mediasIDS = [];
+        $limitImages = (count($imagenes)>3)?3:count($imagenes);
+        for ($i=0; $i < ($limitImages); $i++) { 
+            $media = $connection->upload('media/upload', ['media' => getcwd() . "/uploads/anuncios/" . $imagenes[$i]["url"]]);
+            $mediasIDS[] = $media->media_id_string;
+        }
+
+        $parameters = [
+            'status' => $stringStatus,
+            'media_ids' => implode(',', $mediasIDS)
+        ];
+        $result = $connection->post('statuses/update', $parameters);
+
+        print_r($result);
     }
 
 
-
-    
 
 
 

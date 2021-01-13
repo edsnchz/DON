@@ -30,9 +30,10 @@ class utiles extends CI_Model {
         curl_setopt_array($ch, array(
             CURLOPT_POST => 10,
             CURLOPT_RETURNTRANSFER => TRUE,
+            CURLOPT_TIMEOUT => 30,
             CURLOPT_COOKIEFILE => 'cookie.txt',
             CURLOPT_COOKIEJAR => 'cookie.txt',
-            CURLOPT_HTTPHEADER => array('Content-Type: application/json', 'Authorization: Bearer ' . $key),
+            CURLOPT_HTTPHEADER => array('Content-Type: application/json', 'Authorization: Basic ' . $key, 'Cache-Control: no-cache'),
             CURLOPT_POSTFIELDS =>  $postData,
         ));
         // Send the request
@@ -44,7 +45,7 @@ class utiles extends CI_Model {
         // Decode the response
         $responseData = json_decode($response, TRUE);            
         return $responseData;          
-    }  
+    }
 
     public function encryptIt($q) {
         $cryptKey = 'qJB0rGtIn5UB1xG03efyCp';

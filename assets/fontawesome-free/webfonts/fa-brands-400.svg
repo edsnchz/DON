@@ -16,6 +16,7 @@ Copyright (c) Font Awesome
     font-family="Font Awesome 5 Brands Regular"
     font-weight="400"
     font-stretch="normal"
+    font-display="block"
     units-per-em="512"
     panose-1="2 0 5 3 0 0 0 0 0 0"
     ascent="448"
