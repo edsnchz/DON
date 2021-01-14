@@ -513,6 +513,7 @@ document.write(unescape("%3Cscript src='" + tlJsHost +
                 <div class="modal-footer">
                     <button id="btnGuardarNumero" type="button"
                         class="btn btn-primary borderRadius0px fontSize12px fontWeight600 textUppercase letterSpacingMinimo">Enviar</button>
+
                 </div>
             </div>
         </div>
